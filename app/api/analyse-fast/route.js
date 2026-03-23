@@ -79,6 +79,7 @@ SCHEMA:
   "adHocNote": null,
   "scoreNotification": null,
   "scoreNotificationText": null,
+  "relatedSuggestions": [],
   "confidence": 0.0
 }
 
@@ -104,6 +105,18 @@ If none applies: null.
 "scoreNotificationText": the plain-language sentence to display, or null.
 
 FIELD RULES:
+RELATED SUGGESTIONS — ALWAYS INCLUDE:
+After identifying the work, think: could the user have meant something else phonetically or semantically close?
+Return a "relatedSuggestions" array of up to 3 objects: {"label": "The Cranberries — Zombie", "query": "The Cranberries Zombie", "type": "track"}
+Rules:
+- Only include suggestions that are genuinely different from what was analyzed
+- Prioritize: same/similar name but different type (artist vs track vs album), common misspellings, famous works with similar names
+- If nothing meaningful: return empty array []
+- Examples: query "zombi" on artist → suggest [{"label":"The Cranberries — Zombie","query":"The Cranberries Zombie","type":"track"}]
+- Examples: query "ok computer" on track → suggest [{"label":"Radiohead (artiste)","query":"Radiohead","type":"artist"}]
+- Examples: query "blonde" on album → suggest [{"label":"Frank Ocean — Blonde","query":"Frank Ocean Blonde","type":"album"},{"label":"Blondie (artiste)","query":"Blondie","type":"artist"}]
+Add this field to the JSON root: "relatedSuggestions": []
+
 UNIDENTIFIED WORK RULE:
 If the query is an artist name typed in track mode, or a track title typed in artist mode, or simply unidentifiable:
 DO NOT fill the response with "Unknown", "Indéterminé", or placeholder text.
@@ -375,10 +388,10 @@ export async function POST(req) {
       ? `LISN ${typeLabels[entityType]} analysis: "${query}"`
       : `Analyse LISN de ${typeLabels[entityType]} : "${query}"`;
 
-    const modelText = await callAnthropicModel({ prompt, userPrompt, model, maxTokens: 1900 });
+    const modelText = await callAnthropicModel({ prompt, userPrompt, model, maxTokens: 2100 });
     const result    = await runLisnPipeline({ modelText, mode: "fast" });
 
-    return Response.json(result);
+    return Response.json(result, { headers: { "Cache-Control": "no-store" } });
   } catch (err) {
     console.error("analyse-fast error:", err);
     return Response.json({ kind: "error", error: err.message || "Server error" }, { status: 500 });

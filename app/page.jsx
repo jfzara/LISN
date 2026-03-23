@@ -142,16 +142,16 @@ const DIM_KEYS = ["density","tension","resolution","singularity","depth","grain"
 
 const OSR_BLOCKS = {
   fr: [
-    { title:"Qu'est-ce que l'OSR ?", body:"Une ontologie — un système philosophique — qui décrit le réel comme un espace de structures sous contraintes. Chaque œuvre, chaque artiste, chaque auditeur est une configuration qui tient ou qui ne tient pas. Ce qui résiste dans le temps révèle quelque chose de structurellement vrai." },
-    { title:"Pourquoi la musique ?", body:"Une œuvre musicale est une configuration structurelle mesurable — pas selon l'humeur ou la mode, mais selon des critères objectifs : cohérence interne, résistance à la réduction, profondeur. LISN applique ces critères de façon rigoureuse et reproductible." },
-    { title:"Tout le monde juge déjà", body:"Le relativisme musical (\"chacun son truc\") n'est pas l'absence de jugement — c'est un jugement qui n'ose pas s'avouer. Poli, socialement sûr, largement creux. LISN ne crée pas la hiérarchie : il la rend explicite, argumentée, et donc vraiment discutable." },
-    { title:"Au-delà du subjectif", body:"LISN ne remplace pas votre écoute. Il lui donne un langage. Au lieu de \"j'aime\" ou \"je n'aime pas\", vous pouvez maintenant dire pourquoi — avec des arguments que vous pouvez défendre, contester, et affiner. C'est ça, une vraie conversation sur la musique." },
+    { title:"Qu'est-ce que l'OSR ?", body:"L'Ontologie Structurale du Réel est un système philosophique original développé sur plusieurs années. Son principe central : le réel n'est pas fait de choses, mais de contraintes. Une œuvre musicale est une trajectoire dans un espace de possibles — et sa valeur se mesure à la densité, la cohérence et la résistance de cette trajectoire. Ce n'est pas de l'esthétique. C'est de l'ontologie appliquée." },
+    { title:"Pourquoi la musique ?", body:"Parce que la musique est le terrain où les contraintes formelles et émotionnelles se croisent avec la plus grande intensité. Chaque décision sonore — un accord, un silence, une texture — est une contrainte qui définit ce que l'œuvre peut encore devenir. L'OSR rend ces contraintes mesurables, indépendamment du goût ou de la mode." },
+    { title:"Tout le monde juge déjà", body:"Le relativisme musical (\"chacun son truc\") n'est pas l'absence de jugement — c'est un jugement qui n'ose pas s'avouer. Poli, socialement sûr, largement creux. LISN ne crée pas la hiérarchie : il la rend explicite, argumentée, et donc vraiment discutable. Mais vous pouvez toujours aimer ce que vous aimez." },
+    { title:"Au-delà du subjectif", body:"Un score LISN n'est pas une opinion déguisée en chiffre. C'est le résultat d'une analyse structurelle sur 7 dimensions mesurables — chacune ancrée dans l'OSR. Portishead et Jason Derulo n'opèrent pas dans le même espace. Le dire clairement, avec des arguments, c'est respecter l'intelligence de l'auditeur." },
   ],
   en: [
-    { title:"What is OSR?", body:"An ontology — a philosophical system — describing reality as a space of structures under constraints. Every work, every artist, every listener is a configuration that either holds or doesn't. What resists over time reveals something structurally true." },
-    { title:"Why music?", body:"A musical work is a measurable structural configuration — not judged by mood or trend, but by objective criteria: internal coherence, resistance to reduction, depth of meaning. LISN applies these criteria rigorously and consistently." },
-    { title:"Everyone already judges", body:"Musical relativism (\"to each their own\") is not the absence of judgment — it is a judgment that doesn't dare speak its name. Polite, socially safe, largely hollow. LISN doesn't create the hierarchy: it makes it explicit, argued, and therefore genuinely debatable." },
-    { title:"Beyond the subjective", body:"LISN doesn't replace your listening. It gives it a language. Instead of \"I like it\" or \"I don't\", you can now say why — with arguments you can defend, contest, and refine. That's what a real conversation about music looks like." },
+    { title:"What is OSR?", body:"The Structural Ontology of the Real is an original philosophical system developed over years of sustained work. Its central principle: reality is not made of things, but of constraints. A musical work is a trajectory in a space of possibilities — and its value is measured by the density, coherence, and resistance of that trajectory. This is not aesthetics. It is applied ontology." },
+    { title:"Why music?", body:"Because music is where formal and emotional constraints intersect with the greatest intensity. Every sonic decision — a chord, a silence, a texture — is a constraint that defines what the work can still become. OSR makes those constraints measurable, independently of taste or trend." },
+    { title:"Everyone already judges", body:"Musical relativism (\"to each their own\") is not the absence of judgment — it's a judgment that doesn't dare speak its name. Polite, socially safe, largely hollow. LISN doesn't create the hierarchy: it makes it explicit, argued, and genuinely debatable. But you can still like what you like." },
+    { title:"Beyond the subjective", body:"A LISN score is not an opinion dressed as a number. It's the output of a structural analysis across 7 measurable dimensions — each grounded in OSR. Portishead and Jason Derulo don't operate in the same space. Saying so clearly, with arguments, is a form of respect for the listener's intelligence." },
   ]
 };
 
@@ -193,45 +193,11 @@ function deriveUserGlobal(userScores) {
 async function fetchCoverUrl(artist, title, album, entityType) {
   if (!artist) return null;
   try {
-    if (entityType === "artist") {
-      // Wikipedia / Wikimedia: search for artist page, get thumbnail
-      const searchUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(artist)}`;
-      const res = await fetch(searchUrl, { headers:{"User-Agent":"LISN/3.4"} });
-      if (res.ok) {
-        const data = await res.json();
-        const img = data?.thumbnail?.source || data?.originalimage?.source;
-        if (img) return img;
-      }
-      // Fallback: search Wikipedia
-      const search = await fetch(
-        `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(artist)}&prop=pageimages&format=json&pithumbsize=300&origin=*`
-      );
-      if (search.ok) {
-        const sd = await search.json();
-        const pages = Object.values(sd?.query?.pages || {});
-        const thumb = pages[0]?.thumbnail?.source;
-        if (thumb) return thumb;
-      }
-      return null;
-    }
-    // Tracks/Albums → Cover Art Archive via MusicBrainz
-    const q = album
-      ? `release:"${encodeURIComponent(album)}" AND artist:"${encodeURIComponent(artist)}"`
-      : `recording:"${encodeURIComponent(title)}" AND artist:"${encodeURIComponent(artist)}"`;
-    const res = await fetch(
-      `https://musicbrainz.org/ws/2/release/?query=${q}&limit=3&fmt=json`,
-      { headers:{"User-Agent":"LISN/3.4"} }
-    );
+    const params = new URLSearchParams({ artist, title: title||"", album: album||"", type: entityType||"track" });
+    const res = await fetch(`/api/cover?${params}`, { cache: "no-store" });
     if (!res.ok) return null;
     const data = await res.json();
-    // Try each release until we find cover art
-    for (const release of (data?.releases || [])) {
-      const mbid = release?.id;
-      if (!mbid) continue;
-      const head = await fetch(`https://coverartarchive.org/release/${mbid}/front-250`, { method:"HEAD" });
-      if (head.ok) return `https://coverartarchive.org/release/${mbid}/front-250`;
-    }
-    return null;
+    return data?.url || null;
   } catch { return null; }
 }
 
@@ -317,13 +283,17 @@ function ErrorSuggestion({ error, entityType, lang, setEntityType, analyse, t, s
     );
   }
 
-  // JSON truncation
-  const isJsonTruncation = error.includes("Unterminated") || error.includes("position") ||
-    (error.includes("JSON") && !error.includes("type"));
+  // JSON truncation — only real parse-level errors, not generic ones
+  const isJsonTruncation = (
+    error.startsWith("Unterminated") ||
+    error.startsWith("Invalid JSON:") ||
+    (error.includes("JSON Parse") && error.includes("position")) ||
+    error.includes("Unexpected end of JSON")
+  );
   if (isJsonTruncation) {
     return (
       <div className="lisn-error-suggestion">
-        <span className="lisn-error-hint">{isFr ? "Réponse trop longue. Réessayez." : "Response too long. Retry."}</span>
+        <span className="lisn-error-hint">{isFr ? "Réponse incomplète. Réessayez." : "Incomplete response. Retry."}</span>
         <button className="lisn-error-switch" onClick={analyse}>{isFr ? "Réessayer →" : "Retry →"}</button>
       </div>
     );
@@ -401,10 +371,10 @@ function DimensionsBlock({ score, artistScores, lang, entityType, contestMode, u
           return (
             <div key={k}>
               <div className="lisn-dim-row" onClick={() => setOpenHint(isOpen ? null : k)} role="button" tabIndex={0} onKeyDown={e => e.key==="Enter" && setOpenHint(isOpen?null:k)}>
-                <span>
+                <div className="lisn-dim-label-col">
                   <span className="lisn-dim-name">{label}</span>
-                  <span className="lisn-dim-plain">{plain}</span>
-                </span>
+                  <span className="lisn-dim-sub">{plain}</span>
+                </div>
                 <div className="lisn-dim-track">
                   <div className={`lisn-dim-fill ${dimClass(v)}`} style={{ width:`${v}%` }} />
                 </div>
@@ -441,10 +411,10 @@ function DimensionsBlock({ score, artistScores, lang, entityType, contestMode, u
               tabIndex={contestMode ? -1 : 0}
               onKeyDown={e => !contestMode && e.key === "Enter" && setOpenHint(isOpen ? null : k)}
             >
-              <span>
+              <div className="lisn-dim-label-col">
                 <span className="lisn-dim-name">{label}</span>
-                <span className="lisn-dim-plain">{plain}</span>
-              </span>
+                <span className="lisn-dim-sub">{plain}</span>
+              </div>
 
               {contestMode ? (
                 /* SLIDER MODE */
@@ -1018,6 +988,73 @@ function RelatedSuggestions({ suggestions, lang, onAnalyseCitation }) {
   );
 }
 
+
+
+const KNOWN_ARTISTS = [
+  "Miles Davis","Coltrane","John Coltrane","Radiohead","Portishead","D'Angelo",
+  "Bjork","Björk","Kendrick Lamar","Frank Ocean","Kanye West","Lil Wayne",
+  "Marvin Gaye","Tom Waits","Burial","J Dilla","Dilla","Bach","Steve Reich",
+  "Philip Glass","Sun Ra","Scott Walker","Rosalía","Rosalia","Bashung",
+  "Goldman","Nile Rodgers","Earth Wind & Fire","Earth, Wind & Fire",
+  "Bruno Mars","Massive Attack","PJ Harvey","Talking Heads","Television",
+  "Arcade Fire","Beyoncé","Beyonce","Jay-Z","Drake","Eminem","Nas","2Pac",
+  "The Weeknd","Tyler","Childish Gambino","Anderson .Paak","SZA",
+  "Daft Punk","Aphex Twin","Autechre","Arca","Boards of Canada",
+  "Nick Cave","Siouxsie","Joy Division","The Cure","New Order",
+  "Fela Kuti","Mulatu Astatke","Nusrat Fateh Ali Khan",
+];
+
+function highlightArtists(text, onArtistClick) {
+  if (!text || !onArtistClick) return text;
+  // Build sorted list (longest first to avoid partial matches)
+  const sorted = [...KNOWN_ARTISTS].sort((a,b) => b.length - a.length);
+  const escaped = sorted.map(a => a.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const regex = new RegExp(`(${escaped.join("|")})`, "g");
+  const parts = text.split(regex);
+  return parts.map((part, i) => {
+    if (KNOWN_ARTISTS.includes(part) || KNOWN_ARTISTS.some(a => a === part)) {
+      return (
+        <span
+          key={i}
+          className="lisn-artist-inline"
+          onClick={() => onArtistClick(part, "artist")}
+          role="button" tabIndex={0}
+          onKeyDown={e => e.key==="Enter" && onArtistClick(part, "artist")}
+          title={`Analyser ${part}`}
+        >{part}</span>
+      );
+    }
+    return part;
+  });
+}
+
+function ScoreCircle({ value }) {
+  const v = Math.max(0, Math.min(100, value));
+  const R = 42;
+  const CIRCUMFERENCE = 2 * Math.PI * R;
+  const dash = (v / 100) * CIRCUMFERENCE;
+  const gap  = CIRCUMFERENCE - dash;
+  return (
+    <div className="lisn-score-circle-wrap">
+      <svg viewBox="0 0 100 100" width="110" height="110" style={{display:"block"}}>
+        {/* Track */}
+        <circle cx="50" cy="50" r={R} fill="none"
+          stroke="var(--line)" strokeWidth="3.5" />
+        {/* Fill — accent, animated */}
+        <circle cx="50" cy="50" r={R} fill="none"
+          stroke="var(--accent)"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray={`${dash} ${gap}`}
+          strokeDashoffset={CIRCUMFERENCE * 0.25}
+          className="lisn-score-arc"
+        />
+      </svg>
+      <div className="lisn-score-circle-num">{v}</div>
+    </div>
+  );
+}
+
 function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
   const [shortOpen, setShortOpen] = useState(false);
   const [activePanel, setActivePanel] = useState(null);
@@ -1189,7 +1226,7 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
           {data.editorial?.structural && (
             <div className="lisn-structural">
               <div className="lisn-label">{t.lecture}</div>
-              <p className="lisn-structural-text">{data.editorial.structural}</p>
+              <p className="lisn-structural-text">{highlightArtists(data.editorial.structural, onAnalyseCitation)}</p>
             </div>
           )}
 
@@ -1241,8 +1278,8 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
         <div className="lisn-side">
           {g > 0 && (
           <div className="lisn-score-block">
-            <div className={`lisn-score-num ${scoreClass(g)}`}>{g}</div>
-            <div className="lisn-score-denom">{t.indice}</div>
+            <ScoreCircle value={g} />
+            <div className="lisn-score-denom" style={{marginTop:10}}>{t.indice}</div>
             <div className="lisn-score-anchor">{scoreAnchor(g, t)}</div>
           </div>
         )}
@@ -1275,67 +1312,67 @@ const GLOSSARY = {
     {
       term: "Densité",
       short: "Nombre de vraies décisions musicales",
-      body: "À quel point un morceau est rempli de choix compositionnels réels — harmonies, rythmes, textures qui interagissent. Un morceau dense n'est pas forcément complexe au sens classique. Kind of Blue (Miles Davis) est dense : chaque note est une décision. Un hit pop répétitif peut sonner chargé mais avoir une densité très faible.",
+      body: "À quel point un morceau est rempli de choix compositionnels réels — harmonies, rythmes, textures qui interagissent. Haute densité : Kind of Blue de Miles Davis (chaque note est une décision irremplaçable), A Love Supreme de Coltrane, Voodoo de D'Angelo. Basse densité : un hit construit sur 4 accords répétitifs peut sonner chargé mais rester structurellement vide. La densité n'est pas le volume sonore — c'est le nombre de contraintes simultanément actives.",
     },
     {
       term: "Tension",
       short: "Maintien de l'intensité",
-      body: "La capacité d'une œuvre à maintenir une énergie interne, une attente, un conflit non résolu. Penderecki ou Radiohead maintiennent une tension constante. La tension élevée n'est pas inconfortable — elle est ce qui fait qu'on ne peut pas décrocher.",
+      body: "La capacité d'une œuvre à maintenir une énergie interne, une attente, un conflit non résolu. Très haute : Kid A de Radiohead, Dummy de Portishead, les œuvres tardives de Coltrane. La tension n'est pas du stress — c'est ce qui fait qu'on ne peut pas décrocher, même après la centième écoute. Basse tension : musique de fond, playlists ambient génériques, chansons à résolution immédiate.",
     },
     {
       term: "Résolution",
       short: "Comment la tension se résout",
-      body: "Comment l'œuvre gère ce qu'elle a créé. Peut être délibérément basse : certaines œuvres refusent la résolution comme choix artistique (Coltrane, fin des années 60). D'autres résolvent trop vite et perdent leur force.",
+      body: "Comment l'œuvre gère ce qu'elle a créé. Certaines œuvres refusent la résolution comme choix artistique radical : Ascension de Coltrane, Skeleton Tree de Nick Cave, Bitches Brew de Miles Davis. D'autres résolvent trop vite, de façon prévisible, et perdent leur force. La résolution basse n'est pas un défaut — c'est parfois le geste le plus courageux.",
     },
     {
       term: "Singularité",
       short: "Ce que seule cette œuvre fait",
-      body: "Le degré d'unicité formelle. Ce que seule cette œuvre accomplit dans l'espace des formes musicales. Un score élevé signifie qu'on ne peut pas la remplacer par autre chose. Björk a une singularité très haute. Un hit construit sur un template existant a une singularité basse.",
+      body: "Le degré d'unicité formelle — ce que seule cette œuvre accomplit dans l'espace des formes musicales. Très haute singularité : Björk (Post, Homogenic), Scott Walker (Tilt), Rosalía (El Mal Querer), Kendrick Lamar (To Pimp a Butterfly). Basse singularité : un morceau construit sur un template eurodance ou trap standard, interchangeable avec cent autres. La singularité mesure l'irremplaçabilité, pas l'originalité affichée.",
     },
     {
       term: "Profondeur",
       short: "Niveaux de lecture superposés",
-      body: "Est-ce que l'œuvre survit à l'écoute répétée ? Est-ce qu'on entend encore de nouvelles choses après 10, 50, 100 écoutes ? What's Going On de Marvin Gaye a une profondeur très haute. Un morceau conçu pour une écoute passagère a une profondeur faible.",
+      body: "Est-ce que l'œuvre survit à l'écoute répétée ? Haute profondeur : What's Going On de Marvin Gaye (50 ans d'analyses sans épuiser le contenu), les fugues de Bach, OK Computer de Radiohead. Basse profondeur : un morceau conçu pour un impact immédiat qui se révèle entièrement à la première écoute. La profondeur n'est pas de la difficulté — c'est de la résistance à l'épuisement.",
     },
     {
       term: "Grain",
       short: "Texture sonore propre",
-      body: "La matière sonore distinctive de l'œuvre — ce qui la rend reconnaissable à sa texture même, indépendamment de la mélodie ou des paroles. Tom Waits a un grain extrêmement fort. Portishead aussi. Un morceau produit avec des presets génériques a un grain faible.",
+      body: "La matière sonore distinctive — ce qui rend une œuvre reconnaissable à sa texture seule, sans mélodie ni paroles. Grain extrêmement fort : Tom Waits, Burial (Untrue), Portishead, les productions de J Dilla. Grain faible : une production avec des presets VST standard, interchangeable entre dix artistes différents. Le grain, c'est la signature sonore irréductible.",
     },
     {
       term: "Résistance",
       short: "Tient si on enlève un élément",
-      body: "La robustesse de la structure. Si on enlève la basse, le morceau s'effondre-t-il ? Si on enlève la voix, reste-t-il quelque chose ? Une résistance élevée signifie que la structure tient par elle-même. A Milli de Lil Wayne a une résistance élevée : la boucle seule porte déjà l'architecture.",
+      body: "La robustesse de la structure. Test mental : si on enlève la basse, le morceau s'effondre-t-il ? Si on enlève la voix, reste-t-il quelque chose ? Haute résistance : A Milli de Lil Wayne (la boucle seule porte toute l'architecture), les compositions de Bach (chaque voix est irremplaçable), les albums de Massive Attack. Basse résistance : un morceau où tout élément peut être substitué sans que l'ensemble change.",
     },
     {
       term: "Régime structurel",
       short: "Comment l'œuvre existe dans l'histoire des formes",
-      body: "L'ensemble des caractéristiques qui définissent comment une œuvre se positionne par rapport à l'espace des formes musicales possibles. Est-elle une exploration (elle invente) ou une sélection (elle choisit dans ce qui existe) ? Dépend-elle d'un template ou s'en affranchit-elle ?",
+      body: "L'ensemble des caractéristiques qui définissent comment une œuvre se positionne par rapport à l'espace des formes musicales. Exploration (elle invente un territoire) : Miles Davis à chaque décennie, Radiohead de OK Computer à Kid A, Arca. Sélection (elle choisit dans ce qui existe) : Goldman, Culture Beat, la plupart de la pop commerciale. Ni l'un ni l'autre n'est supérieur en soi — ce qui compte c'est la rigueur de l'exécution.",
     },
     {
       term: "Exploration",
       short: "Va-t-elle vers du nouveau ?",
-      body: "Le degré auquel une œuvre ou un artiste se déplace dans de nouveaux territoires formels. Une exploration élevée ne signifie pas simplement 'étrange' ou 'difficile' — ça signifie que l'œuvre occupe un espace qui n'existait pas avant elle. Sun Ra explore. Jason Derulo sélectionne.",
+      body: "Le degré auquel une œuvre ou un artiste se déplace dans de nouveaux territoires formels. Haute exploration : Miles Davis (5 révolutions de genre), Arca, Sun Ra, Scott Walker (de la variété à l'avant-garde en 20 ans). Exploration nulle : Jason Derulo, Culture Beat, la eurodance standard — formule appliquée sans déviation. L'exploration n'est pas forcément mieux : Goldman a une exploration quasi nulle et une excellence dans son registre réelle.",
     },
     {
       term: "Template",
       short: "Modèle existant reproduit",
-      body: "Un template est une formule musicale établie qu'une œuvre reproduit avec plus ou moins de fidélité. Couplet-refrain-pont est un template. La trap de 2016 est un template. Utiliser un template n'est pas un défaut en soi — tout dépend de ce qu'on fait à l'intérieur.",
+      body: "Un template est une formule musicale établie qu'une œuvre reproduit avec plus ou moins de fidélité. Exemples : couplet-refrain-pont (variété mondiale), la trap de 2016, l'eurodance BPM 138, le reggaeton dembow. Utiliser un template n'est pas un défaut en soi — Goldman utilise le template chanson française avec une maîtrise exceptionnelle. Mais le template plafonne la singularité. Ce qui compte : qu'est-ce qu'on fait à l'intérieur ?",
     },
     {
       term: "OSR",
       short: "Ontologie Structurale du Réel",
-      body: "Le système philosophique qui fonde LISN. L'OSR décrit le réel comme un espace de configurations sous contraintes. Appliquée à la musique : une œuvre est une configuration de décisions. Sa qualité se mesure à sa cohérence interne, sa résistance, sa profondeur — pas à sa popularité ou à son émotion brute.",
+      body: "Le système philosophique qui fonde LISN, développé sur plusieurs années. L'OSR décrit le réel comme un espace de configurations sous contraintes — pas de finalité, pas de valeurs absolues, juste des structures qui tiennent ou qui ne tiennent pas. Appliquée à la musique : une œuvre est une trajectoire dans cet espace. Sa qualité se mesure à sa cohérence interne, sa résistance, sa profondeur — pas à sa popularité ni à l'émotion qu'elle procure.",
     },
     {
       term: "Minimalisme contraint",
       short: "Peu d'éléments, règles strictes",
-      body: "Un régime où une œuvre utilise délibérément peu d'éléments mais les soumet à des règles très strictes. Different de la pauvreté structurelle : le minimalisme contraint réussi produit une intensité maximale avec un matériau minimal. Steve Reich, Philip Glass, et en rap : A Milli de Lil Wayne.",
+      body: "Un régime où une œuvre utilise délibérément peu d'éléments mais les soumet à des règles très strictes. Différent de la pauvreté structurelle : le minimalisme contraint réussi produit une intensité maximale avec un matériau minimal. Exemples : Steve Reich (Music for 18 Musicians), Philip Glass (Glassworks), A Milli de Lil Wayne (une boucle, une voix, une architecture entière), Redbone de Childish Gambino (une boucle funk qui refuse de se résoudre).",
     },
     {
       term: "Score structural",
       short: "Mesure de la solidité compositionnelle",
-      body: "Le chiffre global calculé par LISN à partir des 7 dimensions structurelles. Ce n'est pas une note de popularité ni de qualité subjective. C'est une mesure de la solidité de la configuration : cohérence, résistance, profondeur. 85+ = œuvre qui a étendu l'espace des formes. 25-44 = formule bien exécutée.",
+      body: "Le chiffre global calculé par LISN à partir des 7 dimensions. Repères : 85-96 = a étendu l'espace des formes (Kind of Blue, A Love Supreme, OK Computer). 68-84 = identité forte, vraie exploration (Dummy de Portishead, Voodoo de D'Angelo). 47-67 = compétent, dans les formules. 26-46 = formule bien exécutée (la majorité des hits commerciaux). 8-25 = pas d'identité structurelle. Ce n'est pas un score de popularité — Despacito a un score structural bas et un milliard d'écoutes. Les deux faits sont vrais.",
     },
   ],
   en: [
@@ -1424,7 +1461,10 @@ function GlossaryModal({ lang, onClose }) {
           {terms.map((item, i) => (
             <div key={i} className={`lisn-glossary-item ${active === i ? "open" : ""}`}>
               <button className="lisn-glossary-term-btn" onClick={() => setActive(active === i ? null : i)}>
-                <span className="lisn-glossary-term">{item.term}</span>
+                <div>
+                  <span className="lisn-glossary-term">{item.term}</span>
+                  {item.short && <div style={{fontFamily:"var(--font-serif)",fontSize:"12px",fontStyle:"italic",color:"var(--ink-3)",marginTop:"3px"}}>{item.short}</div>}
+                </div>
                 <span className="lisn-glossary-short">{item.short}</span>
                 <span className="lisn-glossary-chevron">{active === i ? "−" : "+"}</span>
               </button>
@@ -1468,8 +1508,6 @@ export default function Home() {
   const [error, setError] = useState("");
   const [osrOpen, setOsrOpen] = useState(false);
   const [dark, setDark] = useState(false);
-  const [themeOpen, setThemeOpen] = useState(false);
-  const [accentColor, setAccentColor] = useState('#C4601A');
   const [lang, setLangState] = useState('fr');
   const [settingsLoaded, setSettingsLoaded] = useState(false);
   const [glossaryOpen, setGlossaryOpen] = useState(false);
@@ -1485,10 +1523,8 @@ export default function Home() {
   useEffect(() => {
     try {
       const savedDark   = localStorage.getItem('lisn-dark') === '1';
-      const savedAccent = localStorage.getItem('lisn-accent') || '#C4601A';
       const savedLang   = localStorage.getItem('lisn-lang')   || 'fr';
       if (savedDark)              setDark(savedDark);
-      if (savedAccent !== '#C4601A') setAccentColor(savedAccent);
       if (savedLang   !== 'fr')   setLangState(savedLang);
     } catch {}
     setSettingsLoaded(true);
@@ -1499,14 +1535,7 @@ export default function Home() {
     try { localStorage.setItem('lisn-dark', dark ? '1' : '0'); } catch {}
   }, [dark]);
 
-  useEffect(() => {
-    document.documentElement.style.setProperty('--accent', accentColor);
-    const hex = accentColor.replace('#','');
-    const r = parseInt(hex.slice(0,2),16), g = parseInt(hex.slice(2,4),16), b = parseInt(hex.slice(4,6),16);
-    document.documentElement.style.setProperty('--accent-soft', `rgba(\${r},\${g},\${b},0.08)`);
-    document.documentElement.style.setProperty('--accent-glow', `rgba(\${r},\${g},\${b},0.18)`);
-    try { localStorage.setItem('lisn-accent', accentColor); } catch {}
-  }, [accentColor]);
+
 
   const osr = OSR_BLOCKS[lang];
 
@@ -1549,6 +1578,7 @@ export default function Home() {
       const endpoint = currentMode==="fast" ? "/api/analyse-fast" : "/api/analyse";
       const res = await fetch(endpoint, {
         method:"POST",
+        cache:"no-store",
         headers:{"Content-Type":"application/json"},
         body: JSON.stringify({ query:q, lang, entityType:currentEntityType })
       });
@@ -1599,7 +1629,7 @@ export default function Home() {
       if (returnedType && returnedType !== currentEntityType) setEntityType(returnedType);
       setData(json);
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior:"smooth", block:"start" }), 100);
-    } catch(e) { setError(e.message || "Erreur inconnue"); }
+    } catch(e) { setData(null); setError(e.message || "Erreur inconnue"); }
     finally { setLoading(false); }
   }
 
@@ -1643,17 +1673,7 @@ export default function Home() {
           <button className={`lisn-ctrl-btn ${lang==="fr"?"active":""}`} onClick={() => setLang("fr")}>FR</button>
           <button className={`lisn-ctrl-btn ${lang==="en"?"active":""}`} onClick={() => setLang("en")}>EN</button>
           <button className="lisn-ctrl-btn" onClick={() => setDark(d => !d)}>{dark ? "☀" : "◑"}</button>
-          <div className="lisn-accent-picker">
-            <div className="lisn-accent-dot" onClick={() => setThemeOpen(o=>!o)} />
-            {themeOpen && (
-              <div className="lisn-accent-panel">
-                {['#C4601A','#1A6B8A','#6B1A6B','#1A6B3A','#8A1A1A','#3D3D3D','#8A6B1A'].map(col => (
-                  <div key={col} className={`lisn-accent-swatch ${accentColor===col?'active':''}`}
-                    style={{background:col}} onClick={() => { setAccentColor(col); setThemeOpen(false); }} />
-                ))}
-              </div>
-            )}
-          </div>
+
         </div>
       </div>
 
@@ -1678,8 +1698,8 @@ export default function Home() {
           <div className="lisn-osr-tag">{t.osr_behind}</div>
           <p className="lisn-osr-card-text">
             {lang==="fr"
-              ? "LISN ne crée pas la hiérarchie entre les œuvres — il la rend explicite, argumentée, et donc vraiment discutable. Il y a une architecture de pensée derrière chaque score."
-              : "LISN doesn't create the hierarchy between works — it makes it explicit, argued, and therefore genuinely debatable. There is a framework of thought behind every score."
+              ? "Chaque score est rigoureusement fondé sur un système philosophique précis : l'OSR — Ontologie Structurale du Réel. Un cadre conceptuel original qui traite la musique comme espace de configurations sous contraintes."
+              : "Every score is rigorously grounded in a precise philosophical system: the OSR — Structural Ontology of the Real. An original framework that treats music as a space of constrained configurations."
             }
           </p>
           <button className="lisn-osr-card-cta" onClick={() => setOsrOpen(o => !o)}>
