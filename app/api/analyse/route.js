@@ -1,4 +1,4 @@
-// /app/api/analyse/route.js — LISN v3.4 deep mode (self-contained).
+// /app/api/analyse/route.js — LISN v3.4 deep mode (self-contained)
 
 import { runLisnPipeline }    from "@/lib/lisn/runLisnPipeline";
 import { callAnthropicModel } from "@/lib/lisn/modelCaller";
@@ -107,6 +107,13 @@ If none applies: null.
 "scoreNotificationText": the plain-language sentence to display, or null.
 
 FIELD RULES:
+UNIDENTIFIED WORK RULE:
+If the query is an artist name typed in track mode, or a track title typed in artist mode, or simply unidentifiable:
+DO NOT fill the response with "Unknown", "Indéterminé", or placeholder text.
+Instead return ONLY this minimal JSON and nothing else:
+{"entityType":"unidentified","verdict":{"text":"Cannot identify: please select the correct type (track, album, or artist)."},"identifiedEntity":{"title":"","artist":"","year":"","label":""},"confidence":0.1}
+This allows the frontend to detect the mismatch cleanly.
+
 - quickVerdict: dense, literary, max 20 words. Pure judgment. No "a track that...".
 - shortText: 1 editorial paragraph, direct, no hedging.
 - structuralText: 1 paragraph on how the structure concretely works.

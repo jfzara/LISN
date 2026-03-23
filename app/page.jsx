@@ -286,23 +286,45 @@ function SourceNote({ sourceInfo, t }) {
 
 // ─── CITATION LINK ────────────────────────────────────────────────────────────
 // Parses "Artist — Track (Year)" or "Artist Name" and makes it clickable
-function ErrorSuggestion({ error, entityType, lang, setEntityType, analyse, t }) {
+function ErrorSuggestion({ error, entityType, lang, setEntityType, analyse, t, setQuery }) {
   if (!error) return null;
   const isFr = lang === "fr";
 
+  // Smart mismatch redirect
+  if (error.startsWith("__MISMATCH__")) {
+    const parts = error.split("__");
+    const suggestedType = parts[2]; // "artist", "album", or "track"
+    const originalQuery = parts[3] || "";
+    const typeLabels = {
+      track:  isFr ? "morceau"  : "track",
+      album:  isFr ? "album"    : "album",
+      artist: isFr ? "artiste"  : "artist",
+    };
+    const hint = isFr
+      ? `Cherchez-vous un ${typeLabels[suggestedType]} ?`
+      : `Looking for a ${typeLabels[suggestedType]}?`;
+    return (
+      <div className="lisn-mismatch">
+        <span className="lisn-mismatch-hint">{hint}</span>
+        <button
+          className="lisn-mismatch-btn"
+          onClick={() => { setEntityType(suggestedType); setTimeout(analyse, 30); }}
+        >
+          {isFr ? `Analyser comme ${typeLabels[suggestedType]}` : `Analyze as ${typeLabels[suggestedType]}`}
+          <span className="lisn-mismatch-arrow"> →</span>
+        </button>
+      </div>
+    );
+  }
+
+  // JSON truncation
   const isJsonTruncation = error.includes("Unterminated") || error.includes("position") ||
     (error.includes("JSON") && !error.includes("type"));
-
   if (isJsonTruncation) {
-    const hint = isFr
-      ? "Réponse trop longue. Réessayez ou passez en mode Rapide."
-      : "Response too long. Retry or switch to Quick mode.";
     return (
       <div className="lisn-error-suggestion">
-        <span className="lisn-error-hint">{hint}</span>
-        <button className="lisn-error-switch" onClick={analyse}>
-          {isFr ? "Réessayer →" : "Retry →"}
-        </button>
+        <span className="lisn-error-hint">{isFr ? "Réponse trop longue. Réessayez." : "Response too long. Retry."}</span>
+        <button className="lisn-error-switch" onClick={analyse}>{isFr ? "Réessayer →" : "Retry →"}</button>
       </div>
     );
   }
@@ -973,6 +995,29 @@ function SuggestionsStrip({ lang, onAnalyse, currentScore }) {
 }
 
 // ─── ANALYSIS RESULT ──────────────────────────────────────────────────────────
+
+function RelatedSuggestions({ suggestions, lang, onAnalyseCitation }) {
+  if (!suggestions || suggestions.length === 0) return null;
+  const isFr = lang === "fr";
+  return (
+    <div className="lisn-related">
+      <span className="lisn-related-label">
+        {isFr ? "Vous cherchiez peut-être" : "Did you mean"}
+      </span>
+      <span className="lisn-related-sep">→</span>
+      {suggestions.map((s, i) => (
+        <button
+          key={i}
+          className="lisn-related-btn"
+          onClick={() => onAnalyseCitation(s.query, s.type || "track")}
+        >
+          {s.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
   const [shortOpen, setShortOpen] = useState(false);
   const [activePanel, setActivePanel] = useState(null);
@@ -1082,6 +1127,15 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
               <span className="lisn-adhoc-icon">◦</span>
               <span className="lisn-adhoc-text">{data.adHocNote}</span>
             </div>
+          )}
+
+          {/* RELATED SUGGESTIONS — discreet, below header */}
+          {data.relatedSuggestions?.length > 0 && (
+            <RelatedSuggestions
+              suggestions={data.relatedSuggestions}
+              lang={lang}
+              onAnalyseCitation={onAnalyseCitation}
+            />
           )}
 
           {/* SCORE NOTIFICATION */}
@@ -1500,6 +1554,46 @@ export default function Home() {
       });
       const json = await res.json();
       if (!res.ok || json?.kind==="error") throw new Error(json?.error || "Erreur analyse");
+
+      // Detect mismatch: model couldn't identify the work (wrong toggle)
+      const verdict = json?.verdict?.text || "";
+      // Clean unidentified signal from model
+      if (json?.entity?.type === "unidentified" || json?._unidentified) {
+        const suggestedType = currentEntityType === "artist" ? "track" : "artist";
+        setError(`__MISMATCH__${suggestedType}__${query.trim()}`);
+        return;
+      }
+      const entityTitle  = json?.entity?.title  || "";
+      const entityArtist = json?.entity?.artist || "";
+      const verdictLower = verdict.toLowerCase();
+      const isMismatch = (
+        // Verdict keywords — FR + EN
+        verdictLower.includes("impossible") ||
+        verdictLower.includes("cannot") ||
+        verdictLower.includes("unable") ||
+        verdictLower.includes("identif") ||
+        verdictLower.includes("insufficient") ||
+        verdictLower.includes("insuffisant") ||
+        verdictLower.includes("requête") ||
+        verdictLower.includes("required") ||
+        verdictLower.includes("missing") ||
+        verdictLower.includes("manquant") ||
+        verdictLower.includes("non identif") ||
+        verdictLower.includes("précis") ||
+        // Structural: entity is empty
+        (!entityTitle && !entityArtist && currentEntityType === "track") ||
+        (!entityArtist && currentEntityType === "artist") ||
+        (!entityTitle && currentEntityType === "album" && !entityArtist)
+      );
+
+      if (isMismatch) {
+        // Smart suggestion: if track/album failed → probably an artist name was typed
+        // If artist failed → probably a track was typed
+        const suggestedType = currentEntityType === "artist" ? "track" : "artist";
+        setError(`__MISMATCH__${suggestedType}__${query.trim()}`);
+        return;
+      }
+
       // Auto-correct entityType if model returned different type
       const returnedType = json?.entity?.type;
       if (returnedType && returnedType !== currentEntityType) setEntityType(returnedType);
@@ -1523,10 +1617,10 @@ export default function Home() {
 
       {/* MASTHEAD */}
       <div className="lisn-masthead">
-        <div className="lisn-wordmark" style={{display:"flex",alignItems:"center",gap:0}}>
-          <button className="lisn-home-btn" onClick={goHome} title={lang==="fr"?"Accueil":"Home"}>
-            <LisnWordmark lang={lang} />
-          </button>
+        <div className="lisn-wordmark" onClick={goHome} role="button" tabIndex={0}
+          onKeyDown={e => e.key==="Enter" && goHome()}
+          title={lang==="fr"?"Accueil":"Home"}>
+          <LisnWordmark lang={lang} />
           <span className="lisn-wordmark-tagline">
             {lang==="fr" ? "Mais tu peux toujours aimer ce que tu aimes." : "But you can still like what you like."}
           </span>
@@ -1610,12 +1704,12 @@ export default function Home() {
 
       {/* SEARCH */}
       <div className="lisn-search-wrap">
-        {/* Entity type selector */}
-        <div className="lisn-entity-tabs">
-          {["track","album","artist"].map(et => (
+        {/* Entity type — segmented control */}
+        <div className="lisn-entity-seg">
+          {["track","album","artist"].map((et, i) => (
             <button
               key={et}
-              className={`lisn-entity-tab ${entityType===et?"active":""}`}
+              className={`lisn-entity-seg-btn ${entityType===et?"active":""}`}
               onClick={() => setEntityType(et)}
             >
               {t[et]}
@@ -1639,11 +1733,18 @@ export default function Home() {
         </div>
 
         <div className="lisn-mode-row">
-          <button className={`lisn-mode-btn lisn-mode-fast ${mode==="fast"?"active":""}`} onClick={() => setMode("fast")}>{t.rapide}</button>
-          <button className={`lisn-mode-btn lisn-mode-deep ${mode==="deep"?"active":""}`} onClick={() => setMode("deep")}>{t.approfondi}</button>
+          <div className="lisn-mode-sep" />
+          <button
+            className={`lisn-mode-quick ${mode==="fast"?"active":""}`}
+            onClick={() => setMode("fast")}
+          >{t.rapide}</button>
+          <button
+            className={`lisn-mode-deep-btn ${mode==="deep"?"active":""}`}
+            onClick={() => setMode("deep")}
+          >{t.approfondi}</button>
         </div>
 
-        {error && <ErrorSuggestion error={error} entityType={entityType} lang={lang} setEntityType={setEntityType} analyse={analyse} t={t} />}
+        {error && <ErrorSuggestion error={error} entityType={entityType} lang={lang} setEntityType={setEntityType} analyse={analyse} t={t} setQuery={setQuery} />}
       </div>
 
       {loading && (
