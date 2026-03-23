@@ -1,4 +1,4 @@
-// /app/api/analyse/route.js — LISN v3.4 deep mode (self-contained)
+// /app/api/analyse/route.js — LISN v3.4 deep mode (self-contained).
 
 import { runLisnPipeline }    from "@/lib/lisn/runLisnPipeline";
 import { callAnthropicModel } from "@/lib/lisn/modelCaller";
