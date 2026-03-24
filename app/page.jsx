@@ -363,7 +363,6 @@ function DimensionsBlock({ score, artistScores, lang, entityType, contestMode, u
     const aDims = ARTIST_DIMS[lang];
     return (
       <div className="lisn-dims">
-        <div className="lisn-label">{T[lang].dimensions}</div>
         {ARTIST_DIM_KEYS.map(k => {
           const v = artistScores?.[k] ?? 0;
           const isOpen = openHint === k;
@@ -394,7 +393,6 @@ function DimensionsBlock({ score, artistScores, lang, entityType, contestMode, u
 
   return (
     <div className="lisn-dims">
-      <div className="lisn-label">{T[lang].dimensions}</div>
       {DIM_KEYS.map(k => {
         const lisnVal  = score?.[k] ?? 0;
         const userVal  = userScores?.[k] ?? lisnVal;
@@ -634,7 +632,7 @@ function ArtistBlock({ artistAnalysis, lang }) {
 
   return (
     <div className="lisn-artist-analysis">
-      <div className="lisn-label">{lang==="en"?"Artist metrics":"Métriques artiste"}</div>
+
       <div className="lisn-album-metrics">
         {metrics.map(m => (
           <div key={m.key} className="lisn-album-metric">
@@ -918,47 +916,40 @@ const LOW_STRUCTURE = [
 function SuggestionsStrip({ lang, onAnalyse, currentScore }) {
   const t = T[lang];
   const isFr = lang === "fr";
+  const score = currentScore ?? 50;
 
-  // Determine suggestion direction and label based on score range
-  const getDirection = (score) => {
-    if (score === null) return { works: HIGH_STRUCTURE, label: isFr ? "Structure élevée" : "High structure" };
-    if (score >= 80) return {
-      works: LOW_STRUCTURE,
-      label: isFr ? "Structure plus légère — pour contraster" : "Lighter structure — for contrast"
-    };
-    if (score >= 60) return {
-      works: HIGH_STRUCTURE,
-      label: isFr ? "Structure plus dense — pour aller plus loin" : "Denser structure — go further"
-    };
-    if (score >= 40) return {
-      works: HIGH_STRUCTURE,
-      label: isFr ? "Structure significativement plus forte" : "Significantly stronger structure"
-    };
-    return {
-      works: HIGH_STRUCTURE,
-      label: isFr ? "Structure radicalement plus dense" : "Radically denser structure"
-    };
-  };
+  const higherLabel = score >= 80
+    ? (isFr ? "Contraster — structure plus légère" : "Contrast — lighter structure")
+    : score >= 60
+    ? (isFr ? "Aller plus loin — structure plus dense" : "Go further — denser structure")
+    : (isFr ? "Structure radicalement plus dense" : "Radically denser structure");
 
-  const { works, label } = getDirection(currentScore);
-  const picks = works.slice(0, 4);
+  const lowerLabel = score <= 20
+    ? (isFr ? "Structure plus légère encore" : "Even lighter structure")
+    : (isFr ? "Structure plus légère — pour contraster" : "Lighter structure — for contrast");
+
+  const higherWorks = HIGH_STRUCTURE.slice(0, 3);
+  const lowerWorks  = LOW_STRUCTURE.slice(0, 3);
 
   return (
     <div className="lisn-suggestions">
-      <div className="lisn-suggestions-label">
-        {t.suggestions_title}
-        <span className="lisn-suggestions-sublabel">{label}</span>
-      </div>
-      <div className="lisn-suggestions-row">
-        {picks.map((s, i) => (
-          <button
-            key={i}
-            className="lisn-suggestion-chip"
-            onClick={() => onAnalyse(s.q, "track")}
-          >
-            {s.label}
-          </button>
-        ))}
+      <div className="lisn-suggestions-header">{t.suggestions_title}</div>
+      <div className="lisn-suggestions-cols">
+        <div className="lisn-suggestions-col">
+          <div className="lisn-suggestions-col-label">{lowerLabel}</div>
+          {lowerWorks.map((s, i) => (
+            <button key={i} className="lisn-suggestion-chip lisn-chip-low"
+              onClick={() => onAnalyse(s.q, "track")}>{s.label}</button>
+          ))}
+        </div>
+        <div className="lisn-suggestions-divider" />
+        <div className="lisn-suggestions-col">
+          <div className="lisn-suggestions-col-label lisn-col-label-hi">{higherLabel}</div>
+          {higherWorks.map((s, i) => (
+            <button key={i} className="lisn-suggestion-chip lisn-chip-hi"
+              onClick={() => onAnalyse(s.q, "track")}>{s.label}</button>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -1030,27 +1021,36 @@ function highlightArtists(text, onArtistClick) {
 
 function ScoreCircle({ value }) {
   const v = Math.max(0, Math.min(100, value));
-  const R = 42;
-  const CIRCUMFERENCE = 2 * Math.PI * R;
-  const dash = (v / 100) * CIRCUMFERENCE;
-  const gap  = CIRCUMFERENCE - dash;
+  const R = 40;
+  const C = 2 * Math.PI * R;
+  const target = (v / 100) * C;
+  // overshoot by ~3 units then settle — driven by JS after mount
+  const [displayed, setDisplayed] = useState(0);
+  const [showNum, setShowNum] = useState(false);
+  useEffect(() => {
+    setDisplayed(0); setShowNum(false);
+    const t1 = setTimeout(() => setDisplayed(target * 1.04), 60);
+    const t2 = setTimeout(() => setDisplayed(target), 900);
+    const t3 = setTimeout(() => setShowNum(true), 1050);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [v]);
   return (
     <div className="lisn-score-circle-wrap">
-      <svg viewBox="0 0 100 100" width="110" height="110" style={{display:"block"}}>
-        {/* Track */}
+      <svg viewBox="0 0 100 100" width="120" height="120" style={{display:"block",overflow:"visible"}}>
+        {/* Track ring */}
         <circle cx="50" cy="50" r={R} fill="none"
-          stroke="var(--line)" strokeWidth="3.5" />
-        {/* Fill — accent, animated */}
+          stroke="var(--line)" strokeWidth="3" />
+        {/* Accent arc — starts at top (−90°) */}
         <circle cx="50" cy="50" r={R} fill="none"
           stroke="var(--accent)"
-          strokeWidth="4"
+          strokeWidth="4.5"
           strokeLinecap="round"
-          strokeDasharray={`${dash} ${gap}`}
-          strokeDashoffset={CIRCUMFERENCE * 0.25}
-          className="lisn-score-arc"
+          strokeDasharray={`${displayed} ${C}`}
+          strokeDashoffset={C * 0.25}
+          style={{ transition: displayed === 0 ? "none" : "stroke-dasharray 0.55s cubic-bezier(0.34,1.3,0.64,1)" }}
         />
       </svg>
-      <div className="lisn-score-circle-num">{v}</div>
+      <div className={`lisn-score-circle-num ${showNum ? "visible" : ""}`}>{v}</div>
     </div>
   );
 }
@@ -1103,6 +1103,14 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
     <div className="lisn-result">
 
       {/* HEADER */}
+      {/* SCORE — vedette, au-dessus */}
+      {g > 0 && (
+        <div className="lisn-score-hero">
+          <ScoreCircle value={g} />
+          <div className="lisn-score-hero-anchor">{scoreAnchor(g, t)}</div>
+        </div>
+      )}
+
       <div className="lisn-result-header">
         <div>
           <div className="lisn-result-type-row">
@@ -1152,7 +1160,7 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
             ) : (
               <div className="lisn-verdict">
                 <div className="lisn-verdict-tag">{t.verdict}</div>
-                <p className="lisn-verdict-text">« {vt} »</p>
+                <p className="lisn-verdict-text">{vt}</p>
                 <SourceNote sourceInfo={data.sourceInfo} t={t} />
               </div>
             );
@@ -1187,7 +1195,7 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
             <>
               <button className="lisn-short-btn" onClick={() => setShortOpen(o => !o)}>
                 <span className={`lisn-short-chevron ${shortOpen?"open":""}`}>›</span>
-                {t.lecture_courte}
+                <span className="lisn-short-label">{t.short_read_cta}</span>
               </button>
               <div className={`lisn-short-body ${shortOpen?"open":""}`}>
                 <p className="lisn-short-text">{data.editorial.short}</p>
@@ -1257,38 +1265,15 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
             </div>
           )}
 
-          {/* ACTIONS */}
-          <div className="lisn-actions">
-            <button className={`lisn-action-btn ${activePanel==="discuss"&&!contestMode?"active":""}`} onClick={() => togglePanel("discuss")}>
-              <span>{t.discuter}</span>
-            </button>
-            <button className={`lisn-action-btn accent-btn ${contestMode?"active":""}`} onClick={() => togglePanel("contest")}>
-              <span className="lbl">{t.contester}</span>
-            </button>
-            <button className={`lisn-action-btn ${activePanel==="compare"&&!contestMode?"active":""}`} onClick={() => togglePanel("compare")}>
-              <span>{t.comparer}</span>
-            </button>
-          </div>
-
-          {activePanel==="discuss"  && !contestMode && <DiscussPanel data={data} lang={lang} t={t} />}
-          {activePanel==="compare" && !contestMode && <ComparePanel currentData={data} entityType={entityType} lang={lang} t={t} />}
         </div>
 
         {/* SIDE */}
         <div className="lisn-side">
-          {g > 0 && (
-          <div className="lisn-score-block">
-            <ScoreCircle value={g} />
-            <div className="lisn-score-denom" style={{marginTop:10}}>{t.indice}</div>
-            <div className="lisn-score-anchor">{scoreAnchor(g, t)}</div>
-          </div>
-        )}
+          {/* TAGS — descriptifs, pas interactifs */}
           {data.badges?.length > 0 && (
-            <div className="lisn-badges">
+            <div className="lisn-tags-block">
               {data.badges.map((b,i) => (
-                <div key={i} className="lisn-badge">
-                  <span className="lisn-badge-dot" />{b}
-                </div>
+                <div key={i} className="lisn-tag-chip">{b}</div>
               ))}
             </div>
           )}
@@ -1301,6 +1286,22 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
           )}
         </div>
       </div>
+
+      {/* CTAs — séparés des tags, clairement interactifs, en bas */}
+      <div className="lisn-cta-row">
+        <button className={`lisn-cta-btn ${activePanel==="discuss"&&!contestMode?"active":""}`} onClick={() => togglePanel("discuss")}>
+          <span>{t.discuter}</span>
+        </button>
+        <button className={`lisn-cta-btn lisn-cta-accent ${contestMode?"active":""}`} onClick={() => togglePanel("contest")}>
+          <span>{t.contester}</span>
+        </button>
+        <button className={`lisn-cta-btn ${activePanel==="compare"&&!contestMode?"active":""}`} onClick={() => togglePanel("compare")}>
+          <span>{t.comparer}</span>
+        </button>
+      </div>
+
+      {activePanel==="discuss"  && !contestMode && <DiscussPanel data={data} lang={lang} t={t} />}
+      {activePanel==="compare" && !contestMode && <ComparePanel currentData={data} entityType={entityType} lang={lang} t={t} />}
     </div>
   );
 }
@@ -1511,7 +1512,31 @@ export default function Home() {
   const [lang, setLangState] = useState('fr');
   const [settingsLoaded, setSettingsLoaded] = useState(false);
   const [glossaryOpen, setGlossaryOpen] = useState(false);
-  function setLang(l) { setLangState(l); try { localStorage.setItem('lisn-lang', l); } catch {} }
+  function setLang(l) {
+    setLangState(l);
+    try { localStorage.setItem('lisn-lang', l); } catch {}
+    // Re-run analysis silently if there's existing data (translate the output)
+    if (data && query.trim()) {
+      setData(null);
+      setLoading(true);
+      setError("");
+      const currentMode = modeRef.current;
+      const currentEntityType = entityTypeRef.current;
+      const endpoint = currentMode === "fast" ? "/api/analyse-fast" : "/api/analyse";
+      fetch(endpoint, {
+        method: "POST",
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: query.trim(), lang: l, entityType: currentEntityType }),
+      })
+        .then(r => r.json())
+        .then(json => {
+          if (json?.kind !== "error") setData(json);
+        })
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }
+  }
   const resultRef = useRef(null);
   const modeRef = useRef(mode);
   useEffect(() => { modeRef.current = mode; }, [mode]);

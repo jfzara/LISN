@@ -399,7 +399,7 @@ export async function POST(req) {
       ? `LISN deep ${typeLabels[entityType]} analysis: "${query}"`
       : `Analyse LISN approfondie de ${typeLabels[entityType]} : "${query}"`;
 
-    const modelText = await callAnthropicModel({ prompt, userPrompt, model, maxTokens: 2400 });
+    const modelText = await callAnthropicModel({ prompt, userPrompt, model, maxTokens: 3200 });
     const result    = await runLisnPipeline({ modelText, mode: "deep" });
 
     return Response.json(result, { headers: { "Cache-Control": "no-store" } });

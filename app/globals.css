@@ -453,12 +453,19 @@ body::after {
 
 /* Short read */
 .lisn-short-btn {
-  display: flex; align-items: center; gap: 8px; cursor: pointer;
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--ink-3); padding: 10px 0;
-  border: none; background: none; transition: color 0.12s;
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 12px 0; border: none; background: none;
+  transition: color 0.12s;
 }
-.lisn-short-btn:hover { color: var(--ink-2); }
+.lisn-short-btn:hover .lisn-short-chevron { color: var(--accent); }
+.lisn-short-chevron { font-size: 18px; color: var(--ink-3); transition: transform 0.2s, color 0.15s; }
+.lisn-short-chevron.open { transform: rotate(90deg); color: var(--accent); }
+.lisn-short-label {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: 14px; color: var(--ink-3);
+  transition: color 0.15s;
+}
+.lisn-short-btn:hover .lisn-short-label { color: var(--ink-2); }
 .lisn-short-text { font-size: 15px; font-weight: 300; color: var(--ink-2); line-height: 1.7; padding: 16px 0; border-top: 1px solid var(--line); }
 
 /* Editorial */
@@ -868,27 +875,26 @@ body::after {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 110px; height: 110px;
-}
-.lisn-score-arc {
-  transform-origin: 50% 50%;
-  animation: arcDraw 1.1s cubic-bezier(0.34, 1.3, 0.64, 1) 0.1s both;
-}
-@keyframes arcDraw {
-  0%   { stroke-dasharray: 0 9999; }
-  80%  { stroke-dasharray: calc(var(--arc-target) * 1.05) 9999; }
-  100% { stroke-dasharray: var(--arc-target) 9999; }
+  width: 120px; height: 120px;
 }
 .lisn-score-circle-num {
   position: absolute;
   font-family: var(--font-serif);
-  font-size: 34px; font-weight: 400; font-style: italic;
+  font-size: 36px; font-weight: 400; font-style: italic;
   color: var(--ink); line-height: 1;
-  animation: numReveal 0.4s ease 1.0s both;
+  opacity: 0;
+  transition: opacity 0.15s;
 }
-@keyframes numReveal {
-  0%,25%,50%,75% { opacity: 0; }
-  12%,37%,62%  { opacity: 1; }
+.lisn-score-circle-num.visible {
+  animation: numFlash 0.55s ease both;
+}
+@keyframes numFlash {
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  35%  { opacity: 0.1; }
+  50%  { opacity: 1; }
+  65%  { opacity: 0.1; }
+  80%  { opacity: 1; }
   100% { opacity: 1; }
 }
 
@@ -967,5 +973,190 @@ body::after {
 .lisn-artist-inline:hover {
   border-color: var(--accent);
   color: var(--accent-2);
+}
+
+
+
+/* ═══ TAGS vs CTA — distinction radicale ════════════════════════ */
+
+/* TAGS — descriptifs, lecture seule, pas interactifs */
+.lisn-tags-block {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 16px;
+}
+.lisn-tag-chip {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 0;
+  line-height: 1.6;
+  /* No border, no background — juste du texte tabulaire */
+}
+.lisn-tag-chip::before {
+  content: '—';
+  margin-right: 7px;
+  color: var(--line);
+}
+
+/* CTAs — clairement interactifs, en bas, avec espace généreux */
+.lisn-cta-row {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 40px 48px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+  margin-top: -1px;
+}
+
+.lisn-cta-btn {
+  background: none;
+  border: 1.5px solid var(--line);
+  padding: 11px 22px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.lisn-cta-btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--ink);
+  transform: translateY(101%);
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.lisn-cta-btn:hover::after,
+.lisn-cta-btn.active::after { transform: translateY(0); }
+.lisn-cta-btn span { position: relative; z-index: 1; }
+.lisn-cta-btn:hover,
+.lisn-cta-btn.active { color: var(--bg); border-color: var(--ink); }
+
+/* Contester — accent */
+.lisn-cta-accent { border-color: var(--accent); color: var(--accent); }
+.lisn-cta-accent::after { background: var(--accent); }
+.lisn-cta-accent:hover,
+.lisn-cta-accent.active { color: white; border-color: var(--accent); }
+
+/* ═══ FONT SIZES ══════════════════════════════════════════════════ */
+body { font-size: 18px; }
+.lisn-verdict-text       { font-size: clamp(19px, 2.6vw, 26px); }
+.lisn-short-text         { font-size: 17px; line-height: 1.8; }
+.lisn-structural-text    { font-size: 17px; line-height: 1.8; }
+.lisn-deep-text          { font-size: 17px; line-height: 1.8; }
+.lisn-deep-full          { font-size: 17px; line-height: 1.8; }
+.lisn-osr-card-text      { font-size: 15px; }
+.lisn-osr-block-body     { font-size: 15px; }
+.lisn-glossary-def       { font-size: 15px; line-height: 1.75; }
+.lisn-glossary-title     { font-size: 24px; }
+.lisn-regime-val         { font-size: 15px; }
+.lisn-phase-desc         { font-size: 15px; }
+.lisn-longevity-fact-val { font-size: 15px; }
+.lisn-citation-text      { font-size: 15px; }
+.lisn-album-note         { font-size: 15px; }
+.lisn-notice-text        { font-size: 17px; }
+.lisn-result-title       { font-size: clamp(26px, 4vw, 38px); }
+.lisn-result-artist      { font-size: 20px; }
+.lisn-result-meta        { font-size: 12px; }
+.lisn-dim-name           { font-size: 12px; letter-spacing: 0.08em; }
+.lisn-dim-sub            { font-size: 12px; }
+.lisn-score-circle-num   { font-size: 36px; }
+.lisn-hero-title         { font-size: clamp(40px, 5.5vw, 68px); }
+.lisn-hero-tagline       { font-size: 18px; }
+.lisn-search-input       { font-size: 20px; }
+.lisn-search-btn         { font-size: 12px; }
+.lisn-msg                { font-size: 16px; }
+.lisn-compare-verdict-txt{ font-size: 16px; }
+.lisn-adhoc-text         { font-size: 16px; }
+.lisn-osr-block-body     { font-size: 15px; }
+.lisn-ctrl-btn           { font-size: 10px; }
+.lisn-entity-seg-btn     { font-size: 11px; }
+.lisn-mode-quick         { font-size: 10px; }
+.lisn-mode-deep-btn      { font-size: 10px; }
+.lisn-action-btn         { font-size: 11px; }
+.lisn-cta-btn            { font-size: 11px; letter-spacing: 0.18em; }
+.lisn-score-anchor       { font-size: 11px; }
+.lisn-result-type        { font-size: 10px; }
+
+/* Responsive CTA */
+@media (max-width: 768px) {
+  .lisn-cta-row { padding: 0 20px 36px; flex-wrap: wrap; }
+  .lisn-cta-btn { padding: 10px 16px; font-size: 9px; }
+}
+
+/* ═══ SCORE HERO — vedette en haut ══════════════════════════════ */
+.lisn-score-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 40px 0;
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+.lisn-score-hero-anchor {
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ink-3);
+  margin-top: 10px; text-align: center;
+}
+
+/* ═══ SUGGESTIONS — deux colonnes symétriques ═══════════════════ */
+.lisn-suggestions {
+  max-width: var(--max-w); margin: 0 auto;
+  padding: 36px 40px 52px;
+  border-top: 1px solid var(--line);
+}
+.lisn-suggestions-header {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-3); margin-bottom: 20px;
+}
+.lisn-suggestions-cols {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 0 32px;
+  align-items: start;
+}
+.lisn-suggestions-divider {
+  background: var(--line);
+  align-self: stretch;
+  margin: 0 0;
+}
+.lisn-suggestions-col {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.lisn-suggestions-col-label {
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-3); margin-bottom: 4px;
+}
+.lisn-col-label-hi { color: var(--accent); }
+
+.lisn-suggestion-chip {
+  background: none; border: none; padding: 0;
+  font-family: var(--font-serif); font-size: 13px;
+  font-style: italic; color: var(--ink-2);
+  cursor: pointer; text-align: left;
+  transition: color 0.12s, padding-left 0.12s;
+}
+.lisn-suggestion-chip:hover { color: var(--accent); padding-left: 4px; }
+.lisn-chip-hi { color: var(--ink-2); }
+.lisn-chip-hi:hover { color: var(--accent); }
+.lisn-chip-low { color: var(--ink-3); }
+.lisn-chip-low:hover { color: var(--ink-2); }
+
+@media (max-width: 600px) {
+  .lisn-suggestions-cols { grid-template-columns: 1fr; }
+  .lisn-suggestions-divider { display: none; }
+  .lisn-score-hero { padding: 28px 20px 0; }
 }
 
