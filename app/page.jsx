@@ -8,7 +8,7 @@ import LisnWordmark from "@/components/lisn/LisnWordmark";
 const T = {
   fr: {
     analyser:"Analyser", analyse_en_cours:"Analyse en cours",
-    rapide:"Rapide", approfondi:"Deep",
+    rapide:"Rapide", approfondi:"Profond",
     track:"Morceau", album:"Album", artist:"Artiste",
     verdict:"Verdict", lecture_courte:"Lecture courte",
     regime_track:"Régime structurel", regime_album:"Régime de l'album", regime_artist:"Trajectoire",
@@ -256,29 +256,27 @@ function ErrorSuggestion({ error, entityType, lang, setEntityType, analyse, t, s
   if (!error) return null;
   const isFr = lang === "fr";
 
-  // Smart mismatch redirect
+  // Smart mismatch redirect — propose all 3 types
   if (error.startsWith("__MISMATCH__")) {
-    const parts = error.split("__");
-    const suggestedType = parts[2]; // "artist", "album", or "track"
-    const originalQuery = parts[3] || "";
+    const all = ["track", "album", "artist"];
     const typeLabels = {
-      track:  isFr ? "morceau"  : "track",
-      album:  isFr ? "album"    : "album",
-      artist: isFr ? "artiste"  : "artist",
+      track:  isFr ? "Morceau"  : "Track",
+      album:  isFr ? "Album"    : "Album",
+      artist: isFr ? "Artiste"  : "Artist",
     };
-    const hint = isFr
-      ? `Cherchez-vous un ${typeLabels[suggestedType]} ?`
-      : `Looking for a ${typeLabels[suggestedType]}?`;
+    const hint = isFr ? "Essayer comme :" : "Try as:";
     return (
       <div className="lisn-mismatch">
         <span className="lisn-mismatch-hint">{hint}</span>
-        <button
-          className="lisn-mismatch-btn"
-          onClick={() => { setEntityType(suggestedType); setTimeout(analyse, 30); }}
-        >
-          {isFr ? `Analyser comme ${typeLabels[suggestedType]}` : `Analyze as ${typeLabels[suggestedType]}`}
-          <span className="lisn-mismatch-arrow"> →</span>
-        </button>
+        {all.map(type => (
+          <button
+            key={type}
+            className="lisn-mismatch-btn"
+            onClick={() => { setEntityType(type); setTimeout(analyse, 30); }}
+          >
+            {typeLabels[type]}
+          </button>
+        ))}
       </div>
     );
   }
@@ -989,10 +987,20 @@ const KNOWN_ARTISTS = [
   "Goldman","Nile Rodgers","Earth Wind & Fire","Earth, Wind & Fire",
   "Bruno Mars","Massive Attack","PJ Harvey","Talking Heads","Television",
   "Arcade Fire","Beyoncé","Beyonce","Jay-Z","Drake","Eminem","Nas","2Pac",
-  "The Weeknd","Tyler","Childish Gambino","Anderson .Paak","SZA",
+  "The Weeknd","Tyler","Tyler the Creator","Tyler, the Creator",
+  "Childish Gambino","Donald Glover","Anderson .Paak","SZA","Billie Eilish",
   "Daft Punk","Aphex Twin","Autechre","Arca","Boards of Canada",
   "Nick Cave","Siouxsie","Joy Division","The Cure","New Order",
   "Fela Kuti","Mulatu Astatke","Nusrat Fateh Ali Khan",
+  "Bad Bunny","Rosalia","J Balvin","Karol G","Peso Pluma",
+  "Harry Styles","Olivia Rodrigo","Taylor Swift","Ariana Grande",
+  "Post Malone","Travis Scott","Future","Young Thug","Gunna",
+  "Burna Boy","Wizkid","Davido","Tems","Rema",
+  "FKA twigs","James Blake","Blood Orange","Dev Hynes",
+  "Caribou","Four Tet","Jamie xx","Floating Points",
+  "Caroline Polachek","Charli XCX","Lorde","Mitski","Phoebe Bridgers",
+  "Jack White","The Black Keys","King Krule","black midi",
+  "PNL","Orelsan","Stromae","Angèle","Aya Nakamura","Jul",
 ];
 
 function highlightArtists(text, onArtistClick) {
@@ -1635,10 +1643,8 @@ export default function Home() {
         verdictLower.includes("manquant") ||
         verdictLower.includes("non identif") ||
         verdictLower.includes("précis") ||
-        // Structural: entity is empty
-        (!entityTitle && !entityArtist && currentEntityType === "track") ||
-        (!entityArtist && currentEntityType === "artist") ||
-        (!entityTitle && currentEntityType === "album" && !entityArtist)
+        // Structural: entity is completely empty (model found nothing at all)
+        (!entityTitle && !entityArtist)
       );
 
       if (isMismatch) {

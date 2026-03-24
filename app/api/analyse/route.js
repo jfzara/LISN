@@ -32,6 +32,14 @@ NOT SCORED: Artist's personality, costume, live performance, instrumental virtuo
 
 INTERPOLATION RULE: Always verify interpolation/sampling debt before scoring Singularity. Redbone (Childish Gambino) = structural interpolation of "I'd Rather Be With You" (Bootsy Collins 1976) — bass line, harmonic ambiguity, loop structure directly derived. Singularity capped 40-55. Never omit sourceInfo when structural debt is real and documentable.
 
+MODERN ARTISTS — you have full knowledge of these:
+Post-2015 rap/R&B: Bad Bunny, J Balvin, Karol G, Peso Pluma, Travis Scott, Post Malone, Future, Young Thug, Gunna, Roddy Ricch, Lil Baby, Polo G, Rod Wave.
+Pop: Harry Styles, Olivia Rodrigo, Billie Eilish, Doja Cat, Ariana Grande, Dua Lipa, Sabrina Carpenter, Chappell Roan.
+African/global: Burna Boy, Wizkid, Davido, Tems, Rema, Fireboy DML.
+Electronic/indie: Caroline Polachek, Charli XCX, Lorde, Mitski, Phoebe Bridgers, boygenius, FKA twigs, James Blake, Four Tet, Floating Points, Caribou.
+French: PNL, Orelsan, Stromae, Angèle, Aya Nakamura, Jul, SCH, Ninho, Damso.
+If a query matches any of these artists or their works, identify confidently. Do not return unidentified.
+
 KNOWLEDGE: Full knowledge of all genres and eras — French chanson (Goldman, Bashung, Gainsbourg, Barbara), jazz, classical, hip-hop, electronic, metal, world music. France Gall, Maître Gims, any well-documented work = identifiable. Never return error verdict for a real identifiable work. If documentation thin: partial analysis with honest confidence.
 `.trim();
 
@@ -46,6 +54,11 @@ const LONGEVITY_SCHEMA = `"longevity": {
 function buildTrackPrompt({ lang }) {
   const isEn = lang === "en";
   const ANCHORS = `
+SCORE CALIBRATION — ABSOLUTE REFERENCE:
+Frank Ocean Blonde = 79. Kendrick TPAB = 88. Miles Davis Kind of Blue = 91. Daft Punk RAM = 63.
+Bruno Mars Uptown Funk = 34. Despacito = 28. Goldman Il suffira d'un signe = 58.
+These are fixed anchors. Calibrate ALL scores relative to these. Do not drift above or below them.
+
 SCORING — NON-NEGOTIABLE RULES:
 1. NO ROUND NUMBERS. Never: 10,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100. Use: 23,37,42,54,61,68,74,83...
 2. DISTRIBUTION: Most music scores 35-62. Score of 72 is already high. 88 = Kind of Blue tier. Calibrate hard.
@@ -145,6 +158,11 @@ Only reply with the JSON.`;
 function buildAlbumPrompt({ lang }) {
   const isEn = lang === "en";
   const ANCHORS = `
+SCORE CALIBRATION — ABSOLUTE REFERENCE:
+Frank Ocean Blonde = 79. Kendrick TPAB = 88. Miles Davis Kind of Blue = 91. Daft Punk RAM = 63.
+Bruno Mars Uptown Funk = 34. Despacito = 28. Goldman Il suffira d'un signe = 58.
+These are fixed anchors. Calibrate ALL scores relative to these. Do not drift above or below them.
+
 SCORING — NON-NEGOTIABLE RULES:
 1. NO ROUND NUMBERS. Never: 10,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100. Use: 23,37,42,54,61,68,74,83...
 2. DISTRIBUTION: Most music scores 35-62. Score of 72 is already high. 88 = Kind of Blue tier. Calibrate hard.

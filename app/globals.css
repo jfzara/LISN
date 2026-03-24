@@ -1160,3 +1160,63 @@ body { font-size: 18px; }
   .lisn-score-hero { padding: 28px 20px 0; }
 }
 
+
+/* ═══ MISMATCH — 3 type buttons, inline minimal ══════════════════ */
+.lisn-mismatch {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 8px; padding: 10px 0; margin-top: 6px;
+}
+.lisn-mismatch-hint {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-3); margin-right: 4px;
+}
+.lisn-mismatch-btn {
+  background: none;
+  border: 1px solid var(--line);
+  padding: 5px 14px;
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-2); cursor: pointer;
+  transition: all 0.12s;
+}
+.lisn-mismatch-btn:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+
+/* ═══ DIM BARS — consistent everywhere ══════════════════════════ */
+/* Override any conflicting dim-track rules */
+.lisn-dim-track,
+.lisn-album-metric-bar,
+.lisn-longevity-bar {
+  height: 5px;
+  background: var(--line);
+  position: relative;
+  clip-path: polygon(0 30%, 100% 0%, 100% 100%, 0 70%);
+  overflow: visible;
+}
+.lisn-dim-fill,
+.lisn-album-metric-fill,
+.lisn-longevity-fill {
+  position: absolute; left: 0; top: 0; height: 100%;
+  clip-path: polygon(0 30%, 100% 0%, 100% 100%, 0 70%);
+  background: linear-gradient(to right,
+    rgba(196,96,26,0) 0%,
+    rgba(196,96,26,0.35) 25%,
+    rgba(196,96,26,0.8) 65%,
+    rgba(196,96,26,1) 100%
+  );
+  transition: width 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: barSlide 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+[data-theme="dark"] .lisn-dim-fill,
+[data-theme="dark"] .lisn-album-metric-fill,
+[data-theme="dark"] .lisn-longevity-fill {
+  background: linear-gradient(to right,
+    rgba(224,120,48,0) 0%,
+    rgba(224,120,48,0.35) 25%,
+    rgba(224,120,48,0.8) 65%,
+    rgba(224,120,48,1) 100%
+  );
+}
+

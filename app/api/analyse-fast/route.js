@@ -32,6 +32,14 @@ NOT SCORED: Artist's personality, costume, live performance, instrumental virtuo
 
 INTERPOLATION RULE: Always verify interpolation/sampling debt before scoring Singularity. Redbone (Childish Gambino) = structural interpolation of "I'd Rather Be With You" (Bootsy Collins 1976) — bass line, harmonic ambiguity, loop structure directly derived. Singularity capped 40-55. Never omit sourceInfo when structural debt is real and documentable.
 
+MODERN ARTISTS — you have full knowledge of these:
+Post-2015 rap/R&B: Bad Bunny, J Balvin, Karol G, Peso Pluma, Travis Scott, Post Malone, Future, Young Thug, Gunna, Roddy Ricch, Lil Baby, Polo G, Rod Wave.
+Pop: Harry Styles, Olivia Rodrigo, Billie Eilish, Doja Cat, Ariana Grande, Dua Lipa, Sabrina Carpenter, Chappell Roan.
+African/global: Burna Boy, Wizkid, Davido, Tems, Rema, Fireboy DML.
+Electronic/indie: Caroline Polachek, Charli XCX, Lorde, Mitski, Phoebe Bridgers, boygenius, FKA twigs, James Blake, Four Tet, Floating Points, Caribou.
+French: PNL, Orelsan, Stromae, Angèle, Aya Nakamura, Jul, SCH, Ninho, Damso.
+If a query matches any of these artists or their works, identify confidently. Do not return unidentified.
+
 KNOWLEDGE: Full knowledge of all genres and eras — French chanson (Goldman, Bashung, Gainsbourg, Barbara), jazz, classical, hip-hop, electronic, metal, world music. France Gall, Maître Gims, any well-documented work = identifiable. Never return error verdict for a real identifiable work. If documentation thin: partial analysis with honest confidence.
 `.trim();
 
@@ -44,6 +52,11 @@ const LONGEVITY_SCHEMA = `"longevity": {
 function buildTrackPrompt({ lang }) {
   const isEn = lang === "en";
   const ANCHORS = `
+SCORE CALIBRATION — ABSOLUTE REFERENCE:
+Frank Ocean Blonde = 79. Kendrick TPAB = 88. Miles Davis Kind of Blue = 91. Daft Punk RAM = 63.
+Bruno Mars Uptown Funk = 34. Despacito = 28. Goldman Il suffira d'un signe = 58.
+These are fixed anchors. Calibrate ALL scores relative to these. Do not drift above or below them.
+
 SCORING — NON-NEGOTIABLE RULES:
 1. NO ROUND NUMBERS. Never: 10,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100. Use: 23,37,42,54,61,68,74,83...
 2. DISTRIBUTION: Most music scores 35-62. Score of 72 is already high. 88 = Kind of Blue tier. Calibrate hard.
@@ -125,14 +138,14 @@ Instead return ONLY this minimal JSON and nothing else:
 This allows the frontend to detect the mismatch cleanly.
 
 - quickVerdict: dense, literary, max 20 words. Pure judgment. No "a track that...".
-- shortText: 1 editorial paragraph, direct.
-- structuralText: 1 paragraph on how the structure concretely works. Plain language — explain every term.
-- structuralScores: integers 0-100. Use the per-dimension anchors. No round numbers. Spread must be > 18 points. Each score must be defensible against the anchor descriptions above.
+- shortText: 2-3 sentences MAX. Direct, no padding.
+- structuralText: 1 short paragraph (3 sentences max). What structurally makes or breaks this work.
+- structuralScores: integers 0-100. Keep regime fields minimal (structureType + dominantFunction only). Use the per-dimension anchors. No round numbers. Spread must be > 18 points. Each score must be defensible against the anchor descriptions above.
 - regime: precise, never vague.
 - badges: 3-5 short precise labels.
 - sourceInfo: if samples/interpolates/covers another: { "type": "sample"|"interpolation"|"reprise"|"template", "reference": "Artist — Title (Year)" }. Otherwise null.
 - longevity.score: 0-100. Fill all longevity fields.
-- deep.fullAnalysis: leave empty for fast mode.
+- deep: leave ALL fields empty for fast mode. Do not fill worldview, psychologicalFunction, or fullAnalysis.
 - confidence: 0-1.
 
 Only reply with the JSON.`;
@@ -141,6 +154,11 @@ Only reply with the JSON.`;
 function buildAlbumPrompt({ lang }) {
   const isEn = lang === "en";
   const ANCHORS = `
+SCORE CALIBRATION — ABSOLUTE REFERENCE:
+Frank Ocean Blonde = 79. Kendrick TPAB = 88. Miles Davis Kind of Blue = 91. Daft Punk RAM = 63.
+Bruno Mars Uptown Funk = 34. Despacito = 28. Goldman Il suffira d'un signe = 58.
+These are fixed anchors. Calibrate ALL scores relative to these. Do not drift above or below them.
+
 SCORING — NON-NEGOTIABLE RULES:
 1. NO ROUND NUMBERS. Never: 10,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100. Use: 23,37,42,54,61,68,74,83...
 2. DISTRIBUTION: Most music scores 35-62. Score of 72 is already high. 88 = Kind of Blue tier. Calibrate hard.
@@ -190,7 +208,7 @@ FIELD RULES:
 - albumAnalysis.peakTracks: 2-4 strongest track titles.
 - albumAnalysis.weakPoints: 0-3 structural weak points.
 - longevity: at album scale.
-- deep.fullAnalysis: leave empty for fast mode.
+- deep: leave ALL fields empty for fast mode. Do not fill worldview, psychologicalFunction, or fullAnalysis.
 - confidence: 0-1.
 
 Only reply with the JSON.`;
@@ -358,7 +376,7 @@ FIELD RULES:
 - artistAnalysis.phases: career phases with period and 1 plain-language sentence each.
 - artistAnalysis.bestWork: 3-5 strongest works, each with a brief plain-language reason.
 - longevity: at artist level — real influence, real citations, cultural presence over time.
-- deep.fullAnalysis: leave empty for fast mode.
+- deep: leave ALL fields empty for fast mode. Do not fill worldview, psychologicalFunction, or fullAnalysis.
 - deep.worldview: if filled, write what it says about the DEVOTED FAN of this artist — the structural resonance between their sonic choices and an implicit worldview. Not the artist's philosophy, but the listener's implicit one.
 - confidence: 0-1.
 
