@@ -1129,6 +1129,11 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
       {g > 0 && (
         <div className="lisn-score-hero">
           <ScoreCircle value={g} />
+          {data.genreScore > 0 && (
+            <div className="lisn-genre-score">
+              {lang==="fr" ? "Dans son genre" : "In genre"} <strong>{data.genreScore}</strong>
+            </div>
+          )}
           <div className="lisn-score-hero-anchor">{scoreAnchor(g, t)}</div>
         </div>
       )}
