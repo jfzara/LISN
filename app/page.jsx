@@ -798,7 +798,7 @@ function DiscussPanel({ data, lang, t }) {
   function onKey(e) { if (e.key==="Enter" && !e.shiftKey) { e.preventDefault(); send(); } }
 
   return (
-    <div className="lisn-panel">
+    <div className="lisn-panel lisn-discuss-panel">
       <div className="lisn-panel-head">{t.discuter}</div>
       <div className="lisn-chat">
         {hist.length === 0 && <div className="lisn-msg l"><div className="lisn-msg-lbl">LISN</div>{t.discuss_intro}</div>}
@@ -811,7 +811,7 @@ function DiscussPanel({ data, lang, t }) {
         {loading && <div className="lisn-msg l"><div className="lisn-msg-lbl">LISN</div><span style={{opacity:.3}}>…</span></div>}
         <div ref={endRef} />
       </div>
-      <div className="lisn-chat-form">
+      <div className="lisn-chat-form-sticky">
         <textarea className="lisn-chat-input" value={msg} onChange={e=>setMsg(e.target.value)} onKeyDown={onKey} placeholder={t.placeholder_discuss} rows={2} />
         <button className="lisn-chat-send" onClick={send} disabled={loading||!msg.trim()}>{t.envoyer}</button>
       </div>
@@ -1591,10 +1591,11 @@ export default function Home() {
 
   const osr = OSR_BLOCKS[lang];
 
+  const isFr = lang === "fr";
   const placeholders = {
-    track: t.placeholder_search_track,
-    album: t.placeholder_search_album,
-    artist: t.placeholder_search_artist,
+    track:  isFr ? "Titre ou artiste…" : "Title or artist…",
+    album:  isFr ? "Titre ou artiste…" : "Title or artist…",
+    artist: isFr ? "Titre ou artiste…" : "Title or artist…",
   };
 
   function onAnalyseCitation(query, type) {
@@ -1819,6 +1820,17 @@ export default function Home() {
 
       {loading && (
         <div className="lisn-loading"><Orb/><span className="lisn-loading-text">{t.analyse_en_cours}</span></div>
+      )}
+
+      {/* FAB — nouvelle analyse sans remonter */}
+      {data && !loading && (
+        <button
+          className="lisn-fab"
+          onClick={() => { window.scrollTo({top:0, behavior:"smooth"}); setTimeout(() => document.querySelector(".lisn-search-input")?.focus(), 400); }}
+          title={lang==="fr" ? "Nouvelle analyse" : "New analysis"}
+        >
+          <span className="lisn-fab-icon">+</span>
+        </button>
       )}
 
       {data && !loading && (

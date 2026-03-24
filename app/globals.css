@@ -1258,3 +1258,166 @@ body { font-size: 18px; }
 .lisn-genre-score strong {
   color: var(--accent); font-weight: 500;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE-FIRST + DESIGN REFINEMENTS  (v5.0)
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Global overflow fix ──────────────────────────────────────── */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+* { box-sizing: border-box; }
+
+/* ── Responsive font sizes ────────────────────────────────────── */
+/* Mobile: smaller — Desktop: larger */
+@media (max-width: 768px) {
+  body                   { font-size: 15px; }
+  .lisn-verdict-text     { font-size: 16px; }
+  .lisn-short-text,
+  .lisn-structural-text,
+  .lisn-deep-text,
+  .lisn-deep-full        { font-size: 15px; line-height: 1.7; }
+  .lisn-result-title     { font-size: clamp(20px, 6vw, 28px); }
+  .lisn-result-artist    { font-size: 16px; }
+  .lisn-hero-title       { font-size: clamp(28px, 7vw, 42px); }
+  .lisn-search-input     { font-size: 16px; padding: 14px 16px; }
+  .lisn-score-circle-num { font-size: 28px; }
+  .lisn-dim-name         { font-size: 10px; }
+  .lisn-dim-sub          { font-size: 10px; }
+  .lisn-osr-block-body   { font-size: 14px; }
+  .lisn-glossary-def     { font-size: 14px; }
+}
+
+/* ── Mobile layout fixes ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .lisn-masthead {
+    padding: 14px 16px;
+    position: sticky; top: 0; z-index: 100;
+    gap: 8px;
+  }
+  .lisn-masthead-controls { gap: 4px; flex-wrap: nowrap; }
+  .lisn-ctrl-btn { padding: 4px 7px; font-size: 9px; }
+  .lisn-glossary-btn { font-size: 11px !important; padding: 4px 7px !important; }
+
+  .lisn-hero { padding: 32px 16px 28px; grid-template-columns: 1fr; }
+  .lisn-search-wrap { padding: 24px 16px 0; }
+  .lisn-result { padding: 0 16px; margin-top: 28px; }
+  .lisn-suggestions { padding: 24px 16px 40px; }
+  .lisn-score-hero { padding: 28px 16px 0; }
+
+  .lisn-result-header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+  .lisn-side { align-items: flex-start; flex-direction: row; flex-wrap: wrap; gap: 16px; }
+  .lisn-cover { width: 80px; height: 80px; }
+
+  .lisn-dim-row { grid-template-columns: 100px 1fr 32px; gap: 8px; margin-bottom: 10px; }
+  .lisn-cta-row { padding: 0 16px 32px; gap: 6px; }
+  .lisn-cta-btn { padding: 9px 12px; font-size: 9px; letter-spacing: 0.14em; }
+
+  .lisn-entity-seg-btn { padding: 7px 12px; font-size: 9px; }
+  .lisn-mode-quick, .lisn-mode-deep-btn { padding: 6px 10px; font-size: 9px; }
+
+  .lisn-osr-inner { grid-template-columns: 1fr; padding: 20px 16px; gap: 18px; }
+  .lisn-regime-grid { grid-template-columns: 1fr; }
+  .lisn-longevity-top { flex-direction: column; }
+  .lisn-suggestions-cols { grid-template-columns: 1fr; gap: 24px; }
+  .lisn-suggestions-divider { display: none; }
+  .lisn-compare-inputs { flex-direction: column; }
+  .lisn-actions { flex-wrap: wrap; gap: 6px; }
+
+  .lisn-glossary-body { width: 100vw; padding: 24px 16px; }
+}
+
+/* ── FAB — nouvelle analyse ───────────────────────────────────── */
+.lisn-fab {
+  position: fixed;
+  bottom: 24px; right: 20px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 150;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transition: transform 0.15s, background 0.15s;
+}
+.lisn-fab:hover { background: var(--accent); transform: scale(1.08); }
+.lisn-fab-icon {
+  color: var(--bg);
+  font-size: 22px; font-weight: 300; line-height: 1;
+  margin-top: -1px;
+}
+
+/* ── Discuss panel — sticky input ────────────────────────────── */
+.lisn-discuss-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 520px;
+}
+.lisn-discuss-panel .lisn-chat {
+  flex: 1;
+  overflow-y: auto;
+  max-height: none;
+  min-height: 120px;
+  scroll-behavior: smooth;
+}
+.lisn-chat-form-sticky {
+  display: flex; gap: 0;
+  border: 1px solid var(--line);
+  border-top: none;
+  position: sticky;
+  bottom: 0;
+  background: var(--bg);
+  z-index: 10;
+  margin-top: 0;
+}
+
+/* ── Design refinements — less boxy, more refined ────────────── */
+
+/* Thinner borders everywhere */
+.lisn-search-form         { border-width: 1px; }
+.lisn-entity-seg          { border-width: 0.5px; }
+.lisn-entity-seg-btn      { border-right-width: 0.5px; }
+.lisn-result-header       { border-bottom-width: 0.5px; }
+.lisn-regime-item         { border-bottom-width: 0.5px; }
+.lisn-phase-row           { border-bottom-width: 0.5px; }
+.lisn-citation-link       { border-bottom-width: 0.5px; }
+.lisn-glossary-item       { border-bottom-width: 0.5px; }
+.lisn-related             { border-width: 0.5px; }
+.lisn-cta-btn             { border-width: 1px; }
+.lisn-badge               { border-width: 0.5px; }
+.lisn-osr-card            { border-width: 0.5px; }
+.lisn-panel               { border-width: 0.5px; }
+.lisn-source-note         { border: none; border-left: 2px solid var(--accent); }
+
+/* Slightly more rounded on interactive elements only */
+.lisn-entity-seg          { border-radius: 3px; }
+.lisn-mode-quick,
+.lisn-mode-deep-btn,
+.lisn-cta-btn,
+.lisn-mismatch-btn,
+.lisn-error-switch        { border-radius: 3px; }
+.lisn-search-form         { border-radius: 3px; }
+.lisn-fab                 { border-radius: 50%; }
+
+/* Score circle — slightly larger on desktop */
+@media (min-width: 769px) {
+  .lisn-score-circle-wrap { width: 130px; height: 130px; }
+  .lisn-score-circle-num  { font-size: 40px; }
+}
+
+/* Genre score */
+.lisn-genre-score {
+  font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-3); margin-top: 6px; text-align: center;
+}
+.lisn-genre-score strong { color: var(--accent); font-weight: 500; }
+
