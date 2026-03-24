@@ -911,9 +911,10 @@ const LOW_STRUCTURE = [
   { q:"Levitating Dua Lipa", label:"Dua Lipa — Levitating" },
 ];
 
-function SuggestionsStrip({ lang, onAnalyse, currentScore }) {
+function SuggestionsStrip({ lang, onAnalyse, currentScore, queryIsSuggestion }) {
   const t = T[lang];
   const isFr = lang === "fr";
+  if (queryIsSuggestion) return null;
   const score = currentScore ?? 50;
 
   const higherLabel = score >= 80
@@ -935,18 +936,30 @@ function SuggestionsStrip({ lang, onAnalyse, currentScore }) {
       <div className="lisn-suggestions-cols">
         <div className="lisn-suggestions-col">
           <div className="lisn-suggestions-col-label">{lowerLabel}</div>
-          {lowerWorks.map((s, i) => (
-            <button key={i} className="lisn-suggestion-chip lisn-chip-low"
-              onClick={() => onAnalyse(s.q, "track")}>{s.label}</button>
-          ))}
+          {lowerWorks.map((s, i) => {
+            const parts = s.label.split(" — ");
+            return (
+              <button key={i} className="lisn-suggestion-chip lisn-chip-low"
+                onClick={() => onAnalyse(s.q, "track")}>
+                <span className="lisn-chip-artist">{parts[0]}</span>
+                {parts[1] && <><span className="lisn-chip-sep"> — </span><span className="lisn-chip-title">{parts[1]}</span></>}
+              </button>
+            );
+          })}
         </div>
         <div className="lisn-suggestions-divider" />
         <div className="lisn-suggestions-col">
           <div className="lisn-suggestions-col-label lisn-col-label-hi">{higherLabel}</div>
-          {higherWorks.map((s, i) => (
-            <button key={i} className="lisn-suggestion-chip lisn-chip-hi"
-              onClick={() => onAnalyse(s.q, "track")}>{s.label}</button>
-          ))}
+          {higherWorks.map((s, i) => {
+            const parts = s.label.split(" — ");
+            return (
+              <button key={i} className="lisn-suggestion-chip lisn-chip-hi"
+                onClick={() => onAnalyse(s.q, "track")}>
+                <span className="lisn-chip-artist">{parts[0]}</span>
+                {parts[1] && <><span className="lisn-chip-sep"> — </span><span className="lisn-chip-title">{parts[1]}</span></>}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -1030,7 +1043,8 @@ function highlightArtists(text, onArtistClick) {
 function ScoreCircle({ value }) {
   const v = Math.max(0, Math.min(100, value));
   const R = 40;
-  const C = 2 * Math.PI * R;
+  const C = 2 * Math.PI * R;  // ≈ 251.33
+  // target = exact arc length for this score: 0→0%, 100→full circle
   const target = (v / 100) * C;
   // overshoot by ~3 units then settle — driven by JS after mount
   const [displayed, setDisplayed] = useState(0);
@@ -1808,6 +1822,7 @@ export default function Home() {
           <SuggestionsStrip
             lang={lang}
             currentScore={data?.score?.global ?? null}
+            queryIsSuggestion={['Dummy Portishead', 'Shape of You Ed Sheeran', 'Mezzanine Massive Attack', 'Levitating Dua Lipa', 'Despacito Luis Fonsi', 'OK Computer Radiohead', "Voodoo D'Angelo", 'Blue Joni Mitchell', 'Kind of Blue Miles Davis', 'Blinding Lights The Weeknd'].includes(query)}
             onAnalyse={(q, type) => {
               setQuery(q);
               setEntityType(type);

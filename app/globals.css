@@ -1220,3 +1220,30 @@ body { font-size: 18px; }
   );
 }
 
+
+/* ═══ SUGGESTION CHIPS — artist/title typography ════════════════ */
+.lisn-chip-artist {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  color: inherit;
+}
+.lisn-chip-sep {
+  color: var(--line);
+  font-style: normal;
+}
+.lisn-chip-title {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 400;
+  color: inherit;
+}
+
+/* ═══ SCORE CIRCLE — force transition on circle element ══════════ */
+/* strokeDasharray animation via JS state + CSS transition */
+.lisn-score-circle-wrap svg circle:last-child {
+  transition: stroke-dasharray 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
