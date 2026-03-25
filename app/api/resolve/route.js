@@ -32,10 +32,20 @@ export async function POST(req) {
       if (!candidates.length) return Response.json({ resolved: null });
       const top = candidates[0];
 
-      // Ambiguous: multiple results with similar titles
+      // Only resolve confidently if score >= 85 (prevents wrong matches like "High Girls" for "Cars and Girls")
+      if (top.score < 85) {
+        // Still return candidates for disambiguation if useful
+        return Response.json({
+          resolved: null,
+          candidates: candidates.length > 1 ? candidates.slice(0, 3) : null
+        });
+      }
+
+      // Ambiguous: top score is high but multiple strong results
       const isAmbiguous = candidates.length > 1 &&
-        candidates[1].score > 60 &&
-        candidates[0].title.toLowerCase() !== query.toLowerCase();
+        candidates[1].score > 70 &&
+        candidates[0].title.toLowerCase() !== candidates[1].title.toLowerCase() &&
+        candidates[0].artist.toLowerCase() !== candidates[1].artist.toLowerCase();
 
       return Response.json({
         resolved: top,

@@ -1632,3 +1632,51 @@ html, body {
   .lisn-sticky-input { font-size: 15px; }
 }
 
+
+/* ── OSR pill — returning visitors ──────────────────────────── */
+.lisn-osr-pill {
+  background: none;
+  border: 1px solid var(--accent);
+  padding: 5px 14px;
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent); cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  border-radius: 2px;
+}
+.lisn-osr-pill:hover {
+  background: var(--accent); color: var(--bg);
+}
+
+/* ── Mobile: ensure FR/EN/dark buttons always visible ───────── */
+@media (max-width: 768px) {
+  .lisn-masthead-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    overflow: visible;
+  }
+  .lisn-glossary-btn {
+    display: none; /* hide on mobile — accessible via scroll */
+  }
+  .lisn-ctrl-btn {
+    padding: 5px 8px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .lisn-masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+  }
+  .lisn-wordmark {
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+}
+
+

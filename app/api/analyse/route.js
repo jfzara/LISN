@@ -57,7 +57,15 @@ If the user's session shows recent analyses in genre X and the query is ambiguou
 If the session is genre-diverse (e.g., metal + electronic + chanson), show all candidates without bias.
 If the query is ambiguous (common title, first name only, etc.), return disambiguationCandidates array with 2-3 options instead of guessing.
 
-- LANGUAGE LAW — ABSOLUTE: Every single word in the lang parameter language. lang=fr → French throughout. lang=en → English throughout. Only proper nouns (artist names, album titles, established genre names) may stay in original language. Violating this is a critical failure.
+- LANGUAGE LAW — ABSOLUTE — APPLIES TO EVERY STRING IN THE JSON:
+  Every text field in your JSON output must be in the lang parameter language.
+  lang=fr → ALL text in French: verdicts, regime values, badges, adHocNote, structuralText, worldview, EVERYTHING.
+  lang=en → ALL text in English.
+  This includes: structureType, compositionMode, templateDependence, exploration, constraintLevel, dominantFunction, trajectory, explorationLevel, consistency, influenceOnGenre, chartsLongevity, phases descriptions, badges — EVERY STRING.
+  ONLY exceptions: artist names, album titles, song titles, established genre names (jazz, techno, reggaeton) stay in their original language.
+  Writing "loop-based ambient" when lang=fr is a CRITICAL FAILURE. Correct: "ambient en boucle" or "boucle ambient".
+  Writing "selection" when lang=fr is a CRITICAL FAILURE. Correct: "sélection".
+  Writing "none" when lang=fr is a CRITICAL FAILURE. Correct: "aucune" or "nulle".
 `.trim();
 
 const ADDENDUM = `CRITICAL CORRECTIONS TO BASE PHILOSOPHY:

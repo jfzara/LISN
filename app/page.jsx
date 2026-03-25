@@ -1576,16 +1576,15 @@ export default function Home() {
   const [mode, setMode] = useState("fast");
   const [entityType, setEntityType] = useState("track");
   const [data, setData] = useState(null);
-  const [showHeroText, setShowHeroText] = useState(false);
+  const [isFirstVisit, setIsFirstVisit] = useState(false);
   useEffect(() => {
     try {
-      const last = parseInt(localStorage.getItem("lisn-hero-seen") || "0");
-      const fiveHours = 5 * 60 * 60 * 1000;
-      if (Date.now() - last > fiveHours) {
-        setShowHeroText(true);
+      const seen = localStorage.getItem("lisn-hero-seen");
+      if (!seen) {
+        setIsFirstVisit(true);
         localStorage.setItem("lisn-hero-seen", String(Date.now()));
       }
-    } catch { setShowHeroText(true); }
+    } catch { setIsFirstVisit(true); }
   }, []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -1720,8 +1719,10 @@ export default function Home() {
         }
       } catch { /* fail silently */ }
 
-      const enrichedQuery = resolvedContext
-        ? `${resolvedContext.artist} ${resolvedContext.title || resolvedContext.artist} ${resolvedContext.year || ""}`.trim()
+      // Only use MusicBrainz context if high confidence (score >= 85)
+      // Low-confidence results caused wrong identifications (e.g. "High Girls" instead of "Cars and Girls")
+      const enrichedQuery = (resolvedContext && (resolvedContext.score || 0) >= 85)
+        ? `${resolvedContext.artist} — ${resolvedContext.title || resolvedContext.artist}${resolvedContext.year ? ` (${resolvedContext.year})` : ""}`.trim()
         : q;
 
       const res = await fetch(endpoint, {
@@ -1872,7 +1873,7 @@ export default function Home() {
             }
           </p>
         </div>
-        {showHeroText && (
+        {isFirstVisit ? (
           <div className="lisn-osr-card">
             <div className="lisn-osr-tag">{t.osr_behind}</div>
             <p className="lisn-osr-card-text">
@@ -1885,6 +1886,10 @@ export default function Home() {
               {osrOpen ? t.osr_close : t.osr_cta}
             </button>
           </div>
+        ) : (
+          <button className="lisn-osr-pill" onClick={() => setOsrOpen(o => !o)}>
+            {osrOpen ? t.osr_close : "OSR →"}
+          </button>
         )}
       </div>
 

@@ -43,7 +43,15 @@ GOOD: "Le synthé et la voix coexistent sans dialoguer — l'atmosphère résult
 
 DISAMBIGUATION: For ambiguous queries (common title, first name), return disambiguationCandidates: [{label, artist, year, genre}] with 2-3 options. Use sessionHistory genre hints to order candidates when relevant.
 
-- LANGUAGE LAW: Write EVERY word in the lang parameter language. lang=fr → French only. lang=en → English only. Artist names and genre names may stay in original language. No exceptions.
+- LANGUAGE LAW — ABSOLUTE — EVERY STRING IN THE JSON:
+lang=fr → ALL text in French, including regime fields, badges, structural descriptions, EVERYTHING.
+lang=en → ALL text in English.
+EXAMPLES OF FAILURES when lang=fr:
+  ✗ structureType: "loop-based ambient"  →  ✓ "ambient en boucle"
+  ✗ exploration: "none"                  →  ✓ "aucune"
+  ✗ templateDependence: "high"           →  ✓ "élevée"
+  ✗ compositionMode: "selection"         →  ✓ "sélection"
+Only exceptions: artist names, song/album titles, genre names (jazz, techno, reggaeton).
 `.trim();
 
 // ═══════════════════════════════════════════════════════════════════

@@ -80,7 +80,7 @@ DIALOGUE RULES:
 - Persistent pressure without new arguments: restate once, warmly, move forward.
 - Never reflexively agree. Mean every word.
 - 2-4 paragraphs. Dense. Vary sentence length.
-- Respond in ${isEn ? "English" : "French"}.`;
+- Respond ENTIRELY in ${isEn ? 'English' : 'French'}. Every word. No mixing. Not a single sentence in the other language.`;
 
     const messages = [
       ...history.map(h => ({
