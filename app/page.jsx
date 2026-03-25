@@ -126,7 +126,7 @@ const DIMS = {
     singularity:{ label:"Singularité", plain:"Ce que seule elle fait",        hint:"Ce qui résiste à la substitution." },
     depth:      { label:"Profondeur",  plain:"Niveaux de lecture",            hint:"La capacité à survivre à la répétition." },
     grain:      { label:"Grain",       plain:"Texture sonore propre",         hint:"La matière sonore distinctive." },
-    resistance: { label:"Résistance",  plain:"Tient si on enlève un élément", hint:"La robustesse de la structure." },
+    resistance: { label:"Résistance",  plain:"Élevé = solide, faible = fragile", hint:"Score élevé : retire n'importe quel élément, la structure tient. Score faible : retire un élément et tout s'effondre." },
   },
   en: {
     density:    { label:"Density",     plain:"Real musical choices",          hint:"The density of actual compositional decisions." },
@@ -135,7 +135,7 @@ const DIMS = {
     singularity:{ label:"Singularity", plain:"What only it does",             hint:"Resistance to substitution." },
     depth:      { label:"Depth",       plain:"Layers of meaning",             hint:"Capacity to survive repetition." },
     grain:      { label:"Grain",       plain:"Distinctive texture",           hint:"The distinctive sonic material." },
-    resistance: { label:"Resistance",  plain:"Holds if you remove something", hint:"Structural robustness." },
+    resistance: { label:"Resistance",  plain:"High = structurally solid", hint:"High score = structure holds when you remove any single element. Low score = remove one element and it collapses." },
   }
 };
 
@@ -257,26 +257,76 @@ function ErrorSuggestion({ error, entityType, lang, setEntityType, analyse, t, s
   if (!error) return null;
   const isFr = lang === "fr";
 
-  // Disambiguation — model returned candidates
+  // Disambiguation — multiple candidates for this title/artist
   if (error.startsWith("__DISAMBIG__")) {
     try {
-      const candidates = JSON.parse(error.slice(12));
+      const payload = JSON.parse(error.slice(12));
+      const candidates = Array.isArray(payload) ? payload : payload.candidates || [];
+      const isShared = payload.sharedTitle || false;
+      const hint = isShared
+        ? (isFr ? "Plusieurs œuvres portent ce titre :" : "Multiple works share this title:")
+        : (isFr ? "Lequel ?" : "Which one?");
       return (
         <div className="lisn-disambig">
-          <span className="lisn-disambig-hint">{isFr ? "Lequel ?" : "Which one?"}</span>
+          <span className="lisn-disambig-hint">{hint}</span>
           <div className="lisn-disambig-list">
-            {candidates.map((cand, i) => (
-              <button key={i} className="lisn-disambig-btn"
-                onClick={() => { setQuery(cand.label || cand.artist); setTimeout(analyse, 30); }}>
-                <span className="lisn-disambig-name">{cand.artist}</span>
-                {cand.label && cand.label !== cand.artist && <span className="lisn-disambig-track"> — {cand.label}</span>}
-                {cand.year && <span className="lisn-disambig-meta"> ({cand.year}{cand.genre ? ` · ${cand.genre}` : ""})</span>}
-              </button>
-            ))}
+            {candidates.map((cand, i) => {
+              // Build enriched query: "Artist — Title" so model knows exactly what to analyse
+              const enrichedQ = cand.label && cand.label !== cand.artist
+                ? `${cand.artist} — ${cand.label}${cand.year ? ` (${cand.year})` : ""}`
+                : `${cand.artist}${cand.year ? ` (${cand.year})` : ""}`;
+              return (
+                <button key={i} className="lisn-disambig-btn"
+                  onClick={() => { setQuery(enrichedQ); setTimeout(analyse, 30); }}>
+                  <span className="lisn-disambig-name">{cand.artist}</span>
+                  {cand.label && cand.label !== cand.artist &&
+                    <span className="lisn-disambig-track"> — {cand.label}</span>}
+                  <span className="lisn-disambig-meta">
+                    {cand.year && ` ${cand.year}`}
+                    {cand.genre && ` · ${cand.genre}`}
+                    {cand.country && ` · ${cand.country}`}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
       );
     } catch { return null; }
+  }
+
+  // Suggest artist mode
+  if (error.startsWith("__SUGGEST_ARTIST__")) {
+    const artist = error.slice(18);
+    return (
+      <div className="lisn-disambig">
+        <span className="lisn-disambig-hint">
+          {isFr ? `Cherchez-vous l'artiste ${artist} ?` : `Looking for the artist ${artist}?`}
+        </span>
+        <div className="lisn-disambig-list">
+          <button className="lisn-disambig-btn"
+            onClick={() => { setEntityType("artist"); setTimeout(analyse, 30); }}>
+            <span className="lisn-disambig-name">{artist}</span>
+            <span className="lisn-disambig-meta"> · {isFr ? "artiste" : "artist"}</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Below threshold — not enough documentation
+  if (error.startsWith("__THRESHOLD__")) {
+    const msg = error.slice(13);
+    return (
+      <div className="lisn-threshold-msg">
+        <span className="lisn-threshold-icon">○</span>
+        <span className="lisn-threshold-text">
+          {msg || (isFr
+            ? "Documentation insuffisante pour une analyse OSR rigoureuse."
+            : "Insufficient documentation for a rigorous OSR analysis.")}
+        </span>
+      </div>
+    );
   }
 
   // Smart mismatch redirect — propose all 3 types
@@ -544,7 +594,7 @@ function RegimeBlock({ regime, lang, entityType }) {
         {valid.map(([k,v]) => (
           <div key={k} className="lisn-regime-item">
             <div className="lisn-regime-key">{k}</div>
-            <div className="lisn-regime-val">{v}</div>
+            <div className="lisn-regime-val">{v ? v.charAt(0).toUpperCase() + v.slice(1) : ""}</div>
           </div>
         ))}
       </div>
@@ -569,7 +619,7 @@ function LongevityBlock({ longevity, lang, onAnalyseCitation }) {
           {longevity.influenceOnGenre && (
             <div className="lisn-longevity-fact">
               <div className="lisn-longevity-fact-key">{t.influence_genre}</div>
-              <div className="lisn-longevity-fact-val">{longevity.influenceOnGenre}</div>
+              <div className="lisn-longevity-fact-val">{longevity.influenceOnGenre ? longevity.influenceOnGenre.charAt(0).toUpperCase() + longevity.influenceOnGenre.slice(1) : ""}</div>
             </div>
           )}
           {longevity.culturalReferences && (
@@ -581,7 +631,7 @@ function LongevityBlock({ longevity, lang, onAnalyseCitation }) {
           {longevity.chartsLongevity && (
             <div className="lisn-longevity-fact">
               <div className="lisn-longevity-fact-key">{t.charts}</div>
-              <div className="lisn-longevity-fact-val">{longevity.chartsLongevity}</div>
+              <div className="lisn-longevity-fact-val">{longevity.chartsLongevity ? longevity.chartsLongevity.charAt(0).toUpperCase() + longevity.chartsLongevity.slice(1) : ""}</div>
             </div>
           )}
         </div>
@@ -1292,13 +1342,9 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
           {/* LECTURE COURTE */}
           {data.editorial?.short && (
             <>
-              <button className="lisn-short-btn" onClick={() => setShortOpen(o => !o)}>
-                <span className="lisn-short-label">{shortOpen ? (lang==="fr"?"Réduire":"Collapse") : (lang==="fr"?"Lire l'analyse courte":"Read short analysis")}</span>
-                <span className={`lisn-short-chevron ${shortOpen?"open":""}`}>›</span>
-              </button>
-              <div className={`lisn-short-body ${shortOpen?"open":""}`}>
+              {data.editorial.short && (
                 <p className="lisn-short-text">{data.editorial.short}</p>
-              </div>
+              )}
             </>
           )}
 
@@ -1818,14 +1864,26 @@ export default function Home() {
           const rd = await resolveRes.json();
           resolvedContext = rd?.resolved || null;
           // Show disambiguation immediately if MusicBrainz found ambiguity
+          // Suggest artist mode if track search found an artist name
+          if (rd?.suggestArtist && !resolvedContext) {
+            const artist = rd.suggestArtist.artist;
+            setError(`__SUGGEST_ARTIST__${artist}`);
+            setLoading(false);
+            return;
+          }
+
           if (rd?.candidates?.length > 1 && !resolvedContext) {
-            const mapped = rd.candidates.map(c => ({
-              label: c.title || c.artist,
-              artist: c.artist,
-              year: c.year,
-              genre: c.genre,
-            }));
-            setError("__DISAMBIG__" + JSON.stringify(mapped));
+            const payload = {
+              candidates: rd.candidates.map(c => ({
+                label: c.label || c.title || c.artist,
+                artist: c.artist,
+                year: c.year,
+                genre: c.genre,
+                country: c.country || "",
+              })),
+              sharedTitle: rd.sharedTitle || false,
+            };
+            setError("__DISAMBIG__" + JSON.stringify(payload));
             setLoading(false);
             return;
           }
@@ -1853,6 +1911,10 @@ export default function Home() {
       });
       const json = await res.json();
       if (!res.ok || json?.kind==="error") throw new Error(json?.error || "Erreur analyse");
+      if (json?.kind === "below_threshold") {
+        setError("__THRESHOLD__" + (json.message || ""));
+        return;
+      }
 
       // Detect mismatch: model couldn't identify the work (wrong toggle)
       const verdict = json?.verdict?.text || "";
@@ -1900,6 +1962,30 @@ export default function Home() {
         setLoading(false);
         return;
       }
+      // Check cover art — required for official releases
+      let hasCover = false;
+      try {
+        const coverParams = new URLSearchParams({
+          artist: json?.entity?.artist || json?.identifiedEntity?.artist || "",
+          title:  json?.entity?.title  || json?.identifiedEntity?.title  || "",
+          album:  json?.entity?.album  || json?.identifiedEntity?.album  || "",
+          type:   currentEntityType,
+        });
+        const coverRes = await fetch(`/api/cover?${coverParams}`, { cache: "no-store" });
+        if (coverRes.ok) {
+          const coverData = await coverRes.json();
+          hasCover = !!(coverData?.url);
+        }
+      } catch { /* fail silently — don't block on cover errors */ }
+
+      if (!hasCover) {
+        setError(lang === "fr"
+          ? "__THRESHOLD__Cette œuvre ne dispose pas d'une pochette ou d'une image documentée. LISN n'analyse que les releases officielles et documentées."
+          : "__THRESHOLD__No cover art or artist image found. LISN only analyzes officially documented releases.");
+        setLoading(false);
+        return;
+      }
+
       setData(json);
       // Record in session history for disambiguation context
       const hint = json?.entity?.genreHint || json?.identifiedEntity?.genreHint || "";
@@ -1972,19 +2058,12 @@ export default function Home() {
       {/* HERO — hidden during analysis */}
       <div className={`lisn-hero${data || loading ? " lisn-hero-hidden" : ""}`}>
         <div>
-          <div className="lisn-hero-eyebrow">{lang==="fr" ? "Évaluation structurelle musicale" : "Structural music evaluation"}</div>
           <h1 className="lisn-hero-title">
             {lang==="fr"
               ? <><strong>Écouter</strong> autrement.<br/>Comprendre <strong>pourquoi.</strong></>
               : <><strong>Listen</strong> different.<br/>Hear <strong>why.</strong></>
             }
           </h1>
-          <p className="lisn-hero-tagline">
-            {lang==="fr"
-              ? "Tout le monde juge déjà. LISN le dit à voix haute — avec un système derrière."
-              : "Everyone already judges. LISN says it out loud — with a system behind it. But you can still like what you like."
-            }
-          </p>
         </div>
         {isFirstVisit ? (
           <div className="lisn-osr-card">

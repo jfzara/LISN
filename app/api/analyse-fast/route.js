@@ -51,7 +51,9 @@ EXAMPLES OF FAILURES when lang=fr:
   ✗ exploration: "none"                  →  ✓ "aucune"
   ✗ templateDependence: "high"           →  ✓ "élevée"
   ✗ compositionMode: "selection"         →  ✓ "sélection"
-Only exceptions: artist names, song/album titles, genre names (jazz, techno, reggaeton).
+Only exceptions: artist names, song/album titles, established international genre names (jazz, techno, reggaeton, trap, ambient).
+BADGES must be in the correct language: lang=fr → ["vocal-centrique", "production minimale", "matériau non-officiel"] NOT ["vocal-centric", "minimal-production"].
+REGIME fields must be in the correct language as shown in previous examples.
 `.trim();
 
 // ═══════════════════════════════════════════════════════════════════
@@ -154,7 +156,7 @@ NON-NEGOTIABLE RULES:
 1. NO ROUND NUMBERS. Never 50, 60, 70, 80. Use 47, 63, 74, 83.
 2. SPREAD: dimensions must vary by at least 18 points across the 7 axes.
 3. CONSISTENCY: if verdict says "thin formula", global must be 28-44.
-4. HYPE CORRECTION: for artists with massive fanbases, start 8-12 points lower than your first instinct and justify upward only with structural evidence.
+4. HYPE CORRECTION: for artists with massive fanbases (Taylor Swift, Rihanna, BTS, Drake, The Weeknd, etc.), apply critical scrutiny — but NEVER expose this process in the output. No phrases like 'Score initial : X, correction : -Y' or 'fanbase massive détectée'. The corrected score appears as the final score, silently. Internal reasoning stays invisible.
 `.trim();
 
 // ═══════════════════════════════════════════════════════════════════
@@ -167,6 +169,34 @@ You draw on the full critical and fan discourse: Les Inrocks, Télérama, Trax, 
 SONIC TEXTURE — DESCRIBE THE MATERIAL:
 Describe what the music actually sounds like: rhythmic patterns (quantized/loose/polyrhythmic/motorik), timbral qualities (saturated/warm/cold/grainy), spatial qualities (reverb depth, intimacy), production signature (analog/digital/lo-fi/maximalist), specific techniques (layering, sampling approach, polytonality). The reader should hear the music through the description.
 
+MINIMUM DOCUMENTATION THRESHOLD — ABSOLUTE RULE:
+LISN is not an audio analyzer. LISN analyzes the structural discourse that humans have produced about a work — professional criticism, fan discourse, community analysis — and transcends it via the OSR framework.
+
+Without human discourse, there is nothing to analyze. LISN must NOT:
+- Infer sonic properties from a title, year, or artist name alone
+- Analyze a work based purely on MusicBrainz metadata with no accompanying discourse
+- Produce structural analysis when the only available information is "this recording exists"
+
+A work is eligible for LISN analysis ONLY if it meets at least ONE of:
+1. Has a Wikipedia article (artist page or dedicated work article)
+2. Has been reviewed by a professional publication (Pitchfork, AllMusic, Rolling Stone, NME, Les Inrocks, Télérama, The Wire, RateYourMusic editorial, etc.)
+3. Has meaningful community discussion: Reddit thread with >10 comments, RYM page with >10 ratings, YouTube with >10k views and comments, Genius page with annotations
+4. Is a verified release by a documented artist with an established critical/fan record — even if this specific track is minor within their catalog
+5. Has verifiable major platform streaming presence >50,000 plays (Spotify, Apple Music, Deezer)
+
+If NONE apply:
+Return ONLY this JSON — do not attempt analysis:
+{"kind": "below_threshold", "message": "Cette œuvre ne dispose pas d'un corpus documentaire suffisant. LISN ne peut analyser que les œuvres dont des humains ont parlé — sans discours, il n'y a rien à dépasser.", "confidence": 0.0}
+
+This is not about quality judgment. A lo-fi bedroom recording with a passionate fan community qualifies. A technically polished upload with zero human engagement does not.
+
+ENRICHED QUERY FORMAT:
+When the query contains " — " (e.g. "Camille — Rihanna (2013)" or "Clean Bandit — Rihanna (2014)"),
+it means disambiguation has already happened. Parse it as: [Artist] — [Title] ([Year]).
+Identify EXACTLY this artist and title. Do not substitute another artist or work.
+"Camille — Rihanna" = the song "Rihanna" by the French artist Camille, NOT the singer Rihanna.
+"Yo Gotti — Rihanna" = the song "Rihanna" by Yo Gotti, NOT the singer Rihanna.
+
 HOMONYMES — ALWAYS PICK THE MOST PLAUSIBLE:
 When multiple artists or works share a name, always identify the most globally well-known one first.
 Examples: "Drake" = Aubrey Graham (Canadian rapper, born 1986), NOT Drake (British TV presenter). "Drake" in a music context is always the rapper unless explicitly stated otherwise.
@@ -174,6 +204,9 @@ Examples: "Drake" = Aubrey Graham (Canadian rapper, born 1986), NOT Drake (Briti
 "Adele" = British singer-songwriter.
 "Florence" without "and the Machine" = still probably Florence + the Machine.
 Always state which specific entity you identified in identifiedEntity.
+
+LEAKED / UNRELEASED MATERIAL:
+If a track appears to be a leak, demo, or unofficial release: set confidence to 0.3-0.5 and note uncertainty in the identifiedEntity fields. Do not invent precise release dates, labels, or album names for unofficial material. Use what is documentably known and leave uncertain fields empty.
 
 METADATA ACCURACY — CRITICAL:
 - year field: use release year of the specific track/album, NOT artist birth year
@@ -224,7 +257,7 @@ SCHEMA:
   "structuralScores": { "density": 0, "tension": 0, "resolution": 0, "singularity": 0, "depth": 0, "grain": 0, "resistance": 0 },
   "globalScore": 0,
   "genreScore": 0,
-  "badges": [],
+  "badges": [], // exemples si lang=fr: ["vocal minimaliste", "grain fort", "no exploration"] — TOUJOURS en français si lang=fr
   "sourceInfo": null,
   ${LONGEVITY_SCHEMA},
   "deep": { "worldview": "", "psychologicalFunction": "", "fullAnalysis": "" },
@@ -273,7 +306,7 @@ SCHEMA:
   "structuralScores": { "density": 0, "tension": 0, "resolution": 0, "singularity": 0, "depth": 0, "grain": 0, "resistance": 0 },
   "globalScore": 0,
   "genreScore": 0,
-  "badges": [],
+  "badges": [], // exemples si lang=fr: ["vocal minimaliste", "grain fort", "no exploration"] — TOUJOURS en français si lang=fr
   "sourceInfo": null,
   "albumAnalysis": {
     "overallQuality": 0, "cohesion": 0, "ambitionRealizationScore": 0,
@@ -328,7 +361,7 @@ SCHEMA:
     "bestWork": [],
     "phases": [{ "label": "", "period": "", "desc": "" }]
   },
-  "badges": [],
+  "badges": [], // exemples si lang=fr: ["vocal minimaliste", "grain fort", "no exploration"] — TOUJOURS en français si lang=fr
   "sourceInfo": null,
   ${LONGEVITY_SCHEMA},
   "deep": { "worldview": "", "psychologicalFunction": "", "fullAnalysis": "" },
@@ -371,9 +404,13 @@ export async function POST(req) {
     const sessionCtx = sessionHistory.length
       ? ` [Session context: recent genres: ${sessionHistory.map(h => h.hint || h.entityType).filter(Boolean).join(", ")}]`
       : "";
+    // Force language in the user message itself
+    const langInstruction = isEn
+      ? "WRITE EVERY FIELD IN ENGLISH."
+      : "ÉCRIS CHAQUE CHAMP EN FRANÇAIS. quickVerdict en français. shortText en français. structuralText en français. badges[] en français. regime fields en français. TOUT en français sans exception.";
     const userPrompt = isEn
-      ? `LISN quick ${typeLabel} analysis: "${query}"${contextHint}${sessionCtx}`
-      : `Analyse LISN rapide de ${typeLabel} : "${query}"${contextHint}${sessionCtx}`;
+      ? `LISN quick ${typeLabel} analysis: "${query}"${contextHint}${sessionCtx} ${langInstruction}`
+      : `Analyse LISN rapide de ${typeLabel} : "${query}"${contextHint}${sessionCtx} ${langInstruction}`;
 
     // Stream from Anthropic, collect server-side
     const anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
