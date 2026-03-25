@@ -1,58 +1,81 @@
-// /app/api/cover/route.js — proxy cover art to avoid CORS
+// app/api/cover/route.js
+// /app/api/cover/route.js
+export const runtime = "edge"; // faster, no cold start
+export const dynamic = "force-dynamic";
+
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
-  const artist     = searchParams.get("artist") || "";
-  const title      = searchParams.get("title")  || "";
-  const album      = searchParams.get("album")  || "";
-  const entityType = searchParams.get("type")   || "track";
+  const artist     = (searchParams.get("artist") || "").trim();
+  const title      = (searchParams.get("title")  || "").trim();
+  const album      = (searchParams.get("album")  || "").trim();
+  const entityType = searchParams.get("type")    || "track";
+
+  const headers = {
+    "Content-Type": "application/json",
+    "Cache-Control": "public, max-age=3600, s-maxage=3600",
+  };
+
+  if (!artist) return new Response(JSON.stringify({ url: null }), { headers });
 
   try {
     if (entityType === "artist") {
-      const res = await fetch(
+      // Try REST summary first (fastest)
+      const r1 = await fetch(
         `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(artist)}`,
-        { headers: { "User-Agent": "LISN/3.4 (music-evaluation-app)" } }
+        { headers: { "User-Agent": "LISN/3.5 music-app" }, signal: AbortSignal.timeout(4000) }
       );
-      if (res.ok) {
-        const data = await res.json();
-        const img = data?.thumbnail?.source || data?.originalimage?.source;
-        if (img) return Response.json({ url: img }, { headers: { "Cache-Control": "public, max-age=3600" } });
+      if (r1.ok) {
+        const d = await r1.json();
+        const url = d?.thumbnail?.source || d?.originalimage?.source;
+        if (url) return new Response(JSON.stringify({ url }), { headers });
       }
-      const search = await fetch(
-        `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(artist)}&prop=pageimages&format=json&pithumbsize=300`,
-        { headers: { "User-Agent": "LISN/3.4" } }
+      // Fallback: MediaWiki API
+      const r2 = await fetch(
+        `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(artist)}&prop=pageimages&format=json&pithumbsize=400&origin=*`,
+        { signal: AbortSignal.timeout(4000) }
       );
-      if (search.ok) {
-        const sd = await search.json();
-        const pages = Object.values(sd?.query?.pages || {});
-        const thumb = pages[0]?.thumbnail?.source;
-        if (thumb) return Response.json({ url: thumb }, { headers: { "Cache-Control": "public, max-age=3600" } });
+      if (r2.ok) {
+        const d = await r2.json();
+        const pages = Object.values(d?.query?.pages || {});
+        const url = pages[0]?.thumbnail?.source;
+        if (url) return new Response(JSON.stringify({ url }), { headers });
       }
-      return Response.json({ url: null });
+      return new Response(JSON.stringify({ url: null }), { headers });
     }
 
-    const q = album
-      ? `release:"${album}" AND artist:"${artist}"`
-      : `recording:"${title}" AND artist:"${artist}"`;
-    const mb = await fetch(
+    // Track / Album — MusicBrainz lookup
+    const term = album || title;
+    const field = album ? "release" : "recording";
+    const q = `${field}:"${term}" AND artist:"${artist}"`;
+    const r3 = await fetch(
       `https://musicbrainz.org/ws/2/release/?query=${encodeURIComponent(q)}&limit=3&fmt=json`,
-      { headers: { "User-Agent": "LISN/3.4 (music-evaluation-app; contact@lisn.app)" } }
+      {
+        headers: { "User-Agent": "LISN/3.5 (music-app; contact@lisn.app)" },
+        signal: AbortSignal.timeout(5000),
+      }
     );
-    if (!mb.ok) return Response.json({ url: null });
-    const mbData = await mb.json();
+    if (!r3.ok) return new Response(JSON.stringify({ url: null }), { headers });
+    const mb = await r3.json();
 
-    for (const release of (mbData?.releases || [])) {
+    for (const release of (mb?.releases || [])) {
       const mbid = release?.id;
       if (!mbid) continue;
-      const head = await fetch(`https://coverartarchive.org/release/${mbid}/front-250`, { method: "HEAD" });
-      if (head.ok) {
-        return Response.json(
-          { url: `https://coverartarchive.org/release/${mbid}/front-250` },
-          { headers: { "Cache-Control": "public, max-age=3600" } }
+      try {
+        const r4 = await fetch(
+          `https://coverartarchive.org/release/${mbid}/front-250`,
+          { method: "HEAD", signal: AbortSignal.timeout(3000) }
         );
-      }
+        if (r4.ok) {
+          return new Response(
+            JSON.stringify({ url: `https://coverartarchive.org/release/${mbid}/front-250` }),
+            { headers }
+          );
+        }
+      } catch { continue; }
     }
-    return Response.json({ url: null });
+
+    return new Response(JSON.stringify({ url: null }), { headers });
   } catch (e) {
-    return Response.json({ url: null });
+    return new Response(JSON.stringify({ url: null, error: String(e) }), { headers });
   }
 }

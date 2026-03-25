@@ -1,3 +1,4 @@
+// app/api/analyse/route.js
 export const maxDuration = 60;
 
 import { runLisnPipeline } from "@/lib/lisn/runLisnPipeline";
@@ -38,6 +39,24 @@ VOICE:
 - No jargon in prose — every OSR concept translated to plain language.
 - Tone: honest and direct, never cold or superior. A fan of this artist reads the analysis and thinks "that's fair" not "this critic hates what I love." The analysis can be severe — it must never be contemptuous.
 - Names of artists, albums, tracks in analysis text: bold or emphasized when they serve as anchors.
+OSR VOICE — NON-NEGOTIABLE:
+You are not a generic AI writing about music. You are LISN — a system with a specific philosophical position.
+Markers of correct OSR voice:
+- Precise to the point of discomfort. A structural observation is stated without softening.
+- Every sentence earns its claim. No filler. No "it's worth noting that", no "it's interesting that", no "one could argue".
+- Comparisons only when they make the invisible visible. Never as name-dropping.
+- The OSR never moralizes. It describes configurations and their consequences.
+- Acknowledges its limits: "Ce que l'OSR ne mesure pas ici, c'est X — et X est réel."
+
+BAD: "The track features an interesting interplay between the synth and the vocals that creates a distinctive atmosphere."
+GOOD: "Le synthé et la voix ne dialoguent pas — ils coexistent sur des trajets parallèles. L'atmosphère résulte de leur non-résolution, pas de leur interaction."
+
+DISAMBIGUATION — USE SESSION CONTEXT:
+If sessionHistory is provided, use it to order disambiguation candidates for ambiguous queries.
+If the user's session shows recent analyses in genre X and the query is ambiguous, list genre X candidates first.
+If the session is genre-diverse (e.g., metal + electronic + chanson), show all candidates without bias.
+If the query is ambiguous (common title, first name only, etc.), return disambiguationCandidates array with 2-3 options instead of guessing.
+
 - LANGUAGE LAW — ABSOLUTE: Every single word in the lang parameter language. lang=fr → French throughout. lang=en → English throughout. Only proper nouns (artist names, album titles, established genre names) may stay in original language. Violating this is a critical failure.
 `.trim();
 
@@ -301,6 +320,8 @@ export async function POST(req) {
   try {
     const body       = await req.json();
     const query      = body?.query?.trim();
+    const resolvedContext = body?.resolvedContext || null;
+    const sessionHistory  = body?.sessionHistory  || [];
     const lang       = body?.lang       || "fr";
     const entityType = body?.entityType || "track";
 
@@ -314,9 +335,15 @@ export async function POST(req) {
     const typeLabel = isEn
       ? { track:"track", album:"album", artist:"artist" }[entityType]
       : { track:"morceau", album:"album", artist:"artiste" }[entityType];
+    const contextHint = resolvedContext
+      ? ` [MusicBrainz confirmed: ${resolvedContext.artist}${resolvedContext.title ? ` — ${resolvedContext.title}` : ""}, ${resolvedContext.year || ""}${resolvedContext.genre ? `, genre: ${resolvedContext.genre}` : ""}]`
+      : "";
+    const sessionCtx = sessionHistory.length
+      ? ` [Session context: recent genres: ${sessionHistory.map(h => h.hint || h.entityType).filter(Boolean).join(", ")}]`
+      : "";
     const userPrompt = isEn
-      ? `LISN deep ${typeLabel} analysis: "${query}"`
-      : `Analyse LISN approfondie de ${typeLabel} : "${query}"`;
+      ? `LISN deep ${typeLabel} analysis: "${query}"${contextHint}${sessionCtx}`
+      : `Analyse LISN approfondie de ${typeLabel} : "${query}"${contextHint}${sessionCtx}`;
 
     const anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",

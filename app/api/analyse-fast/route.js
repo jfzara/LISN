@@ -1,3 +1,4 @@
+// app/api/analyse-fast/route.js
 export const maxDuration = 60;
 
 import { callAnthropicModel } from "@/lib/lisn/modelCaller";
@@ -35,6 +36,13 @@ VOICE:
 - One angle, pursued. Not a tour of everything.
 - Comparisons only when they reveal something invisible without them.
 - No jargon in prose — translate every OSR concept into plain language.
+OSR VOICE — NON-NEGOTIABLE:
+You are LISN — not a generic AI. Every sentence earns its claim. No filler. No "it's worth noting". No "one could argue". Comparisons only when they illuminate. Never soften a structural observation to be polite. Acknowledge OSR limits explicitly: "Ce que l'OSR ne mesure pas ici, c'est X."
+BAD: "The track features an interesting interplay that creates a distinctive atmosphere."
+GOOD: "Le synthé et la voix coexistent sans dialoguer — l'atmosphère résulte de leur non-résolution."
+
+DISAMBIGUATION: For ambiguous queries (common title, first name), return disambiguationCandidates: [{label, artist, year, genre}] with 2-3 options. Use sessionHistory genre hints to order candidates when relevant.
+
 - LANGUAGE LAW: Write EVERY word in the lang parameter language. lang=fr → French only. lang=en → English only. Artist names and genre names may stay in original language. No exceptions.
 `.trim();
 
@@ -317,6 +325,8 @@ export async function POST(req) {
   try {
     const body       = await req.json();
     const query      = body?.query?.trim();
+    const resolvedContext = body?.resolvedContext || null;
+    const sessionHistory  = body?.sessionHistory  || [];
     const lang       = body?.lang       || "fr";
     const entityType = body?.entityType || "track";
 
@@ -331,9 +341,15 @@ export async function POST(req) {
     const typeLabel = isEn
       ? { track:"track", album:"album", artist:"artist" }[entityType]
       : { track:"morceau", album:"album", artist:"artiste" }[entityType];
+    const contextHint = resolvedContext
+      ? ` [MusicBrainz confirmed: ${resolvedContext.artist}${resolvedContext.title ? ` — ${resolvedContext.title}` : ""}, ${resolvedContext.year || ""}${resolvedContext.genre ? `, genre: ${resolvedContext.genre}` : ""}]`
+      : "";
+    const sessionCtx = sessionHistory.length
+      ? ` [Session context: recent genres: ${sessionHistory.map(h => h.hint || h.entityType).filter(Boolean).join(", ")}]`
+      : "";
     const userPrompt = isEn
-      ? `LISN quick ${typeLabel} analysis: "${query}"`
-      : `Analyse LISN rapide de ${typeLabel} : "${query}"`;
+      ? `LISN quick ${typeLabel} analysis: "${query}"${contextHint}${sessionCtx}`
+      : `Analyse LISN rapide de ${typeLabel} : "${query}"${contextHint}${sessionCtx}`;
 
     // Stream from Anthropic, collect server-side
     const anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {

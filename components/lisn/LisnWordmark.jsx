@@ -1,3 +1,4 @@
+// components/lisn/LisnWordmark.jsx
 // /components/lisn/LisnWordmark.jsx
 "use client";
 import { useEffect, useRef } from "react";

@@ -1,3 +1,4 @@
+// app/page.jsx
 "use client";
 // /app/page.jsx — LISN v3.4
 
@@ -255,6 +256,28 @@ function SourceNote({ sourceInfo, t }) {
 function ErrorSuggestion({ error, entityType, lang, setEntityType, analyse, t, setQuery }) {
   if (!error) return null;
   const isFr = lang === "fr";
+
+  // Disambiguation — model returned candidates
+  if (error.startsWith("__DISAMBIG__")) {
+    try {
+      const candidates = JSON.parse(error.slice(12));
+      return (
+        <div className="lisn-disambig">
+          <span className="lisn-disambig-hint">{isFr ? "Lequel ?" : "Which one?"}</span>
+          <div className="lisn-disambig-list">
+            {candidates.map((cand, i) => (
+              <button key={i} className="lisn-disambig-btn"
+                onClick={() => { setQuery(cand.label || cand.artist); setTimeout(analyse, 30); }}>
+                <span className="lisn-disambig-name">{cand.artist}</span>
+                {cand.label && cand.label !== cand.artist && <span className="lisn-disambig-track"> — {cand.label}</span>}
+                {cand.year && <span className="lisn-disambig-meta"> ({cand.year}{cand.genre ? ` · ${cand.genre}` : ""})</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    } catch { return null; }
+  }
 
   // Smart mismatch redirect — propose all 3 types
   if (error.startsWith("__MISMATCH__")) {
@@ -821,23 +844,22 @@ function DiscussPanel({ data, lang, t }) {
 
 // ─── COMPARE PANEL ────────────────────────────────────────────────────────────
 function ComparePanel({ currentData, entityType, lang, t }) {
-  const [qA, setQA] = useState("");
   const [qB, setQB] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [err, setErr] = useState("");
+  const isFr = lang === "fr";
   const currentLabel = currentData?.entity?.title
     ? entityType==="artist" ? currentData.entity.artist : `${currentData.entity.artist} — ${currentData.entity.title}`
     : "";
   const cfg = DIMS[lang];
 
   async function go() {
-    const a = qA.trim() || currentLabel;
     const b = qB.trim();
     if (!b) return;
     setLoading(true); setErr(""); setResult(null);
     try {
-      const res = await fetch("/api/compare", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ queryA:a, queryB:b, entityType, analysisA:(!qA.trim()||qA.trim()===currentLabel)?currentData:null }) });
+      const res = await fetch("/api/compare", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ queryA:currentLabel, queryB:b, entityType, analysisA:currentData }) });
       const j = await res.json();
       if (!res.ok) throw new Error(j.error);
       setResult(j);
@@ -848,13 +870,19 @@ function ComparePanel({ currentData, entityType, lang, t }) {
   return (
     <div className="lisn-panel">
       <div className="lisn-panel-head">{t.comparer}</div>
-      <div className="lisn-compare-inputs">
-        <input className="lisn-compare-input" value={qA} onChange={e=>setQA(e.target.value)} placeholder={currentLabel||t.comparer_a} />
-        <input className="lisn-compare-input" value={qB} onChange={e=>setQB(e.target.value)} placeholder={t.comparer_b} />
+      <div className="lisn-compare-context">
+        <span className="lisn-compare-current-label">{isFr ? "Comparer" : "Compare"}</span>
+        <span className="lisn-compare-current-name">{currentLabel}</span>
+        <span className="lisn-compare-with-label">{isFr ? "avec…" : "with…"}</span>
       </div>
-      <button className="lisn-compare-go" onClick={go} disabled={loading||!qB.trim()}>
-        {loading ? t.compare_loading : t.compare_go}
-      </button>
+      <div className="lisn-compare-single-input">
+        <input className="lisn-compare-input" value={qB} onChange={e=>setQB(e.target.value)}
+          placeholder={isFr ? "Titre ou artiste…" : "Title or artist…"}
+          onKeyDown={e => e.key==="Enter" && go()} autoFocus />
+        <button className="lisn-compare-go" onClick={go} disabled={loading||!qB.trim()}>
+          {loading ? "…" : "→"}
+        </button>
+      </div>
       {err && <p className="lisn-error" style={{marginTop:10}}>{err}</p>}
       {loading && <div className="lisn-loading" style={{padding:"16px 0"}}><Orb/><span className="lisn-loading-text">{t.analyse_en_cours}</span></div>}
       {result && (
@@ -1042,34 +1070,51 @@ function highlightArtists(text, onArtistClick) {
 
 function ScoreCircle({ value }) {
   const v = Math.max(0, Math.min(100, value));
-  const R = 40;
-  const C = 2 * Math.PI * R;  // ≈ 251.33
-  // target = exact arc length for this score: 0→0%, 100→full circle
+  const R = 38;
+  // Circumference of the circle
+  const C = 2 * Math.PI * R; // ≈ 238.76
+  // Arc length for this score (0 = nothing, 100 = full circle)
   const target = (v / 100) * C;
-  // overshoot by ~3 units then settle — driven by JS after mount
-  const [displayed, setDisplayed] = useState(0);
+  // Gap = remaining empty space (transparent, not grey)
+  const gap = C - target;
+
+  const [arcLen, setArcLen] = useState(0);
   const [showNum, setShowNum] = useState(false);
+
   useEffect(() => {
-    setDisplayed(0); setShowNum(false);
-    const t1 = setTimeout(() => setDisplayed(target * 1.04), 60);
-    const t2 = setTimeout(() => setDisplayed(target), 900);
-    const t3 = setTimeout(() => setShowNum(true), 1050);
+    setArcLen(0);
+    setShowNum(false);
+    // Start drawing after paint
+    const t1 = setTimeout(() => setArcLen(target * 1.035), 80);   // overshoot
+    const t2 = setTimeout(() => setArcLen(target), 820);           // settle
+    const t3 = setTimeout(() => setShowNum(true), 950);            // flash number
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, [v]);
+
+  // strokeDashoffset rotates start to 12-o'clock (-90°)
+  // SVG draws clockwise from 3-o'clock by default, so offset = C * 0.25
+  const offset = C * 0.25;
+  const currentGap = C - arcLen;
+
   return (
     <div className="lisn-score-circle-wrap">
-      <svg viewBox="0 0 100 100" width="120" height="120" style={{display:"block",overflow:"visible"}}>
-        {/* Track ring */}
+      <svg viewBox="0 0 100 100" width="120" height="120"
+        style={{display:"block", overflow:"visible", transform:"rotate(0deg)"}}>
+        {/* Track — very faint, no fill, just a hairline */}
         <circle cx="50" cy="50" r={R} fill="none"
-          stroke="var(--line)" strokeWidth="3" />
-        {/* Accent arc — starts at top (−90°) */}
+          stroke="var(--line)" strokeWidth="1.5" strokeOpacity="0.4" />
+        {/* Orange arc — exact score%, gap is transparent void */}
         <circle cx="50" cy="50" r={R} fill="none"
           stroke="var(--accent)"
-          strokeWidth="4.5"
+          strokeWidth="5"
           strokeLinecap="round"
-          strokeDasharray={`${displayed} ${C}`}
-          strokeDashoffset={C * 0.25}
-          style={{ transition: displayed === 0 ? "none" : "stroke-dasharray 0.55s cubic-bezier(0.34,1.3,0.64,1)" }}
+          strokeDasharray={`${arcLen} ${currentGap}`}
+          strokeDashoffset={offset}
+          style={{
+            transition: arcLen === 0
+              ? "none"
+              : "stroke-dasharray 0.55s cubic-bezier(0.34, 1.2, 0.64, 1)"
+          }}
         />
       </svg>
       <div className={`lisn-score-circle-num ${showNum ? "visible" : ""}`}>{v}</div>
@@ -1221,8 +1266,8 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
           {data.editorial?.short && (
             <>
               <button className="lisn-short-btn" onClick={() => setShortOpen(o => !o)}>
+                <span className="lisn-short-label">{shortOpen ? (lang==="fr"?"Réduire":"Collapse") : (lang==="fr"?"Lire l'analyse courte":"Read short analysis")}</span>
                 <span className={`lisn-short-chevron ${shortOpen?"open":""}`}>›</span>
-                <span className="lisn-short-label">{t.short_read_cta}</span>
               </button>
               <div className={`lisn-short-body ${shortOpen?"open":""}`}>
                 <p className="lisn-short-text">{data.editorial.short}</p>
@@ -1489,11 +1534,10 @@ function GlossaryModal({ lang, onClose }) {
           {terms.map((item, i) => (
             <div key={i} className={`lisn-glossary-item ${active === i ? "open" : ""}`}>
               <button className="lisn-glossary-term-btn" onClick={() => setActive(active === i ? null : i)}>
-                <div>
+                <div className="lisn-glossary-term-wrap">
                   <span className="lisn-glossary-term">{item.term}</span>
-                  {item.short && <div style={{fontFamily:"var(--font-serif)",fontSize:"12px",fontStyle:"italic",color:"var(--ink-3)",marginTop:"3px"}}>{item.short}</div>}
+                  {item.short && <span className="lisn-glossary-short-desc">{item.short}</span>}
                 </div>
-                <span className="lisn-glossary-short">{item.short}</span>
                 <span className="lisn-glossary-chevron">{active === i ? "−" : "+"}</span>
               </button>
               {active === i && (
@@ -1532,8 +1576,21 @@ export default function Home() {
   const [mode, setMode] = useState("fast");
   const [entityType, setEntityType] = useState("track");
   const [data, setData] = useState(null);
+  const [showHeroText, setShowHeroText] = useState(false);
+  useEffect(() => {
+    try {
+      const last = parseInt(localStorage.getItem("lisn-hero-seen") || "0");
+      const fiveHours = 5 * 60 * 60 * 1000;
+      if (Date.now() - last > fiveHours) {
+        setShowHeroText(true);
+        localStorage.setItem("lisn-hero-seen", String(Date.now()));
+      }
+    } catch { setShowHeroText(true); }
+  }, []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [sessionHistory, setSessionHistory] = useState([]); // last 5 genre hints
+  const [scrolled, setScrolled] = useState(false);
   const [osrOpen, setOsrOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [lang, setLangState] = useState('fr');
@@ -1572,6 +1629,12 @@ export default function Home() {
   const t = T[lang];
 
   // Load persisted settings AFTER hydration (client only)
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 120);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   useEffect(() => {
     try {
       const savedDark   = localStorage.getItem('lisn-dark') === '1';
@@ -1629,11 +1692,50 @@ export default function Home() {
     const currentEntityType = entityTypeRef.current;
     try {
       const endpoint = currentMode==="fast" ? "/api/analyse-fast" : "/api/analyse";
+
+      // ── Pre-resolve via MusicBrainz for better title matching ──
+      let resolvedContext = null;
+      let disambigCandidates = null;
+      try {
+        const resolveRes = await fetch("/api/resolve", {
+          method: "POST", cache: "no-store",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: q, entityType: currentEntityType }),
+        });
+        if (resolveRes.ok) {
+          const rd = await resolveRes.json();
+          resolvedContext = rd?.resolved || null;
+          // Show disambiguation immediately if MusicBrainz found ambiguity
+          if (rd?.candidates?.length > 1 && !resolvedContext) {
+            const mapped = rd.candidates.map(c => ({
+              label: c.title || c.artist,
+              artist: c.artist,
+              year: c.year,
+              genre: c.genre,
+            }));
+            setError("__DISAMBIG__" + JSON.stringify(mapped));
+            setLoading(false);
+            return;
+          }
+        }
+      } catch { /* fail silently */ }
+
+      const enrichedQuery = resolvedContext
+        ? `${resolvedContext.artist} ${resolvedContext.title || resolvedContext.artist} ${resolvedContext.year || ""}`.trim()
+        : q;
+
       const res = await fetch(endpoint, {
         method:"POST",
         cache:"no-store",
         headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ query:q, lang, entityType:currentEntityType })
+        body: JSON.stringify({
+          query: enrichedQuery,
+          originalQuery: q,
+          resolvedContext,
+          lang,
+          entityType: currentEntityType,
+          sessionHistory: sessionHistory.slice(-3)
+        })
       });
       const json = await res.json();
       if (!res.ok || json?.kind==="error") throw new Error(json?.error || "Erreur analyse");
@@ -1678,7 +1780,17 @@ export default function Home() {
       // Auto-correct entityType if model returned different type
       const returnedType = json?.entity?.type;
       if (returnedType && returnedType !== currentEntityType) setEntityType(returnedType);
+      // Handle disambiguation candidates
+      if (json?.disambiguationCandidates?.length > 0 && !json?.entity?.title && !json?.entity?.artist) {
+        setError("__DISAMBIG__" + JSON.stringify(json.disambiguationCandidates));
+        setLoading(false);
+        return;
+      }
       setData(json);
+      // Record in session history for disambiguation context
+      const hint = json?.entity?.genreHint || json?.identifiedEntity?.genreHint || "";
+      const name = json?.entity?.artist || json?.identifiedEntity?.artist || query;
+      if (name) setSessionHistory(prev => [...prev.slice(-4), { name, hint, entityType }]);
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior:"smooth", block:"start" }), 100);
     } catch(e) { setData(null); setError(e.message || "Erreur inconnue"); }
     finally { setLoading(false); }
@@ -1697,6 +1809,21 @@ export default function Home() {
     <main className="lisn-home">
 
       {/* MASTHEAD */}
+      {/* STICKY SEARCH — apparaît quand on scroll */}
+      <div className={`lisn-sticky-search${scrolled && data ? " visible" : ""}`}>
+        <form className="lisn-sticky-form" onSubmit={e => { e.preventDefault(); analyse(); }}>
+          <input
+            className="lisn-sticky-input"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder={lang === "fr" ? "Titre ou artiste…" : "Title or artist…"}
+          />
+          <button className="lisn-sticky-btn" type="submit">
+            {lang === "fr" ? "Analyser" : "Analyze"}
+          </button>
+        </form>
+      </div>
+
       <div className="lisn-masthead">
         <div className="lisn-wordmark" onClick={goHome} role="button" tabIndex={0}
           onKeyDown={e => e.key==="Enter" && goHome()}
@@ -1745,18 +1872,20 @@ export default function Home() {
             }
           </p>
         </div>
-        <div className="lisn-osr-card">
-          <div className="lisn-osr-tag">{t.osr_behind}</div>
-          <p className="lisn-osr-card-text">
-            {lang==="fr"
-              ? "Chaque score est rigoureusement fondé sur un système philosophique précis : l'OSR — Ontologie Structurale du Réel. Un cadre conceptuel original qui traite la musique comme espace de configurations sous contraintes."
-              : "Every score is rigorously grounded in a precise philosophical system: the OSR — Structural Ontology of the Real. An original framework that treats music as a space of constrained configurations."
-            }
-          </p>
-          <button className="lisn-osr-card-cta" onClick={() => setOsrOpen(o => !o)}>
-            {osrOpen ? t.osr_close : t.osr_cta}
-          </button>
-        </div>
+        {showHeroText && (
+          <div className="lisn-osr-card">
+            <div className="lisn-osr-tag">{t.osr_behind}</div>
+            <p className="lisn-osr-card-text">
+              {lang==="fr"
+                ? "Chaque score est rigoureusement fondé sur un système philosophique précis : l'OSR — Ontologie Structurale du Réel. Un cadre conceptuel original qui traite la musique comme espace de configurations sous contraintes."
+                : "Every score is rigorously grounded in a precise philosophical system: the OSR — Structural Ontology of the Real. An original framework that treats music as a space of constrained configurations."
+              }
+            </p>
+            <button className="lisn-osr-card-cta" onClick={() => setOsrOpen(o => !o)}>
+              {osrOpen ? t.osr_close : t.osr_cta}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* OSR DRAWER */}
@@ -1822,14 +1951,13 @@ export default function Home() {
         <div className="lisn-loading"><Orb/><span className="lisn-loading-text">{t.analyse_en_cours}</span></div>
       )}
 
-      {/* FAB — nouvelle analyse sans remonter */}
+      {/* FAB — nouvelle analyse */}
       {data && !loading && (
         <button
           className="lisn-fab"
           onClick={() => { window.scrollTo({top:0, behavior:"smooth"}); setTimeout(() => document.querySelector(".lisn-search-input")?.focus(), 400); }}
-          title={lang==="fr" ? "Nouvelle analyse" : "New analysis"}
         >
-          <span className="lisn-fab-icon">+</span>
+          <span className="lisn-fab-text">{lang==="fr" ? "Analyser" : "Analyze"}</span>
         </button>
       )}
 
