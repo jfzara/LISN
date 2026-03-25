@@ -939,56 +939,83 @@ const LOW_STRUCTURE = [
   { q:"Levitating Dua Lipa", label:"Dua Lipa — Levitating" },
 ];
 
-function SuggestionsStrip({ lang, onAnalyse, currentScore, queryIsSuggestion }) {
-  const t = T[lang];
+// Score-band queries sent to the LLM for discovery
+const SCORE_PROMPTS = {
+  lower: {
+    fr: ["un hit commercial simple et efficace", "une chanson pop mainstream récente très formatée", "un tube dance minimaliste et accrocheur"],
+    en: ["a simple effective commercial hit", "a recent highly formatted mainstream pop song", "a catchy minimal dance track"],
+  },
+  same: {
+    fr: ["un morceau avec une structure similaire et un score OSR proche", "une œuvre du même niveau de complexité structurelle", "quelque chose de comparable en termes de densité et singularité"],
+    en: ["a track with similar structure and close OSR score", "a work at the same level of structural complexity", "something comparable in density and singularity"],
+  },
+  higher: {
+    fr: ["une œuvre structurellement dense avec une forte singularité", "un album qui a étendu les formes de son genre", "quelque chose de plus exigeant et plus profond"],
+    en: ["a structurally dense work with high singularity", "an album that extended its genre's formal possibilities", "something more demanding and structurally rich"],
+  },
+};
+
+function SuggestionsStrip({ lang, onAnalyse, currentScore, currentGenre }) {
   const isFr = lang === "fr";
-  if (queryIsSuggestion) return null;
   const score = currentScore ?? 50;
+  const [loading, setLoading] = useState(null); // "lower"|"same"|"higher"
 
-  const higherLabel = score >= 80
-    ? (isFr ? "Contraster — structure plus légère" : "Contrast — lighter structure")
-    : score >= 60
-    ? (isFr ? "Aller plus loin — structure plus dense" : "Go further — denser structure")
-    : (isFr ? "Structure radicalement plus dense" : "Radically denser structure");
+  async function discover(band) {
+    if (loading) return;
+    setLoading(band);
+    const prompts = SCORE_PROMPTS[band][isFr ? "fr" : "en"];
+    const prompt = prompts[Math.floor(Math.random() * prompts.length)];
+    const genreHint = currentGenre ? ` dans le genre ${currentGenre}` : "";
+    const q = isFr
+      ? `Suggère ${prompt}${genreHint} — réponds juste avec le nom de l'artiste et le titre, rien d'autre`
+      : `Suggest ${prompt}${genreHint} — respond with just the artist name and title, nothing else`;
+    try {
+      // Ask the LLM to suggest a title, then analyse it
+      const res = await fetch("/api/discuss", {
+        method: "POST", cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: q,
+          analysisContext: null,
+          history: [],
+          lang,
+          isSuggestion: true,
+        }),
+      });
+      if (!res.ok) throw new Error("fetch failed");
+      const d = await res.json();
+      const reply = (d.reply || "").trim();
+      // Extract "Artist — Title" or just use reply as query
+      const clean = reply.replace(/^["'«»]|["'«»]$/g, "").trim();
+      if (clean) onAnalyse(clean, "track");
+    } catch { /* fail silently */ }
+    finally { setLoading(null); }
+  }
 
-  const lowerLabel = score <= 20
-    ? (isFr ? "Structure plus légère encore" : "Even lighter structure")
-    : (isFr ? "Structure plus légère — pour contraster" : "Lighter structure — for contrast");
-
-  const higherWorks = HIGH_STRUCTURE.slice(0, 3);
-  const lowerWorks  = LOW_STRUCTURE.slice(0, 3);
+  const opts = [
+    { band: "lower",  labelFr: "Score inférieur ↓",  labelEn: "Lower score ↓",  cls: "lisn-disc-low"  },
+    { band: "same",   labelFr: "Score similaire →",  labelEn: "Similar score →", cls: "lisn-disc-same" },
+    { band: "higher", labelFr: "Score supérieur ↑",  labelEn: "Higher score ↑",  cls: "lisn-disc-hi"   },
+  ];
 
   return (
     <div className="lisn-suggestions">
-      <div className="lisn-suggestions-header">{t.suggestions_title}</div>
-      <div className="lisn-suggestions-cols">
-        <div className="lisn-suggestions-col">
-          <div className="lisn-suggestions-col-label">{lowerLabel}</div>
-          {lowerWorks.map((s, i) => {
-            const parts = s.label.split(" — ");
-            return (
-              <button key={i} className="lisn-suggestion-chip lisn-chip-low"
-                onClick={() => onAnalyse(s.q, "track")}>
-                <span className="lisn-chip-artist">{parts[0]}</span>
-                {parts[1] && <><span className="lisn-chip-sep"> — </span><span className="lisn-chip-title">{parts[1]}</span></>}
-              </button>
-            );
-          })}
-        </div>
-        <div className="lisn-suggestions-divider" />
-        <div className="lisn-suggestions-col">
-          <div className="lisn-suggestions-col-label lisn-col-label-hi">{higherLabel}</div>
-          {higherWorks.map((s, i) => {
-            const parts = s.label.split(" — ");
-            return (
-              <button key={i} className="lisn-suggestion-chip lisn-chip-hi"
-                onClick={() => onAnalyse(s.q, "track")}>
-                <span className="lisn-chip-artist">{parts[0]}</span>
-                {parts[1] && <><span className="lisn-chip-sep"> — </span><span className="lisn-chip-title">{parts[1]}</span></>}
-              </button>
-            );
-          })}
-        </div>
+      <div className="lisn-suggestions-header">
+        {isFr ? "Explorer par niveau OSR" : "Explore by OSR level"}
+      </div>
+      <div className="lisn-disc-row">
+        {opts.map(o => (
+          <button
+            key={o.band}
+            className={`lisn-disc-btn ${o.cls} ${loading === o.band ? "loading" : ""}`}
+            onClick={() => discover(o.band)}
+            disabled={!!loading}
+          >
+            {loading === o.band
+              ? <span className="lisn-disc-spinner">…</span>
+              : (isFr ? o.labelFr : o.labelEn)}
+          </button>
+        ))}
       </div>
     </div>
   );
@@ -1832,7 +1859,7 @@ export default function Home() {
       // Clean unidentified signal from model
       if (json?.entity?.type === "unidentified" || json?._unidentified) {
         const suggestedType = currentEntityType === "artist" ? "track" : "artist";
-        setError(`__MISMATCH__${suggestedType}__${query.trim()}`);
+        setError(`__MISMATCH__${suggestedType}__${(query||"").trim()}`);
         return;
       }
       const entityTitle  = json?.entity?.title  || "";
@@ -1860,7 +1887,7 @@ export default function Home() {
         // Smart suggestion: if track/album failed → probably an artist name was typed
         // If artist failed → probably a track was typed
         const suggestedType = currentEntityType === "artist" ? "track" : "artist";
-        setError(`__MISMATCH__${suggestedType}__${query.trim()}`);
+        setError(`__MISMATCH__${suggestedType}__${(query||"").trim()}`);
         return;
       }
 
@@ -2018,7 +2045,7 @@ export default function Home() {
             onKeyDown={onKey}
             autoComplete="off" autoCorrect="off" spellCheck={false}
           />
-          <button className="lisn-search-btn" onClick={analyse} disabled={loading||!query.trim()}>
+          <button className="lisn-search-btn" onClick={analyse} disabled={loading||!(query||"").trim()}>
             <span>{loading ? "…" : t.analyser}</span>
           </button>
         </div>
@@ -2058,7 +2085,7 @@ export default function Home() {
           <SuggestionsStrip
             lang={lang}
             currentScore={data?.score?.global ?? null}
-            queryIsSuggestion={['Dummy Portishead', 'Shape of You Ed Sheeran', 'Mezzanine Massive Attack', 'Levitating Dua Lipa', 'Despacito Luis Fonsi', 'OK Computer Radiohead', "Voodoo D'Angelo", 'Blue Joni Mitchell', 'Kind of Blue Miles Davis', 'Blinding Lights The Weeknd'].includes(query)}
+            currentGenre={data?.entity?.genreHint || data?.identifiedEntity?.genreHint || ""}
             onAnalyse={(q, type) => {
               setQuery(q);
               setEntityType(type);

@@ -4,12 +4,30 @@
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { message, analysisContext, history = [], lang = "fr", userScores = null } = body;
+    const { message, analysisContext, history = [], lang = "fr", userScores = null, isSuggestion = false } = body;
 
     if (!message?.trim()) return Response.json({ error: "Missing message" }, { status: 400 });
 
     const model = process.env.ANTHROPIC_MODEL_FAST || "claude-haiku-4-5-20251001";
     const isEn = lang === "en";
+
+    // Suggestion mode: just return "Artist — Title"
+    if (isSuggestion) {
+      const suggRes = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "content-type":"application/json", "x-api-key":process.env.ANTHROPIC_API_KEY, "anthropic-version":"2023-06-01" },
+        body: JSON.stringify({
+          model,
+          max_tokens: 60,
+          temperature: 0,
+          system: "You are a music expert. Reply ONLY with: Artist Name — Track Title. Nothing else. No explanation. No quotes. Just the name.",
+          messages: [{ role: "user", content: message }]
+        })
+      });
+      const sd = await suggRes.json();
+      const reply = sd.content?.[0]?.text?.trim() || "";
+      return Response.json({ reply });
+    }
 
     const lisnScores = analysisContext?.score || {};
     const ctxStr = analysisContext

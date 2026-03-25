@@ -1658,7 +1658,9 @@ html, body {
     overflow: visible;
   }
   .lisn-glossary-btn {
-    display: none; /* hide on mobile — accessible via scroll */
+    display: inline-flex;
+    padding: 4px 8px;
+    font-size: 9px;
   }
   .lisn-ctrl-btn {
     padding: 5px 8px;
@@ -1679,4 +1681,81 @@ html, body {
   }
 }
 
+
+/* ═══ MOBILE GLOSSARY + OSR DRAWER FIXES ═══════════════════════ */
+
+/* Glossary modal — full screen on mobile */
+@media (max-width: 768px) {
+  .lisn-glossary-backdrop {
+    align-items: flex-end;
+  }
+  .lisn-glossary-modal {
+    width: 100vw;
+    max-width: 100vw;
+    max-height: 85vh;
+    border-radius: 12px 12px 0 0;
+    overflow-y: auto;
+  }
+  .lisn-glossary-body {
+    width: 100%;
+    padding: 16px;
+    max-height: 65vh;
+    overflow-y: auto;
+  }
+}
+
+/* OSR drawer — ensure content doesn't clip */
+.lisn-osr-body {
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  max-height: 0;
+}
+.lisn-osr-body.open {
+  max-height: 2000px; /* enough for all content */
+}
+.lisn-osr-inner {
+  padding: 32px 40px;
+}
+@media (max-width: 768px) {
+  .lisn-osr-inner {
+    padding: 20px 16px;
+  }
+  .lisn-osr-block-body {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+}
+
+/* Discovery buttons — 3 equal columns */
+.lisn-disc-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.lisn-disc-btn {
+  background: none;
+  border: 1px solid var(--line);
+  padding: 10px 8px;
+  font-family: var(--font-mono);
+  font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; text-align: center;
+  cursor: pointer; color: var(--ink-2);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.lisn-disc-btn:hover:not(:disabled) {
+  border-color: var(--ink); color: var(--ink);
+}
+.lisn-disc-btn.loading { opacity: 0.5; cursor: wait; }
+.lisn-disc-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.lisn-disc-hi  { border-color: var(--accent); color: var(--accent); }
+.lisn-disc-hi:hover:not(:disabled) { background: var(--accent); color: var(--bg); }
+.lisn-disc-low  { }
+.lisn-disc-same { }
+.lisn-disc-spinner { font-style: italic; }
+
+@media (max-width: 480px) {
+  .lisn-disc-row { grid-template-columns: 1fr; gap: 6px; }
+  .lisn-disc-btn { font-size: 10px; padding: 12px; }
+}
 
