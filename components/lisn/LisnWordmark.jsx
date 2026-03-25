@@ -1,18 +1,26 @@
 // components/lisn/LisnWordmark.jsx
-// /components/lisn/LisnWordmark.jsx
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function LisnWordmark({ lang = "fr" }) {
   const lisnRef   = useRef(null);
   const ruleRef   = useRef(null);
   const outerRef  = useRef(null);
   const listenRef = useRef(null);
+  const [ruleTarget, setRuleTarget] = useState(0);
 
-  function play() {
+  function play(width) {
+    const w = width || ruleTarget || 148;
     [lisnRef, ruleRef, outerRef, listenRef].forEach(r => {
       if (r.current) { r.current.style.animation = "none"; r.current.offsetHeight; }
     });
+
+    // Inject dynamic keyframe for rule width
+    const styleId = "lisn-wm-rule-kf";
+    let el = document.getElementById(styleId);
+    if (!el) { el = document.createElement("style"); el.id = styleId; document.head.appendChild(el); }
+    el.textContent = `@keyframes ruleWmGrow { 0% { width:0; } 100% { width:${w}px; } }`;
+
     if (lisnRef.current)
       lisnRef.current.style.animation =
         "lisnWmIn 0.8s cubic-bezier(0.12, 0.9, 0.3, 1) 0.1s forwards";
@@ -27,7 +35,21 @@ export default function LisnWordmark({ lang = "fr" }) {
         "listenWmSettle 0.9s cubic-bezier(0.12, 0.9, 0.25, 1) 1.75s both";
   }
 
-  useEffect(() => { play(); }, []);
+  useEffect(() => {
+    // Measure actual rendered width of "lisn" text
+    if (lisnRef.current) {
+      // Force render first
+      lisnRef.current.style.opacity = "0";
+      lisnRef.current.style.animation = "none";
+      requestAnimationFrame(() => {
+        const w = lisnRef.current?.getBoundingClientRect().width || 148;
+        setRuleTarget(w);
+        play(w);
+      });
+    } else {
+      play(148);
+    }
+  }, []);
 
   return (
     <>
@@ -35,10 +57,6 @@ export default function LisnWordmark({ lang = "fr" }) {
         @keyframes lisnWmIn {
           0%   { opacity:0; transform:translateY(12px) scaleY(0.94); }
           100% { opacity:1; transform:translateY(0)    scaleY(1); }
-        }
-        @keyframes ruleWmGrow {
-          0%   { width:0; }
-          100% { width:200px; }
         }
         @keyframes listenWmReveal {
           to { opacity:1; }

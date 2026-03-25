@@ -1383,134 +1383,220 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
 const GLOSSARY = {
   fr: [
     {
+      term: "Score structural global",
+      short: "La mesure OSR d'une œuvre",
+      body: "Le chiffre calculé par LISN à partir des 7 dimensions structurelles pondérées. Ce n'est pas une note de popularité ni un jugement de goût — c'est une mesure de la solidité de la configuration : cohérence interne, résistance, profondeur, singularité. Repères fixes : Kind of Blue (Miles Davis) = 91 · TPAB (Kendrick Lamar) = 88 · Blonde (Frank Ocean) = 79 · Dummy (Portishead) = 78 · RAM (Daft Punk) = 63 · Il suffira d'un signe (Goldman) = 58 · Uptown Funk (Bruno Mars) = 36 · Despacito = 29. Le score OSR et la popularité sont deux mesures indépendantes — les deux sont vraies simultanément.",
+    },
+    {
+      term: "Score de genre",
+      short: "Excellence dans l'espace choisi",
+      body: "Un second score qui mesure la qualité d'une œuvre à l'intérieur de son genre spécifique, indépendamment du score absolu. Un morceau de reggaeton peut scorer 38 en absolu et 84 dans son genre. Les deux scores sont vrais et complémentaires. Le score absolu dit où l'œuvre se situe dans l'espace total des formes musicales. Le score de genre dit à quel point elle réussit dans son registre choisi. LISN affiche les deux parce qu'un artiste qui sélectionne brillamment dans un espace contraint mérite d'être reconnu dans cet espace.",
+    },
+    {
       term: "Densité",
       short: "Nombre de vraies décisions musicales",
-      body: "À quel point un morceau est rempli de choix compositionnels réels — harmonies, rythmes, textures qui interagissent. Haute densité : Kind of Blue de Miles Davis (chaque note est une décision irremplaçable), A Love Supreme de Coltrane, Voodoo de D'Angelo. Basse densité : un hit construit sur 4 accords répétitifs peut sonner chargé mais rester structurellement vide. La densité n'est pas le volume sonore — c'est le nombre de contraintes simultanément actives.",
+      body: "À quel point une œuvre est remplie de choix compositionnels réels — harmonies, rythmes, textures qui interagissent et se contraignent mutuellement. La densité n'est pas le volume sonore ni la complexité apparente. Un morceau peut être chargé de sons et avoir une densité faible si aucun élément ne contraint les autres. Haute densité : Kind of Blue (chaque note est une décision irremplaçable), A Love Supreme (Coltrane), Voodoo (D'Angelo). Basse densité : un hit construit sur 4 accords en boucle où les couches sonores s'additionnent sans interagir. La densité mesure les contraintes simultanément actives, pas la quantité de matière sonore.",
     },
     {
       term: "Tension",
-      short: "Maintien de l'intensité",
-      body: "La capacité d'une œuvre à maintenir une énergie interne, une attente, un conflit non résolu. Très haute : Kid A de Radiohead, Dummy de Portishead, les œuvres tardives de Coltrane. La tension n'est pas du stress — c'est ce qui fait qu'on ne peut pas décrocher, même après la centième écoute. Basse tension : musique de fond, playlists ambient génériques, chansons à résolution immédiate.",
+      short: "Maintien de l'énergie interne",
+      body: "La capacité d'une œuvre à maintenir une énergie interne, une attente, un conflit non résolu qui engage l'auditeur. La tension n'est pas du stress — c'est ce qui fait qu'on ne peut pas décrocher. Haute tension : Kid A (Radiohead), Dummy (Portishead), les œuvres tardives de Coltrane, Burial — Untrue, Mezzanine (Massive Attack). Basse tension : musique de fond, ambient générique, chansons à résolution immédiate. La tension basse peut être un choix délibéré — minimalisme méditatif, ambient contemplatif — sans que ce soit un défaut.",
     },
     {
       term: "Résolution",
-      short: "Comment la tension se résout",
-      body: "Comment l'œuvre gère ce qu'elle a créé. Certaines œuvres refusent la résolution comme choix artistique radical : Ascension de Coltrane, Skeleton Tree de Nick Cave, Bitches Brew de Miles Davis. D'autres résolvent trop vite, de façon prévisible, et perdent leur force. La résolution basse n'est pas un défaut — c'est parfois le geste le plus courageux.",
+      short: "Comment l'œuvre gère ce qu'elle a créé",
+      body: "Comment l'œuvre traite ce qu'elle a mis en place — ses tensions, ses promesses formelles, ses conflits. Peut être délibérément basse : certaines œuvres refusent la résolution comme choix radical. Ascension (Coltrane) — pas de résolution, c'est le propos. Skeleton Tree (Nick Cave) — la tension reste ouverte. D'autres résolvent trop vite, trop prévisiblement, et perdent leur force. Ce qui compte : la résolution est-elle cohérente avec ce que l'œuvre dit du monde ? Une résolution basse est un choix fort quand elle est assumée. Une résolution haute est faible quand elle est précipitée.",
     },
     {
       term: "Singularité",
-      short: "Ce que seule cette œuvre fait",
-      body: "Le degré d'unicité formelle — ce que seule cette œuvre accomplit dans l'espace des formes musicales. Très haute singularité : Björk (Post, Homogenic), Scott Walker (Tilt), Rosalía (El Mal Querer), Kendrick Lamar (To Pimp a Butterfly). Basse singularité : un morceau construit sur un template eurodance ou trap standard, interchangeable avec cent autres. La singularité mesure l'irremplaçabilité, pas l'originalité affichée.",
+      short: "Ce que seule cette œuvre accomplit",
+      body: "Le degré d'unicité formelle — ce que seule cette œuvre accomplit dans l'espace des formes musicales. Un score élevé signifie qu'on ne peut pas remplacer cette œuvre par une autre sans perdre quelque chose d'irremplaçable. Très haute singularité : Björk (Post, Homogenic), Scott Walker (Tilt, The Drift), Rosalía (El Mal Querer), Kendrick Lamar (TPAB). Basse singularité : un morceau construit sur un template eurodance ou trap standard, interchangeable avec cent autres. Ne pas confondre avec l'originalité affichée : un morceau peut sembler étrange et avoir une singularité faible s'il applique un template d'avant-garde connu.",
     },
     {
       term: "Profondeur",
-      short: "Niveaux de lecture superposés",
-      body: "Est-ce que l'œuvre survit à l'écoute répétée ? Haute profondeur : What's Going On de Marvin Gaye (50 ans d'analyses sans épuiser le contenu), les fugues de Bach, OK Computer de Radiohead. Basse profondeur : un morceau conçu pour un impact immédiat qui se révèle entièrement à la première écoute. La profondeur n'est pas de la difficulté — c'est de la résistance à l'épuisement.",
+      short: "Résiste à l'écoute répétée",
+      body: "Est-ce que l'œuvre survit à l'écoute répétée ? Est-ce qu'on entend encore de nouvelles choses après 10, 50, 100 écoutes ? Haute profondeur : What's Going On (Marvin Gaye) — 50 ans d'analyses sans épuiser le contenu, les fugues de Bach, OK Computer (Radiohead), Voodoo (D'Angelo). Basse profondeur : un morceau conçu pour un impact immédiat qui se révèle entièrement à la première écoute. La profondeur n'est pas de la difficulté — c'est la résistance structurelle à l'épuisement. Un morceau pop peut avoir une profondeur réelle si sa construction réserve des découvertes.",
     },
     {
       term: "Grain",
-      short: "Texture sonore propre",
-      body: "La matière sonore distinctive — ce qui rend une œuvre reconnaissable à sa texture seule, sans mélodie ni paroles. Grain extrêmement fort : Tom Waits, Burial (Untrue), Portishead, les productions de J Dilla. Grain faible : une production avec des presets VST standard, interchangeable entre dix artistes différents. Le grain, c'est la signature sonore irréductible.",
+      short: "Texture sonore distinctive",
+      body: "La matière sonore distinctive d'une œuvre — ce qui la rend reconnaissable à sa texture seule, sans mélodie ni paroles. Si tu entends deux secondes et tu sais immédiatement qui c'est, le grain est fort. Grain très fort : Tom Waits (voix + orchestration = signature totale), Burial (granularité urbaine mélancolique), Portishead (trip-hop froid et saturé), J Dilla (swing imparfait, chaleur analogique), D.A.N.C.E de Justice (saturation industrielle + mélodie enfantine). Grain faible : production avec presets VST standard, interchangeable entre dix artistes différents. Le grain est la signature sonore irréductible.",
     },
     {
       term: "Résistance",
-      short: "Tient si on enlève un élément",
-      body: "La robustesse de la structure. Test mental : si on enlève la basse, le morceau s'effondre-t-il ? Si on enlève la voix, reste-t-il quelque chose ? Haute résistance : A Milli de Lil Wayne (la boucle seule porte toute l'architecture), les compositions de Bach (chaque voix est irremplaçable), les albums de Massive Attack. Basse résistance : un morceau où tout élément peut être substitué sans que l'ensemble change.",
+      short: "La structure tient si on enlève un élément",
+      body: "La robustesse de la construction. Test mental : si on enlève la basse, le morceau s'effondre-t-il ? Si on enlève la voix, reste-t-il quelque chose ? Haute résistance : A Milli (Lil Wayne) — la boucle seule porte toute l'architecture. Les compositions de Bach — chaque voix est irremplaçable. Mezzanine (Massive Attack) — les couches sont constitutives, pas décoratives. Basse résistance : un morceau où tous les éléments sont substituables sans changer l'ensemble. Un minimalisme bien construit peut avoir une résistance très haute — la résistance n'implique pas la complexité.",
+    },
+    {
+      term: "Worldview",
+      short: "Vision du monde implicite dans la structure",
+      body: "La vision du monde encodée dans les choix musicaux eux-mêmes — pas dans les paroles, pas dans l'image de l'artiste, mais dans la façon dont la structure sonique traite la réalité. La meilleure façon de détecter le worldview d'un artiste : écouter comment ses fans décrivent ce que la musique leur fait — pas pourquoi l'artiste est important, ce qu'elle fait à leur vie intérieure. Exemples : Burial = solitude urbaine comme état naturel (le monde est fragmenté, ça ne se résout pas). Stromae = fatalisme joyeux (le monde accumule les épreuves, on danse parce qu'il n'y a pas d'autre choix). Frank Ocean = ambiguïté émotionnelle refusant la résolution facile. Goldman = clarté émotionnelle et sens de la permanence.",
+    },
+    {
+      term: "Dissonance forme/contenu",
+      short: "Quand la musique dit le contraire de ce qu'elle semble dire",
+      body: "Un des mouvements compositionnels les plus intéressants du point de vue OSR : quand la forme musicale et le contenu textuel ou émotionnel sont délibérément en tension. La forme festive porte un contenu sombre, ou inversement. Exemples canoniques : Alors on danse (Stromae) — structure dansante + accumulation de deuils = fatalisme joyeux. Pumped Up Kicks (Foster the People) — mélodie pop ensoleillée + texte sur une fusillade. La dissonance forme/contenu est un signal OSR fort : elle révèle un worldview plus complexe que la surface ne le suggère et élève les scores de profondeur et de singularité.",
+    },
+    {
+      term: "Longévité",
+      short: "La durée de vie structurelle d'une œuvre",
+      body: "La longévité OSR mesure deux choses distinctes : la présence culturelle (charts, streaming, citations) et la longévité structurelle (est-ce que l'œuvre révèle encore de nouvelles dimensions des années plus tard ?). Les deux peuvent diverger radicalement. Un hit commercial peut avoir une longévité culturelle haute et une longévité structurelle nulle — il reste dans la mémoire collective mais ne réserve plus de découvertes. Une œuvre expérimentale confidentielle peut avoir une longévité culturelle faible et une longévité structurelle très haute. LISN mesure et distingue les deux.",
+    },
+    {
+      term: "Influence sur le genre",
+      short: "Ce que l'œuvre a ouvert pour d'autres",
+      body: "Dans quelle mesure une œuvre ou un artiste a modifié les possibilités disponibles pour ceux qui ont suivi. Deux types : l'influence structurelle (de nouveaux territoires formels ont été ouverts et occupés par d'autres) et l'influence culturelle (un son ou template a été massivement adopté). Les deux ne coïncident pas toujours. D.A.N.C.E de Justice : forte influence culturelle sur l'electro française — mais c'est un template copié, pas une exploration prolongée. Kind of Blue : influence structurelle profonde — le jazz modal qu'il a codifié a permis des décennies d'exploration ultérieure.",
     },
     {
       term: "Régime structurel",
       short: "Comment l'œuvre existe dans l'histoire des formes",
-      body: "L'ensemble des caractéristiques qui définissent comment une œuvre se positionne par rapport à l'espace des formes musicales. Exploration (elle invente un territoire) : Miles Davis à chaque décennie, Radiohead de OK Computer à Kid A, Arca. Sélection (elle choisit dans ce qui existe) : Goldman, Culture Beat, la plupart de la pop commerciale. Ni l'un ni l'autre n'est supérieur en soi — ce qui compte c'est la rigueur de l'exécution.",
+      body: "L'ensemble des caractéristiques définissant comment une œuvre se positionne par rapport à l'espace total des formes musicales. Deux pôles : Exploration (l'œuvre invente un territoire qui n'existait pas) et Sélection (elle choisit et perfectionne dans ce qui existe). Ni l'un ni l'autre n'est supérieur. Ce qui compte : la rigueur de l'exécution dans le régime choisi. Miles Davis explore à chaque décennie. Goldman sélectionne avec une maîtrise exceptionnelle dans la chanson française. D'Angelo sélectionne le soul-funk et le pousse vers une densité inédite. Le régime dit où l'œuvre se situe — pas si elle est bonne ou mauvaise.",
     },
     {
       term: "Exploration",
-      short: "Va-t-elle vers du nouveau ?",
-      body: "Le degré auquel une œuvre ou un artiste se déplace dans de nouveaux territoires formels. Haute exploration : Miles Davis (5 révolutions de genre), Arca, Sun Ra, Scott Walker (de la variété à l'avant-garde en 20 ans). Exploration nulle : Jason Derulo, Culture Beat, la eurodance standard — formule appliquée sans déviation. L'exploration n'est pas forcément mieux : Goldman a une exploration quasi nulle et une excellence dans son registre réelle.",
+      short: "L'œuvre invente un territoire",
+      body: "Le degré auquel une œuvre occupe un espace qui n'existait pas avant elle. Haute exploration : Miles Davis (cinq révolutions de genre en une carrière), Arca, Sun Ra, Scott Walker (de la variété grand public à l'avant-garde radicale en 20 ans), Björk. Nuance importante : exploration ne signifie pas 'étrange' ni 'difficile'. Cela signifie que la carte des formes musicales possibles s'est agrandie grâce à cette œuvre. Un morceau accessible peut explorer. Un morceau difficile peut sélectionner (appliquer un template d'avant-garde connu).",
+    },
+    {
+      term: "Sélection",
+      short: "L'œuvre choisit et perfectionne",
+      body: "Un régime où l'œuvre choisit dans les formes existantes plutôt que d'en inventer. La sélection n'est pas un défaut — c'est la majorité de la musique, y compris d'excellente musique. Goldman sélectionne dans la chanson française avec une précision et une économie remarquables. D'Angelo sélectionne dans le soul-funk et y atteint une densité émotionnelle exceptionnelle. Ce qui distingue une excellente sélection d'une ordinaire : la rigueur d'exécution, la cohérence interne, la capacité à faire quelque chose de distinctif dans l'espace choisi.",
     },
     {
       term: "Template",
-      short: "Modèle existant reproduit",
-      body: "Un template est une formule musicale établie qu'une œuvre reproduit avec plus ou moins de fidélité. Exemples : couplet-refrain-pont (variété mondiale), la trap de 2016, l'eurodance BPM 138, le reggaeton dembow. Utiliser un template n'est pas un défaut en soi — Goldman utilise le template chanson française avec une maîtrise exceptionnelle. Mais le template plafonne la singularité. Ce qui compte : qu'est-ce qu'on fait à l'intérieur ?",
+      short: "Formule musicale établie reproduite",
+      body: "Un template est une formule musicale établie qu'une œuvre reproduit avec plus ou moins de fidélité. Exemples : couplet-refrain-pont (chanson pop mondiale), la trap de 2016 (808, hi-hat rapide, flow en off-beat), l'eurodance BPM 138, le reggaeton dembow. Utiliser un template n'est pas un défaut — Goldman utilise le template de la chanson française avec une maîtrise exceptionnelle. Mais le template plafonne la singularité et l'exploration. Ce qui compte : qu'est-ce qu'on fait à l'intérieur ? L'exécution est-elle précise, cohérente, distinctive ?",
+    },
+    {
+      term: "Minimalisme contraint",
+      short: "Peu d'éléments, règles très strictes",
+      body: "Un régime où une œuvre utilise délibérément peu d'éléments mais les soumet à des contraintes très strictes. Différent de la pauvreté structurelle : le minimalisme contraint réussi produit une intensité maximale avec un matériau minimal. La contrainte crée la densité. Exemples : Steve Reich (Music for 18 Musicians), Philip Glass, A Milli (Lil Wayne) — une seule boucle avec des règles de flow implicites très strictes, Redbone (Childish Gambino) — une boucle funk qui refuse délibérément de se résoudre. Quand le minimalisme est contraint plutôt que vide, la résistance est haute et la profondeur réelle.",
+    },
+    {
+      term: "Fonction psychologique",
+      short: "Ce que la musique fait à la vie intérieure",
+      body: "Dans l'analyse Profonde, LISN cherche à identifier quelle fonction psychologique une œuvre remplit pour ses auditeurs dévoués — pas ce que l'artiste dit vouloir faire, mais ce que la structure musicale fait concrètement. Exemples : Burial — fournit une architecture sonore pour la solitude urbaine (l'auditeur ne se sent pas seul dans sa solitude). Frank Ocean — permet de traverser des états émotionnels ambigus sans les résoudre (valide la complexité intérieure). Goldman — offre une clarté émotionnelle et un sens de la permanence. La fonction psychologique révèle le worldview implicite plus clairement que toute déclaration d'intention.",
+    },
+    {
+      term: "Pivot calculé / Maturation authentique",
+      short: "Changement stratégique ou évolution réelle ?",
+      body: "Distinction dans l'évaluation des trajectoires d'artistes. Un pivot calculé est un changement de direction motivé par des facteurs externes (pression commerciale, tendances) sans évolution structurelle réelle. Une maturation authentique découle de contraintes internes — l'artiste a épuisé les possibilités d'un espace et s'est déplacé vers un territoire adjacent. Miles Davis de Kind of Blue à Bitches Brew = maturation authentique. Un artiste pop qui adopte la trap après trois albums de pop mainstream = probablement un pivot calculé. L'OSR évalue cette distinction dans l'analyse des trajectoires.",
     },
     {
       term: "OSR",
       short: "Ontologie Structurale du Réel",
-      body: "Le système philosophique qui fonde LISN, développé sur plusieurs années. L'OSR décrit le réel comme un espace de configurations sous contraintes — pas de finalité, pas de valeurs absolues, juste des structures qui tiennent ou qui ne tiennent pas. Appliquée à la musique : une œuvre est une trajectoire dans cet espace. Sa qualité se mesure à sa cohérence interne, sa résistance, sa profondeur — pas à sa popularité ni à l'émotion qu'elle procure.",
-    },
-    {
-      term: "Minimalisme contraint",
-      short: "Peu d'éléments, règles strictes",
-      body: "Un régime où une œuvre utilise délibérément peu d'éléments mais les soumet à des règles très strictes. Différent de la pauvreté structurelle : le minimalisme contraint réussi produit une intensité maximale avec un matériau minimal. Exemples : Steve Reich (Music for 18 Musicians), Philip Glass (Glassworks), A Milli de Lil Wayne (une boucle, une voix, une architecture entière), Redbone de Childish Gambino (une boucle funk qui refuse de se résoudre).",
-    },
-    {
-      term: "Score structural",
-      short: "Mesure de la solidité compositionnelle",
-      body: "Le chiffre global calculé par LISN à partir des 7 dimensions. Repères : 85-96 = a étendu l'espace des formes (Kind of Blue, A Love Supreme, OK Computer). 68-84 = identité forte, vraie exploration (Dummy de Portishead, Voodoo de D'Angelo). 47-67 = compétent, dans les formules. 26-46 = formule bien exécutée (la majorité des hits commerciaux). 8-25 = pas d'identité structurelle. Ce n'est pas un score de popularité — Despacito a un score structural bas et un milliard d'écoutes. Les deux faits sont vrais.",
+      body: "Le système philosophique qui fonde LISN. L'OSR décrit le réel comme un espace de configurations sous contraintes — pas de finalité, pas de valeurs absolues, juste des structures qui tiennent ou qui ne tiennent pas. Appliquée à la musique : une œuvre est une trajectoire dans cet espace de possibles. Sa qualité se mesure à la densité de ses contraintes, à leur cohérence interne, à leur résistance et à leur profondeur. Le score OSR n'est pas une opinion déguisée en chiffre — c'est le résultat d'une analyse structurelle rigoureuse. L'OSR est une œuvre philosophique originale. Ce que LISN expose est l'application musicale de ses principes fondamentaux.",
     },
   ],
   en: [
     {
+      term: "Global structural score",
+      short: "The OSR measure of a work",
+      body: "The number calculated by LISN from 7 weighted structural dimensions. Not a popularity rating — it measures the solidity of the configuration: internal coherence, resistance, depth, singularity. Fixed anchors: Kind of Blue (Miles Davis) = 91 · TPAB (Kendrick Lamar) = 88 · Blonde (Frank Ocean) = 79 · Dummy (Portishead) = 78 · RAM (Daft Punk) = 63 · Uptown Funk (Bruno Mars) = 36 · Despacito = 29. The OSR score and popularity are two independent measures. Both are true simultaneously.",
+    },
+    {
+      term: "Genre score",
+      short: "Excellence within the chosen space",
+      body: "A second score measuring quality within a work's specific genre, independent of the absolute score. A reggaeton track can score 38 in absolute terms and 84 in genre. Both scores are true and complementary. The absolute score says where the work sits in the total space of musical forms. The genre score says how well it succeeds in its chosen register. LISN shows both because an artist who selects brilliantly within a constrained space deserves recognition within that space.",
+    },
+    {
       term: "Density",
       short: "Real musical decisions",
-      body: "How packed a work is with genuine compositional choices — harmonies, rhythms, textures that interact. Dense doesn't mean classically complex. Kind of Blue (Miles Davis) is dense: every note is a decision. A repetitive pop hit can sound busy but have very low density.",
+      body: "How packed a work is with genuine compositional choices — harmonies, rhythms, textures that interact and constrain each other. Density is not loudness. A track can be dense with sounds and have low density if no element constrains the others. High density: Kind of Blue (Miles Davis) — every note is an irreplaceable decision. A Love Supreme (Coltrane). Voodoo (D'Angelo). Low density: a hit built on 4 repeating chords where sound layers add up without interacting.",
     },
     {
       term: "Tension",
-      short: "Intensity maintenance",
-      body: "A work's ability to maintain internal energy, expectation, unresolved conflict. Penderecki and Radiohead maintain constant tension. High tension isn't uncomfortable — it's what makes you unable to stop listening.",
+      short: "Maintaining internal energy",
+      body: "A work's ability to maintain internal energy, expectation, unresolved conflict that keeps the listener engaged. Tension is not stress — it's what makes you unable to stop listening. High tension: Kid A (Radiohead), Dummy (Portishead), late Coltrane, Burial — Untrue. Low tension: background music, generic ambient, songs with immediate predictable resolution. Low tension can be a deliberate choice — meditative minimalism — without being a flaw.",
     },
     {
       term: "Resolution",
-      short: "How tension resolves",
-      body: "How the work handles what it created. Can be deliberately low: some works refuse resolution as an artistic choice (Coltrane, late 1960s). Others resolve too quickly and lose their power.",
+      short: "How the work handles what it created",
+      body: "How the work treats what it has set in motion — its tensions, formal promises, conflicts. Can be deliberately low: Ascension (Coltrane) refuses resolution entirely. Skeleton Tree (Nick Cave) — tension stays open. Others resolve too quickly and lose their force. What matters: is the resolution coherent with what the work says about the world? Low resolution is a strong choice when assumed. High resolution is weak when rushed.",
     },
     {
       term: "Singularity",
-      short: "What only this work does",
-      body: "The degree of formal uniqueness. What only this work achieves in the space of musical forms. A high score means it can't be replaced by something else. Björk has very high singularity. A hit built on an existing template has low singularity.",
+      short: "What only this work accomplishes",
+      body: "The degree of formal uniqueness — what only this work achieves in the space of possible musical forms. High singularity: Björk (Post, Homogenic), Scott Walker (Tilt, The Drift), Rosalía (El Mal Querer), Kendrick Lamar (TPAB). Low singularity: a track built on a standard template, interchangeable with a hundred others. Don't confuse with displayed originality: a track can seem strange and have low singularity if it applies a known avant-garde template.",
     },
     {
       term: "Depth",
-      short: "Layered meanings",
-      body: "Does the work survive repeated listening? Do you still hear new things after 10, 50, 100 listens? What's Going On by Marvin Gaye has very high depth. A track designed for passive listening has low depth.",
+      short: "Survives repeated listening",
+      body: "Does the work reveal new things after 10, 50, 100 listens? High depth: What's Going On (Marvin Gaye), Bach's fugues, OK Computer (Radiohead), Voodoo (D'Angelo). Low depth: a track that reveals itself entirely on first listen. Depth is not difficulty — it's structural resistance to exhaustion. A pop track can have real depth if its construction reserves discoveries.",
     },
     {
       term: "Grain",
       short: "Distinctive sonic texture",
-      body: "The work's distinctive sonic material — what makes it recognizable by its texture alone, independent of melody or lyrics. Tom Waits has extremely high grain. Portishead too. A track produced with generic presets has low grain.",
+      body: "The distinctive sonic material of a work — what makes it recognizable by texture alone, without melody or lyrics. Strong grain: Tom Waits, Burial, Portishead, J Dilla, Justice (D.A.N.C.E). Weak grain: production with standard VST presets, interchangeable between ten different artists. Grain is the irreducible sonic signature of the work.",
     },
     {
       term: "Resistance",
       short: "Holds if you remove one element",
-      body: "The robustness of the structure. If you remove the bass, does the track collapse? If you remove the vocals, is there still something there? High resistance means the structure holds on its own. A Milli by Lil Wayne has high resistance: the loop alone carries the architecture.",
+      body: "The robustness of the construction. Test: if you remove the bass, does the track collapse? If you remove the vocals, is there still something? High resistance: A Milli (Lil Wayne) — the loop alone carries the entire architecture. Bach's compositions — each voice is irreplaceable. Mezzanine (Massive Attack). Low resistance: all elements are substitutable without changing the whole. Well-constructed minimalism can have very high resistance.",
+    },
+    {
+      term: "Worldview",
+      short: "The vision of reality embedded in the structure",
+      body: "The vision of the world encoded in the musical choices themselves — not in the lyrics, not in the artist's image, but in how the sonic structure treats reality. Best way to detect an artist's worldview: how devoted fans describe what the music does to their inner life. Examples: Burial = urban solitude as natural state. Stromae = joyful fatalism (the world accumulates trials, we dance because there's no other choice). Frank Ocean = emotional ambiguity refusing easy resolution.",
+    },
+    {
+      term: "Form/content dissonance",
+      short: "When the music says the opposite of what it seems",
+      body: "When the musical form and the textual or emotional content are deliberately in tension. The festive form carries dark content, or vice versa. Canonical examples: Alors on danse (Stromae) — dance structure + accumulation of grief = joyful fatalism. Pumped Up Kicks (Foster the People) — sunny pop melody + school shooting lyrics. Form/content dissonance is a strong OSR signal: it reveals a worldview more complex than the surface suggests.",
+    },
+    {
+      term: "Longevity",
+      short: "The structural lifespan of a work",
+      body: "OSR longevity measures two distinct things: cultural presence (charts, streaming, citations) and structural longevity (does the work still reveal new dimensions years later?). The two can diverge radically. A commercial hit can have high cultural longevity and zero structural longevity. An experimental work can have low cultural presence and very high structural longevity. LISN measures and distinguishes both.",
+    },
+    {
+      term: "Genre influence",
+      short: "What the work opened for others",
+      body: "To what extent a work modified the possibilities available to those who followed. Two types: structural influence (new formal territories were opened) and cultural influence (a sound or template was massively adopted). D.A.N.C.E by Justice: strong cultural influence on French electro — but a template copied, not an exploration continued. Kind of Blue: deep structural influence — the modal jazz it codified enabled decades of further exploration.",
     },
     {
       term: "Structural regime",
       short: "How the work exists in the history of forms",
-      body: "The set of characteristics that define how a work positions itself relative to the space of possible musical forms. Is it exploration (it invents) or selection (it chooses from what exists)? Does it depend on a template or break free from one?",
+      body: "The set of characteristics defining how a work positions itself relative to the total space of possible musical forms. Two poles: Exploration (invents a territory) and Selection (chooses and perfects within what exists). Neither is inherently superior. What matters: rigor of execution in the chosen regime. Miles Davis explores with each decade. Goldman selects with exceptional mastery in French chanson.",
     },
     {
       term: "Exploration",
-      short: "Does it go toward the new?",
-      body: "The degree to which a work or artist moves into new formal territory. High exploration doesn't just mean 'strange' or 'difficult' — it means the work occupies a space that didn't exist before it. Sun Ra explores. Jason Derulo selects.",
+      short: "The work invents a territory",
+      body: "The degree to which a work occupies a space that didn't exist before it. High exploration: Miles Davis (five genre revolutions), Arca, Sun Ra, Scott Walker (mainstream pop to radical avant-garde in 20 years), Björk. Important nuance: exploration doesn't mean 'strange' or 'difficult'. It means the map of possible musical forms has expanded. A track can be accessible and exploratory.",
+    },
+    {
+      term: "Selection",
+      short: "The work chooses and perfects",
+      body: "A regime where the work chooses from existing forms rather than inventing new ones. Selection is not a flaw — it describes most music, including excellent music. Goldman selects within French chanson with remarkable precision. D'Angelo selects in soul-funk and achieves exceptional emotional density. What distinguishes excellent selection: rigor of execution, internal coherence, something distinctive within the chosen space.",
     },
     {
       term: "Template",
-      short: "Existing model reproduced",
-      body: "A template is an established musical formula that a work reproduces with more or less fidelity. Verse-chorus-bridge is a template. 2016 trap is a template. Using a template isn't inherently a flaw — it depends on what you do inside it.",
+      short: "Established musical formula",
+      body: "A template is an established musical formula reproduced with more or less fidelity. Examples: verse-chorus-bridge (worldwide pop), 2016 trap (808, fast hi-hat), eurodance BPM 138, reggaeton dembow. Using a template is not inherently a flaw. But it caps singularity and exploration. What matters: the rigor of execution within the template.",
+    },
+    {
+      term: "Constrained minimalism",
+      short: "Few elements, very strict rules",
+      body: "A regime where a work deliberately uses few elements but subjects them to very strict constraints. Distinct from structural poverty. Examples: Steve Reich (Music for 18 Musicians), Philip Glass, A Milli (Lil Wayne) — a single loop with very strict implicit flow rules, Redbone (Childish Gambino) — a funk loop that deliberately refuses to resolve. When minimalism is constrained rather than empty, resistance is high and depth is real.",
+    },
+    {
+      term: "Psychological function",
+      short: "What the music does to the inner life",
+      body: "In Deep analysis, LISN identifies what psychological function a work fulfills for devoted listeners — not what the artist claims to do, but what the structure concretely does. Examples: Burial — provides sonic architecture for urban solitude. Frank Ocean — allows traversal of ambiguous emotional states without resolving them. Goldman — offers emotional clarity and a sense of permanence. Psychological function reveals the implicit worldview more clearly than any stated intention.",
+    },
+    {
+      term: "Calculated pivot / Authentic maturation",
+      short: "Strategic change or real evolution?",
+      body: "Key distinction in artist trajectory evaluation. A calculated pivot is a direction change motivated by external factors (commercial pressure, trends) with no real structural evolution. Authentic maturation comes from internal constraints — the artist exhausted the possibilities of a space and moved to an adjacent territory. Miles Davis from Kind of Blue to Bitches Brew = authentic maturation. A pop artist adopting trap after three mainstream albums = probably a calculated pivot.",
     },
     {
       term: "OSR",
       short: "Structural Ontology of the Real",
-      body: "The philosophical system underlying LISN. OSR describes reality as a space of configurations under constraints. Applied to music: a work is a configuration of decisions. Its quality is measured by internal coherence, resistance, depth — not popularity or raw emotion.",
-    },
-    {
-      term: "Structural score",
-      short: "Measure of compositional solidity",
-      body: "The global number calculated by LISN from 7 structural dimensions. Not a popularity rating or subjective quality score. It measures the solidity of the configuration: coherence, resistance, depth. 85+ = work that extended the space of forms. 25-44 = formula well executed.",
+      body: "The philosophical system underlying LISN. OSR describes reality as a space of constrained configurations — no finality, no absolute values, just structures that hold or don't. Applied to music: a work is a trajectory in this space of possibilities. Its quality is measured by the density of its constraints, their internal coherence, their resistance and depth. The OSR score is not an opinion dressed as a number. It is the result of rigorous structural analysis.",
     },
   ]
 };
+
 
 function GlossaryModal({ lang, onClose }) {
   const t = T[lang];

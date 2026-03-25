@@ -368,7 +368,7 @@ export async function POST(req) {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model, max_tokens: 2100, temperature: 0.3, stream: true,
+        model, max_tokens: 2100, temperature: 0, stream: true,
         system: prompt,
         messages: [{ role: "user", content: userPrompt }],
       }),
