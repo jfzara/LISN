@@ -1295,7 +1295,7 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
           {data.verdict?.text && (() => {
             const vt = data.verdict.text;
             const isErr = vt.toLowerCase().includes("impossible") ||
-              vt.toLowerCase().includes("identif") ||
+              vt.toLowerCase().includes("non identif") ||
               vt.toLowerCase().includes("non trouvé") ||
               vt.toLowerCase().includes("not found") ||
               vt.toLowerCase().includes("insufficient") ||
@@ -1892,8 +1892,12 @@ export default function Home() {
 
       // Only use MusicBrainz context if high confidence (score >= 85)
       // Low-confidence results caused wrong identifications (e.g. "High Girls" instead of "Cars and Girls")
+      // For artists: just use artist name (no "Artist — Artist" duplication)
+      // For tracks/albums: "Artist — Title (year)" format
       const enrichedQuery = (resolvedContext && (resolvedContext.score || 0) >= 85)
-        ? `${resolvedContext.artist} — ${resolvedContext.title || resolvedContext.artist}${resolvedContext.year ? ` (${resolvedContext.year})` : ""}`.trim()
+        ? (currentEntityType === "artist"
+            ? resolvedContext.artist
+            : `${resolvedContext.artist} — ${resolvedContext.title || ""}${resolvedContext.year ? ` (${resolvedContext.year})` : ""}`.trim())
         : q;
 
       const res = await fetch(endpoint, {
@@ -1932,7 +1936,9 @@ export default function Home() {
         verdictLower.includes("impossible") ||
         verdictLower.includes("cannot") ||
         verdictLower.includes("unable") ||
-        verdictLower.includes("identif") ||
+        verdictLower.includes("non identifié") ||
+        verdictLower.includes("not identified") ||
+        verdictLower.includes("unidentified") ||
         verdictLower.includes("insufficient") ||
         verdictLower.includes("insuffisant") ||
         verdictLower.includes("requête") ||
@@ -1962,28 +1968,34 @@ export default function Home() {
         setLoading(false);
         return;
       }
-      // Check cover art — required for official releases
-      let hasCover = false;
-      try {
-        const coverParams = new URLSearchParams({
-          artist: json?.entity?.artist || json?.identifiedEntity?.artist || "",
-          title:  json?.entity?.title  || json?.identifiedEntity?.title  || "",
-          album:  json?.entity?.album  || json?.identifiedEntity?.album  || "",
-          type:   currentEntityType,
-        });
-        const coverRes = await fetch(`/api/cover?${coverParams}`, { cache: "no-store" });
-        if (coverRes.ok) {
-          const coverData = await coverRes.json();
-          hasCover = !!(coverData?.url);
-        }
-      } catch { /* fail silently — don't block on cover errors */ }
+      // Cover gate: only block tracks/albums with zero cover AND low confidence
+      // Artists are exempt (photo availability is inconsistent even for major artists)
+      // This prevents blocking Yo Gotti, SCH, etc. just because Wikipedia image failed
+      if (currentEntityType !== "artist") {
+        let hasCover = false;
+        const coverConfidence = json?.confidence ?? 1.0;
+        try {
+          const coverParams = new URLSearchParams({
+            artist: json?.entity?.artist || json?.identifiedEntity?.artist || "",
+            title:  json?.entity?.title  || json?.identifiedEntity?.title  || "",
+            album:  json?.entity?.album  || json?.identifiedEntity?.album  || "",
+            type:   currentEntityType,
+          });
+          const coverRes = await fetch(`/api/cover?${coverParams}`, { cache: "no-store" });
+          if (coverRes.ok) {
+            const coverData = await coverRes.json();
+            hasCover = !!(coverData?.url);
+          }
+        } catch { hasCover = true; /* network error → don't block */ }
 
-      if (!hasCover) {
-        setError(lang === "fr"
-          ? "__THRESHOLD__Cette œuvre ne dispose pas d'une pochette ou d'une image documentée. LISN n'analyse que les releases officielles et documentées."
-          : "__THRESHOLD__No cover art or artist image found. LISN only analyzes officially documented releases.");
-        setLoading(false);
-        return;
+        // Only block if: no cover AND model itself had low confidence (likely undocumented)
+        if (!hasCover && coverConfidence < 0.5) {
+          setError(lang === "fr"
+            ? "__THRESHOLD__Aucune pochette trouvée et documentation insuffisante. LISN n'analyse que les releases officiellement documentées."
+            : "__THRESHOLD__No cover art found and insufficient documentation. LISN only analyzes officially documented releases.");
+          setLoading(false);
+          return;
+        }
       }
 
       setData(json);
@@ -2025,33 +2037,27 @@ export default function Home() {
       </div>
 
       <div className="lisn-masthead">
-        <div className="lisn-wordmark" onClick={goHome} role="button" tabIndex={0}
-          onKeyDown={e => e.key==="Enter" && goHome()}
-          title={lang==="fr"?"Accueil":"Home"}>
-          <LisnWordmark lang={lang} />
-          <span className="lisn-wordmark-tagline">
-            {lang==="fr" ? "Mais tu peux toujours aimer ce que tu aimes." : "But you can still like what you like."}
-          </span>
-        </div>
-        <div className="lisn-masthead-controls">
-          {/* Glossaire — contenu éditorial, séparé des réglages */}
-          <button className="lisn-ctrl-btn lisn-glossary-btn" onClick={() => setGlossaryOpen(true)}>
-            {lang==="fr" ? "Glossaire" : "Glossary"}
-          </button>
-
-          {/* Séparateur */}
-          <span className="lisn-masthead-sep" />
-
-          {/* Réglages */}
-          {data && (
-            <button className="lisn-ctrl-btn lisn-back-btn" onClick={goHome}>
-              {lang==="fr" ? "← Accueil" : "← Home"}
+        {/* ROW 1: logo + controls */}
+        <div className="lisn-masthead-top">
+          <div className="lisn-wordmark" onClick={goHome} role="button" tabIndex={0}
+            onKeyDown={e => e.key==="Enter" && goHome()}
+            title={lang==="fr"?"Accueil":"Home"}>
+            <LisnWordmark lang={lang} />
+          </div>
+          <div className="lisn-masthead-controls">
+            <button className="lisn-ctrl-btn lisn-glossary-btn" onClick={() => setGlossaryOpen(true)}>
+              {lang==="fr" ? "Glossaire" : "Glossary"}
             </button>
-          )}
-          <button className={`lisn-ctrl-btn ${lang==="fr"?"active":""}`} onClick={() => setLang("fr")}>FR</button>
-          <button className={`lisn-ctrl-btn ${lang==="en"?"active":""}`} onClick={() => setLang("en")}>EN</button>
-          <button className="lisn-ctrl-btn" onClick={() => setDark(d => !d)}>{dark ? "☀" : "◑"}</button>
-
+            <span className="lisn-masthead-sep" />
+            {data && (
+              <button className="lisn-ctrl-btn lisn-back-btn" onClick={goHome}>
+                {lang==="fr" ? "← Accueil" : "← Home"}
+              </button>
+            )}
+            <button className={`lisn-ctrl-btn ${lang==="fr"?"active":""}`} onClick={() => setLang("fr")}>FR</button>
+            <button className={`lisn-ctrl-btn ${lang==="en"?"active":""}`} onClick={() => setLang("en")}>EN</button>
+            <button className="lisn-ctrl-btn" onClick={() => setDark(d => !d)}>{dark ? "☀" : "◑"}</button>
+          </div>
         </div>
       </div>
 

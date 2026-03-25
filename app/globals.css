@@ -1838,3 +1838,53 @@ html, body {
   margin: 12px 0 24px;
 }
 
+
+/* ═══ MASTHEAD MOBILE RESTRUCTURE ══════════════════════════════ */
+.lisn-masthead {
+  padding: 20px 40px 16px;
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 0.5px solid var(--line);
+}
+.lisn-masthead-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+.lisn-wordmark {
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+.lisn-wordmark:hover { opacity: 0.75; }
+
+/* Mobile overrides */
+@media (max-width: 768px) {
+  .lisn-masthead {
+    padding: 14px 16px 10px;
+  }
+  .lisn-masthead-top {
+    align-items: center;
+    gap: 8px;
+  }
+  .lisn-masthead-controls {
+    flex-wrap: nowrap;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+  .lisn-ctrl-btn {
+    padding: 4px 7px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+  .lisn-glossary-btn {
+    display: inline-flex;
+    font-size: 9px !important;
+    padding: 4px 7px !important;
+  }
+  .lisn-masthead-sep {
+    display: none;
+  }
+}
+
