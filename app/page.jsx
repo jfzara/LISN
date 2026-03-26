@@ -1265,54 +1265,26 @@ function highlightArtists(text, onArtistClick) {
 
 function ScoreCircle({ value }) {
   const v = Math.max(0, Math.min(100, value));
-  const R = 38;
-  // Circumference of the circle
-  const C = 2 * Math.PI * R; // ≈ 238.76
-  // Arc length for this score (0 = nothing, 100 = full circle)
-  const target = (v / 100) * C;
-  // Gap = remaining empty space (transparent, not grey)
-  const gap = C - target;
-
-  const [arcLen, setArcLen] = useState(0);
-  const [showNum, setShowNum] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [blink, setBlink] = useState(false);
 
   useEffect(() => {
-    setArcLen(0);
-    setShowNum(false);
-    // Start drawing after paint
-    const t1 = setTimeout(() => setArcLen(target * 1.035), 80);   // overshoot
-    const t2 = setTimeout(() => setArcLen(target), 820);           // settle
-    const t3 = setTimeout(() => setShowNum(true), 950);            // flash number
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    setVisible(false); setBlink(false);
+    const t1 = setTimeout(() => setVisible(true), 120);
+    const t2 = setTimeout(() => setBlink(true), 400);
+    const t3 = setTimeout(() => setBlink(false), 850);
+    return () => [t1,t2,t3].forEach(clearTimeout);
   }, [v]);
 
-  // strokeDashoffset rotates start to 12-o'clock (-90°)
-  // SVG draws clockwise from 3-o'clock by default, so offset = C * 0.25
-  const offset = C * 0.25;
-  const currentGap = C - arcLen;
-
+  const cls = v >= 82 ? "score-hi" : v >= 52 ? "score-mid" : "score-low";
   return (
-    <div className="lisn-score-circle-wrap">
-      <svg viewBox="0 0 100 100" width="120" height="120"
-        style={{display:"block", overflow:"visible", transform:"rotate(0deg)"}}>
-        {/* Track — very faint, no fill, just a hairline */}
-        <circle cx="50" cy="50" r={R} fill="none"
-          stroke="var(--line)" strokeWidth="1.5" strokeOpacity="0.4" />
-        {/* Orange arc — exact score%, gap is transparent void */}
-        <circle cx="50" cy="50" r={R} fill="none"
-          stroke="var(--accent)"
-          strokeWidth="5"
-          strokeLinecap="round"
-          strokeDasharray={`${arcLen} ${currentGap}`}
-          strokeDashoffset={offset}
-          style={{
-            transition: arcLen === 0
-              ? "none"
-              : "stroke-dasharray 0.55s cubic-bezier(0.34, 1.2, 0.64, 1)"
-          }}
-        />
-      </svg>
-      <div className={`lisn-score-circle-num ${showNum ? "visible" : ""}`}>{v}</div>
+    <div className="lisn-score-block">
+      <div>
+        <span className={`lisn-score-num ${cls} ${blink ? "lisn-score-blink" : ""}`}
+          style={{ opacity: visible ? 1 : 0, transition: "opacity 0.3s ease" }}>
+          {v}
+        </span>
+      </div>
     </div>
   );
 }
