@@ -137,7 +137,7 @@ If NONE apply, return: {"kind":"below_threshold","message":"${isFr ? "Cette oeuv
 ENRICHED QUERY FORMAT:
 If query contains " -- " (e.g. "Camille -- Rihanna (2013)"): disambiguation already happened.
 Parse as [Artist] -- [Title] ([Year]). Identify EXACTLY this artist/title.
-"Camille -- Rihanna" = song Rihanna by French artist Camille, NOT the singer Rihanna.
+"Camille -- Rihanna" = song Rihanna by French artist Camille (born 1978, Paris, real name Camille Dalmais), NOT the singer Rihanna. Camille is French, not Belgian. Her albums: Le Sac des filles (2002), Le Fil (2005), Music Hole (2008), Ilo Veyou (2011), OUI (2015).
 
 HOMONYMES:
 Pick the most globally well-known entity. "Drake" = Aubrey Graham (Canadian rapper). Always state which entity was identified.

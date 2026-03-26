@@ -241,30 +241,13 @@ function CoverImage({ artist, title, album, t, entityType }) {
   useEffect(() => {
     if (!artist) { setDone(true); return; }
     setSrc(null); setDone(false);
-    fetchCoverUrl(artist, title, album, entityType).then(u => { setSrc(u); setDone(true); });
+    fetchCoverUrl(artist, title, album, entityType).then(u => { setSrc(u || null); setDone(true); });
   }, [artist, title, album, entityType]);
+  if (!src) return null; // no cover = invisible, no placeholder
   return (
-    <div className="lisn-cover">
-      {src && (
-        <img
-          src={src}
-          alt=""
-          className="lisn-cover-img"
-          loading="eager"
-          onError={() => { setSrc(null); setDone(true); }}
-        />
-      )}
-      {(!src) && (
-        <div className={`lisn-cover-ph ${!done ? "loading" : ""}`}>
-          {!done
-            ? <span className="lisn-cover-ph-pulse" />
-            : <>
-                <span className="lisn-cover-ph-icon">♪</span>
-                <span className="lisn-cover-ph-text">{t.aucune_pochette}</span>
-              </>
-          }
-        </div>
-      )}
+    <div className="lisn-cover-wrap">
+      <img src={src} alt="" className="lisn-cover-img" loading="eager"
+        onError={() => setSrc(null)} />
     </div>
   );
 }
@@ -845,7 +828,7 @@ function ContestPanel({ data, lang, t, userScores, onReset }) {
   const diff = userGlobal - lisnGlobal;
 
   return (
-    <div className="lisn-panel" style={{marginTop:0, borderTop:"none"}}>
+    <div className="lisn-panel">
       <div className="lisn-panel-head">{t.contester}</div>
 
       <p className="lisn-contest-note">{t.contest_hint}</p>
@@ -881,10 +864,10 @@ function ContestPanel({ data, lang, t, userScores, onReset }) {
       </div>
 
       <div style={{display:"flex", gap:10, marginBottom:20}}>
-        <button className="lisn-compare-go" style={{flex:1}} onClick={submit} disabled={loading}>
+        <button className="lisn-compare-btn" style={{flex:1}} onClick={submit} disabled={loading}>
           {loading ? "…" : t.contest_submit}
         </button>
-        <button className="lisn-action-btn" onClick={onReset}>
+        <button className="lisn-contest-submit" onClick={onReset}>
           <span>{t.contest_reset}</span>
         </button>
       </div>
@@ -929,7 +912,7 @@ function DiscussPanel({ data, lang, t }) {
   function onKey(e) { if (e.key==="Enter" && !e.shiftKey) { e.preventDefault(); send(); } }
 
   return (
-    <div className="lisn-panel lisn-discuss-panel">
+    <div className="lisn-panel">
       <div className="lisn-panel-head">{t.discuter}</div>
       <div className="lisn-chat">
         {hist.length === 0 && <div className="lisn-msg l"><div className="lisn-msg-lbl">LISN</div>{t.discuss_intro}</div>}
@@ -987,7 +970,7 @@ function ComparePanel({ currentData, entityType, lang, t }) {
         <input className="lisn-compare-input" value={qB} onChange={e=>setQB(e.target.value)}
           placeholder={isFr ? "Titre ou artiste…" : "Title or artist…"}
           onKeyDown={e => e.key==="Enter" && go()} autoFocus />
-        <button className="lisn-compare-go" onClick={go} disabled={loading||!qB.trim()}>
+        <button className="lisn-compare-btn" onClick={go} disabled={loading||!qB.trim()}>
           {loading ? "…" : "→"}
         </button>
       </div>
@@ -1522,16 +1505,15 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
         </div>
       </div>
 
-      {/* CTAs — séparés des tags, clairement interactifs, en bas */}
-      <div className="lisn-cta-row">
-        <button className={`lisn-cta-btn ${activePanel==="discuss"&&!contestMode?"active":""}`} onClick={() => togglePanel("discuss")}>
-          <span>{t.discuter}</span>
+      <div className="lisn-action-tabs">
+        <button className={`lisn-tab ${activePanel==="discuss"&&!contestMode?"active":""}`} onClick={() => togglePanel("discuss")}>
+          {t.discuter}
         </button>
-        <button className={`lisn-cta-btn lisn-cta-accent ${contestMode?"active":""}`} onClick={() => togglePanel("contest")}>
-          <span>{t.contester}</span>
+        <button className={`lisn-tab ${contestMode?"active":""}`} onClick={() => togglePanel("contest")}>
+          {t.contester}
         </button>
-        <button className={`lisn-cta-btn ${activePanel==="compare"&&!contestMode?"active":""}`} onClick={() => togglePanel("compare")}>
-          <span>{t.comparer}</span>
+        <button className={`lisn-tab ${activePanel==="compare"&&!contestMode?"active":""}`} onClick={() => togglePanel("compare")}>
+          {t.comparer}
         </button>
       </div>
 
@@ -2110,22 +2092,6 @@ export default function Home() {
   return (
     <main className="lisn-home">
 
-      {/* MASTHEAD */}
-      {/* STICKY SEARCH — apparaît quand on scroll */}
-      <div className={`lisn-sticky-search${scrolled && data ? " visible" : ""}`}>
-        <form className="lisn-sticky-form" onSubmit={e => { e.preventDefault(); analyse(); }}>
-          <input
-            className="lisn-sticky-input"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder={lang === "fr" ? "Titre ou artiste…" : "Title or artist…"}
-          />
-          <button className="lisn-sticky-btn" type="submit">
-            {lang === "fr" ? "Analyser" : "Analyze"}
-          </button>
-        </form>
-      </div>
-
       <div className="lisn-masthead">
         {/* ROW 1: logo + controls */}
         <div className="lisn-masthead-top">
@@ -2182,7 +2148,7 @@ export default function Home() {
       </div>
 
       {/* OSR DRAWER */}
-      <div className={`lisn-osr-drawer${data || loading ? " lisn-hidden" : ""}`}>
+      <div className="lisn-osr-drawer">
         <div className={`lisn-osr-body ${osrOpen?"open":""}`}>
           <div className="lisn-osr-inner">
             {osr.map(b => (
@@ -2197,7 +2163,7 @@ export default function Home() {
 
       {/* SEARCH */}
       <div className="lisn-search-wrap">
-        {/* Entity type — segmented control */}
+        <div className="lisn-entity-row">
         <div className="lisn-entity-seg">
           {["track","album","artist"].map((et, i) => (
             <button
@@ -2209,8 +2175,9 @@ export default function Home() {
             </button>
           ))}
         </div>
+        </div>
 
-        <div className="lisn-search-form">
+        <div className="lisn-search-row">
           <input
             className="lisn-search-input"
             type="text"
@@ -2224,7 +2191,6 @@ export default function Home() {
             <span>{loading ? "…" : t.analyser}</span>
           </button>
         </div>
-
         <div className="lisn-mode-row">
           <div className="lisn-mode-sep" />
           <button
@@ -2232,7 +2198,7 @@ export default function Home() {
             onClick={() => setMode("fast")}
           >{t.rapide}</button>
           <button
-            className={`lisn-mode-deep-btn ${mode==="deep"?"active":""}`}
+            className={`lisn-mode-deep ${mode==="deep"?"active":""}`}
             onClick={() => setMode("deep")}
           >{t.approfondi}</button>
         </div>
@@ -2253,10 +2219,9 @@ export default function Home() {
       {data && !loading && (
         <button
           className="lisn-fab"
+          title={lang==="fr" ? "Nouvelle analyse" : "New analysis"}
           onClick={() => { window.scrollTo({top:0, behavior:"smooth"}); setTimeout(() => document.querySelector(".lisn-search-input")?.focus(), 400); }}
-        >
-          <span className="lisn-fab-text">{lang==="fr" ? "Analyser" : "Analyze"}</span>
-        </button>
+        >+</button>
       )}
 
       {data && !loading && (
