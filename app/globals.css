@@ -375,7 +375,8 @@ body::after {
   border: 1px solid var(--line); color: var(--ink-3); border-radius: 1px;
 }
 .lisn-result-mode.deep { background: var(--ink); border-color: var(--ink); color: var(--accent); letter-spacing: 0.22em; }
-.lisn-result-meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); margin-top: 6px; }
+.lisn-result-meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); margin-top: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.lisn-meta-sep { color: var(--line); font-size: 10px; user-select: none; }
 .lisn-result-title {
   font-family: var(--font-serif); font-size: clamp(22px, 3.5vw, 32px);
   font-weight: 400; line-height: 1.15; color: var(--ink); margin-bottom: 4px;
@@ -1886,5 +1887,59 @@ html, body {
   .lisn-masthead-sep {
     display: none;
   }
+}
+
+
+/* ── Discuss intro — same font as analysis ──────────────────────── */
+.lisn-msg.l { font-family: var(--font-serif); font-style: italic; font-size: 15px; color: var(--ink-2); }
+
+/* ── YouTube links ───────────────────────────────────────────────── */
+.lisn-yt-link {
+  font-size: 9px;
+  color: var(--ink-3);
+  text-decoration: none;
+  opacity: 0.5;
+  transition: opacity 0.15s, color 0.15s;
+  flex-shrink: 0;
+  padding: 2px 4px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+.lisn-yt-link:hover {
+  opacity: 1;
+  color: #ff4444;
+  border-color: rgba(255,68,68,0.3);
+}
+.lisn-yt-inline {
+  font-size: 8px;
+  vertical-align: middle;
+  margin-left: 3px;
+}
+.lisn-artist-inline-wrap {
+  display: inline;
+  white-space: nowrap;
+}
+.lisn-citation-link-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+
+/* ── Progressive loading orb ────────────────────────────────────── */
+.lisn-orb-p0 { opacity: 0.2; filter: saturate(0); }
+.lisn-orb-p1 { opacity: 0.4; filter: saturate(0.2); transition: opacity 1s, filter 1.2s; }
+.lisn-orb-p2 { opacity: 0.6; filter: saturate(0.5); transition: opacity 1.2s, filter 1.4s; }
+.lisn-orb-p3 { opacity: 0.8; filter: saturate(0.8); transition: opacity 1.2s, filter 1.4s; }
+.lisn-orb-p4 { opacity: 1;   filter: saturate(1);   transition: opacity 0.8s, filter 1s; }
+
+.lisn-loading-progressive {
+  opacity: 0.5;
+  animation: loadingPulse 2.4s ease-in-out infinite;
+}
+@keyframes loadingPulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.8; }
 }
 

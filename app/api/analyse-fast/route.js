@@ -3,17 +3,8 @@ export const maxDuration = 60;
 
 import { runLisnPipeline } from "@/lib/lisn/runLisnPipeline";
 
-// ── In-memory cache ──────────────────────────────────────────────
-const analysisCache = new Map();
-const CACHE_MAX = 200;
-function getCacheKey(q, et, l) { return `${q}::${et}::${l}`; }
-function fromCache(k) { return analysisCache.get(k) || null; }
-function toCache(k, v) {
-  if (analysisCache.size >= CACHE_MAX) {
-    analysisCache.delete(analysisCache.keys().next().value);
-  }
-  analysisCache.set(k, v);
-}
+// ── Persistent cache (Vercel KV + memory fallback) ───────────────
+import { makeCacheKey, getFromCache, setInCache } from "@/lib/lisn/analysisCache";
 
 // ── Longevity schema ─────────────────────────────────────────────
 const LONGEVITY = `"longevity": { "score": 0, "influenceOnGenre": "", "chartsLongevity": "" }`;
@@ -78,6 +69,9 @@ Correct ranges (not ceilings, calibration anchors):
 - Ed Sheeran: 38-52. Real melodic craft, zero exploration.
 - Taylor Swift: 44-58. Real worldview coherence, limited structure.
 - BTS: 42-56. Dense production, near-zero exploration.
+- Travis Scott: 44-49. Coherent signature, real grain, but derived from Kanye West / Houston scene. Astroworld is dense but NOT exploratory — it perfects an existing space. 63 is wrong.
+- Renaud: 62-68. Strong worldview, real grain, important cultural function, but limited formal exploration. 71 is slightly generous.
+- Alain Bashung: 74-82. Among the most structurally adventurous French artists — Fantaisie Militaire (1998) extended the space of French chanson forms. Grain exceptionnel, tension rarely resolved. NEVER fail to identify Bashung.
 
 ANTI-HALLUCINATION -- ARTIST ANALYSIS:
 1. ONLY name albums/tracks you are certain exist. If unsure, omit.
@@ -190,12 +184,12 @@ export async function POST(req) {
 
     if (!query) return Response.json({ error: "Missing query" }, { status: 400 });
 
-    // Cache check
-    const cacheKey = getCacheKey(query, entityType, lang);
-    const cached   = fromCache(cacheKey);
+    // Cache check — KV persistent (30d TTL) + memory fallback
+    const cacheKey = makeCacheKey(query, entityType, lang);
+    const cached   = await getFromCache(cacheKey);
     if (cached) {
       return Response.json(cached, {
-        headers: { "Cache-Control": "public, s-maxage=86400", "X-Cache": "HIT" }
+        headers: { "Cache-Control": "public, s-maxage=2592000", "X-Cache": "HIT" }
       });
     }
 
@@ -257,7 +251,7 @@ export async function POST(req) {
     }
 
     const result = await runLisnPipeline({ modelText: fullText, mode: "fast" });
-    toCache(cacheKey, result);
+    await setInCache(cacheKey, result);
     return Response.json(result, {
       headers: { "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=3600" }
     });

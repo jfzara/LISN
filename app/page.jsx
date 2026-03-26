@@ -204,7 +204,20 @@ async function fetchCoverUrl(artist, title, album, entityType) {
 
 // ─── SMALL COMPONENTS ─────────────────────────────────────────────────────────
 
-function Orb() { return <div className="lisn-orb" />; }
+function Orb({ progressive = false }) {
+  const [phase, setPhase] = useState(0); // 0-4, controls color saturation
+  useEffect(() => {
+    if (!progressive) return;
+    const timers = [
+      setTimeout(() => setPhase(1), 800),
+      setTimeout(() => setPhase(2), 2200),
+      setTimeout(() => setPhase(3), 4000),
+      setTimeout(() => setPhase(4), 6500),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, [progressive]);
+  return <div className={`lisn-orb ${progressive ? `lisn-orb-p${phase}` : ""}`} />;
+}
 
 function CoverImage({ artist, title, album, t, entityType }) {
   const [src, setSrc] = useState(null);
@@ -1018,64 +1031,111 @@ const LOW_STRUCTURE = [
   { q:"Levitating Dua Lipa", label:"Dua Lipa — Levitating" },
 ];
 
-// Score-band queries sent to the LLM for discovery
-const SCORE_PROMPTS = {
-  lower: {
-    fr: ["un hit commercial simple et efficace", "une chanson pop mainstream récente très formatée", "un tube dance minimaliste et accrocheur"],
-    en: ["a simple effective commercial hit", "a recent highly formatted mainstream pop song", "a catchy minimal dance track"],
-  },
-  same: {
-    fr: ["un morceau avec une structure similaire et un score OSR proche", "une œuvre du même niveau de complexité structurelle", "quelque chose de comparable en termes de densité et singularité"],
-    en: ["a track with similar structure and close OSR score", "a work at the same level of structural complexity", "something comparable in density and singularity"],
-  },
-  higher: {
-    fr: ["une œuvre structurellement dense avec une forte singularité", "un album qui a étendu les formes de son genre", "quelque chose de plus exigeant et plus profond"],
-    en: ["a structurally dense work with high singularity", "an album that extended its genre's formal possibilities", "something more demanding and structurally rich"],
-  },
+// ── OSR Discovery Stock — curated works by score band ─────────────
+// Each band has 12+ entries; clicking picks a random one not recently shown
+const OSR_STOCK = {
+  // 82-95+: monuments structurels
+  high: [
+    { q: "Kind of Blue Miles Davis", label: "Miles Davis — Kind of Blue" },
+    { q: "To Pimp a Butterfly Kendrick Lamar", label: "Kendrick Lamar — To Pimp a Butterfly" },
+    { q: "OK Computer Radiohead", label: "Radiohead — OK Computer" },
+    { q: "Dummy Portishead", label: "Portishead — Dummy" },
+    { q: "Voodoo D'Angelo", label: "D'Angelo — Voodoo" },
+    { q: "Blonde Frank Ocean", label: "Frank Ocean — Blonde" },
+    { q: "Mezzanine Massive Attack", label: "Massive Attack — Mezzanine" },
+    { q: "Kid A Radiohead", label: "Radiohead — Kid A" },
+    { q: "A Love Supreme John Coltrane", label: "John Coltrane — A Love Supreme" },
+    { q: "El Mal Querer Rosalia", label: "Rosalía — El Mal Querer" },
+    { q: "Untrue Burial", label: "Burial — Untrue" },
+    { q: "Homogenic Bjork", label: "Björk — Homogenic" },
+    { q: "What's Going On Marvin Gaye", label: "Marvin Gaye — What's Going On" },
+    { q: "Music for 18 Musicians Steve Reich", label: "Steve Reich — Music for 18 Musicians" },
+  ],
+  // 52-81: strong identity, real craft
+  mid: [
+    { q: "Random Access Memories Daft Punk", label: "Daft Punk — Random Access Memories" },
+    { q: "Anti Rihanna", label: "Rihanna — Anti" },
+    { q: "ANTI", label: "Rihanna — Anti" },
+    { q: "Illinois Sufjan Stevens", label: "Sufjan Stevens — Illinois" },
+    { q: "Blue Joni Mitchell", label: "Joni Mitchell — Blue" },
+    { q: "In Rainbows Radiohead", label: "Radiohead — In Rainbows" },
+    { q: "Currents Tame Impala", label: "Tame Impala — Currents" },
+    { q: "Good Kid MAAD City Kendrick Lamar", label: "Kendrick Lamar — Good Kid, M.A.A.D City" },
+    { q: "Il suffira d'un signe Goldman", label: "Goldman — Il suffira d'un signe" },
+    { q: "Stromae Racine Carree", label: "Stromae — Racine Carrée" },
+    { q: "Loud Rihanna", label: "Rihanna — Loud" },
+    { q: "The Suburbs Arcade Fire", label: "Arcade Fire — The Suburbs" },
+    { q: "Lonerism Tame Impala", label: "Tame Impala — Lonerism" },
+    { q: "James Blake James Blake", label: "James Blake — James Blake" },
+    { q: "Coeur Vagabond Gael Faye", label: "Gaël Faye — Coeur Vagabond" },
+  ],
+  // 15-51: formula, commercial, executed well
+  low: [
+    { q: "Uptown Funk Bruno Mars", label: "Bruno Mars — Uptown Funk" },
+    { q: "Despacito Luis Fonsi", label: "Luis Fonsi — Despacito" },
+    { q: "Shape of You Ed Sheeran", label: "Ed Sheeran — Shape of You" },
+    { q: "Blinding Lights The Weeknd", label: "The Weeknd — Blinding Lights" },
+    { q: "Levitating Dua Lipa", label: "Dua Lipa — Levitating" },
+    { q: "Bad Guy Billie Eilish", label: "Billie Eilish — Bad Guy" },
+    { q: "DNA DANCE Alors on danse Stromae", label: "Stromae — Alors on danse" },
+    { q: "D.A.N.C.E Justice", label: "Justice — D.A.N.C.E" },
+    { q: "One Dance Drake", label: "Drake — One Dance" },
+    { q: "Starboy The Weeknd", label: "The Weeknd — Starboy" },
+    { q: "God's Plan Drake", label: "Drake — God's Plan" },
+    { q: "Sorry Justin Bieber", label: "Justin Bieber — Sorry" },
+    { q: "Shallow Lady Gaga Bradley Cooper", label: "Lady Gaga — Shallow" },
+  ],
 };
 
-function SuggestionsStrip({ lang, onAnalyse, currentScore, currentGenre }) {
-  const isFr = lang === "fr";
-  const score = currentScore ?? 50;
-  const [loading, setLoading] = useState(null); // "lower"|"same"|"higher"
+// Track recently shown to avoid repeats
+const recentlyShown = { high: [], mid: [], low: [] };
 
-  async function discover(band) {
-    if (loading) return;
-    setLoading(band);
-    const prompts = SCORE_PROMPTS[band][isFr ? "fr" : "en"];
-    const prompt = prompts[Math.floor(Math.random() * prompts.length)];
-    const genreHint = currentGenre ? ` dans le genre ${currentGenre}` : "";
-    const q = isFr
-      ? `Suggère ${prompt}${genreHint} — réponds juste avec le nom de l'artiste et le titre, rien d'autre`
-      : `Suggest ${prompt}${genreHint} — respond with just the artist name and title, nothing else`;
-    try {
-      // Ask the LLM to suggest a title, then analyse it
-      const res = await fetch("/api/discuss", {
-        method: "POST", cache: "no-store",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: q,
-          analysisContext: null,
-          history: [],
-          lang,
-          isSuggestion: true,
-        }),
-      });
-      if (!res.ok) throw new Error("fetch failed");
-      const d = await res.json();
-      const reply = (d.reply || "").trim();
-      // Extract "Artist — Title" or just use reply as query
-      const clean = reply.replace(/^["'«»]|["'«»]$/g, "").trim();
-      if (clean) onAnalyse(clean, "track");
-    } catch { /* fail silently */ }
-    finally { setLoading(null); }
-  }
+function pickFromStock(band) {
+  const pool = OSR_STOCK[band];
+  const recent = recentlyShown[band];
+  const available = pool.filter(item => !recent.includes(item.q));
+  const source = available.length > 0 ? available : pool;
+  const pick = source[Math.floor(Math.random() * source.length)];
+  // Track last 4
+  recentlyShown[band] = [...recent.slice(-3), pick.q];
+  return pick;
+}
+
+function scoreToBand(score) {
+  if (score >= 82) return "high";
+  if (score >= 52) return "mid";
+  return "low";
+}
+
+function SuggestionsStrip({ lang, onAnalyse, currentScore }) {
+  const isFr = lang === "fr";
+  const band = scoreToBand(currentScore ?? 50);
 
   const opts = [
-    { band: "lower",  labelFr: "Score inférieur ↓",  labelEn: "Lower score ↓",  cls: "lisn-disc-low"  },
-    { band: "same",   labelFr: "Score similaire →",  labelEn: "Similar score →", cls: "lisn-disc-same" },
-    { band: "higher", labelFr: "Score supérieur ↑",  labelEn: "Higher score ↑",  cls: "lisn-disc-hi"   },
+    {
+      key: "lower",
+      band: band === "low" ? "low" : band === "mid" ? "low" : "mid",
+      labelFr: "Score inférieur ↓",
+      labelEn: "Lower score ↓",
+    },
+    {
+      key: "same",
+      band: band,
+      labelFr: "Score similaire →",
+      labelEn: "Similar score →",
+    },
+    {
+      key: "higher",
+      band: band === "high" ? "high" : band === "mid" ? "high" : "mid",
+      labelFr: "Score supérieur ↑",
+      labelEn: "Higher score ↑",
+    },
   ];
+
+  function handleClick(targetBand) {
+    const pick = pickFromStock(targetBand);
+    onAnalyse(pick.q, "track");
+  }
 
   return (
     <div className="lisn-suggestions">
@@ -1085,14 +1145,11 @@ function SuggestionsStrip({ lang, onAnalyse, currentScore, currentGenre }) {
       <div className="lisn-disc-row">
         {opts.map(o => (
           <button
-            key={o.band}
-            className={`lisn-disc-btn ${o.cls} ${loading === o.band ? "loading" : ""}`}
-            onClick={() => discover(o.band)}
-            disabled={!!loading}
+            key={o.key}
+            className={`lisn-disc-btn ${o.key === "higher" ? "lisn-disc-hi" : ""}`}
+            onClick={() => handleClick(o.band)}
           >
-            {loading === o.band
-              ? <span className="lisn-disc-spinner">…</span>
-              : (isFr ? o.labelFr : o.labelEn)}
+            {isFr ? o.labelFr : o.labelEn}
           </button>
         ))}
       </div>
@@ -1100,10 +1157,14 @@ function SuggestionsStrip({ lang, onAnalyse, currentScore, currentGenre }) {
   );
 }
 
+
 // ─── ANALYSIS RESULT ──────────────────────────────────────────────────────────
 
 function RelatedSuggestions({ suggestions, lang, onAnalyseCitation }) {
-  if (!suggestions || suggestions.length === 0) return null;
+  // Filter out malformed suggestions (no label or no query)
+  const valid = (suggestions || []).filter(s => s && s.label && s.label.trim() && s.query);
+  if (!valid.length) return null;
+  suggestions = valid;
   const isFr = lang === "fr";
   return (
     <div className="lisn-related">
@@ -1150,6 +1211,10 @@ const KNOWN_ARTISTS = [
   "PNL","Orelsan","Stromae","Angèle","Aya Nakamura","Jul",
 ];
 
+function youtubeSearchUrl(query) {
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+}
+
 function highlightArtists(text, onArtistClick) {
   if (!text || !onArtistClick) return text;
   // Build sorted list (longest first to avoid partial matches)
@@ -1160,14 +1225,22 @@ function highlightArtists(text, onArtistClick) {
   return parts.map((part, i) => {
     if (KNOWN_ARTISTS.includes(part) || KNOWN_ARTISTS.some(a => a === part)) {
       return (
-        <span
-          key={i}
-          className="lisn-artist-inline"
-          onClick={() => onArtistClick(part, "artist")}
-          role="button" tabIndex={0}
-          onKeyDown={e => e.key==="Enter" && onArtistClick(part, "artist")}
-          title={`Analyser ${part}`}
-        >{part}</span>
+        <span key={i} className="lisn-artist-inline-wrap">
+          <span
+            className="lisn-artist-inline"
+            onClick={() => onArtistClick(part, "artist")}
+            role="button" tabIndex={0}
+            onKeyDown={e => e.key==="Enter" && onArtistClick(part, "artist")}
+            title={`Analyser ${part}`}
+          >{part}</span>
+          <a
+            href={youtubeSearchUrl(part)}
+            target="_blank" rel="noopener noreferrer"
+            className="lisn-yt-link lisn-yt-inline"
+            title="YouTube"
+            onClick={e => e.stopPropagation()}
+          >▶</a>
+        </span>
       );
     }
     return part;
@@ -1302,9 +1375,9 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
             <div className="lisn-result-artist">{data.entity?.artist}</div>
           )}
           <div className="lisn-result-meta">
-            {data.entity?.album && entityType==="track" && <span>{data.entity.album}</span>}
+            {data.entity?.album && entityType==="track" && <><span>{data.entity.album}</span><span className="lisn-meta-sep">·</span></>}
             {data.entity?.year && <span>{data.entity.year}{data.entity?.yearEnd && data.entity.yearEnd !== data.entity.year ? ` – ${data.entity.yearEnd}` : ""}</span>}
-            {data.entity?.label && <span>{data.entity.label}</span>}
+            {data.entity?.label && <><span className="lisn-meta-sep">·</span><span>{data.entity.label}</span></>}
           </div>
         </div>
         <CoverImage
@@ -2180,7 +2253,12 @@ export default function Home() {
       </div>
 
       {loading && (
-        <div className="lisn-loading"><Orb/><span className="lisn-loading-text">{t.analyse_en_cours}</span></div>
+        <div className="lisn-loading">
+          <Orb progressive={true}/>
+          <span className="lisn-loading-text lisn-loading-progressive">
+            {t.analyse_en_cours}
+          </span>
+        </div>
       )}
 
       {/* FAB — nouvelle analyse */}
@@ -2199,16 +2277,15 @@ export default function Home() {
           <SuggestionsStrip
             lang={lang}
             currentScore={data?.score?.global ?? null}
-            currentGenre={data?.entity?.genreHint || data?.identifiedEntity?.genreHint || ""}
             onAnalyse={(q, type) => {
               setQuery(q);
-              setEntityType(type);
+              setEntityType(type || "track");
               setData(null);
               setLoading(true); setError("");
               const endpoint = modeRef.current==="fast" ? "/api/analyse-fast" : "/api/analyse";
-              fetch(endpoint, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({query:q, lang, entityType:type}) })
+              fetch(endpoint, { method:"POST", cache:"no-store", headers:{"Content-Type":"application/json"}, body:JSON.stringify({query:q, lang, entityType:type||"track"}) })
                 .then(r => r.json())
-                .then(json => { setData(json); setTimeout(()=>resultRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),100); })
+                .then(json => { if(json?.kind !== "error") { setData(json); setTimeout(()=>resultRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),100); } else setError(json.error||"Erreur"); })
                 .catch(e => setError(e.message))
                 .finally(() => setLoading(false));
             }}
