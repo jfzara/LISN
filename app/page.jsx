@@ -205,18 +205,34 @@ async function fetchCoverUrl(artist, title, album, entityType) {
 // ─── SMALL COMPONENTS ─────────────────────────────────────────────────────────
 
 function Orb({ progressive = false }) {
-  const [phase, setPhase] = useState(0); // 0-4, controls color saturation
+  const [phase, setPhase] = useState(0); // 0=dormant 1-3=building 4=flash
+  const [flashing, setFlashing] = useState(false);
+
   useEffect(() => {
     if (!progressive) return;
-    const timers = [
-      setTimeout(() => setPhase(1), 800),
-      setTimeout(() => setPhase(2), 2200),
-      setTimeout(() => setPhase(3), 4000),
-      setTimeout(() => setPhase(4), 6500),
-    ];
-    return () => timers.forEach(clearTimeout);
+
+    // Progressive saturation build: grey → orange
+    const t1 = setTimeout(() => setPhase(1), 600);   // faint grey
+    const t2 = setTimeout(() => setPhase(2), 2000);  // more orange
+    const t3 = setTimeout(() => setPhase(3), 4200);  // warm orange
+    // Flash sequence just before results appear (~6.5s avg)
+    const t4 = setTimeout(() => {
+      setPhase(4);      // full orange
+      setFlashing(true); // start flash
+      // stop flashing after animation completes
+      setTimeout(() => setFlashing(false), 900);
+    }, 6000);
+
+    return () => [t1,t2,t3,t4].forEach(clearTimeout);
   }, [progressive]);
-  return <div className={`lisn-orb ${progressive ? `lisn-orb-p${phase}` : ""}`} />;
+
+  return (
+    <div className={[
+      "lisn-orb",
+      progressive ? `lisn-orb-p${phase}` : "",
+      flashing ? "lisn-orb-flash" : "",
+    ].filter(Boolean).join(" ")} />
+  );
 }
 
 function CoverImage({ artist, title, album, t, entityType }) {

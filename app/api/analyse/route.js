@@ -32,6 +32,7 @@ Ask: what does this music assume about the nature of reality? About how emotions
 - Music that assumes the world is benevolent and resolvable = lower worldview score
 - Music that tolerates genuine unresolved tension = higher worldview score
 - Music designed to validate the listener existing worldview = functional, not exploratory
+- SANITIZED WORLDVIEW: music that presents forced positivity or glossy melancholy without genuine confrontation of tension = LOW worldview score (18-32). The emotion is decorative, not structurally embodied. Examples: Corneille, most mainstream R&B ballads, inspirational pop.
 - Music that expands what the listener thinks is possible = genuinely exploratory
 Best proxy: how devoted fans describe what the music does to their inner life.
 
@@ -49,19 +50,57 @@ BAD: "The track features an interesting interplay that creates a distinctive atm
 GOOD: "Le synthe et la voix coexistent sans dialoguer -- l'atmosphere resulte de leur non-resolution."
 
 SCORE CALIBRATION -- FIXED ANCHORS:
-Bach (Well-Tempered Clavier, Art of Fugue) = 95+ | Steve Reich (Music for 18 Musicians) = 93 | Ennio Morricone (The Good the Bad the Ugly OST) = 88
-Kind of Blue (Miles Davis) = 91 | TPAB (Kendrick) = 88 | OK Computer = 87
-Blonde (Frank Ocean) = 79 | Dummy (Portishead) = 78 | Voodoo (D'Angelo) = 77
-RAM (Daft Punk) = 63 | Goldman Il suffira d'un signe = 58
-Uptown Funk (Bruno Mars) = 36 | Despacito = 29
-Alors on danse (Stromae) = 42-48 | D.A.N.C.E (Justice) = 54-59 | Sadeness (Enigma) = 48-54
+The scoring system must be JUST, not severe. Pop and variété have real value when executed with craft.
+A 36 is not shameful — it means "formula well executed". A 58 means "competent with identity".
+Reserve 82+ for works that genuinely extended the space of forms.
 
-DISTRIBUTION:
-82-96 = extended the space of forms (~2%)
-68-81 = strong identity, real exploration (~10%)
-52-67 = competent, distinctive (~30%)
-36-51 = formula well executed (~40%)
-15-35 = no structural identity (~18%)
+ABSOLUTE PINNACLE (92-95+): works that created new formal territories AND influenced what came after
+Bach (Well-Tempered Clavier, Art of Fugue) = 95+
+John Coltrane (A Love Supreme) = 95
+Steve Reich (Music for 18 Musicians) = 93
+Miles Davis (Bitches Brew) = 92
+Iannis Xenakis (Metastasis) = 92
+
+HIGH (82-91): strong identity, real exploration, extended their genre's formal possibilities
+Miles Davis (Kind of Blue) = 91
+Kendrick Lamar (To Pimp a Butterfly) = 88
+Ennio Morricone (The Good the Bad the Ugly OST) = 88
+Radiohead (OK Computer) = 87
+Björk (Homogenic) = 86
+Portishead (Dummy) = 83
+Frank Ocean (Blonde) = 82
+
+SERIOUS (68-81): distinctive identity, some formal innovation, real worldview
+D'Angelo (Voodoo) = 79
+Massive Attack (Mezzanine) = 77
+Alain Bashung (Fantaisie Militaire) = 78
+Renaud (Marche à l'ombre era) = 64-68
+Daft Punk (Random Access Memories) = 63
+
+COMPETENT (52-67): real craft, recognizable identity, no formal exploration
+Rihanna: 54-62. Real grain, real constance, quality selection.
+Travis Scott: 44-49. Coherent signature but derived from Kanye/Houston. Not exploratory.
+Ed Sheeran: 42-52. Real melodic craft, zero exploration.
+Taylor Swift: 44-58. Real worldview coherence, limited structure.
+BTS: 42-56. Dense production, near-zero exploration.
+Stromae (Alors on danse): 42-48
+Justice (D.A.N.C.E): 54-59
+
+FORMULA (36-51): well executed templates, real commercial value, honest craft within constraints
+Goldman (Il suffira d'un signe): 58
+Corneille: 38-46. Sanitized worldview, conformist production, trend-based.
+
+LOW (15-35): no structural identity, pure template
+Uptown Funk (Bruno Mars): 36
+Despacito: 29
+
+DISTRIBUTION TARGET:
+92-95+ = ~1% (absolute monuments)
+82-91  = ~4% (major works)
+68-81  = ~10% (serious identity)
+52-67  = ~25% (competent craft)
+36-51  = ~40% (formula well executed)
+15-35  = ~20% (no structural identity)
 
 NON-NEGOTIABLE SCORING RULES:
 1. NO ROUND NUMBERS. Never 50, 60, 70, 80. Use 47, 63, 74, 83.
@@ -85,6 +124,7 @@ Correct ranges (calibration anchors, not ceilings):
 - BTS: 42-56. Dense production, near-zero exploration.
 - Travis Scott: 44-49. Coherent signature, real grain, but derived from Kanye West / Houston scene. Astroworld is dense but NOT exploratory — it perfects an existing space. 63 is wrong.
 - Renaud: 62-68. Strong worldview, real grain, important cultural function, but limited formal exploration. 71 is slightly generous.
+- Corneille (chanteur québécois/français): 38-46. Correct voice but NOT exceptional grain. Worldview is sanitized positivity masking unresolved sadness — emotion suppressed rather than transcended. Conformist production, trend-based, harmonically clichéd. 67 is a serious miscalibration.
 - Alain Bashung: 74-82. Among the most structurally adventurous French artists — Fantaisie Militaire (1998) extended the space of French chanson forms. Grain exceptionnel, tension rarely resolved. NEVER fail to identify Bashung.
 
 ANTI-HALLUCINATION:

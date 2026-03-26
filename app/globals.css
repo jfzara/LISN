@@ -1928,18 +1928,55 @@ html, body {
 
 
 /* ── Progressive loading orb ────────────────────────────────────── */
-.lisn-orb-p0 { opacity: 0.2; filter: saturate(0); }
-.lisn-orb-p1 { opacity: 0.4; filter: saturate(0.2); transition: opacity 1s, filter 1.2s; }
-.lisn-orb-p2 { opacity: 0.6; filter: saturate(0.5); transition: opacity 1.2s, filter 1.4s; }
-.lisn-orb-p3 { opacity: 0.8; filter: saturate(0.8); transition: opacity 1.2s, filter 1.4s; }
-.lisn-orb-p4 { opacity: 1;   filter: saturate(1);   transition: opacity 0.8s, filter 1s; }
+/* Phase 0: dormant — almost invisible grey */
+.lisn-orb-p0 {
+  opacity: 0.15;
+  filter: saturate(0) brightness(0.6);
+}
+/* Phase 1: faint grey-orange */
+.lisn-orb-p1 {
+  opacity: 0.35;
+  filter: saturate(0.15) brightness(0.8);
+  transition: opacity 1.2s ease, filter 1.4s ease;
+}
+/* Phase 2: warming up */
+.lisn-orb-p2 {
+  opacity: 0.6;
+  filter: saturate(0.5) brightness(0.9);
+  transition: opacity 1.4s ease, filter 1.6s ease;
+}
+/* Phase 3: near full orange */
+.lisn-orb-p3 {
+  opacity: 0.82;
+  filter: saturate(0.85);
+  transition: opacity 1.2s ease, filter 1.2s ease;
+}
+/* Phase 4: full orange — ready to flash */
+.lisn-orb-p4 {
+  opacity: 1;
+  filter: saturate(1);
+  transition: opacity 0.6s ease, filter 0.6s ease;
+}
+
+/* Flash: orange → white → black → orange rapid sequence */
+@keyframes orbFlash {
+  0%   { background: var(--accent); box-shadow: 0 0 0 0 var(--accent); opacity: 1; }
+  18%  { background: #fff;          box-shadow: 0 0 18px 6px #fff;     opacity: 1; }
+  34%  { background: #111;          box-shadow: 0 0 0 0 #111;          opacity: 1; }
+  52%  { background: var(--accent); box-shadow: 0 0 12px 4px var(--accent); opacity: 1; }
+  68%  { background: #fff;          box-shadow: 0 0 8px 2px #fff;      opacity: 0.9; }
+  84%  { background: var(--accent); box-shadow: 0 0 6px 2px var(--accent); opacity: 1; }
+  100% { background: var(--accent); box-shadow: var(--orb-glow);       opacity: 1; }
+}
+.lisn-orb-flash {
+  animation: orbFlash 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
 
 .lisn-loading-progressive {
-  opacity: 0.5;
-  animation: loadingPulse 2.4s ease-in-out infinite;
+  animation: loadingPulse 2.8s ease-in-out infinite;
 }
 @keyframes loadingPulse {
-  0%, 100% { opacity: 0.4; }
-  50%       { opacity: 0.8; }
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 0.75; }
 }
 
