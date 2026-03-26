@@ -317,19 +317,42 @@ function ErrorSuggestion({ error, entityType, lang, setEntityType, analyse, t, s
   // Below threshold — not enough documentation
   if (error.startsWith("__THRESHOLD__")) {
     const msg = error.slice(13);
+    // Detect if it looks like a typo
+    const currentQ = (typeof query === "string" ? query : "").trim();
+    const looksLikeTypo = currentQ.length > 3 &&
+      (currentQ.replace(/[aeiouàâéèêëîïôùûüy]/gi,"").length / currentQ.length) > 0.65;
     return (
       <div className="lisn-threshold-msg">
         <span className="lisn-threshold-icon">○</span>
-        <span className="lisn-threshold-text">
-          {msg || (isFr
-            ? "Documentation insuffisante pour une analyse OSR rigoureuse."
-            : "Insufficient documentation for a rigorous OSR analysis.")}
-        </span>
+        <div>
+          <span className="lisn-threshold-text">
+            {looksLikeTypo
+              ? (isFr
+                  ? `"${currentQ}" — vérifiez l'orthographe. LISN n'analyse que les œuvres documentées.`
+                  : `"${currentQ}" — check the spelling. LISN only analyzes documented works.`)
+              : (msg || (isFr
+                  ? "Documentation insuffisante pour une analyse OSR rigoureuse."
+                  : "Insufficient documentation for a rigorous OSR analysis."))}
+          </span>
+          {looksLikeTypo && (
+            <div style={{marginTop:8}}>
+              {["track","album","artist"].map(type => (
+                <button key={type} className="lisn-mismatch-btn"
+                  onClick={() => { setEntityType(type); setTimeout(analyse, 30); }}
+                  style={{marginRight:6}}>
+                  {isFr
+                    ? {track:"Morceau",album:"Album",artist:"Artiste"}[type]
+                    : {track:"Track",album:"Album",artist:"Artist"}[type]}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
 
-  // Smart mismatch redirect — propose all 3 types
+  // Smart mismatch redirect — propose all 3 types + typo hint
   if (error.startsWith("__MISMATCH__")) {
     const all = ["track", "album", "artist"];
     const typeLabels = {
@@ -337,7 +360,13 @@ function ErrorSuggestion({ error, entityType, lang, setEntityType, analyse, t, s
       album:  isFr ? "Album"    : "Album",
       artist: isFr ? "Artiste"  : "Artist",
     };
-    const hint = isFr ? "Essayer comme :" : "Try as:";
+    const q = (error.split("__")[3] || "").trim();
+    const consonantRatio = q.length > 3
+      ? q.replace(/[aeiouàâéèêëîïôùûüy]/gi,"").length / q.length : 0;
+    const looksLikeTypo = consonantRatio > 0.68;
+    const hint = looksLikeTypo
+      ? (isFr ? `Vérifiez l'orthographe de "${q}" — essayer comme :` : `Check spelling of "${q}" — try as:`)
+      : (isFr ? "Essayer comme :" : "Try as:");
     return (
       <div className="lisn-mismatch">
         <span className="lisn-mismatch-hint">{hint}</span>
