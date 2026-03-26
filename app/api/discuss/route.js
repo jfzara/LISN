@@ -8,7 +8,7 @@ export async function POST(req) {
 
     if (!message?.trim()) return Response.json({ error: "Missing message" }, { status: 400 });
 
-    const model = process.env.ANTHROPIC_MODEL_FAST || "claude-haiku-4-5-20251001";
+    const model = process.env.ANTHROPIC_MODEL_FULL || process.env.ANTHROPIC_MODEL_FAST || "claude-sonnet-4-5-20250929";
     const isEn = lang === "en";
 
     // Suggestion mode: just return "Artist — Title"
@@ -97,7 +97,11 @@ DIALOGUE RULES:
 - Relativism invoked: name it gently, invite real dialogue.
 - Persistent pressure without new arguments: restate once, warmly, move forward.
 - Never reflexively agree. Mean every word.
-- 2-4 paragraphs. Dense. Vary sentence length.
+- VOICE: short, alive, airy. Never dense blocks. Max 3 short paragraphs. Vary rhythm radically — sometimes one sentence alone. Let the thought breathe.
+- Never explain your methodology mid-conversation. Trust the context. Make the point and move.
+- A single precise observation is worth three explanatory sentences.
+- If you concede something, say it in one clean sentence. Don't ceremonialize it.
+- If you hold a position, say why in one sentence. Not three.
 - Respond ENTIRELY in ${isEn ? 'English' : 'French'}. Every word. No mixing. Not a single sentence in the other language.`;
 
     const messages = [
@@ -115,7 +119,7 @@ DIALOGUE RULES:
         "x-api-key": process.env.ANTHROPIC_API_KEY,
         "anthropic-version": "2023-06-01"
       },
-      body: JSON.stringify({ model, max_tokens: 1000, temperature: 0.4, system: systemPrompt, messages })
+      body: JSON.stringify({ model, max_tokens: 800, temperature: 0.5, system: systemPrompt, messages })
     });
 
     const data = await response.json();

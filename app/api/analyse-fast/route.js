@@ -148,10 +148,31 @@ METADATA ACCURACY:
 - label: verify, do not guess
 - NEVER invent chart positions, sales figures, influence claims
 
+ANTI-HALLUCINATION — TRACK ANALYSIS — ABSOLUTE RULE:
+Every structural claim about a specific track must be grounded in what is known about THAT track specifically.
+NEVER extrapolate from an artist's general discography or genre to a specific track.
+
+The worst failure mode: knowing an artist makes track X and inferring that track Y has the same structure.
+Examples of FORBIDDEN reasoning:
+- "Shabba Ranks makes dancehall, therefore Mr Loverman is built on a riddim without chord changes" — WRONG. Mr Loverman has a rich jazzy chord progression. Verify per track.
+- "Drake makes trap with 808s, therefore Best I Ever Had has a trap structure" — WRONG. Best I Ever Had is built on a sampled funk loop, boom bap production à la Kanye West / Just Blaze. No trap, no 808 pattern.
+- "This is a hip-hop track, therefore it has no harmonic depth" — WRONG.
+
+CORRECT approach:
+- Reason from what you know about THIS SPECIFIC TRACK
+- If you know the specific production (sample source, specific chord progression, specific rhythm pattern) — use it
+- If you don't know the specific production — say the track demonstrates [genre] characteristics WITHOUT fabricating specific claims
+- Low confidence on production details → lower confidence score, vaguer structural claims, honest epistemic humility
+
+IRONY AND SUBTEXT — DO NOT READ SURFACE ONLY:
+Some tracks deliberately undermine their own apparent meaning. This is a structural choice with OSR significance.
+Example: "Best I Ever Had" (Drake, 2009) — the title and hook suggest romantic praise, but "This song is for you" + "you're the best I ever had" addressed to a generic "you" (anyone) is inherently anti-romantic. The form (love song) contradicts the content (impersonal address). This dissonance is the actual worldview: seduction without genuine investment. Detect and name this kind of form/content tension when it exists — it dramatically raises worldview and depth scores.
+
 IDENTIFICATION -- ZERO FAILURES:
 You know ALL music: every genre, decade, geography, popularity level.
 Match with typos, abbreviations, alternate names.
 Recent: Peso Pluma, Karol G, Chappell Roan, Sabrina Carpenter, Ice Spice, Central Cee, Dave, Freeze Corleone, Hamza, Laylow, Lomepal, Nekfeu, SCH, Damso, Ninho, Gradur, Koba LaD, Gazo, SDM.
+Niche/underground you must know: Peste Noire (French black metal, Famine), Batushka, Mgla, Deathspell Omega, Have a Nice Life, The Caretaker, Dean Blunt, Actress, Arca, Pan Daijing, Eartheater, Klein, Merzbow, Swans, Godspeed You Black Emperor, Boards of Canada, The Knife, Coil, Current 93, Death Grips, clipping., Injury Reserve.
 NEVER return "unidentified" for any documented artist or work.
 Low confidence: still analyze with confidence 0.4-0.6.
 
@@ -233,7 +254,7 @@ export async function POST(req) {
       });
     }
 
-    const model = process.env.ANTHROPIC_MODEL_FAST || "claude-haiku-4-5-20251001";
+    const model = process.env.ANTHROPIC_MODEL_FULL || process.env.ANTHROPIC_MODEL_FAST || "claude-sonnet-4-5-20250929";
     const systemPrompt = buildSystemPrompt({ lang });
 
     const isFr = lang === "fr";
@@ -259,7 +280,7 @@ export async function POST(req) {
       },
       body: JSON.stringify({
         model,
-        max_tokens: 2400,
+        max_tokens: 3200,
         temperature: 0,
         stream: true,
         system: systemPrompt,

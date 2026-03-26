@@ -204,27 +204,28 @@ async function fetchCoverUrl(artist, title, album, entityType) {
 
 // ─── SMALL COMPONENTS ─────────────────────────────────────────────────────────
 
-function Orb({ progressive = false }) {
-  const [phase, setPhase] = useState(0); // 0=dormant 1-3=building 4=flash
+function Orb({ progressive = false, done = false }) {
+  const [phase, setPhase] = useState(0);
   const [flashing, setFlashing] = useState(false);
 
+  // Progressive saturation build while loading
   useEffect(() => {
     if (!progressive) return;
-
-    // Progressive saturation build: grey → orange
-    const t1 = setTimeout(() => setPhase(1), 600);   // faint grey
-    const t2 = setTimeout(() => setPhase(2), 2000);  // more orange
-    const t3 = setTimeout(() => setPhase(3), 4200);  // warm orange
-    // Flash sequence just before results appear (~6.5s avg)
-    const t4 = setTimeout(() => {
-      setPhase(4);      // full orange
-      setFlashing(true); // start flash
-      // stop flashing after animation completes
-      setTimeout(() => setFlashing(false), 900);
-    }, 6000);
-
-    return () => [t1,t2,t3,t4].forEach(clearTimeout);
+    setPhase(0); setFlashing(false);
+    const t1 = setTimeout(() => setPhase(1), 500);
+    const t2 = setTimeout(() => setPhase(2), 1800);
+    const t3 = setTimeout(() => setPhase(3), 3800);
+    return () => [t1,t2,t3].forEach(clearTimeout);
   }, [progressive]);
+
+  // Flash ONLY when done=true — exact moment analysis arrives
+  useEffect(() => {
+    if (!done) return;
+    setPhase(4);
+    setFlashing(true);
+    const t = setTimeout(() => setFlashing(false), 900);
+    return () => clearTimeout(t);
+  }, [done]);
 
   return (
     <div className={[
@@ -796,138 +797,178 @@ function ArtistBlock({ artistAnalysis, lang }) {
 // This panel uses sliders embedded in the DimensionsBlock above.
 // It shows the comparison table and LISN's response.
 
-function ContestPanel({ data, lang, t, userScores, onReset }) {
-  const [msg, setMsg] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState(null);
+// ─── UNIFIED CONVERSATION PANEL ──────────────────────────────────────────────
+// Merges Discuss + Contest into one conversational space.
+// The user can chat freely OR activate score adjusters inline.
+function ConversationPanel({ data, lang, t, initialUserScores, onUserScoreChange }) {
+  const [hist, setHist]         = useState([]);
+  const [msg, setMsg]           = useState("");
+  const [loading, setLoading]   = useState(false);
+  const [showSliders, setShowSliders] = useState(false);
+  const [userScores, setUserScores]   = useState(initialUserScores || {});
+  const endRef = useRef(null);
+  const inputRef = useRef(null);
+  const isFr = lang === "fr";
+
+  useEffect(() => { endRef.current?.scrollIntoView({ behavior:"smooth" }); }, [hist, loading]);
 
   const ctx = {
-    title:data?.entity?.title, artist:data?.entity?.artist,
-    score:data?.score, regime:data?.regime,
-    badges:data?.badges, verdict:data?.verdict?.text,
-    lang
+    title:  data?.entity?.title,
+    artist: data?.entity?.artist,
+    score:  data?.score,
+    regime: data?.regime,
+    badges: data?.badges,
+    verdict:data?.verdict?.text,
+    lang,
   };
 
-  async function submit() {
-    const text = msg.trim() || (lang==="fr" ? "Voici ma lecture de cette œuvre." : "Here is my reading of this work.");
-    setLoading(true); setResponse(null);
-    try {
-      const res = await fetch("/api/discuss", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ message:text, analysisContext:ctx, history:[], lang, userScores })
-      });
-      const j = await res.json();
-      setResponse(j.reply || j.error);
-    } catch { setResponse(lang==="fr" ? "Erreur de connexion." : "Connection error."); }
-    finally { setLoading(false); }
+  function handleScoreChange(k, v) {
+    const next = { ...userScores, [k]: v };
+    setUserScores(next);
+    onUserScoreChange && onUserScoreChange(next);
   }
 
-  const lisnGlobal = data?.score?.global ?? 0;
-  const userGlobal = deriveUserGlobal(userScores);
-  const diff = userGlobal - lisnGlobal;
-
-  return (
-    <div className="lisn-panel">
-      <div className="lisn-panel-head">{t.contester}</div>
-
-      <p className="lisn-contest-note">{t.contest_hint}</p>
-
-      {/* Score comparison summary */}
-      <div className="lisn-contest-score-bar">
-        <div className="lisn-contest-score-item">
-          <span className="lisn-contest-score-key">{t.lisn_score}</span>
-          <span className={`lisn-contest-score-val ${scoreClass(lisnGlobal)}`}>{lisnGlobal}</span>
-        </div>
-        <div className="lisn-contest-score-divider">
-          {diff !== 0 && (
-            <span className={`lisn-contest-diff ${diff > 0 ? "pos" : "neg"}`}>
-              {diff > 0 ? "+" : ""}{diff}
-            </span>
-          )}
-        </div>
-        <div className="lisn-contest-score-item">
-          <span className="lisn-contest-score-key">{t.your_score}</span>
-          <span className={`lisn-contest-score-val ${scoreClass(userGlobal)}`}>{userGlobal}</span>
-        </div>
-      </div>
-
-      {/* Optional message from user */}
-      <div className="lisn-chat-form" style={{marginBottom:10}}>
-        <textarea
-          className="lisn-chat-input"
-          value={msg}
-          onChange={e => setMsg(e.target.value)}
-          placeholder={lang==="fr" ? "Expliquez votre lecture (facultatif)…" : "Explain your reading (optional)…"}
-          rows={2}
-        />
-      </div>
-
-      <div style={{display:"flex", gap:10, marginBottom:20}}>
-        <button className="lisn-compare-btn" style={{flex:1}} onClick={submit} disabled={loading}>
-          {loading ? "…" : t.contest_submit}
-        </button>
-        <button className="lisn-contest-submit" onClick={onReset}>
-          <span>{t.contest_reset}</span>
-        </button>
-      </div>
-
-      {loading && <div className="lisn-loading" style={{padding:"12px 0"}}><Orb/><span className="lisn-loading-text">{t.analyse_en_cours}</span></div>}
-
-      {response && (
-        <div className="lisn-msg l" style={{marginTop:0}}>
-          <div className="lisn-msg-lbl">LISN</div>
-          {response}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ─── DISCUSS PANEL ────────────────────────────────────────────────────────────
-function DiscussPanel({ data, lang, t }) {
-  const [hist, setHist] = useState([]);
-  const [msg, setMsg] = useState("");
-  const [loading, setLoading] = useState(false);
-  const endRef = useRef(null);
-  useEffect(() => { endRef.current?.scrollIntoView({ behavior:"smooth" }); }, [hist]);
-
-  const ctx = { title:data?.entity?.title, artist:data?.entity?.artist, score:data?.score, regime:data?.regime, badges:data?.badges, verdict:data?.verdict?.text, lang };
-
-  async function send() {
-    const text = msg.trim();
+  async function send(overrideMsg) {
+    const text = (overrideMsg || msg).trim();
     if (!text || loading) return;
     setMsg("");
-    const next = [...hist, { role:"user", content:text }];
+    const scores = showSliders && Object.keys(userScores).length > 0 ? userScores : null;
+    const next = [...hist, { role:"user", content: text }];
     setHist(next);
     setLoading(true);
     try {
-      const res = await fetch("/api/discuss", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ message:text, analysisContext:ctx, history:next, lang }) });
+      const res = await fetch("/api/discuss", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, analysisContext: ctx, history: next, lang, userScores: scores }),
+      });
       const j = await res.json();
-      setHist(h => [...h, { role:"assistant", content:j.reply || j.error || "Erreur." }]);
-    } catch { setHist(h => [...h, { role:"assistant", content:"Connexion impossible." }]); }
-    finally { setLoading(false); }
+      setHist(h => [...h, { role:"assistant", content: j.reply || j.error || "Erreur." }]);
+    } catch {
+      setHist(h => [...h, { role:"assistant", content: isFr ? "Connexion impossible." : "Connection error." }]);
+    } finally { setLoading(false); }
   }
 
-  function onKey(e) { if (e.key==="Enter" && !e.shiftKey) { e.preventDefault(); send(); } }
+  function onKey(e) {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+  }
+
+  function activateSliders() {
+    // Initialize sliders from LISN scores
+    const init = {};
+    DIM_KEYS.forEach(k => { init[k] = data?.score?.[k] ?? 50; });
+    setUserScores(init);
+    setShowSliders(true);
+    setTimeout(() => inputRef.current?.focus(), 100);
+  }
+
+  const lisnGlobal = data?.score?.global ?? 0;
+  const userGlobal = showSliders ? deriveUserGlobal(userScores) : null;
+  const diff = userGlobal !== null ? userGlobal - lisnGlobal : null;
+  const cfg = DIMS[lang];
 
   return (
-    <div className="lisn-panel">
-      <div className="lisn-panel-head">{t.discuter}</div>
+    <div className="lisn-conv-panel">
+
+      {/* Sliders — optional, appear inline when activated */}
+      {showSliders && (
+        <div className="lisn-conv-sliders">
+          <div className="lisn-conv-sliders-head">
+            <span className="lisn-conv-sliders-label">
+              {isFr ? "Votre lecture — ajustez les scores" : "Your reading — adjust the scores"}
+            </span>
+            {diff !== null && diff !== 0 && (
+              <span className={`lisn-conv-diff ${diff > 0 ? "pos" : "neg"}`}>
+                {isFr ? "Votre score" : "Your score"}: <strong>{userGlobal}</strong>
+                {" "}({diff > 0 ? "+" : ""}{diff})
+              </span>
+            )}
+            <button className="lisn-conv-sliders-close" onClick={() => setShowSliders(false)}>
+              {isFr ? "Fermer" : "Close"}
+            </button>
+          </div>
+          <div className="lisn-conv-sliders-grid">
+            {DIM_KEYS.map(k => {
+              const lisnVal = data?.score?.[k] ?? 0;
+              const userVal = userScores[k] ?? lisnVal;
+              const d = userVal - lisnVal;
+              return (
+                <div key={k} className="lisn-conv-slider-row">
+                  <div className="lisn-conv-slider-meta">
+                    <span className="lisn-conv-slider-name">{cfg[k].label}</span>
+                    <div className="lisn-conv-slider-vals">
+                      <span className="lisn-conv-slider-lisn">{lisnVal}</span>
+                      <span className="lisn-conv-slider-arrow">→</span>
+                      <span className={`lisn-conv-slider-user ${d > 0 ? "pos" : d < 0 ? "neg" : ""}`}>{userVal}</span>
+                      {d !== 0 && <span className={`lisn-conv-slider-diff ${d > 0 ? "pos" : "neg"}`}>({d > 0 ? "+" : ""}{d})</span>}
+                    </div>
+                  </div>
+                  <input type="range" min={0} max={100} step={1}
+                    value={userVal}
+                    className="lisn-conv-slider-input"
+                    onChange={e => handleScoreChange(k, Number(e.target.value))}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <button
+            className="lisn-conv-submit-scores"
+            onClick={() => send(isFr
+              ? `Voici ma lecture : ${DIM_KEYS.map(k => `${cfg[k].label} ${userScores[k]}`).join(", ")}. Score global : ${userGlobal}.`
+              : `Here is my reading: ${DIM_KEYS.map(k => `${cfg[k].label} ${userScores[k]}`).join(", ")}. Global score: ${userGlobal}.`
+            )}
+            disabled={loading}
+          >
+            {isFr ? "Soumettre ma lecture →" : "Submit my reading →"}
+          </button>
+        </div>
+      )}
+
+      {/* Conversation history */}
       <div className="lisn-chat">
-        {hist.length === 0 && <div className="lisn-msg l"><div className="lisn-msg-lbl">LISN</div>{t.discuss_intro}</div>}
-        {hist.map((h,i) => (
-          <div key={i} className={`lisn-msg ${h.role==="user"?"u":"l"}`}>
-            <div className="lisn-msg-lbl">{h.role==="user"?(lang==="en"?"You":"Vous"):"LISN"}</div>
-            {h.content}
+        {hist.length === 0 && (
+          <div className="lisn-msg l">
+            <div className="lisn-msg-lbl">LISN</div>
+            <div className="lisn-msg-text">{t.discuss_intro}</div>
+          </div>
+        )}
+        {hist.map((h, i) => (
+          <div key={i} className={`lisn-msg ${h.role === "user" ? "u" : "l"}`}>
+            <div className="lisn-msg-lbl">{h.role === "user" ? (isFr ? "Vous" : "You") : "LISN"}</div>
+            <div className="lisn-msg-text">{h.content}</div>
           </div>
         ))}
-        {loading && <div className="lisn-msg l"><div className="lisn-msg-lbl">LISN</div><span style={{opacity:.3}}>…</span></div>}
+        {loading && (
+          <div className="lisn-msg l">
+            <div className="lisn-msg-lbl">LISN</div>
+            <div className="lisn-msg-text" style={{opacity:0.3}}>…</div>
+          </div>
+        )}
         <div ref={endRef} />
       </div>
-      <div className="lisn-chat-form-sticky">
-        <textarea className="lisn-chat-input" value={msg} onChange={e=>setMsg(e.target.value)} onKeyDown={onKey} placeholder={t.placeholder_discuss} rows={2} />
-        <button className="lisn-chat-send" onClick={send} disabled={loading||!msg.trim()}>{t.envoyer}</button>
+
+      {/* Input area */}
+      <div className="lisn-conv-input-wrap">
+        {!showSliders && (
+          <button className="lisn-conv-adjust-btn" onClick={activateSliders}>
+            {isFr ? "Ajuster les scores" : "Adjust scores"}
+          </button>
+        )}
+        <div className="lisn-conv-row">
+          <textarea
+            ref={inputRef}
+            className="lisn-chat-input"
+            value={msg}
+            onChange={e => setMsg(e.target.value)}
+            onKeyDown={onKey}
+            placeholder={t.placeholder_discuss}
+            rows={2}
+          />
+          <button className="lisn-chat-send" onClick={() => send()} disabled={loading || !msg.trim()}>
+            {t.envoyer}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -937,6 +978,7 @@ function DiscussPanel({ data, lang, t }) {
 function ComparePanel({ currentData, entityType, lang, t }) {
   const [qB, setQB] = useState("");
   const [loading, setLoading] = useState(false);
+  const [orbDone, setOrbDone] = useState(false);
   const [result, setResult] = useState(null);
   const [err, setErr] = useState("");
   const isFr = lang === "fr";
@@ -966,12 +1008,12 @@ function ComparePanel({ currentData, entityType, lang, t }) {
         <span className="lisn-compare-current-name">{currentLabel}</span>
         <span className="lisn-compare-with-label">{isFr ? "avec…" : "with…"}</span>
       </div>
-      <div className="lisn-compare-single-input">
+      <div className="lisn-compare-input-row">
         <input className="lisn-compare-input" value={qB} onChange={e=>setQB(e.target.value)}
           placeholder={isFr ? "Titre ou artiste…" : "Title or artist…"}
           onKeyDown={e => e.key==="Enter" && go()} autoFocus />
         <button className="lisn-compare-btn" onClick={go} disabled={loading||!qB.trim()}>
-          {loading ? "…" : "→"}
+          {loading ? "…" : (isFr ? "Comparer →" : "Compare →")}
         </button>
       </div>
       {err && <p className="lisn-error" style={{marginTop:10}}>{err}</p>}
@@ -1029,6 +1071,81 @@ const LOW_STRUCTURE = [
   { q:"Blinding Lights The Weeknd", label:"The Weeknd — Blinding Lights" },
   { q:"Levitating Dua Lipa", label:"Dua Lipa — Levitating" },
 ];
+
+// ── OSR Discovery Stock by entity type ──────────────────────────
+const OSR_STOCK_BY_TYPE = {
+  artist: {
+    high: [
+      { q: "Miles Davis artiste", label: "Miles Davis" },
+      { q: "John Coltrane artiste", label: "John Coltrane" },
+      { q: "Radiohead artiste", label: "Radiohead" },
+      { q: "Björk artiste", label: "Björk" },
+      { q: "Kendrick Lamar artiste", label: "Kendrick Lamar" },
+      { q: "Portishead artiste", label: "Portishead" },
+      { q: "Frank Ocean artiste", label: "Frank Ocean" },
+      { q: "Massive Attack artiste", label: "Massive Attack" },
+      { q: "Alain Bashung artiste", label: "Alain Bashung" },
+      { q: "Burial artiste", label: "Burial" },
+      { q: "D'Angelo artiste", label: "D'Angelo" },
+      { q: "Rosalía artiste", label: "Rosalía" },
+    ],
+    mid: [
+      { q: "Rihanna artiste", label: "Rihanna" },
+      { q: "Stromae artiste", label: "Stromae" },
+      { q: "Daft Punk artiste", label: "Daft Punk" },
+      { q: "The Weeknd artiste", label: "The Weeknd" },
+      { q: "Renaud artiste", label: "Renaud" },
+      { q: "Kanye West artiste", label: "Kanye West" },
+      { q: "Amy Winehouse artiste", label: "Amy Winehouse" },
+      { q: "James Blake artiste", label: "James Blake" },
+      { q: "Lomepal artiste", label: "Lomepal" },
+      { q: "Damso artiste", label: "Damso" },
+      { q: "SCH artiste", label: "SCH" },
+      { q: "Angèle artiste", label: "Angèle" },
+    ],
+    low: [
+      { q: "Ed Sheeran artiste", label: "Ed Sheeran" },
+      { q: "Taylor Swift artiste", label: "Taylor Swift" },
+      { q: "Justin Bieber artiste", label: "Justin Bieber" },
+      { q: "Maroon 5 artiste", label: "Maroon 5" },
+      { q: "Corneille artiste", label: "Corneille" },
+      { q: "Ava Max artiste", label: "Ava Max" },
+      { q: "Travis Scott artiste", label: "Travis Scott" },
+      { q: "BTS artiste", label: "BTS" },
+    ],
+  },
+  album: {
+    high: [
+      { q: "Kind of Blue Miles Davis", label: "Kind of Blue — Miles Davis" },
+      { q: "To Pimp a Butterfly Kendrick Lamar", label: "TPAB — Kendrick Lamar" },
+      { q: "OK Computer Radiohead", label: "OK Computer — Radiohead" },
+      { q: "Dummy Portishead", label: "Dummy — Portishead" },
+      { q: "Blonde Frank Ocean", label: "Blonde — Frank Ocean" },
+      { q: "Homogenic Björk", label: "Homogenic — Björk" },
+      { q: "Mezzanine Massive Attack", label: "Mezzanine — Massive Attack" },
+      { q: "Voodoo D'Angelo", label: "Voodoo — D'Angelo" },
+      { q: "Untrue Burial", label: "Untrue — Burial" },
+      { q: "El Mal Querer Rosalía", label: "El Mal Querer — Rosalía" },
+      { q: "Fantaisie Militaire Bashung", label: "Fantaisie Militaire — Bashung" },
+    ],
+    mid: [
+      { q: "Random Access Memories Daft Punk", label: "RAM — Daft Punk" },
+      { q: "Anti Rihanna", label: "Anti — Rihanna" },
+      { q: "Racine Carrée Stromae", label: "Racine Carrée — Stromae" },
+      { q: "Currents Tame Impala", label: "Currents — Tame Impala" },
+      { q: "Good Kid MAAD City Kendrick", label: "GKMC — Kendrick" },
+      { q: "Loud Rihanna", label: "Loud — Rihanna" },
+      { q: "The Suburbs Arcade Fire", label: "The Suburbs — Arcade Fire" },
+      { q: "Marche à l'ombre Renaud", label: "Marche à l'ombre — Renaud" },
+    ],
+    low: [
+      { q: "Divide Ed Sheeran", label: "÷ — Ed Sheeran" },
+      { q: "1989 Taylor Swift", label: "1989 — Taylor Swift" },
+      { q: "Starboy The Weeknd", label: "Starboy — The Weeknd" },
+      { q: "Unapologetic Rihanna", label: "Unapologetic — Rihanna" },
+    ],
+  },
+};
 
 // ── OSR Discovery Stock — curated works by score band ─────────────
 // Each band has 12+ entries; clicking picks a random one not recently shown
@@ -1089,8 +1206,8 @@ const OSR_STOCK = {
 // Track recently shown to avoid repeats
 const recentlyShown = { high: [], mid: [], low: [] };
 
-function pickFromStock(band) {
-  const pool = OSR_STOCK[band];
+function pickFromStock(band, entityType = "track") {
+  const pool = OSR_STOCK_BY_TYPE[entityType]?.[band] || OSR_STOCK[band];
   const recent = recentlyShown[band];
   const available = pool.filter(item => !recent.includes(item.q));
   const source = available.length > 0 ? available : pool;
@@ -1106,7 +1223,7 @@ function scoreToBand(score) {
   return "low";
 }
 
-function SuggestionsStrip({ lang, onAnalyse, currentScore }) {
+function SuggestionsStrip({ lang, onAnalyse, currentScore, entityType = "track" }) {
   const isFr = lang === "fr";
   const band = scoreToBand(currentScore ?? 50);
 
@@ -1132,14 +1249,14 @@ function SuggestionsStrip({ lang, onAnalyse, currentScore }) {
   ];
 
   function handleClick(targetBand) {
-    const pick = pickFromStock(targetBand);
-    onAnalyse(pick.q, "track");
+    const pick = pickFromStock(targetBand, entityType);
+    onAnalyse(pick.q, entityType);
   }
 
   return (
     <div className="lisn-suggestions">
       <div className="lisn-suggestions-header">
-        {isFr ? "Explorer par niveau OSR" : "Explore by OSR level"}
+        {isFr ? "Explorer" : "Explore"}
       </div>
       <div className="lisn-disc-row">
         {opts.map(o => (
@@ -1272,10 +1389,37 @@ function ScoreCircle({ value }) {
   );
 }
 
-function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
+// ─── STRUCTURAL BLOCK ────────────────────────────────────────────────────────
+function StructuralBlock({ raw, label, onAnalyseCitation }) {
+  if (!raw) return null;
+  const sep = "\n\nDIAGNOSIS:";
+  const hasObs = raw.includes("OBSERVATIONS:") && raw.includes("DIAGNOSIS:");
+  if (hasObs) {
+    const afterObs = raw.indexOf("OBSERVATIONS:") >= 0
+      ? raw.slice(raw.indexOf("OBSERVATIONS:") + 13).trimStart()
+      : raw;
+    const diagIdx = afterObs.indexOf("DIAGNOSIS:");
+    const obsPart  = diagIdx >= 0 ? afterObs.slice(0, diagIdx).trim() : afterObs.trim();
+    const diagPart = diagIdx >= 0 ? afterObs.slice(diagIdx + 10).trimStart() : "";
+    return (
+      <div className="lisn-structural">
+        <div className="lisn-label">{label}</div>
+        {obsPart  && <p className="lisn-structural-obs">{highlightArtists(obsPart,  onAnalyseCitation)}</p>}
+        {diagPart && <p className="lisn-structural-diag">{highlightArtists(diagPart, onAnalyseCitation)}</p>}
+      </div>
+    );
+  }
+  return (
+    <div className="lisn-structural">
+      <div className="lisn-label">{label}</div>
+      <p className="lisn-structural-text">{highlightArtists(raw, onAnalyseCitation)}</p>
+    </div>
+  );
+}
+
+function AnalysisResult({ data, mode, lang, onAnalyseCitation, onGoHome, onExplore }) {
   const [shortOpen, setShortOpen] = useState(false);
   const [activePanel, setActivePanel] = useState(null);
-  const [contestMode, setContestMode] = useState(false);
   const [userScores, setUserScores] = useState({});
 
   const t = T[lang];
@@ -1284,60 +1428,21 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
   const g = data?.score?.global ?? 0;
   const caps = data?.scoreCapsTriggered || [];
 
-  // Initialize userScores from LISN scores when entering contest mode
-  const enterContestMode = useCallback(() => {
-    const init = {};
-    DIM_KEYS.forEach(k => { init[k] = data?.score?.[k] ?? 50; });
-    setUserScores(init);
-    setContestMode(true);
-    setActivePanel("contest");
-  }, [data?.score]);
-
-  function resetContestMode() {
-    setContestMode(false);
-    setUserScores({});
-    setActivePanel(null);
-  }
-
-  function handleUserScoreChange(key, val) {
-    setUserScores(prev => ({ ...prev, [key]: val }));
-  }
-
   function togglePanel(name) {
-    if (name === "contest") {
-      if (contestMode) {
-        resetContestMode();
-      } else {
-        enterContestMode();
-      }
-      return;
-    }
-    if (contestMode) { resetContestMode(); }
     setActivePanel(p => p === name ? null : name);
   }
 
   return (
     <div className="lisn-result">
 
-      {/* HEADER */}
-      {/* SCORE — vedette, au-dessus */}
-      {g > 0 && (
-        <div className="lisn-score-hero">
-          <ScoreCircle value={g} />
-          {data.genreScore > 0 && (
-            <div className="lisn-genre-score">
-              {lang==="fr" ? "Dans son genre" : "In genre"} <strong>{data.genreScore}</strong>
-            </div>
-          )}
-          <div className="lisn-score-hero-anchor">{scoreAnchor(g, t)}</div>
-        </div>
-      )}
-
       <div className="lisn-result-header">
         <div>
           <div className="lisn-result-type-row">
+            <button className="lisn-back-link" onClick={onGoHome}>
+              {lang==="fr" ? "← Nouvelle analyse" : "← New analysis"}
+            </button>
             <span className="lisn-result-type">{(entityType).toUpperCase()}</span>
-            <span className={`lisn-result-mode${isDeep?" deep":""}`}>{isDeep ? t.approfondi : t.rapide}</span>
+            <span className="lisn-result-mode deep">OSR</span>
           </div>
           <h1 className="lisn-result-title">
             {entityType === "artist" ? data.entity?.artist : data.entity?.title}
@@ -1360,9 +1465,19 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
         />
       </div>
 
-      {/* EDITORIAL LAYOUT */}
+      {/* EXPLORE — visible right after header */}
+      {onExplore && (
+        <SuggestionsStrip
+          lang={lang}
+          currentScore={g}
+          entityType={entityType}
+          onAnalyse={onExplore}
+        />
+      )}
+
+      {/* EDITORIAL LAYOUT — asymmetric: prose left, data right */}
       <div className="lisn-editorial">
-        <div className="lisn-main">
+        <div className="lisn-col-main">
 
           {/* VERDICT */}
           {data.verdict?.text && (() => {
@@ -1428,33 +1543,12 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
           <AlbumBlock albumAnalysis={data.albumAnalysis} lang={lang} />
           <ArtistBlock artistAnalysis={data.artistAnalysis} lang={lang} />
 
-          {/* DIMENSIONS — interactive in contest mode */}
-          <DimensionsBlock
-            score={data.score}
-            artistScores={data.artistScores}
-            lang={lang}
-            entityType={entityType}
-            contestMode={contestMode}
-            userScores={userScores}
-            onUserScoreChange={handleUserScoreChange}
-          />
-
-          {/* Contest panel — sits directly below dims */}
-          {contestMode && activePanel === "contest" && (
-            <ContestPanel
-              data={data} lang={lang} t={t}
-              userScores={userScores}
-              onReset={resetContestMode}
-            />
-          )}
-
-          {/* LECTURE STRUCTURALE */}
-          {data.editorial?.structural && (
-            <div className="lisn-structural">
-              <div className="lisn-label">{t.lecture}</div>
-              <p className="lisn-structural-text">{highlightArtists(data.editorial.structural, onAnalyseCitation)}</p>
-            </div>
-          )}
+          {/* LECTURE STRUCTURALE — observations + diagnostic OSR */}
+          {data.editorial?.structural && StructuralBlock({
+            raw: data.editorial.structural,
+            label: t.lecture,
+            onAnalyseCitation,
+          })}
 
           {/* LONGEVITY */}
           <LongevityBlock longevity={data.longevity} lang={lang} onAnalyseCitation={onAnalyseCitation} />
@@ -1483,11 +1577,33 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
             </div>
           )}
 
-        </div>
+        </div>{/* end col-main */}
 
-        {/* SIDE */}
-        <div className="lisn-side">
-          {/* TAGS — descriptifs, pas interactifs */}
+        {/* RIGHT COLUMN — score, dimensions, badges */}
+        <div className="lisn-col-side">
+          {/* SCORE */}
+          {g > 0 && (
+            <div className="lisn-side-score">
+              <span className={`lisn-score-num ${g>=82?"score-hi":g>=52?"score-mid":"score-low"}`}>{g}</span>
+              <span className="lisn-score-label">{scoreAnchor(g, t)}</span>
+              {data.genreScore > 0 && (
+                <span className="lisn-score-genre">{lang==="fr"?"Genre":"Genre"} {data.genreScore}</span>
+              )}
+            </div>
+          )}
+
+          {/* DIMENSIONS */}
+          <DimensionsBlock
+            score={data.score}
+            artistScores={data.artistScores}
+            lang={lang}
+            entityType={entityType}
+            contestMode={false}
+            userScores={userScores}
+            onUserScoreChange={setUserScores}
+          />
+
+          {/* BADGES */}
           {data.badges?.length > 0 && (
             <div className="lisn-tags-block">
               {data.badges.map((b,i) => (
@@ -1506,19 +1622,23 @@ function AnalysisResult({ data, mode, lang, onAnalyseCitation }) {
       </div>
 
       <div className="lisn-action-tabs">
-        <button className={`lisn-tab ${activePanel==="discuss"&&!contestMode?"active":""}`} onClick={() => togglePanel("discuss")}>
+        <button className={`lisn-tab ${activePanel==="discuss"?"active":""}`} onClick={() => setActivePanel(p => p==="discuss" ? null : "discuss")}>
           {t.discuter}
         </button>
-        <button className={`lisn-tab ${contestMode?"active":""}`} onClick={() => togglePanel("contest")}>
-          {t.contester}
-        </button>
-        <button className={`lisn-tab ${activePanel==="compare"&&!contestMode?"active":""}`} onClick={() => togglePanel("compare")}>
+        <button className={`lisn-tab ${activePanel==="compare"?"active":""}`} onClick={() => setActivePanel(p => p==="compare" ? null : "compare")}>
           {t.comparer}
         </button>
       </div>
 
-      {activePanel==="discuss"  && !contestMode && <DiscussPanel data={data} lang={lang} t={t} />}
-      {activePanel==="compare" && !contestMode && <ComparePanel currentData={data} entityType={entityType} lang={lang} t={t} />}
+      {activePanel==="discuss" && (
+        <ConversationPanel
+          data={data} lang={lang} t={t}
+          onUserScoreChange={scores => setUserScores(scores)}
+        />
+      )}
+      {activePanel==="compare" && (
+        <ComparePanel currentData={data} entityType={entityType} lang={lang} t={t} />
+      )}
     </div>
   );
 }
@@ -1804,7 +1924,7 @@ function Term({ children, term, lang }) {
 // ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function Home() {
   const [query, setQuery] = useState("");
-  const [mode, setMode] = useState("fast");
+  const mode = "deep"; // Always Sonnet — single quality level
   const [entityType, setEntityType] = useState("track");
   const [data, setData] = useState(null);
   const [isFirstVisit, setIsFirstVisit] = useState(false);
@@ -1818,6 +1938,7 @@ export default function Home() {
     } catch { setIsFirstVisit(true); }
   }, []);
   const [loading, setLoading] = useState(false);
+  const [orbDone, setOrbDone] = useState(false);
   const [error, setError] = useState("");
   const [sessionHistory, setSessionHistory] = useState([]); // last 5 genre hints
   const [scrolled, setScrolled] = useState(false);
@@ -2070,6 +2191,9 @@ export default function Home() {
         }
       }
 
+      setOrbDone(true);
+      setTimeout(() => setOrbDone(false), 1000);
+      setOsrOpen(false); // close OSR drawer when analysis arrives
       setData(json);
       // Record in session history for disambiguation context
       const hint = json?.entity?.genreHint || json?.identifiedEntity?.genreHint || "";
@@ -2147,8 +2271,8 @@ export default function Home() {
         )}
       </div>
 
-      {/* OSR DRAWER */}
-      <div className="lisn-osr-drawer">
+      {/* OSR DRAWER — hidden during analysis */}
+      <div className={`lisn-osr-drawer${data || loading ? " lisn-hidden" : ""}`}>
         <div className={`lisn-osr-body ${osrOpen?"open":""}`}>
           <div className="lisn-osr-inner">
             {osr.map(b => (
@@ -2191,24 +2315,14 @@ export default function Home() {
             <span>{loading ? "…" : t.analyser}</span>
           </button>
         </div>
-        <div className="lisn-mode-row">
-          <div className="lisn-mode-sep" />
-          <button
-            className={`lisn-mode-quick ${mode==="fast"?"active":""}`}
-            onClick={() => setMode("fast")}
-          >{t.rapide}</button>
-          <button
-            className={`lisn-mode-deep ${mode==="deep"?"active":""}`}
-            onClick={() => setMode("deep")}
-          >{t.approfondi}</button>
-        </div>
+
 
         {error && <ErrorSuggestion error={error} entityType={entityType} lang={lang} setEntityType={setEntityType} analyse={analyse} t={t} setQuery={setQuery} />}
       </div>
 
       {loading && (
         <div className="lisn-loading">
-          <Orb progressive={true}/>
+          <Orb progressive={true} done={orbDone}/>
           <span className="lisn-loading-text lisn-loading-progressive">
             {t.analyse_en_cours}
           </span>
@@ -2226,16 +2340,13 @@ export default function Home() {
 
       {data && !loading && (
         <div ref={resultRef}>
-          <AnalysisResult data={data} mode={mode} lang={lang} onAnalyseCitation={onAnalyseCitation} />
-          <SuggestionsStrip
-            lang={lang}
-            currentScore={data?.score?.global ?? null}
-            onAnalyse={(q, type) => {
+          <AnalysisResult data={data} mode={mode} lang={lang} onAnalyseCitation={onAnalyseCitation} onGoHome={goHome}
+            onExplore={(q, type) => {
               setQuery(q);
               setEntityType(type || "track");
               setData(null);
               setLoading(true); setError("");
-              const endpoint = modeRef.current==="fast" ? "/api/analyse-fast" : "/api/analyse";
+              const endpoint = "/api/analyse-fast";
               fetch(endpoint, { method:"POST", cache:"no-store", headers:{"Content-Type":"application/json"}, body:JSON.stringify({query:q, lang, entityType:type||"track"}) })
                 .then(r => r.json())
                 .then(json => { if(json?.kind !== "error") { setData(json); setTimeout(()=>resultRef.current?.scrollIntoView({behavior:"smooth",block:"start"}),100); } else setError(json.error||"Erreur"); })
@@ -2243,6 +2354,7 @@ export default function Home() {
                 .finally(() => setLoading(false));
             }}
           />
+
         </div>
       )}
       {glossaryOpen && <GlossaryModal lang={lang} onClose={() => setGlossaryOpen(false)} />}
