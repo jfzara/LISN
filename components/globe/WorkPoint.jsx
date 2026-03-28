@@ -23,20 +23,20 @@ function lodThreshold(score) {
 
 function coreRadius(score) {
   const t = Math.max(0, Math.min(1, (score - 5.0) / 5.0));
-  return 0.035 + t * 0.110;
+  return 0.016 + t * 0.048;
 }
 
 function haloRadii(score) {
   const c = coreRadius(score);
   return {
-    h1: c * 2.2,
-    h2: score >= 8.5 ? c * 4.0 : 0,
-    h3: score >= 9.2 ? c * 7.0 : 0,
+    h1: c * 1.8,
+    h2: score >= 9.0 ? c * 2.8 : 0,
+    h3: score >= 9.6 ? c * 4.0 : 0,
   };
 }
 
 function baseEmissive(score) {
-  return 1.4 + (score - 5.0) * 0.55;
+  return 0.65 + (score - 5.0) * 0.18;
 }
 
 export default function WorkPoint({
@@ -86,31 +86,31 @@ export default function WorkPoint({
     const em = baseEmissive(score);
 
     if (coreRef.current) {
-      const amp   = 0.04 + (score - 5) * 0.008;
+      const amp = 0.018 + (score - 5) * 0.003;
       const pulse = 1 + Math.sin(t * 0.85 + ph * 2.5) * amp;
-      coreRef.current.scale.setScalar(isActive ? pulse * 1.5 : pulse);
+      coreRef.current.scale.setScalar(isActive ? pulse * 1.18 : pulse);
       coreRef.current.material.emissiveIntensity =
-        isActive ? em * 2.2 : em + Math.sin(t * 0.55 + ph) * 0.5;
+        isActive ? em * 1.7 : em + Math.sin(t * 0.55 + ph) * 0.5;
     }
     if (halo1Ref.current) {
       const p    = 1 + Math.sin(t * 0.38 + ph) * 0.12;
-      const baseOp = 0.08 + (score - 5) * 0.018;
-      halo1Ref.current.scale.setScalar(isActive ? p * 1.7 : p);
+      const baseOp = 0.05 + (score - 5) * 0.010;
+      halo1Ref.current.scale.setScalar(isActive ? p * 1.4 : p);
       halo1Ref.current.material.opacity =
-        isActive ? baseOp * 3.0 : baseOp + Math.sin(t * 0.32 + ph) * 0.04;
+        isActive ? baseOp * 2.2 : baseOp + Math.sin(t * 0.32 + ph) * 0.04;
     }
     if (halo2Ref.current) {
       const p    = 1 + Math.sin(t * 0.24 + ph + 1.2) * 0.16;
-      const baseOp = 0.04 + (score - 8.5) * 0.012;
-      halo2Ref.current.scale.setScalar(isActive ? p * 1.9 : p);
+      const baseOp = 0.025 + (score - 8.8) * 0.008;
+      halo2Ref.current.scale.setScalar(isActive ? p * 1.5 : p);
       halo2Ref.current.material.opacity =
-        isActive ? baseOp * 2.5 : Math.max(0, baseOp + Math.sin(t * 0.22 + ph) * 0.02);
+        isActive ? baseOp * 2.0 : Math.max(0, baseOp + Math.sin(t * 0.22 + ph) * 0.02);
     }
     if (halo3Ref.current) {
       const p = 1 + Math.sin(t * 0.16 + ph + 2.4) * 0.20;
-      halo3Ref.current.scale.setScalar(isActive ? p * 2.0 : p);
+      halo3Ref.current.scale.setScalar(isActive ? p * 1.6 : p);
       halo3Ref.current.material.opacity =
-        isActive ? 0.10 : 0.025 + Math.sin(t * 0.18 + ph) * 0.01;
+        isActive ? 0.06 : 0.015 + Math.sin(t * 0.18 + ph) * 0.01;
     }
   });
 
@@ -135,7 +135,7 @@ export default function WorkPoint({
         <sphereGeometry args={[hr.h1, 14, 14]} />
         <meshBasicMaterial
           color={color} transparent
-          opacity={0.08 + (score - 5) * 0.018}
+          opacity={0.05 + (score - 5) * 0.010}
           depthWrite={false}
         />
       </mesh>
@@ -159,7 +159,7 @@ export default function WorkPoint({
         <mesh rotation={[Math.PI / 2, 0, 0]} raycast={() => null}>
           <ringGeometry args={[hr.h1 * 1.1, hr.h1 * 1.4, 32]} />
           <meshBasicMaterial
-            color={color} transparent opacity={0.9}
+            color={color} transparent opacity={0.55}
             side={THREE.DoubleSide} depthWrite={false}
           />
         </mesh>

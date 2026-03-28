@@ -33,7 +33,7 @@ function GlobeBody() {
   return (
     <mesh raycast={() => null}>
       <sphereGeometry args={[5.0, 128, 128]} />
-      <meshStandardMaterial color="#0a0806" roughness={0.90} metalness={0.03} />
+      <meshStandardMaterial color="#0c0a08" roughness={0.90} metalness={0.03} />
     </mesh>
   );
 }
@@ -44,7 +44,7 @@ function GlobeAtmosphere() {
     <mesh raycast={() => null}>
       <sphereGeometry args={[5.28, 64, 64]} />
       <meshBasicMaterial
-        color="#1a3366" transparent opacity={0.038}
+        color="#1a3366" transparent opacity={0.022}
         side={THREE.BackSide} depthWrite={false}
       />
     </mesh>
