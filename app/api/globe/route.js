@@ -1,125 +1,106 @@
 import fs from "fs";
 import path from "path";
+import { parse } from "csv-parse/sync";
 
-const continentColors = {
-  pop: "#ffb14a",
-  harmonic: "#5cb7ff",
-  rhythmic: "#65f0b5",
-  textural: "#cc8cff",
-  formal: "#f2eee8",
-  experimental: "#ff6b8a",
-  ambient: "#6f86ff",
-  narrative: "#ff9a5c",
-  groove: "#7ce8a6",
+function latLngToXYZ(lat, lng, radius = 5) {
+  const phi = (90 - lat) * (Math.PI / 180);
+  const theta = (lng + 180) * (Math.PI / 180);
+
+  const x = -(radius * Math.sin(phi) * Math.cos(theta));
+  const z = radius * Math.sin(phi) * Math.sin(theta);
+  const y = radius * Math.cos(phi);
+
+  return { x, y, z };
+}
+
+function randomOffset(range = 8) {
+  return (Math.random() - 0.5) * range;
+}
+
+// Continents musicaux mock
+const CONTINENTS = {
+  rock: { lat: 20, lng: 0, color: "#ff4d4d" },
+  jazz: { lat: 30, lng: -60, color: "#4da3ff" },
+  classical: { lat: 60, lng: 40, color: "#b366ff" },
+  electronic: { lat: -20, lng: 100, color: "#00d2d3" },
+  hiphop: { lat: 10, lng: 140, color: "#ff9f43" },
+  pop: { lat: 0, lng: 40, color: "#ff6b81" },
+  experimental: { lat: -40, lng: -120, color: "#2ed573" },
+  world: { lat: 0, lng: -30, color: "#feca57" },
 };
 
-function parseCSV(text) {
-  const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
-  if (lines.length < 2) return [];
+// Attribution continent mock simple
+function assignContinent(artist, title) {
+  const name = (artist + " " + title).toLowerCase();
 
-  const headers = lines[0].split(",").map((h) => h.trim());
+  if (name.includes("miles") || name.includes("coltrane")) return "jazz";
+  if (name.includes("mozart") || name.includes("beethoven")) return "classical";
+  if (name.includes("radiohead") || name.includes("nirvana")) return "rock";
+  if (name.includes("daft") || name.includes("aphex")) return "electronic";
+  if (name.includes("kendrick") || name.includes("jay-z")) return "hiphop";
+  if (name.includes("madonna") || name.includes("taylor")) return "pop";
 
-  return lines.slice(1).map((line) => {
-    const values = line.split(",").map((v) => v.trim());
-    const obj = {};
-    headers.forEach((h, i) => {
-      obj[h] = values[i] ?? "";
-    });
-    return obj;
-  });
+  return "rock"; // fallback
 }
 
-function pickContinent(row, index) {
-  const title = (row.title || "").toLowerCase();
-  const artist = (row.artist || "").toLowerCase();
-
-  if (title.includes("ambient") || artist.includes("eno")) return "ambient";
-  if (artist.includes("bach") || artist.includes("beethoven") || artist.includes("ligeti")) return "formal";
-  if (artist.includes("radiohead") || artist.includes("miles") || artist.includes("coltrane")) return "harmonic";
-  if (artist.includes("aphex") || artist.includes("autechre") || artist.includes("kraftwerk")) return "rhythmic";
-  if (artist.includes("kendrick") || artist.includes("dylan") || artist.includes("nas")) return "narrative";
-  if (artist.includes("daft") || artist.includes("j dilla") || artist.includes("prince")) return "groove";
-  if (artist.includes("mbv") || artist.includes("massive attack")) return "textural";
-
-  const fallback = [
-    "pop",
-    "harmonic",
-    "groove",
-    "textural",
-    "narrative",
-    "rhythmic",
-    "formal",
-    "ambient",
-    "experimental",
-  ];
-
-  return fallback[index % fallback.length];
-}
-
-function continentAngle(continent) {
-  const map = {
-    pop: 0,
-    narrative: 45,
-    groove: 90,
-    rhythmic: 135,
-    textural: 180,
-    experimental: 225,
-    formal: 270,
-    harmonic: 315,
-    ambient: 200,
-  };
-  return (map[continent] ?? 0) * (Math.PI / 180);
-}
-
-function generateMockPosition(continent, index) {
-  const angleBase = continentAngle(continent);
-  const angleJitter = ((index % 7) - 3) * 0.08;
-  const angle = angleBase + angleJitter;
-
-  const ring = 0.45 + ((index % 9) * 0.045);
-  const x = Math.cos(angle) * ring;
-  const z = Math.sin(angle) * ring;
-  const y = -0.18 + ((index % 11) * 0.036);
-
-  return {
-    x: Math.max(-0.82, Math.min(0.82, x)),
-    y: Math.max(-0.82, Math.min(0.82, y)),
-    z: Math.max(-0.82, Math.min(0.82, z)),
-  };
+function sizeFromEntityType(type) {
+  if (type === "artist") return 1.8;
+  if (type === "album") return 1.3;
+  return 1.0;
 }
 
 export async function GET() {
-  const filePath = path.join(process.cwd(), "lisn_seed.csv");
-
-  let rows = [];
   try {
-    const csv = fs.readFileSync(filePath, "utf-8");
-    rows = parseCSV(csv);
-  } catch (e) {
-    return Response.json(
-      { error: `Impossible de lire lisn_seed.csv: ${e.message}` },
-      { status: 500 }
-    );
+    const filePath = path.join(process.cwd(), "lisn_seed.csv");
+    const fileContent = fs.readFileSync(filePath, "utf8");
+
+    const records = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true,
+    });
+
+    // Déduplication (artist + title)
+    const map = new Map();
+
+    for (const r of records) {
+      const key = `${r.artist}-${r.title}`;
+      if (!map.has(key)) {
+        map.set(key, {
+          artist: r.artist,
+          title: r.title,
+          entityType: r.entityType,
+        });
+      }
+    }
+
+    const works = [];
+
+    for (const [key, work] of map.entries()) {
+      const continentName = assignContinent(work.artist, work.title);
+      const continent = CONTINENTS[continentName];
+
+      const lat = continent.lat + randomOffset();
+      const lng = continent.lng + randomOffset();
+
+      const { x, y, z } = latLngToXYZ(lat, lng, 5);
+
+      works.push({
+        id: key.toLowerCase().replace(/\s+/g, "_"),
+        title: work.title,
+        artist: work.artist,
+        entityType: work.entityType,
+        continent: continentName,
+        color: continent.color,
+        x,
+        y,
+        z,
+        size: sizeFromEntityType(work.entityType),
+      });
+    }
+
+    return Response.json(works);
+  } catch (error) {
+    console.error("Globe API error:", error);
+    return Response.json({ error: "Failed to load globe data" }, { status: 500 });
   }
-
-  const works = rows.map((row, index) => {
-    const continent = pickContinent(row, index);
-    const pos = generateMockPosition(continent, index);
-
-    return {
-      id: `${row.artist || "unknown"}-${row.title || "untitled"}-${index}`
-        .toLowerCase()
-        .replace(/\s+/g, "-"),
-      title: row.title || row.artist || "Untitled",
-      artist: row.artist || "Unknown artist",
-      entityType: row.entityType || "track",
-      lang: row.lang || "fr",
-      continent,
-      color: continentColors[continent] || "#ffffff",
-      size: 0.035 + ((index % 5) * 0.006),
-      ...pos,
-    };
-  });
-
-  return Response.json(works);
 }
