@@ -1,3 +1,4 @@
+import { callLLM } from "../../../lib/lisn/llmClient";
 // app/api/discuss/route.js
 // /app/api/discuss/route.js — LISN v3.4
 
@@ -8,7 +9,6 @@ export async function POST(req) {
 
     if (!message?.trim()) return Response.json({ error: "Missing message" }, { status: 400 });
 
-    const model = process.env.ANTHROPIC_MODEL_FULL || process.env.ANTHROPIC_MODEL_FAST || "claude-sonnet-4-5-20250929";
     const isEn = lang === "en";
 
     // Suggestion mode: just return "Artist — Title"
@@ -112,21 +112,21 @@ DIALOGUE RULES:
       { role: "user", content: message.trim() }
     ];
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01"
-      },
-      body: JSON.stringify({ model, max_tokens: 800, temperature: 0.5, system: systemPrompt, messages })
+    // Build a single userPrompt from the message history
+    const historyText = messages.slice(0, -1)
+      .map(m => `${m.role === "assistant" ? "LISN" : "User"}: ${m.content}`)
+      .join("\n");
+    const lastMsg = messages[messages.length - 1].content;
+    const fullUserPrompt = historyText
+      ? `${historyText}\nUser: ${lastMsg}`
+      : lastMsg;
+
+    const { text, provider } = await callLLM({
+      system: systemPrompt,
+      userPrompt: fullUserPrompt,
+      maxTokens: 800,
     });
-
-    const data = await response.json();
-    if (!response.ok) throw new Error(data?.error?.message || `HTTP ${response.status}`);
-
-    const text = data.content?.filter(b => b.type === "text").map(b => b.text).join("\n").trim();
-    return Response.json({ reply: text });
+    return Response.json({ reply: text.trim() });
 
   } catch (err) {
     console.error("discuss error:", err);

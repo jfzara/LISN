@@ -46,3 +46,39 @@ Pour forcer la re-analyse après mise à jour des prompts :
 ## Sans Upstash configuré
 Le système bascule sur le cache mémoire automatiquement.
 Aucune erreur. Fonctionne normalement, sans persistance.
+
+---
+
+# Groq — Free LLM Fallback
+
+LISN uses Groq as automatic fallback when Anthropic is unavailable (no credits, rate limit, overload).
+Model: **llama-3.3-70b-versatile** — free tier, 6000 requests/day, good quality.
+
+## Setup (2 minutes)
+
+1. `console.groq.com` → create free account
+2. API Keys → Create API Key
+3. Add to `.env.local`:
+```
+GROQ_API_KEY=gsk_...
+```
+4. Add to Vercel Settings → Environment Variables: `GROQ_API_KEY`
+
+## Fallback order
+
+1. **Anthropic Sonnet** (best quality, paid)
+2. **Anthropic Haiku** (fast, cheap — if Sonnet fails)
+3. **Groq Llama 3.3 70B** (free — if both Anthropic fail)
+
+No code changes needed. The fallback is automatic.
+
+## Cost estimate in production
+
+With Upstash cache (30-day TTL):
+- ~80% of requests served from cache → $0
+- ~20% new unique queries:
+  - Groq free tier covers ~6000 new analyses/day at $0
+  - Beyond free tier: Anthropic Haiku ~$0.002/analysis
+  - Premium users: Anthropic Sonnet ~$0.05/analysis
+
+For a typical indie app: monthly cost < $5 until you have 1000+ daily active users.
