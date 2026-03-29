@@ -1,5 +1,7 @@
 "use client";
 
+import AudioPlayer from "./AudioPlayer";
+
 const BIOME_COLOR = {
   dense: "#FF6B2F", atmospheric: "#4ABFFF", structural: "#E8C97A",
   narrative: "#FF9A4D", hybrid: "#C07AE8",
@@ -64,7 +66,7 @@ function Tabs({ tab, onChange, dark }) {
 }
 
 // ── Fiche principale ──────────────────────────────────────────────
-function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis }) {
+function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, pill, onRequestAnalysis }) {
   const text  = dark ? "#e8dfc8" : "#1a1410";
   const muted = dark ? "rgba(232,223,200,0.42)" : "rgba(26,20,16,0.42)";
   const bord  = dark ? "rgba(232,223,200,0.08)" : "rgba(26,20,16,0.10)";
@@ -81,6 +83,9 @@ function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage
   return (
     <>
       {typeof work.score === "number" && <ScoreBar score={work.score} dark={dark} />}
+
+      {/* Player Spotify */}
+      <AudioPlayer work={work} dark={dark} />
 
       {/* Méta 2×2 */}
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6, marginTop:14 }}>
