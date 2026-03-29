@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+
+const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 import GlobeScene    from "@/components/globe/GlobeScene";
 import WorkPanel     from "@/components/globe/WorkPanel";
 import SearchBar     from "@/components/globe/SearchBar";
@@ -127,6 +129,7 @@ function Onboarding({ dark, onChoose }) {
 // ── Page principale ─────────────────────────────────────────────────
 export default function HomePage() {
   const [dark,            setDark]            = useState(true);
+  const [mobile,          setMobile]          = useState(false);
   const [showOnboarding,  setShowOnboarding]  = useState(true);
   const [selectedWork,    setSelectedWork]    = useState(null);
   const [hoveredWork,     setHoveredWork]     = useState(null);
@@ -151,6 +154,10 @@ export default function HomePage() {
     const saved = localStorage.getItem("lisn-theme");
     if (saved === "light") setDark(false);
     if (localStorage.getItem("lisn-onboarding")) setShowOnboarding(false);
+    setMobile(window.innerWidth < 768);
+    const onResize = () => setMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   function toggleDark() {
@@ -325,93 +332,130 @@ export default function HomePage() {
       )}
 
       {/* ── Nav ──────────────────────────────────────────────── */}
-      <nav style={{ ...S.nav, background: T.navBg, borderColor: T.border }}>
-
-        {/* Biomes */}
-        <div style={S.navGroup}>
-          {Object.entries(BIOME_META).map(([key, meta]) => {
-            const active = biomeFilter === key;
-            return (
-              <button key={key} style={{
-                ...S.navBtn,
-                color: active && meta.color ? meta.color : active ? T.text : T.muted,
-                borderColor: active ? (meta.color || T.border) : "transparent",
-                background:  active ? T.pill : "transparent",
-              }} onClick={() => setBiomeFilter(key)}>
-                {meta.color && <span style={{ ...S.dot, background: meta.color, opacity: active ? 1 : 0.4 }} />}
-                {meta.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {sep}
-
-        {/* Curseurs score */}
-        <div style={{ display:"flex", gap:10, alignItems:"center", minWidth:220 }}>
-          <Slider label="Min" value={scoreMin} min={2} max={9} step={0.5}
-            onChange={setScoreMin} T={T} fmt={v => v.toFixed(1)} />
-          <Slider label="Max" value={scoreMax} min={3} max={10} step={0.5}
-            onChange={setScoreMax} T={T} fmt={v => v.toFixed(1)} />
-        </div>
-
-        {sep}
-
-        {/* Timeline — décennies */}
-        <div style={{ display:"flex", gap:2, alignItems:"center", flexShrink:0 }}>
-          {DECADES.map(d => {
-            const active = decade === d;
-            return (
-              <button key={d ?? "all"} style={{
-                ...S.navBtn,
-                padding:"5px 6px",
-                color: active ? T.text : T.muted,
-                borderColor: active ? T.border : "transparent",
-                background:  active ? T.pill : "transparent",
-                fontSize: 9,
-              }} onClick={() => setDecade(active ? null : d)}>
-                {d ? `${String(d).slice(2)}s` : "∞"}
-              </button>
-            );
-          })}
-        </div>
-
-        {sep}
-
-        {/* Recherche */}
-        <SearchBar dark={dark} T={T} onSelect={w => {
-          handleSelect(w); if (compareMode) return;
-          setBiomeFilter("all");
-        }} />
-
-        {sep}
-
-        {/* Actions */}
-        <div style={{ display:"flex", gap:3, flexShrink:0 }}>
-          <button title="Atterrir au hasard" style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
-            onClick={() => landRandom()}>◎</button>
-          <button title={voyageMode ? "Arrêter" : "Voyager"} style={{
-            ...S.navBtn,
-            color: voyageMode ? T.text : T.muted,
-            borderColor: voyageMode ? T.border : "transparent",
-            background:  voyageMode ? T.pill : "transparent",
-          }} onClick={() => voyageMode ? stopVoyage() : startVoyage(selectedWork||undefined)}>
-            {voyageMode ? "◼" : "▷"}
+      {mobile ? (
+        /* ── Nav mobile — barre d'icônes minimale en bas ── */
+        <nav style={{
+          position:"absolute", bottom:0, left:0, right:0,
+          zIndex:20, display:"flex", alignItems:"center",
+          justifyContent:"space-around",
+          padding:"10px 8px",
+          paddingBottom:"max(10px, env(safe-area-inset-bottom))",
+          background: T.navBg, borderTop:`1px solid ${T.border}`,
+          backdropFilter:"blur(18px)", WebkitBackdropFilter:"blur(18px)",
+          // NE PAS intercepter les touches du globe au-dessus
+          touchAction:"auto",
+        }}>
+          <button style={S.mobileBtn(T)} onClick={() => landRandom()} title="Aléatoire">
+            <span style={S.mobileBtnIcon}>◎</span>
+            <span style={S.mobileBtnLabel(T)}>Hasard</span>
           </button>
-          <button title="Comparer" style={{
-            ...S.navBtn,
-            color: compareMode ? T.text : T.muted,
-            borderColor: compareMode ? T.border : "transparent",
-            background:  compareMode ? T.pill : "transparent",
-          }} onClick={toggleCompare}>⊕</button>
-          <button title="Réinitialiser" style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
-            onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); stopVoyage(); setCompareMode(false); }}>
-            ↺
+          <button style={S.mobileBtn(T)} onClick={() => voyageMode ? stopVoyage() : startVoyage(selectedWork||undefined)}>
+            <span style={{ ...S.mobileBtnIcon, color: voyageMode ? T.text : T.muted }}>
+              {voyageMode ? "◼" : "▷"}
+            </span>
+            <span style={S.mobileBtnLabel(T)}>Voyage</span>
           </button>
-          <button style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
-            onClick={toggleDark}>{dark ? "◐" : "◑"}</button>
-        </div>
-      </nav>
+          <button style={S.mobileBtn(T)} onClick={() => setBiomeFilter("all")}>
+            <span style={S.mobileBtnIcon}>○</span>
+            <span style={S.mobileBtnLabel(T)}>Biomes</span>
+          </button>
+          <button style={S.mobileBtn(T)} onClick={toggleCompare}>
+            <span style={{ ...S.mobileBtnIcon, color: compareMode ? T.text : T.muted }}>⊕</span>
+            <span style={S.mobileBtnLabel(T)}>Comp.</span>
+          </button>
+          <button style={S.mobileBtn(T)} onClick={toggleDark}>
+            <span style={S.mobileBtnIcon}>{dark ? "◐" : "◑"}</span>
+            <span style={S.mobileBtnLabel(T)}>{dark ? "Clair" : "Sombre"}</span>
+          </button>
+          <button style={S.mobileBtn(T)} onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); stopVoyage(); setCompareMode(false); }}>
+            <span style={S.mobileBtnIcon}>↺</span>
+            <span style={S.mobileBtnLabel(T)}>Reset</span>
+          </button>
+        </nav>
+      ) : (
+        /* ── Nav desktop — barre complète ── */
+        <nav style={{ ...S.nav, background: T.navBg, borderColor: T.border }}>
+
+          {/* Biomes */}
+          <div style={S.navGroup}>
+            {Object.entries(BIOME_META).map(([key, meta]) => {
+              const active = biomeFilter === key;
+              return (
+                <button key={key} style={{
+                  ...S.navBtn,
+                  color: active && meta.color ? meta.color : active ? T.text : T.muted,
+                  borderColor: active ? (meta.color || T.border) : "transparent",
+                  background:  active ? T.pill : "transparent",
+                }} onClick={() => setBiomeFilter(key)}>
+                  {meta.color && <span style={{ ...S.dot, background: meta.color, opacity: active ? 1 : 0.4 }} />}
+                  {meta.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {sep}
+
+          <div style={{ display:"flex", gap:10, alignItems:"center", minWidth:220 }}>
+            <Slider label="Min" value={scoreMin} min={2} max={9} step={0.5}
+              onChange={setScoreMin} T={T} fmt={v => v.toFixed(1)} />
+            <Slider label="Max" value={scoreMax} min={3} max={10} step={0.5}
+              onChange={setScoreMax} T={T} fmt={v => v.toFixed(1)} />
+          </div>
+
+          {sep}
+
+          <div style={{ display:"flex", gap:2, alignItems:"center", flexShrink:0 }}>
+            {DECADES.map(d => {
+              const active = decade === d;
+              return (
+                <button key={d ?? "all"} style={{
+                  ...S.navBtn, padding:"5px 6px", fontSize:9,
+                  color: active ? T.text : T.muted,
+                  borderColor: active ? T.border : "transparent",
+                  background:  active ? T.pill : "transparent",
+                }} onClick={() => setDecade(active ? null : d)}>
+                  {d ? `${String(d).slice(2)}s` : "∞"}
+                </button>
+              );
+            })}
+          </div>
+
+          {sep}
+
+          <SearchBar dark={dark} T={T} onSelect={w => {
+            handleSelect(w); if (compareMode) return;
+            setBiomeFilter("all");
+          }} />
+
+          {sep}
+
+          <div style={{ display:"flex", gap:3, flexShrink:0 }}>
+            <button title="Atterrir au hasard" style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
+              onClick={() => landRandom()}>◎</button>
+            <button title={voyageMode ? "Arrêter" : "Voyager"} style={{
+              ...S.navBtn,
+              color: voyageMode ? T.text : T.muted,
+              borderColor: voyageMode ? T.border : "transparent",
+              background:  voyageMode ? T.pill : "transparent",
+            }} onClick={() => voyageMode ? stopVoyage() : startVoyage(selectedWork||undefined)}>
+              {voyageMode ? "◼" : "▷"}
+            </button>
+            <button title="Comparer" style={{
+              ...S.navBtn,
+              color: compareMode ? T.text : T.muted,
+              borderColor: compareMode ? T.border : "transparent",
+              background:  compareMode ? T.pill : "transparent",
+            }} onClick={toggleCompare}>⊕</button>
+            <button title="Réinitialiser" style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
+              onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); stopVoyage(); setCompareMode(false); }}>
+              ↺
+            </button>
+            <button style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
+              onClick={toggleDark}>{dark ? "◐" : "◑"}</button>
+          </div>
+        </nav>
+      )}
 
       {/* Hover card */}
       {hoveredWork && !selectedWork && !compareMode && (
@@ -534,4 +578,14 @@ const S = {
     backdropFilter:"blur(12px)", fontFamily:"'DM Mono',monospace",
   },
   wordmark: { position:"absolute", top:18, left:20, zIndex:10 },
+  mobileBtn: T => ({
+    background:"none", border:"none", cursor:"pointer",
+    display:"flex", flexDirection:"column", alignItems:"center", gap:3,
+    padding:"4px 6px", minWidth:44,
+  }),
+  mobileBtnIcon: { fontSize:16, color:"inherit", lineHeight:1 },
+  mobileBtnLabel: T => ({
+    fontSize:8, color: T.muted, fontFamily:"'DM Mono',monospace",
+    letterSpacing:"0.10em", textTransform:"uppercase",
+  }),
 };

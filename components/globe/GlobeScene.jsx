@@ -134,35 +134,44 @@ function ZoomSensor({ onChange }) {
   return null;
 }
 
-// ── Long-press mobile → zoom ──────────────────────────────────────
+// ── Long-press mobile → zoom ─────────────────────────────────────
+// Implémenté proprement via pointer events — compatible avec OrbitControls
 function MobileLongPress({ onLongPress }) {
-  const { gl, camera } = useThree();
-  const timer   = useRef(null);
-  const startDist = useRef(null);
+  const { gl } = useThree();
+  const timer  = useRef(null);
+  const moved  = useRef(false);
 
   useEffect(() => {
     const el = gl.domElement;
 
-    function onTouchStart(e) {
-      if (e.touches.length !== 1) return;
-      startDist.current = camera.position.length();
+    function onPointerDown(e) {
+      if (e.pointerType !== "touch") return;
+      if (e.isPrimary === false) return; // ignorer multi-touch
+      moved.current = false;
       timer.current = setTimeout(() => {
-        // Zoomer progressivement
-        onLongPress();
+        if (!moved.current) onLongPress();
       }, 500);
     }
-    function onTouchMove() { clearTimeout(timer.current); }
-    function onTouchEnd()  { clearTimeout(timer.current); }
+    function onPointerMove(e) {
+      if (e.pointerType !== "touch") return;
+      moved.current = true;
+      clearTimeout(timer.current);
+    }
+    function onPointerUp(e) {
+      if (e.pointerType !== "touch") return;
+      clearTimeout(timer.current);
+    }
 
-    el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("touchmove",  onTouchMove,  { passive: true });
-    el.addEventListener("touchend",   onTouchEnd,   { passive: true });
+    el.addEventListener("pointerdown", onPointerDown);
+    el.addEventListener("pointermove", onPointerMove);
+    el.addEventListener("pointerup",   onPointerUp);
     return () => {
-      el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("touchmove",  onTouchMove);
-      el.removeEventListener("touchend",   onTouchEnd);
+      el.removeEventListener("pointerdown", onPointerDown);
+      el.removeEventListener("pointermove", onPointerMove);
+      el.removeEventListener("pointerup",   onPointerUp);
+      clearTimeout(timer.current);
     };
-  }, [gl, camera, onLongPress]);
+  }, [gl, onLongPress]);
   return null;
 }
 
@@ -411,7 +420,10 @@ function GlobeInner({
         minDistance={CAM_MIN}
         maxDistance={CAM_MAX}
         onStart={onInteract}
-        touches={{ ONE: 2, TWO: 512 }}
+        touches={{
+          ONE: THREE.TOUCH.ROTATE,   // 1 doigt = rotation
+          TWO: THREE.TOUCH.DOLLY_ROTATE, // 2 doigts = pinch zoom
+        }}
       />
     </>
   );
@@ -429,13 +441,13 @@ export default function GlobeScene({
   return (
     <Canvas
       camera={{ position: [0, 0, 14], fov: 44 }}
-      style={{ width: "100%", height: "100%" }}
+      style={{ width: "100%", height: "100%", touchAction: "none" }}
       gl={{
-        antialias: true,           // réactivé — lissage des bords WorkPoint
+        antialias: true,
         powerPreference: "high-performance",
         alpha: false,
       }}
-      dpr={[1, 1.5]}               // cap DPR à 1.5 — compromis lissé/performance
+      dpr={[1, 1.5]}
       frameloop="always"
       onPointerMissed={() => onHoverWork?.(null)}
     >

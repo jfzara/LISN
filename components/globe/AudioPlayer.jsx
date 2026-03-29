@@ -1,134 +1,137 @@
 "use client";
 
 /**
- * AudioPlayer — barre de lecture Spotify 30s
- * Apparaît en bas du WorkPanel quand une preview est disponible.
- * Design sobre, éditorial — pas de gros boutons.
+ * AudioPlayer v2 — Spotify Embed iframe
+ *
+ * Les preview_url directes sont mortes depuis nov 2023.
+ * Solution : embed Spotify iframe — joue 30s automatiquement,
+ * fonctionne sans auth utilisateur, supporte dark mode.
+ *
+ * https://developer.spotify.com/documentation/embeds
  */
 
-import { useSpotifyPreview } from "@/hooks/useSpotifyPreview";
+import { useState, useCallback } from "react";
+
+const BIOME_COLOR = {
+  dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
+  narrative:"#FF9A4D", hybrid:"#C07AE8",
+};
 
 export default function AudioPlayer({ work, dark }) {
-  const { workId, isPlaying, isLoading, progress, error, albumArt, play, stop, seek } =
-    useSpotifyPreview();
+  const [state,      setState]      = useState("idle"); // idle | loading | ready | error
+  const [spotifyId,  setSpotifyId]  = useState(null);
+  const [albumArt,   setAlbumArt]   = useState(null);
+  const [trackInfo,  setTrackInfo]  = useState(null);
+  const [showEmbed,  setShowEmbed]  = useState(false);
 
-  const isCurrentWork = workId === work?.id;
-  const text   = dark ? "#e8dfc8"                : "#1a1410";
-  const muted  = dark ? "rgba(232,223,200,0.42)" : "rgba(26,20,16,0.42)";
-  const border = dark ? "rgba(232,223,200,0.10)" : "rgba(26,20,16,0.12)";
-  const trackBg= dark ? "rgba(232,223,200,0.08)" : "rgba(26,20,16,0.08)";
-  const accent = dark ? "#e8dfc8"                : "#1a1410";
+  const text    = dark ? "#e8dfc8"                : "#1a1410";
+  const muted   = dark ? "rgba(232,223,200,0.42)" : "rgba(26,20,16,0.42)";
+  const border  = dark ? "rgba(232,223,200,0.10)" : "rgba(26,20,16,0.12)";
+  const trackBg = dark ? "rgba(232,223,200,0.07)" : "rgba(26,20,16,0.07)";
+  const accentColor = BIOME_COLOR[work?.biome || work?.regime] || text;
 
-  const BIOME_COLOR = {
-    dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
-    narrative:"#FF9A4D", hybrid:"#C07AE8",
-  };
-  const accentColor = BIOME_COLOR[work?.biome || work?.regime] || accent;
+  const load = useCallback(async () => {
+    if (!work || state === "loading") return;
+    setState("loading");
 
-  function handlePlayPause() {
-    if (!work) return;
-    play(work);
+    try {
+      const res  = await fetch(
+        `/api/spotify-preview?artist=${encodeURIComponent(work.artist)}&title=${encodeURIComponent(work.title)}`
+      );
+      const data = await res.json();
+
+      if (!data.spotifyId) {
+        setState("error");
+        return;
+      }
+
+      setSpotifyId(data.spotifyId);
+      setAlbumArt(data.albumArt || null);
+      setTrackInfo({ name: data.trackName, artist: data.artistName });
+      setState("ready");
+      setShowEmbed(true);
+    } catch {
+      setState("error");
+    }
+  }, [work, state]);
+
+  function handlePlay() {
+    if (state === "idle") { load(); return; }
+    if (state === "ready") setShowEmbed(v => !v);
   }
 
-  function handleSeek(e) {
-    const rect  = e.currentTarget.getBoundingClientRect();
-    const ratio = (e.clientX - rect.left) / rect.width;
-    seek(Math.max(0, Math.min(1, ratio)));
-  }
-
-  const pct = Math.round((isCurrentWork ? progress : 0) * 100);
+  const embedUrl = spotifyId
+    ? `https://open.spotify.com/embed/track/${spotifyId}?utm_source=generator&theme=${dark ? 0 : 1}`
+    : null;
 
   return (
-    <div style={{
-      marginTop: 14,
-      padding: "10px 12px",
-      border: `1px solid ${border}`,
-      borderRadius: 1,
-      display: "flex",
-      flexDirection: "column",
-      gap: 8,
-    }}>
+    <div style={{ marginTop:14 }}>
 
-      {/* Header */}
-      <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+      {/* Bouton déclencheur */}
+      <div style={{
+        display:"flex", alignItems:"center", gap:8,
+        padding:"9px 12px",
+        border:`1px solid ${state === "ready" ? accentColor : border}`,
+        borderRadius:1, cursor:"pointer",
+        background: state === "ready" ? `${accentColor}12` : "none",
+        transition:"all 0.15s",
+      }} onClick={handlePlay}>
 
-        {/* Album art */}
-        {isCurrentWork && albumArt ? (
+        {/* Pochette ou icône */}
+        {albumArt ? (
           <img src={albumArt} alt="" style={{
-            width:32, height:32, borderRadius:1, objectFit:"cover", flexShrink:0,
-            opacity: 0.85,
+            width:30, height:30, borderRadius:1,
+            objectFit:"cover", flexShrink:0,
           }} />
         ) : (
           <div style={{
-            width:32, height:32, borderRadius:1, flexShrink:0,
+            width:30, height:30, borderRadius:1, flexShrink:0,
             background: trackBg,
             display:"flex", alignItems:"center", justifyContent:"center",
           }}>
-            <span style={{ fontSize:12, opacity:0.3 }}>♪</span>
+            <span style={{ fontSize:12, color: muted }}>♫</span>
           </div>
         )}
 
-        {/* Info */}
+        {/* Texte */}
         <div style={{ flex:1, minWidth:0 }}>
           <div style={{ fontSize:10, color: text, overflow:"hidden",
             textOverflow:"ellipsis", whiteSpace:"nowrap", fontStyle:"italic" }}>
-            {work?.title}
+            {trackInfo?.name || work?.title}
           </div>
           <div style={{ fontSize:9, color: muted, marginTop:1,
             fontFamily:"'DM Mono',monospace", letterSpacing:"0.06em" }}>
-            {isLoading && isCurrentWork ? "Chargement…"
-              : error && isCurrentWork ? "Preview indisponible"
-              : "Spotify · 30s preview"}
+            {state === "loading" ? "Recherche sur Spotify…"
+              : state === "error"   ? "Non trouvé sur Spotify"
+              : state === "ready"   ? (showEmbed ? "▾ Réduire" : "▸ Écouter")
+              : "▸ Écouter sur Spotify"}
           </div>
         </div>
 
-        {/* Bouton play/pause */}
-        <button
-          onClick={handlePlayPause}
-          disabled={isLoading && isCurrentWork}
-          style={{
-            width:28, height:28, borderRadius:"50%",
-            border:`1px solid ${isCurrentWork && isPlaying ? accentColor : border}`,
-            background: isCurrentWork && isPlaying ? accentColor : "none",
-            color: isCurrentWork && isPlaying ? (dark ? "#080604" : "#ffffff") : text,
-            cursor: "pointer", flexShrink:0,
-            display:"flex", alignItems:"center", justifyContent:"center",
-            fontSize:10, transition:"all 0.15s",
-            opacity: (isLoading && isCurrentWork) ? 0.5 : 1,
-          }}
-        >
-          {isLoading && isCurrentWork ? (
-            <span style={{ fontSize:8, opacity:0.6 }}>…</span>
-          ) : isCurrentWork && isPlaying ? (
-            <span>◼</span>
-          ) : (
-            <span>▷</span>
-          )}
-        </button>
+        {/* Indicateur état */}
+        <div style={{
+          width:7, height:7, borderRadius:"50%", flexShrink:0,
+          background: state === "ready"   ? accentColor
+                    : state === "loading" ? "#888"
+                    : state === "error"   ? "#cc4444"
+                    : border,
+          opacity: state === "idle" ? 0.4 : 1,
+          transition:"background 0.2s",
+        }} />
       </div>
 
-      {/* Barre de progression — cliquable */}
-      {isCurrentWork && !error && (
-        <div
-          onClick={handleSeek}
-          style={{
-            height:2, background: trackBg, cursor:"pointer",
-            position:"relative", borderRadius:1,
-          }}
-        >
-          <div style={{
-            position:"absolute", left:0, top:0, height:"100%",
-            width:`${pct}%`, background: accentColor,
-            transition:"width 0.2s linear", borderRadius:1,
-          }} />
-        </div>
-      )}
-
-      {/* Erreur */}
-      {isCurrentWork && error && (
-        <div style={{ fontSize:9, color: muted, fontFamily:"'DM Mono',monospace",
-          letterSpacing:"0.08em" }}>
-          {error}
+      {/* Embed Spotify — iframe officiel */}
+      {showEmbed && embedUrl && (
+        <div style={{ marginTop:6, borderRadius:1, overflow:"hidden" }}>
+          <iframe
+            src={embedUrl}
+            width="100%"
+            height="80"
+            frameBorder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            style={{ display:"block", borderRadius:1 }}
+          />
         </div>
       )}
     </div>

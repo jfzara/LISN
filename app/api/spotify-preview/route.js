@@ -1,14 +1,13 @@
 // app/api/spotify-preview/route.js
-// Récupère une preview MP3 30s depuis Spotify Search API
-// Pas d'authentification utilisateur — client credentials uniquement
+// Cherche un track Spotify et retourne son ID pour l'embed iframe
+// Les preview_url directes sont mortes depuis nov 2023 — on utilise l'embed à la place
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const TOKEN_URL = "https://accounts.spotify.com/api/token";
+const TOKEN_URL  = "https://accounts.spotify.com/api/token";
 const SEARCH_URL = "https://api.spotify.com/v1/search";
 
-// Cache token en mémoire (durée de vie ~1h côté edge)
 let cachedToken = null;
 let tokenExpiry = 0;
 
@@ -17,22 +16,19 @@ async function getAccessToken() {
 
   const id     = process.env.SPOTIFY_CLIENT_ID;
   const secret = process.env.SPOTIFY_CLIENT_SECRET;
-
   if (!id || !secret) throw new Error("Spotify credentials manquantes");
 
-  const creds = btoa(`${id}:${secret}`);
-  const res   = await fetch(TOKEN_URL, {
+  const res = await fetch(TOKEN_URL, {
     method: "POST",
     headers: {
-      "Authorization": `Basic ${creds}`,
+      "Authorization": `Basic ${btoa(`${id}:${secret}`)}`,
       "Content-Type":  "application/x-www-form-urlencoded",
     },
     body: "grant_type=client_credentials",
   });
 
-  if (!res.ok) throw new Error(`Spotify token error: ${res.status}`);
+  if (!res.ok) throw new Error(`Token error: ${res.status}`);
   const data = await res.json();
-
   cachedToken = data.access_token;
   tokenExpiry = Date.now() + (data.expires_in - 60) * 1000;
   return cachedToken;
@@ -50,53 +46,43 @@ export async function GET(req) {
   try {
     const token = await getAccessToken();
 
-    // Requête Spotify Search
-    const q   = encodeURIComponent(`track:"${title}" artist:"${artist}"`);
-    const url = `${SEARCH_URL}?q=${q}&type=track&limit=3&market=FR`;
+    // Query souple — sans guillemets pour plus de résultats
+    const q   = encodeURIComponent(`${title} ${artist}`);
+    const url = `${SEARCH_URL}?q=${q}&type=track&limit=5&market=FR`;
 
     const res  = await fetch(url, {
       headers: { "Authorization": `Bearer ${token}` },
     });
 
-    if (!res.ok) throw new Error(`Spotify search error: ${res.status}`);
+    if (!res.ok) throw new Error(`Search error: ${res.status}`);
     const data = await res.json();
-
     const tracks = data?.tracks?.items || [];
 
-    // Chercher d'abord une track avec preview_url
-    const withPreview = tracks.find(t => t.preview_url);
-
-    if (withPreview) {
-      return Response.json({
-        previewUrl:  withPreview.preview_url,
-        trackName:   withPreview.name,
-        artistName:  withPreview.artists?.[0]?.name,
-        albumName:   withPreview.album?.name,
-        albumArt:    withPreview.album?.images?.[1]?.url || withPreview.album?.images?.[0]?.url,
-        spotifyUrl:  withPreview.external_urls?.spotify,
-        durationMs:  withPreview.duration_ms,
-      }, {
-        headers: { "Cache-Control": "public, max-age=86400" },
-      });
+    if (!tracks.length) {
+      return Response.json({ spotifyId: null }, { status: 404 });
     }
 
-    // Fallback — retourner les métadonnées sans preview
-    if (tracks.length > 0) {
-      const t = tracks[0];
-      return Response.json({
-        previewUrl:  null,
-        trackName:   t.name,
-        artistName:  t.artists?.[0]?.name,
-        albumName:   t.album?.name,
-        albumArt:    t.album?.images?.[1]?.url || t.album?.images?.[0]?.url,
-        spotifyUrl:  t.external_urls?.spotify,
-        durationMs:  t.duration_ms,
-      }, {
-        headers: { "Cache-Control": "public, max-age=86400" },
-      });
-    }
+    // Prendre le meilleur match — priorité au bon artiste
+    const artistLow = artist.toLowerCase();
+    const best = tracks.find(t =>
+      t.artists?.some(a => a.name.toLowerCase().includes(artistLow) ||
+                           artistLow.includes(a.name.toLowerCase()))
+    ) || tracks[0];
 
-    return Response.json({ previewUrl: null }, { status: 404 });
+    return Response.json({
+      spotifyId:  best.id,
+      spotifyUri: best.uri,
+      trackName:  best.name,
+      artistName: best.artists?.[0]?.name,
+      albumName:  best.album?.name,
+      albumArt:   best.album?.images?.[1]?.url || best.album?.images?.[0]?.url,
+      spotifyUrl: best.external_urls?.spotify,
+      durationMs: best.duration_ms,
+      // preview_url gardé si dispo (rare mais ça arrive encore)
+      previewUrl: best.preview_url || null,
+    }, {
+      headers: { "Cache-Control": "public, max-age=86400" },
+    });
 
   } catch (err) {
     console.error("[spotify-preview]", err.message);

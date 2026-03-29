@@ -278,18 +278,28 @@ export default function WorkPanel({
 
   return (
     <aside style={{
-      position:"fixed", top:18, right:18, bottom:18,
-      width:"min(300px, calc(100vw - 36px))",
+      // Desktop : sidebar droite
+      // Mobile : bottom sheet
+      ...(typeof window !== "undefined" && window.innerWidth < 768 ? {
+        position:"fixed", left:0, right:0, bottom:0,
+        height: isOpen ? "55vh" : 0,
+        width:"100%",
+        transform:"none",
+        borderRadius:"4px 4px 0 0",
+        paddingBottom:"env(safe-area-inset-bottom)",
+      } : {
+        position:"fixed", top:18, right:18, bottom:18,
+        width:"min(300px, calc(100vw - 36px))",
+        transform: isOpen ? "translateX(0)" : "translateX(calc(100% + 28px))",
+      }),
       zIndex:40,
       background: bg,
       border:`1px solid ${bord}`,
       backdropFilter:"blur(20px)",
       WebkitBackdropFilter:"blur(20px)",
-      transform: isOpen ? "translateX(0)" : "translateX(calc(100% + 28px))",
-      transition:"transform 260ms cubic-bezier(0.22,1,0.36,1)",
+      transition:"transform 260ms cubic-bezier(0.22,1,0.36,1), height 260ms cubic-bezier(0.22,1,0.36,1)",
       color: text,
       overflow:"hidden",
-      borderRadius:1,
       fontFamily:"'Libre Baskerville', Georgia, serif",
       display:"flex", flexDirection:"column",
     }}>
