@@ -76,10 +76,10 @@ function Onboarding({ dark, onChoose }) {
     : "radial-gradient(ellipse at 50% 60%, rgba(240,233,224,0.94) 0%, rgba(228,221,212,0.99) 100%)";
 
   const choices = [
-    { key:"random",    icon:"◉", label:"Explorer au hasard",   desc:"Atterrir quelque part sur la carte" },
-    { key:"mountains", icon:"△", label:"Les grandes œuvres",   desc:"Haute intensité structurale" },
-    { key:"frontier",  icon:"◇", label:"Zones inconnues",      desc:"Musique commerciale et formule" },
-    { key:"free",      icon:"○", label:"Navigation libre",     desc:"Explorer le globe à ta façon" },
+    { key:"random",    icon:"◉", label:"Je tourne en rond",        desc:"Emmène-moi quelque part que je ne connais pas" },
+    { key:"mountains", icon:"△", label:"Je veux ce qui compte vraiment", desc:"Les œuvres structuralement les plus fortes" },
+    { key:"frontier",  icon:"◇", label:"Je veux sortir de ma zone", desc:"Explorer des territoires inconnus" },
+    { key:"free",      icon:"○", label:"Je sais déjà ce que je cherche", desc:"Navigation libre sur la carte" },
   ];
 
   return (
@@ -118,7 +118,7 @@ function Onboarding({ dark, onChoose }) {
       </div>
       <div style={{ marginTop:44, fontSize:9, letterSpacing:"0.14em", color: T.muted,
         fontFamily:"'DM Mono',monospace", textTransform:"uppercase" }}>
-        But you can still like what you like.
+        Not more music. Better music.
       </div>
     </div>
   );
@@ -458,9 +458,15 @@ export default function HomePage() {
       <div style={S.wordmark}>
         <span style={{ display:"block", fontSize:20, fontStyle:"italic",
           letterSpacing:"-0.04em", color: T.text, lineHeight:1 }}>lisn</span>
-        <span style={{ display:"block", fontSize:8, letterSpacing:"0.22em",
-          color: T.muted, fontFamily:"'DM Mono',monospace", marginTop:3 }}>
+        <span style={{ display:"block", fontSize:8, letterSpacing:"0.20em",
+          color: T.muted, fontFamily:"'DM Mono',monospace", marginTop:3,
+          textTransform:"uppercase" }}>
           {modeLabel} · {filteredWorks.length}
+        </span>
+        <span style={{ display:"block", fontSize:7, letterSpacing:"0.14em",
+          color: T.muted, fontFamily:"'DM Mono',monospace", marginTop:4,
+          opacity:0.55, textTransform:"uppercase" }}>
+          Expand your musical taste
         </span>
       </div>
 

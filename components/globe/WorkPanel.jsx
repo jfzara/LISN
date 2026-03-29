@@ -66,7 +66,7 @@ function Tabs({ tab, onChange, dark }) {
 }
 
 // ── Fiche principale ──────────────────────────────────────────────
-function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, pill, onRequestAnalysis }) {
+function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis }) {
   const text  = dark ? "#e8dfc8" : "#1a1410";
   const muted = dark ? "rgba(232,223,200,0.42)" : "rgba(26,20,16,0.42)";
   const bord  = dark ? "rgba(232,223,200,0.08)" : "rgba(26,20,16,0.10)";
