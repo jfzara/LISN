@@ -47,8 +47,9 @@ function GlobeBody({ dark }) {
     <mesh raycast={() => null}>
       <sphereGeometry args={[5.0, 48, 48]} />
       <meshStandardMaterial
-        color={dark ? "#0d0b09" : "#e6dfd6"}
-        roughness={0.92} metalness={0.02}
+        color={dark ? "#0a0e18" : "#c8c0b4"}
+        roughness={dark ? 0.88 : 0.82}
+        metalness={dark ? 0.04 : 0.02}
       />
     </mesh>
   );
@@ -58,19 +59,21 @@ function GlobeBody({ dark }) {
 function GlobeAtmosphere({ dark }) {
   return (
     <>
+      {/* Halo externe — bleu-indigo en dark, ciel doux en light */}
       <mesh raycast={() => null}>
-        <sphereGeometry args={[5.18, 32, 32]} />
+        <sphereGeometry args={[5.22, 32, 32]} />
         <meshBasicMaterial
-          color={dark ? "#1a2a44" : "#c8d8ec"}
-          transparent opacity={dark ? 0.06 : 0.11}
+          color={dark ? "#1e2d50" : "#b8d0e4"}
+          transparent opacity={dark ? 0.09 : 0.13}
           depthWrite={false}
         />
       </mesh>
+      {/* Halo interne — plus chaud */}
       <mesh raycast={() => null}>
-        <sphereGeometry args={[5.09, 32, 32]} />
+        <sphereGeometry args={[5.10, 32, 32]} />
         <meshBasicMaterial
-          color={dark ? "#0c1828" : "#dde8f2"}
-          transparent opacity={dark ? 0.04 : 0.07}
+          color={dark ? "#0e1830" : "#d8e8f4"}
+          transparent opacity={dark ? 0.06 : 0.08}
           depthWrite={false}
         />
       </mesh>
@@ -365,12 +368,36 @@ function GlobeInner({
       <AutoRotate enabled={autoRotating} />
       <CameraAnimator target={selectedWork} />
       <MobileLongPress onLongPress={handleLongPress} />
-      <color attach="background" args={[dark ? "#050403" : "#ece6df"]} />
+      <color attach="background" args={[dark ? "#050403" : "#ede6dc"]} />
 
-      <ambientLight intensity={dark ? 0.55 : 1.4} />
-      <directionalLight position={[10, 8, 6]}  intensity={dark ? 1.2 : 1.8} color={dark ? "#fff8f0" : "#ffffff"} />
-      <directionalLight position={[-8, -6, -4]} intensity={dark ? 0.22 : 0.35} color={dark ? "#334466" : "#bbccdd"} />
-      <pointLight position={[0, 12, 8]} intensity={dark ? 0.35 : 0.5} />
+      <ambientLight intensity={dark ? 0.45 : 1.3} />
+      {/* Lumière principale — chaleureuse, de 3/4 */}
+      <directionalLight
+        position={[10, 8, 6]}
+        intensity={dark ? 1.4 : 1.9}
+        color={dark ? "#e8d8c0" : "#ffffff"}
+      />
+      {/* Contre-jour — bleu-ardoise en dark, bleu ciel en light */}
+      <directionalLight
+        position={[-8, -6, -4]}
+        intensity={dark ? 0.28 : 0.38}
+        color={dark ? "#2a3a5e" : "#b8ccdd"}
+      />
+      {/* Rim light — contour violet-bleu discret en dark, absent en light */}
+      {dark && (
+        <pointLight
+          position={[0, -8, -10]}
+          intensity={0.55}
+          color="#1a1a3a"
+          distance={28}
+        />
+      )}
+      {/* Fill light doux */}
+      <pointLight
+        position={[0, 12, 8]}
+        intensity={dark ? 0.30 : 0.45}
+        color={dark ? "#fff4e8" : "#ffffff"}
+      />
 
       <Suspense fallback={null}>
         <GlobeBody dark={dark} />

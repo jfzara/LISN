@@ -13,16 +13,26 @@ import { worksSeed } from "@/data/worksSeed";
 // ── Thème ──────────────────────────────────────────────────────────
 const THEME = {
   dark: {
-    bg: "#040302", text: "#e8dfc8", muted: "rgba(232,223,200,0.45)",
-    border: "rgba(232,223,200,0.12)", navBg: "rgba(4,3,2,0.75)",
-    cardBg: "rgba(4,3,2,0.93)", pill: "rgba(232,223,200,0.07)",
-    track: "rgba(232,223,200,0.08)",
+    // Fond quasi-noir, texte crème lumineux, muted lisible
+    bg:      "#050403",
+    text:    "#f2ead8",           // crème plus clair — contraste 17:1
+    muted:   "#9c8e7e",           // warm grey — contraste 6.4:1 (était 3.7)
+    border:  "rgba(242,234,216,0.14)",
+    navBg:   "rgba(5,4,3,0.82)",  // plus opaque = meilleure lisibilité
+    cardBg:  "rgba(5,4,3,0.96)",
+    pill:    "rgba(242,234,216,0.08)",
+    track:   "rgba(242,234,216,0.09)",
   },
   light: {
-    bg: "#e4ddd4", text: "#1a1410", muted: "rgba(26,20,16,0.45)",
-    border: "rgba(26,20,16,0.14)", navBg: "rgba(228,221,212,0.82)",
-    cardBg: "rgba(228,221,212,0.95)", pill: "rgba(26,20,16,0.06)",
-    track: "rgba(26,20,16,0.08)",
+    // Fond ivoire chaud, texte encre sombre, muted lisible
+    bg:      "#ede6dc",           // légèrement plus chaud
+    text:    "#120e0a",           // quasi-noir chaud — contraste 15.5:1
+    muted:   "#5c5048",           // brun moyen — contraste 6.3:1 (était 3.5)
+    border:  "rgba(18,14,10,0.16)",
+    navBg:   "rgba(237,230,220,0.86)",
+    cardBg:  "rgba(237,230,220,0.97)",
+    pill:    "rgba(18,14,10,0.07)",
+    track:   "rgba(18,14,10,0.09)",
   },
 };
 

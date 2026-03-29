@@ -20,8 +20,8 @@ function ScoreBar({ score, dark }) {
   const pct   = Math.round((score / 10) * 100);
   const color = score >= 9.0 ? "#FF6B2F" : score >= 8.0 ? "#E8C97A" : score >= 7.0 ? "#4ABFFF"
               : dark ? "rgba(232,223,200,0.30)" : "rgba(26,20,16,0.22)";
-  const trackBg = dark ? "rgba(232,223,200,0.07)" : "rgba(26,20,16,0.08)";
-  const labelC  = dark ? "rgba(232,223,200,0.38)" : "rgba(26,20,16,0.38)";
+  const trackBg = dark ? "rgba(242,234,216,0.08)" : "rgba(18,14,10,0.09)";
+  const labelC  = dark ? "#8a7c6c" : "#4e4438";
   return (
     <div style={{ marginTop: 16 }}>
       <div style={{ display:"flex", justifyContent:"space-between", marginBottom:5,
@@ -40,9 +40,9 @@ function ScoreBar({ score, dark }) {
 
 // ── Onglets ───────────────────────────────────────────────────────
 function Tabs({ tab, onChange, dark }) {
-  const text  = dark ? "#e8dfc8" : "#1a1410";
-  const muted = dark ? "rgba(232,223,200,0.38)" : "rgba(26,20,16,0.38)";
-  const bord  = dark ? "rgba(232,223,200,0.10)" : "rgba(26,20,16,0.10)";
+  const text  = dark ? "#f2ead8" : "#120e0a";
+  const muted = dark ? "#8a7c6c" : "#4e4438";
+  const bord  = dark ? "rgba(242,234,216,0.12)" : "rgba(18,14,10,0.12)";
   const tabs  = [
     { key: "fiche",       label: "Fiche" },
     { key: "autour",      label: "Autour" },
@@ -67,10 +67,10 @@ function Tabs({ tab, onChange, dark }) {
 
 // ── Fiche principale ──────────────────────────────────────────────
 function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis }) {
-  const text  = dark ? "#e8dfc8" : "#1a1410";
-  const muted = dark ? "rgba(232,223,200,0.42)" : "rgba(26,20,16,0.42)";
-  const bord  = dark ? "rgba(232,223,200,0.08)" : "rgba(26,20,16,0.10)";
-  const pill  = dark ? "rgba(232,223,200,0.07)" : "rgba(26,20,16,0.06)";
+  const text  = dark ? "#f2ead8" : "#120e0a";
+  const muted = dark ? "#9c8e7e" : "#5c5048";
+  const bord  = dark ? "rgba(242,234,216,0.09)" : "rgba(18,14,10,0.12)";
+  const pill  = dark ? "rgba(242,234,216,0.08)" : "rgba(26,20,16,0.06)";
   const biome = work.biome || work.regime;
 
   const metaItems = [
@@ -133,9 +133,9 @@ function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage
 
 // ── Onglet Autour ────────────────────────────────────────────────
 function AutourTab({ works, dark, onSelectWork }) {
-  const text  = dark ? "#e8dfc8" : "#1a1410";
-  const muted = dark ? "rgba(232,223,200,0.42)" : "rgba(26,20,16,0.42)";
-  const bord  = dark ? "rgba(232,223,200,0.08)" : "rgba(26,20,16,0.10)";
+  const text  = dark ? "#f2ead8" : "#120e0a";
+  const muted = dark ? "#9c8e7e" : "#5c5048";
+  const bord  = dark ? "rgba(242,234,216,0.09)" : "rgba(18,14,10,0.12)";
   const hover = dark ? "rgba(232,223,200,0.05)" : "rgba(26,20,16,0.04)";
 
   if (works.length === 0) {
@@ -176,11 +176,11 @@ function AutourTab({ works, dark, onSelectWork }) {
 
 // ── Onglet Trajectoire ───────────────────────────────────────────
 function TrajectoireTab({ works, dark, onSelectWork }) {
-  const text  = dark ? "#e8dfc8" : "#1a1410";
-  const muted = dark ? "rgba(232,223,200,0.42)" : "rgba(26,20,16,0.42)";
-  const bord  = dark ? "rgba(232,223,200,0.08)" : "rgba(26,20,16,0.10)";
+  const text  = dark ? "#f2ead8" : "#120e0a";
+  const muted = dark ? "#9c8e7e" : "#5c5048";
+  const bord  = dark ? "rgba(242,234,216,0.09)" : "rgba(18,14,10,0.12)";
   const hover = dark ? "rgba(232,223,200,0.05)" : "rgba(26,20,16,0.04)";
-  const line  = dark ? "rgba(232,223,200,0.12)" : "rgba(26,20,16,0.12)";
+  const line  = dark ? "rgba(242,234,216,0.14)" : "rgba(18,14,10,0.14)";
 
   if (works.length === 0) {
     return <div style={{ fontSize:12, color: muted, marginTop:8, lineHeight:1.6 }}>
@@ -272,10 +272,10 @@ export default function WorkPanel({
   const isOpen = Boolean(work);
   const biome  = work?.biome || work?.regime;
 
-  const bg   = dark ? "rgba(6,4,2,0.96)"       : "rgba(228,221,212,0.96)";
-  const bord = dark ? "rgba(232,223,200,0.11)"  : "rgba(26,20,16,0.14)";
-  const text = dark ? "#e8dfc8"                 : "#1a1410";
-  const muted= dark ? "rgba(232,223,200,0.42)"  : "rgba(26,20,16,0.42)";
+  const bg   = dark ? "rgba(5,4,3,0.97)"       : "rgba(237,230,220,0.97)";
+  const bord = dark ? "rgba(242,234,216,0.13)"  : "rgba(18,14,10,0.16)";
+  const text = dark ? "#f2ead8"                 : "#120e0a";
+  const muted= dark ? "#9c8e7e"  : "#5c5048";
 
   return (
     <aside style={mobile ? {

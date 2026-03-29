@@ -32,15 +32,15 @@ export default function AnalysisModal({ work, dark, onClose }) {
   if (!work) return null;
 
   const biome   = work.biome || work.regime;
-  const col     = BIOME_COLOR[biome] || "#e8dfc8";
+  const col     = BIOME_COLOR[biome] || "#f2ead8";
   const verdict = MOCK_VERDICTS[biome] || "Forme musicale en attente d'analyse structurale complète.";
 
-  const bg      = dark ? "rgba(4,3,2,0.98)"      : "rgba(228,221,212,0.98)";
+  const bg      = dark ? "rgba(5,4,3,0.98)"      : "rgba(237,230,220,0.98)";
   const overlay = dark ? "rgba(0,0,0,0.72)"       : "rgba(100,90,80,0.45)";
-  const border  = dark ? "rgba(232,223,200,0.12)" : "rgba(26,20,16,0.14)";
-  const text    = dark ? "#e8dfc8"                : "#1a1410";
-  const muted   = dark ? "rgba(232,223,200,0.45)" : "rgba(26,20,16,0.45)";
-  const trackBg = dark ? "rgba(232,223,200,0.07)" : "rgba(26,20,16,0.08)";
+  const border  = dark ? "rgba(242,234,216,0.14)" : "rgba(18,14,10,0.16)";
+  const text    = dark ? "#f2ead8"                : "#120e0a";
+  const muted   = dark ? "#9c8e7e" : "#5c5048";
+  const trackBg = dark ? "rgba(242,234,216,0.08)" : "rgba(18,14,10,0.09)";
 
   const score   = Number(work.score || 0);
   const scorePct = Math.round((score / 10) * 100);
