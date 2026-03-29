@@ -9,6 +9,8 @@ import SearchBar     from "@/components/globe/SearchBar";
 import ComparePanel  from "@/components/globe/ComparePanel";
 import AnalysisModal from "@/components/globe/AnalysisModal";
 import { worksSeed } from "@/data/worksSeed";
+import GestureHint from "@/components/globe/GestureHint";
+import HelpPanel   from "@/components/globe/HelpPanel";
 
 // ── Thème ──────────────────────────────────────────────────────────
 const THEME = {
@@ -81,7 +83,7 @@ function Slider({ label, value, min, max, step = 0.5, onChange, T, fmt }) {
 }
 
 // ── Onboarding ──────────────────────────────────────────────────────
-function Onboarding({ dark, onChoose }) {
+function Onboarding({ dark, onChoose, onShowHelp }) {
   const T  = dark ? THEME.dark : THEME.light;
   const bg = dark
     ? "radial-gradient(ellipse at 50% 60%, rgba(14,10,6,0.94) 0%, rgba(4,3,2,0.99) 100%)"
@@ -128,9 +130,19 @@ function Onboarding({ dark, onChoose }) {
           </button>
         ))}
       </div>
-      <div style={{ marginTop:44, fontSize:9, letterSpacing:"0.14em", color: T.muted,
-        fontFamily:"'DM Mono',monospace", textTransform:"uppercase" }}>
-        Not more music. Better music.
+      <div style={{ marginTop:32, display:"flex", flexDirection:"column",
+        alignItems:"center", gap:10 }}>
+        <button onClick={() => { localStorage.setItem("lisn-onboarding","1"); onChoose("free"); onShowHelp?.(); }}
+          style={{ background:"none", border:"none", cursor:"pointer",
+            fontSize:9, color:T.muted, fontFamily:"'DM Mono',monospace",
+            letterSpacing:"0.14em", textTransform:"uppercase", textDecoration:"underline",
+            textUnderlineOffset:3 }}>
+          Comment ça marche ? →
+        </button>
+        <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
+          fontFamily:"'DM Mono',monospace", textTransform:"uppercase", opacity:0.6 }}>
+          Not more music. Better music.
+        </div>
       </div>
     </div>
   );
@@ -141,6 +153,7 @@ export default function HomePage() {
   const [dark,            setDark]            = useState(true);
   const [mobile,          setMobile]          = useState(false);
   const [showFilters,     setShowFilters]     = useState(false);
+  const [showHelp,        setShowHelp]        = useState(false);
   const [showOnboarding,  setShowOnboarding]  = useState(true);
   const [selectedWork,    setSelectedWork]    = useState(null);
   const [hoveredWork,     setHoveredWork]     = useState(null);
@@ -295,7 +308,7 @@ export default function HomePage() {
   return (
     <div style={{ ...S.page, background: T.bg, color: T.text }}>
 
-      {showOnboarding && <Onboarding dark={dark} onChoose={handleOnboardingChoice} />}
+      {showOnboarding && <Onboarding dark={dark} onChoose={handleOnboardingChoice} onShowHelp={() => setShowHelp(true)} />}
 
       <div style={S.stage}>
         <GlobeScene
@@ -463,6 +476,10 @@ export default function HomePage() {
           <button style={S.mobileBtn(T)} onClick={toggleDark}>
             <span style={S.mobileBtnIcon}>{dark ? "◐" : "◑"}</span>
             <span style={S.mobileBtnLabel(T)}>{dark ? "Clair" : "Sombre"}</span>
+          </button>
+          <button style={S.mobileBtn(T)} onClick={() => setShowHelp(true)}>
+            <span style={S.mobileBtnIcon}>?</span>
+            <span style={S.mobileBtnLabel(T)}>Guide</span>
           </button>
         </nav>
         </>
@@ -633,6 +650,12 @@ export default function HomePage() {
           onClose={() => setAnalysisWork(null)}
         />
       )}
+
+      {/* Tutoriel gestuel mobile */}
+      <GestureHint dark={dark} mobile={mobile} />
+
+      {/* Mode d'emploi */}
+      {showHelp && <HelpPanel dark={dark} onClose={() => setShowHelp(false)} />}
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }`}</style>
     </div>
