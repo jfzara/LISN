@@ -130,6 +130,7 @@ function Onboarding({ dark, onChoose }) {
 export default function HomePage() {
   const [dark,            setDark]            = useState(true);
   const [mobile,          setMobile]          = useState(false);
+  const [showFilters,     setShowFilters]     = useState(false);
   const [showOnboarding,  setShowOnboarding]  = useState(true);
   const [selectedWork,    setSelectedWork]    = useState(null);
   const [hoveredWork,     setHoveredWork]     = useState(null);
@@ -297,6 +298,7 @@ export default function HomePage() {
           dark={dark}
           nearbyWorks={nearbyWorks}
           trajectoryWorks={trajectoryWorks}
+          mobile={mobile}
         />
       </div>
 
@@ -333,31 +335,116 @@ export default function HomePage() {
 
       {/* ── Nav ──────────────────────────────────────────────── */}
       {mobile ? (
-        /* ── Nav mobile — barre d'icônes minimale en bas ── */
+        <>
+        {/* ── Drawer filtres mobile ── */}
+        {showFilters && (
+          <div style={{
+            position:"fixed", left:0, right:0, bottom:64, zIndex:35,
+            background: T.navBg, borderTop:`1px solid ${T.border}`,
+            backdropFilter:"blur(18px)", padding:"16px",
+            maxHeight:"60vh", overflowY:"auto",
+          }}>
+            {/* Biomes */}
+            <div style={{ marginBottom:16 }}>
+              <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
+                fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
+                Biome
+              </div>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                {Object.entries(BIOME_META).map(([key, meta]) => {
+                  const active = biomeFilter === key;
+                  return (
+                    <button key={key} onClick={() => setBiomeFilter(key)} style={{
+                      padding:"6px 12px", border:`1px solid ${active ? (meta.color||T.border) : T.border}`,
+                      borderRadius:1, background: active ? T.pill : "none",
+                      color: active && meta.color ? meta.color : T.text,
+                      fontSize:11, cursor:"pointer",
+                      fontFamily:"'DM Mono',monospace",
+                    }}>
+                      {meta.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Score range */}
+            <div style={{ marginBottom:16 }}>
+              <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
+                fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
+                Intensité — {scoreMin.toFixed(1)} → {scoreMax.toFixed(1)}
+              </div>
+              <div style={{ display:"flex", gap:16 }}>
+                <Slider label="Min" value={scoreMin} min={2} max={9} step={0.5}
+                  onChange={setScoreMin} T={T} fmt={v => v.toFixed(1)} />
+                <Slider label="Max" value={scoreMax} min={3} max={10} step={0.5}
+                  onChange={setScoreMax} T={T} fmt={v => v.toFixed(1)} />
+              </div>
+            </div>
+
+            {/* Décennies */}
+            <div style={{ marginBottom:8 }}>
+              <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
+                fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
+                Époque
+              </div>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                {DECADES.map(d => {
+                  const active = decade === d;
+                  return (
+                    <button key={d??'all'} onClick={() => setDecade(active ? null : d)} style={{
+                      padding:"6px 10px", border:`1px solid ${active ? T.border : T.border}`,
+                      borderRadius:1, background: active ? T.pill : "none",
+                      color: active ? T.text : T.muted,
+                      fontSize:11, cursor:"pointer",
+                      fontFamily:"'DM Mono',monospace",
+                    }}>
+                      {d ? `${String(d).slice(2)}s` : "∞"}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Reset */}
+            <button onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); setShowFilters(false); }}
+              style={{ marginTop:8, width:"100%", padding:"10px", border:`1px solid ${T.border}`,
+                background:"none", color:T.muted, fontSize:10, cursor:"pointer",
+                fontFamily:"'DM Mono',monospace", letterSpacing:"0.12em" }}>
+              ↺ Réinitialiser
+            </button>
+          </div>
+        )}
+
+        {/* ── Nav mobile — barre fixe en bas ── */}
         <nav style={{
-          position:"absolute", bottom:0, left:0, right:0,
-          zIndex:20, display:"flex", alignItems:"center",
+          position:"fixed", bottom:0, left:0, right:0, height:64,
+          zIndex:40, display:"flex", alignItems:"center",
           justifyContent:"space-around",
-          padding:"10px 8px",
-          paddingBottom:"max(10px, env(safe-area-inset-bottom))",
+          paddingBottom:"env(safe-area-inset-bottom)",
           background: T.navBg, borderTop:`1px solid ${T.border}`,
           backdropFilter:"blur(18px)", WebkitBackdropFilter:"blur(18px)",
-          // NE PAS intercepter les touches du globe au-dessus
-          touchAction:"auto",
+          touchAction:"manipulation",
         }}>
-          <button style={S.mobileBtn(T)} onClick={() => landRandom()} title="Aléatoire">
+          <button style={S.mobileBtn(T)} onClick={() => landRandom()}>
             <span style={S.mobileBtnIcon}>◎</span>
             <span style={S.mobileBtnLabel(T)}>Hasard</span>
           </button>
-          <button style={S.mobileBtn(T)} onClick={() => voyageMode ? stopVoyage() : startVoyage(selectedWork||undefined)}>
+          <button style={S.mobileBtn(T)}
+            onClick={() => voyageMode ? stopVoyage() : startVoyage(selectedWork||undefined)}>
             <span style={{ ...S.mobileBtnIcon, color: voyageMode ? T.text : T.muted }}>
               {voyageMode ? "◼" : "▷"}
             </span>
             <span style={S.mobileBtnLabel(T)}>Voyage</span>
           </button>
-          <button style={S.mobileBtn(T)} onClick={() => setBiomeFilter("all")}>
-            <span style={S.mobileBtnIcon}>○</span>
-            <span style={S.mobileBtnLabel(T)}>Biomes</span>
+          <button style={S.mobileBtn(T)}
+            onClick={() => setShowFilters(v => !v)}>
+            <span style={{ ...S.mobileBtnIcon, color: showFilters ? T.text : T.muted }}>
+              ≡
+            </span>
+            <span style={{ ...S.mobileBtnLabel(T), color: showFilters ? T.text : T.muted }}>
+              Filtres
+            </span>
           </button>
           <button style={S.mobileBtn(T)} onClick={toggleCompare}>
             <span style={{ ...S.mobileBtnIcon, color: compareMode ? T.text : T.muted }}>⊕</span>
@@ -367,11 +454,8 @@ export default function HomePage() {
             <span style={S.mobileBtnIcon}>{dark ? "◐" : "◑"}</span>
             <span style={S.mobileBtnLabel(T)}>{dark ? "Clair" : "Sombre"}</span>
           </button>
-          <button style={S.mobileBtn(T)} onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); stopVoyage(); setCompareMode(false); }}>
-            <span style={S.mobileBtnIcon}>↺</span>
-            <span style={S.mobileBtnLabel(T)}>Reset</span>
-          </button>
         </nav>
+        </>
       ) : (
         /* ── Nav desktop — barre complète ── */
         <nav style={{ ...S.nav, background: T.navBg, borderColor: T.border }}>
@@ -527,6 +611,7 @@ export default function HomePage() {
           onStartVoyage={() => startVoyage(selectedWork)}
           voyageMode={voyageMode}
           onRequestAnalysis={w => setAnalysisWork(w)}
+          mobile={mobile}
         />
       )}
 

@@ -267,6 +267,7 @@ export default function WorkPanel({
   onSelectWork,
   onStartVoyage, voyageMode = false,
   onRequestAnalysis,
+  mobile = false,
 }) {
   const isOpen = Boolean(work);
   const biome  = work?.biome || work?.regime;
@@ -277,29 +278,37 @@ export default function WorkPanel({
   const muted= dark ? "rgba(232,223,200,0.42)"  : "rgba(26,20,16,0.42)";
 
   return (
-    <aside style={{
-      // Desktop : sidebar droite
-      // Mobile : bottom sheet
-      ...(typeof window !== "undefined" && window.innerWidth < 768 ? {
-        position:"fixed", left:0, right:0, bottom:0,
-        height: isOpen ? "55vh" : 0,
-        width:"100%",
-        transform:"none",
-        borderRadius:"4px 4px 0 0",
-        paddingBottom:"env(safe-area-inset-bottom)",
-      } : {
-        position:"fixed", top:18, right:18, bottom:18,
-        width:"min(300px, calc(100vw - 36px))",
-        transform: isOpen ? "translateX(0)" : "translateX(calc(100% + 28px))",
-      }),
+    <aside style={mobile ? {
+      /* ── Mobile : bottom sheet ── */
+      position:"fixed", left:0, right:0, bottom:0,
+      height: isOpen ? "60vh" : "0px",
+      width:"100%",
+      zIndex:40,
+      background: bg,
+      borderTop:`1px solid ${bord}`,
+      borderRadius:"8px 8px 0 0",
+      backdropFilter:"blur(20px)",
+      WebkitBackdropFilter:"blur(20px)",
+      transition:"height 280ms cubic-bezier(0.22,1,0.36,1)",
+      color: text,
+      overflow:"hidden",
+      fontFamily:"'Libre Baskerville', Georgia, serif",
+      display:"flex", flexDirection:"column",
+      paddingBottom:"env(safe-area-inset-bottom)",
+    } : {
+      /* ── Desktop : sidebar droite ── */
+      position:"fixed", top:18, right:18, bottom:18,
+      width:"min(300px, calc(100vw - 36px))",
       zIndex:40,
       background: bg,
       border:`1px solid ${bord}`,
       backdropFilter:"blur(20px)",
       WebkitBackdropFilter:"blur(20px)",
-      transition:"transform 260ms cubic-bezier(0.22,1,0.36,1), height 260ms cubic-bezier(0.22,1,0.36,1)",
+      transform: isOpen ? "translateX(0)" : "translateX(calc(100% + 28px))",
+      transition:"transform 260ms cubic-bezier(0.22,1,0.36,1)",
       color: text,
       overflow:"hidden",
+      borderRadius:1,
       fontFamily:"'Libre Baskerville', Georgia, serif",
       display:"flex", flexDirection:"column",
     }}>

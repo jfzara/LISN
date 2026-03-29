@@ -435,13 +435,14 @@ export default function GlobeScene({
   onSelectWork, onHoverWork,
   activeFilter = "all", dark = true,
   nearbyWorks = [], trajectoryWorks = [],
+  mobile = false,
 }) {
   const [autoRotating, setAutoRotating] = useState(true);
 
   return (
     <Canvas
-      camera={{ position: [0, 0, 14], fov: 44 }}
-      style={{ width: "100%", height: "100%", touchAction: "none" }}
+      camera={{ position: [0, 0, mobile ? 18 : 14], fov: 44 }}
+      style={{ width: "100%", height: mobile ? "calc(100% - 64px)" : "100%", touchAction: "none" }}
       gl={{
         antialias: true,
         powerPreference: "high-performance",
