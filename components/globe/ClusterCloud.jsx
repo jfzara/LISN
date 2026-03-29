@@ -50,8 +50,8 @@ export default function ClusterCloud({ cluster, distanceFactor = 0.5 }) {
   const fadeOut = Math.min(1, (0.80 - distanceFactor) / 0.12);
   const fade    = Math.min(fadeIn, fadeOut);
 
-  const r      = radius * 0.60;
-  const cloudOp = (0.012 + density * 0.0012) * fade;
+  const r      = radius * 0.30;
+ const cloudOp = (0.008 + density * 0.0008) * fade;
   const ringOp  = (hasCapital ? 0.045 : 0) * fade;
 
   return (

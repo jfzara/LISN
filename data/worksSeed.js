@@ -1,4 +1,4 @@
-// data/worksSeed.js — v3 — seed complet avec distribution OSR réaliste
+// data/worksSeed.js — v4 — avec années approximatives
 
 export const worksSeed = [
   {
@@ -17,7 +17,8 @@ export const worksSeed = [
     "y": 0.9931,
     "z": 4.5554,
     "phi": 1.9483,
-    "theta": 1.3709
+    "theta": 1.3709,
+    "year": 1962
   },
   {
     "id": "miles-davis-bitches-brew",
@@ -35,7 +36,8 @@ export const worksSeed = [
     "y": -0.2596,
     "z": 4.621,
     "phi": 1.9594,
-    "theta": 1.6227
+    "theta": 1.6227,
+    "year": 1960
   },
   {
     "id": "miles-davis-in-a-silent-way",
@@ -53,7 +55,8 @@ export const worksSeed = [
     "y": 0.2664,
     "z": 4.9535,
     "phi": 1.4451,
-    "theta": 1.5175
+    "theta": 1.5175,
+    "year": 1959
   },
   {
     "id": "miles-davis-on-the-corner",
@@ -71,7 +74,8 @@ export const worksSeed = [
     "y": 0.5801,
     "z": 4.6693,
     "phi": 1.9184,
-    "theta": 1.4545
+    "theta": 1.4545,
+    "year": 1957
   },
   {
     "id": "miles-davis-sketches-of-spain",
@@ -89,7 +93,8 @@ export const worksSeed = [
     "y": -0.1942,
     "z": 3.2836,
     "phi": 2.4245,
-    "theta": 1.6096
+    "theta": 1.6096,
+    "year": 1960
   },
   {
     "id": "john-coltrane-a-love-supreme",
@@ -107,7 +112,8 @@ export const worksSeed = [
     "y": 3.9309,
     "z": 1.9764,
     "phi": 0.694,
-    "theta": 0.6662
+    "theta": 0.6662,
+    "year": 1962
   },
   {
     "id": "john-coltrane-giant-steps",
@@ -125,7 +131,8 @@ export const worksSeed = [
     "y": 1.3498,
     "z": 3.3092,
     "phi": 0.7578,
-    "theta": 1.2974
+    "theta": 1.2974,
+    "year": 1960
   },
   {
     "id": "john-coltrane-ascension",
@@ -143,7 +150,8 @@ export const worksSeed = [
     "y": 2.5239,
     "z": 2.4569,
     "phi": 0.6056,
-    "theta": 1.0417
+    "theta": 1.0417,
+    "year": 1963
   },
   {
     "id": "john-coltrane-blue-train",
@@ -161,7 +169,8 @@ export const worksSeed = [
     "y": 2.5376,
     "z": 2.1078,
     "phi": 0.5112,
-    "theta": 1.0385
+    "theta": 1.0385,
+    "year": 1961
   },
   {
     "id": "john-coltrane-interstellar-space",
@@ -179,7 +188,8 @@ export const worksSeed = [
     "y": 2.7474,
     "z": 2.1984,
     "phi": 0.5542,
-    "theta": 0.9891
+    "theta": 0.9891,
+    "year": 1964
   },
   {
     "id": "charles-mingus-the-black-saint-and-the-sinner-lady",
@@ -197,7 +207,8 @@ export const worksSeed = [
     "y": -0.4465,
     "z": 4.3082,
     "phi": 2.0963,
-    "theta": 1.6602
+    "theta": 1.6602,
+    "year": 1961
   },
   {
     "id": "charles-mingus-mingus-ah-um",
@@ -215,7 +226,8 @@ export const worksSeed = [
     "y": 2.9998,
     "z": 3.1535,
     "phi": 2.2335,
-    "theta": 0.9274
+    "theta": 0.9274,
+    "year": 1957
   },
   {
     "id": "charles-mingus-mingus-mingus-mingus-mingus-mingus",
@@ -233,7 +245,8 @@ export const worksSeed = [
     "y": 2.2625,
     "z": 4.4002,
     "phi": 1.7332,
-    "theta": 1.1012
+    "theta": 1.1012,
+    "year": 1960
   },
   {
     "id": "ornette-coleman-the-shape-of-jazz-to-come",
@@ -251,7 +264,8 @@ export const worksSeed = [
     "y": 2.334,
     "z": 3.7724,
     "phi": 1.022,
-    "theta": 1.0851
+    "theta": 1.0851,
+    "year": 1959
   },
   {
     "id": "ornette-coleman-free-jazz",
@@ -269,7 +283,8 @@ export const worksSeed = [
     "y": 4.2843,
     "z": 2.2274,
     "phi": 1.0433,
-    "theta": 0.5417
+    "theta": 0.5417,
+    "year": 1959
   },
   {
     "id": "bill-evans-waltz-for-debby",
@@ -287,7 +302,8 @@ export const worksSeed = [
     "y": 0.5693,
     "z": 4.7305,
     "phi": 1.8809,
-    "theta": 1.4567
+    "theta": 1.4567,
+    "year": 1964
   },
   {
     "id": "bill-evans-kind-of-blue",
@@ -305,7 +321,8 @@ export const worksSeed = [
     "y": 0.2088,
     "z": 3.883,
     "phi": 2.2513,
-    "theta": 1.529
+    "theta": 1.529,
+    "year": 1957
   },
   {
     "id": "thelonious-monk-monk-s-dream",
@@ -323,7 +340,8 @@ export const worksSeed = [
     "y": 1.6561,
     "z": 3.8689,
     "phi": 2.1801,
-    "theta": 1.2332
+    "theta": 1.2332,
+    "year": 1954
   },
   {
     "id": "thelonious-monk-brilliant-corners",
@@ -341,7 +359,8 @@ export const worksSeed = [
     "y": -0.0354,
     "z": 4.8548,
     "phi": 1.8123,
-    "theta": 1.5779
+    "theta": 1.5779,
+    "year": 1953
   },
   {
     "id": "cecil-taylor-unit-structures",
@@ -359,7 +378,8 @@ export const worksSeed = [
     "y": -0.4322,
     "z": 2.542,
     "phi": 0.5355,
-    "theta": 1.6573
+    "theta": 1.6573,
+    "year": 1967
   },
   {
     "id": "sun-ra-space-is-the-place",
@@ -377,7 +397,8 @@ export const worksSeed = [
     "y": 1.9556,
     "z": 0.3764,
     "phi": 0.0819,
-    "theta": 1.1689
+    "theta": 1.1689,
+    "year": 1966
   },
   {
     "id": "albert-ayler-spiritual-unity",
@@ -395,7 +416,8 @@ export const worksSeed = [
     "y": 2.0235,
     "z": 3.5184,
     "phi": 0.8781,
-    "theta": 1.1541
+    "theta": 1.1541,
+    "year": 1968
   },
   {
     "id": "eric-dolphy-out-to-lunch",
@@ -413,7 +435,8 @@ export const worksSeed = [
     "y": 4.5927,
     "z": 1.1275,
     "phi": 0.607,
-    "theta": 0.4064
+    "theta": 0.4064,
+    "year": 1962
   },
   {
     "id": "herbie-hancock-head-hunters",
@@ -431,7 +454,8 @@ export const worksSeed = [
     "y": 3.0652,
     "z": 2.5962,
     "phi": 2.4245,
-    "theta": 0.9109
+    "theta": 0.9109,
+    "year": null
   },
   {
     "id": "herbie-hancock-maiden-voyage",
@@ -449,7 +473,8 @@ export const worksSeed = [
     "y": 1.2816,
     "z": 4.1475,
     "phi": 2.1099,
-    "theta": 1.3116
+    "theta": 1.3116,
+    "year": null
   },
   {
     "id": "wayne-shorter-speak-no-evil",
@@ -467,7 +492,8 @@ export const worksSeed = [
     "y": -2.7973,
     "z": 3.2625,
     "phi": 2.2353,
-    "theta": 2.1645
+    "theta": 2.1645,
+    "year": 1966
   },
   {
     "id": "wayne-shorter-juju",
@@ -485,7 +511,8 @@ export const worksSeed = [
     "y": 1.6248,
     "z": 4.6503,
     "phi": 1.7531,
-    "theta": 1.2398
+    "theta": 1.2398,
+    "year": 1967
   },
   {
     "id": "keith-jarrett-the-köln-concert",
@@ -503,7 +530,8 @@ export const worksSeed = [
     "y": 1.6325,
     "z": 3.2415,
     "phi": 2.3858,
-    "theta": 1.2382
+    "theta": 1.2382,
+    "year": 1979
   },
   {
     "id": "keith-jarrett-belonging",
@@ -521,7 +549,8 @@ export const worksSeed = [
     "y": 1.8371,
     "z": 3.4834,
     "phi": 2.2949,
-    "theta": 1.1946
+    "theta": 1.1946,
+    "year": 1980
   },
   {
     "id": "pat-metheny-bright-size-life",
@@ -539,7 +568,8 @@ export const worksSeed = [
     "y": 2.6231,
     "z": 3.8631,
     "phi": 1.1374,
-    "theta": 1.0185
+    "theta": 1.0185,
+    "year": 1983
   },
   {
     "id": "dave-holland-conference-of-the-birds",
@@ -557,7 +587,8 @@ export const worksSeed = [
     "y": -1.4386,
     "z": 3.8862,
     "phi": 2.1948,
-    "theta": 1.8626
+    "theta": 1.8626,
+    "year": 1976
   },
   {
     "id": "paul-bley-open-to-love",
@@ -575,7 +606,8 @@ export const worksSeed = [
     "y": 0.4343,
     "z": 4.2343,
     "phi": 2.1255,
-    "theta": 1.4838
+    "theta": 1.4838,
+    "year": 1968
   },
   {
     "id": "don-cherry-organic-music-society",
@@ -593,7 +625,8 @@ export const worksSeed = [
     "y": 2.773,
     "z": 3.7301,
     "phi": 1.1119,
-    "theta": 0.9829
+    "theta": 0.9829,
+    "year": 1964
   },
   {
     "id": "art-ensemble-of-chicago-nice-guys",
@@ -611,7 +644,8 @@ export const worksSeed = [
     "y": 2.5637,
     "z": 3.9127,
     "phi": 1.1469,
-    "theta": 1.0324
+    "theta": 1.0324,
+    "year": 1974
   },
   {
     "id": "anthony-braxton-for-alto",
@@ -629,7 +663,8 @@ export const worksSeed = [
     "y": -0.0304,
     "z": 2.9672,
     "phi": 0.6353,
-    "theta": 1.5769
+    "theta": 1.5769,
+    "year": 1975
   },
   {
     "id": "archie-shepp-fire-music",
@@ -647,7 +682,8 @@ export const worksSeed = [
     "y": 3.0116,
     "z": 3.9797,
     "phi": 1.4946,
-    "theta": 0.9244
+    "theta": 0.9244,
+    "year": null
   },
   {
     "id": "pharoah-sanders-karma",
@@ -665,7 +701,8 @@ export const worksSeed = [
     "y": 3.402,
     "z": 0.2166,
     "phi": 0.0591,
-    "theta": 0.8225
+    "theta": 0.8225,
+    "year": 1973
   },
   {
     "id": "pharoah-sanders-thembi",
@@ -683,7 +720,8 @@ export const worksSeed = [
     "y": 2.1672,
     "z": 3.8976,
     "phi": 1.0451,
-    "theta": 1.1225
+    "theta": 1.1225,
+    "year": 1967
   },
   {
     "id": "jan-garbarek-officium",
@@ -701,7 +739,8 @@ export const worksSeed = [
     "y": -0.302,
     "z": 3.5814,
     "phi": 2.3413,
-    "theta": 1.6312
+    "theta": 1.6312,
+    "year": 1980
   },
   {
     "id": "nils-petter-molvær-khmer",
@@ -719,7 +758,8 @@ export const worksSeed = [
     "y": 0.7555,
     "z": 4.9021,
     "phi": 1.6989,
-    "theta": 1.4191
+    "theta": 1.4191,
+    "year": 2000
   },
   {
     "id": "esbjörn-svensson-trio-from-gagarin-s-point-of-view",
@@ -737,7 +777,8 @@ export const worksSeed = [
     "y": 3.2991,
     "z": -3.7486,
     "phi": 4.6451,
-    "theta": 0.8502
+    "theta": 0.8502,
+    "year": null
   },
   {
     "id": "brad-mehldau-the-art-of-the-trio-vol-3",
@@ -755,7 +796,8 @@ export const worksSeed = [
     "y": 0.8622,
     "z": -4.9199,
     "phi": 4.7582,
-    "theta": 1.3975
+    "theta": 1.3975,
+    "year": null
   },
   {
     "id": "vijay-iyer-accelerando",
@@ -773,7 +815,8 @@ export const worksSeed = [
     "y": 1.6354,
     "z": 4.6937,
     "phi": 1.6859,
-    "theta": 1.2376
+    "theta": 1.2376,
+    "year": null
   },
   {
     "id": "kamasi-washington-the-epic",
@@ -791,7 +834,8 @@ export const worksSeed = [
     "y": -4.964,
     "z": 0.5897,
     "phi": 1.7429,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": 2012
   },
   {
     "id": "robert-glasper-black-radio",
@@ -809,7 +853,8 @@ export const worksSeed = [
     "y": -2.4056,
     "z": -1.0415,
     "phi": 3.3815,
-    "theta": 2.0727
+    "theta": 2.0727,
+    "year": null
   },
   {
     "id": "flying-lotus-cosmogramma",
@@ -827,7 +872,8 @@ export const worksSeed = [
     "y": 0.5169,
     "z": 1.7641,
     "phi": 2.779,
-    "theta": 1.4672
+    "theta": 1.4672,
+    "year": 2014
   },
   {
     "id": "thundercat-drunk",
@@ -845,7 +891,8 @@ export const worksSeed = [
     "y": -4.4911,
     "z": 0.7306,
     "phi": 2.8027,
-    "theta": 2.6865
+    "theta": 2.6865,
+    "year": 2008
   },
   {
     "id": "meshell-ndegeocello-plantation-lullabies",
@@ -863,7 +910,8 @@ export const worksSeed = [
     "y": -1.2371,
     "z": 3.6163,
     "phi": 2.2989,
-    "theta": 1.8208
+    "theta": 1.8208,
+    "year": null
   },
   {
     "id": "miles-davis",
@@ -881,7 +929,8 @@ export const worksSeed = [
     "y": -1.6416,
     "z": 4.6087,
     "phi": 1.3505,
-    "theta": 1.9053
+    "theta": 1.9053,
+    "year": 1957
   },
   {
     "id": "john-coltrane",
@@ -899,7 +948,8 @@ export const worksSeed = [
     "y": 4.5665,
     "z": 0.7905,
     "phi": 0.3987,
-    "theta": 0.4195
+    "theta": 0.4195,
+    "year": 1964
   },
   {
     "id": "charles-mingus",
@@ -917,7 +967,8 @@ export const worksSeed = [
     "y": 3.0096,
     "z": 2.7878,
     "phi": 2.3687,
-    "theta": 0.9249
+    "theta": 0.9249,
+    "year": 1957
   },
   {
     "id": "ornette-coleman",
@@ -935,7 +986,8 @@ export const worksSeed = [
     "y": 2.9218,
     "z": 1.4237,
     "phi": 0.3585,
-    "theta": 0.9467
+    "theta": 0.9467,
+    "year": 1957
   },
   {
     "id": "bill-evans",
@@ -953,7 +1005,8 @@ export const worksSeed = [
     "y": 2.6055,
     "z": 3.8212,
     "phi": 2.0322,
-    "theta": 1.0227
+    "theta": 1.0227,
+    "year": 1964
   },
   {
     "id": "thelonious-monk",
@@ -971,7 +1024,8 @@ export const worksSeed = [
     "y": 0.6418,
     "z": 2.4843,
     "phi": 2.6168,
-    "theta": 1.4421
+    "theta": 1.4421,
+    "year": 1960
   },
   {
     "id": "cecil-taylor",
@@ -989,7 +1043,8 @@ export const worksSeed = [
     "y": 1.9402,
     "z": 3.0101,
     "phi": 0.7118,
-    "theta": 1.1723
+    "theta": 1.1723,
+    "year": 1964
   },
   {
     "id": "sun-ra",
@@ -1007,7 +1062,8 @@ export const worksSeed = [
     "y": 3.2847,
     "z": 0.9322,
     "phi": 0.2499,
-    "theta": 0.854
+    "theta": 0.854,
+    "year": 1968
   },
   {
     "id": "albert-ayler",
@@ -1025,7 +1081,8 @@ export const worksSeed = [
     "y": 3.6459,
     "z": 2.2235,
     "phi": 0.7074,
-    "theta": 0.7537
+    "theta": 0.7537,
+    "year": 1969
   },
   {
     "id": "eric-dolphy",
@@ -1043,7 +1100,8 @@ export const worksSeed = [
     "y": 3.6616,
     "z": 1.0167,
     "phi": 0.3032,
-    "theta": 0.7491
+    "theta": 0.7491,
+    "year": 1960
   },
   {
     "id": "herbie-hancock",
@@ -1061,7 +1119,8 @@ export const worksSeed = [
     "y": -1.4,
     "z": 4.1958,
     "phi": 2.078,
-    "theta": 1.8546
+    "theta": 1.8546,
+    "year": null
   },
   {
     "id": "wayne-shorter",
@@ -1079,7 +1138,8 @@ export const worksSeed = [
     "y": -0.5533,
     "z": 4.8933,
     "phi": 1.7459,
-    "theta": 1.6817
+    "theta": 1.6817,
+    "year": 1968
   },
   {
     "id": "keith-jarrett",
@@ -1097,7 +1157,8 @@ export const worksSeed = [
     "y": 1.9614,
     "z": 4.3488,
     "phi": 1.9023,
-    "theta": 1.1677
+    "theta": 1.1677,
+    "year": 1978
   },
   {
     "id": "pharoah-sanders",
@@ -1115,7 +1176,8 @@ export const worksSeed = [
     "y": 2.2043,
     "z": 4.4575,
     "phi": 1.4544,
-    "theta": 1.1142
+    "theta": 1.1142,
+    "year": 1965
   },
   {
     "id": "kamasi-washington",
@@ -1133,7 +1195,8 @@ export const worksSeed = [
     "y": -3.8534,
     "z": 1.5853,
     "phi": 2.6208,
-    "theta": 2.4507
+    "theta": 2.4507,
+    "year": 2019
   },
   {
     "id": "flying-lotus",
@@ -1151,7 +1214,8 @@ export const worksSeed = [
     "y": -3.8568,
     "z": 0.0512,
     "phi": 3.1255,
-    "theta": 2.4518
+    "theta": 2.4518,
+    "year": 2009
   },
   {
     "id": "thundercat",
@@ -1169,7 +1233,8 @@ export const worksSeed = [
     "y": -4.964,
     "z": -0.0398,
     "phi": 3.2081,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": 2012
   },
   {
     "id": "vijay-iyer",
@@ -1187,7 +1252,8 @@ export const worksSeed = [
     "y": -0.8356,
     "z": 2.6682,
     "phi": 2.5697,
-    "theta": 1.7387
+    "theta": 1.7387,
+    "year": null
   },
   {
     "id": "robert-glasper",
@@ -1205,7 +1271,8 @@ export const worksSeed = [
     "y": -2.3717,
     "z": 3.5578,
     "phi": 0.9412,
-    "theta": 2.065
+    "theta": 2.065,
+    "year": null
   },
   {
     "id": "burial-untrue",
@@ -1223,7 +1290,8 @@ export const worksSeed = [
     "y": 0.7832,
     "z": -4.9069,
     "phi": 4.5995,
-    "theta": 1.4135
+    "theta": 1.4135,
+    "year": 2005
   },
   {
     "id": "burial-burial",
@@ -1241,7 +1309,8 @@ export const worksSeed = [
     "y": 0.1052,
     "z": -4.6175,
     "phi": 5.1056,
-    "theta": 1.5497
+    "theta": 1.5497,
+    "year": 2010
   },
   {
     "id": "autechre-amber",
@@ -1259,7 +1328,8 @@ export const worksSeed = [
     "y": -4.1716,
     "z": 0.1494,
     "phi": 3.0874,
-    "theta": 2.5577
+    "theta": 2.5577,
+    "year": 1995
   },
   {
     "id": "autechre-tri-repetae",
@@ -1277,7 +1347,8 @@ export const worksSeed = [
     "y": -3.4855,
     "z": 0.9913,
     "phi": 2.8614,
-    "theta": 2.3421
+    "theta": 2.3421,
+    "year": 1995
   },
   {
     "id": "autechre-lp5",
@@ -1295,7 +1366,8 @@ export const worksSeed = [
     "y": -4.6218,
     "z": 1.9061,
     "phi": 1.6109,
-    "theta": 2.7502
+    "theta": 2.7502,
+    "year": 1995
   },
   {
     "id": "autechre-confield",
@@ -1313,7 +1385,8 @@ export const worksSeed = [
     "y": -2.9653,
     "z": 1.0382,
     "phi": 2.8808,
-    "theta": 2.2056
+    "theta": 2.2056,
+    "year": 1998
   },
   {
     "id": "aphex-twin-selected-ambient-works-volume-ii",
@@ -1331,7 +1404,8 @@ export const worksSeed = [
     "y": -1.8929,
     "z": 2.3625,
     "phi": 2.6058,
-    "theta": 1.9591
+    "theta": 1.9591,
+    "year": 1999
   },
   {
     "id": "aphex-twin-richard-d-james-album",
@@ -1349,7 +1423,8 @@ export const worksSeed = [
     "y": -2.2728,
     "z": 3.0635,
     "phi": 2.383,
-    "theta": 2.0427
+    "theta": 2.0427,
+    "year": 1995
   },
   {
     "id": "aphex-twin-drukqs",
@@ -1367,7 +1442,8 @@ export const worksSeed = [
     "y": -1.3695,
     "z": 1.9804,
     "phi": 2.7171,
-    "theta": 1.8482
+    "theta": 1.8482,
+    "year": 1999
   },
   {
     "id": "boards-of-canada-music-has-the-right-to-children",
@@ -1385,7 +1461,8 @@ export const worksSeed = [
     "y": -3.0549,
     "z": 1.7943,
     "phi": 2.6711,
-    "theta": 2.2281
+    "theta": 2.2281,
+    "year": 1997
   },
   {
     "id": "boards-of-canada-geogaddi",
@@ -1403,7 +1480,8 @@ export const worksSeed = [
     "y": -1.9921,
     "z": -4.5573,
     "phi": 4.8243,
-    "theta": 1.9806
+    "theta": 1.9806,
+    "year": 1997
   },
   {
     "id": "the-caretaker-everywhere-at-the-end-of-time",
@@ -1421,7 +1499,8 @@ export const worksSeed = [
     "y": -4.899,
     "z": -0.6853,
     "phi": 3.8968,
-    "theta": 2.9403
+    "theta": 2.9403,
+    "year": null
   },
   {
     "id": "arca-xen",
@@ -1439,7 +1518,8 @@ export const worksSeed = [
     "y": 4.0939,
     "z": 2.7661,
     "phi": 1.3001,
-    "theta": 0.6115
+    "theta": 0.6115,
+    "year": 2012
   },
   {
     "id": "arca-mutant",
@@ -1457,7 +1537,8 @@ export const worksSeed = [
     "y": 3.9522,
     "z": 0.3876,
     "phi": 0.1269,
-    "theta": 0.6593
+    "theta": 0.6593,
+    "year": 2014
   },
   {
     "id": "arca-arca",
@@ -1475,7 +1556,8 @@ export const worksSeed = [
     "y": 3.3866,
     "z": 1.8375,
     "phi": 0.5231,
-    "theta": 0.8267
+    "theta": 0.8267,
+    "year": 2014
   },
   {
     "id": "actress-r-i-p",
@@ -1493,7 +1575,8 @@ export const worksSeed = [
     "y": -3.0,
     "z": 0.5039,
     "phi": 3.0153,
-    "theta": 2.2143
+    "theta": 2.2143,
+    "year": 2014
   },
   {
     "id": "actress-ghettoville",
@@ -1511,7 +1594,8 @@ export const worksSeed = [
     "y": -1.2426,
     "z": -4.1571,
     "phi": 4.1736,
-    "theta": 1.8219
+    "theta": 1.8219,
+    "year": 2010
   },
   {
     "id": "four-tet-rounds",
@@ -1529,7 +1613,8 @@ export const worksSeed = [
     "y": -1.2523,
     "z": 3.6274,
     "phi": 2.2945,
-    "theta": 1.8239
+    "theta": 1.8239,
+    "year": 2005
   },
   {
     "id": "four-tet-there-is-love-in-you",
@@ -1547,7 +1632,8 @@ export const worksSeed = [
     "y": 2.1477,
     "z": -4.0338,
     "phi": 5.1784,
-    "theta": 1.1268
+    "theta": 1.1268,
+    "year": 2005
   },
   {
     "id": "emptyset-recur",
@@ -1565,7 +1651,8 @@ export const worksSeed = [
     "y": 2.8438,
     "z": -3.2539,
     "phi": 5.3704,
-    "theta": 0.9658
+    "theta": 0.9658,
+    "year": null
   },
   {
     "id": "oneohtrix-point-never-returnal",
@@ -1583,7 +1670,8 @@ export const worksSeed = [
     "y": -0.4829,
     "z": -4.879,
     "phi": 4.514,
-    "theta": 1.6675
+    "theta": 1.6675,
+    "year": 2008
   },
   {
     "id": "oneohtrix-point-never-r-plus-seven",
@@ -1601,7 +1689,8 @@ export const worksSeed = [
     "y": -0.9925,
     "z": -4.8092,
     "phi": 4.519,
-    "theta": 1.7706
+    "theta": 1.7706,
+    "year": 2008
   },
   {
     "id": "oneohtrix-point-never-garden-of-delete",
@@ -1619,7 +1708,8 @@ export const worksSeed = [
     "y": -0.4143,
     "z": -2.8257,
     "phi": 3.7446,
-    "theta": 1.6538
+    "theta": 1.6538,
+    "year": 2011
   },
   {
     "id": "dean-blunt-the-redeemer",
@@ -1637,7 +1727,8 @@ export const worksSeed = [
     "y": -2.7852,
     "z": -0.2279,
     "phi": 3.1965,
-    "theta": 2.1616
+    "theta": 2.1616,
+    "year": null
   },
   {
     "id": "dean-blunt-black-metal",
@@ -1655,7 +1746,8 @@ export const worksSeed = [
     "y": -1.6439,
     "z": 0.2184,
     "phi": 3.0953,
-    "theta": 1.9058
+    "theta": 1.9058,
+    "year": null
   },
   {
     "id": "pan-daijing-lack",
@@ -1673,7 +1765,8 @@ export const worksSeed = [
     "y": -0.9287,
     "z": 4.2217,
     "phi": 2.1077,
-    "theta": 1.7576
+    "theta": 1.7576,
+    "year": null
   },
   {
     "id": "eartheater-phoenix-flames-are-dew-upon-my-skin",
@@ -1691,7 +1784,8 @@ export const worksSeed = [
     "y": 4.1351,
     "z": 2.78,
     "phi": 1.7193,
-    "theta": 0.597
+    "theta": 0.597,
+    "year": null
   },
   {
     "id": "klein-lifetime",
@@ -1709,7 +1803,8 @@ export const worksSeed = [
     "y": 0.545,
     "z": -3.4739,
     "phi": 5.5093,
-    "theta": 1.4616
+    "theta": 1.4616,
+    "year": null
   },
   {
     "id": "objekt-flatland",
@@ -1727,7 +1822,8 @@ export const worksSeed = [
     "y": -3.4754,
     "z": 0.6726,
     "phi": 2.9534,
-    "theta": 2.3393
+    "theta": 2.3393,
+    "year": null
   },
   {
     "id": "andy-stott-luxury-problems",
@@ -1745,7 +1841,8 @@ export const worksSeed = [
     "y": -4.172,
     "z": -1.2832,
     "phi": 3.626,
-    "theta": 2.5578
+    "theta": 2.5578,
+    "year": 2012
   },
   {
     "id": "andy-stott-faith-in-strangers",
@@ -1763,7 +1860,8 @@ export const worksSeed = [
     "y": -2.0604,
     "z": -1.5989,
     "phi": 3.5002,
-    "theta": 1.9955
+    "theta": 1.9955,
+    "year": 2012
   },
   {
     "id": "demdike-stare-testpressing",
@@ -1781,7 +1879,8 @@ export const worksSeed = [
     "y": 1.855,
     "z": -4.6271,
     "phi": 4.6292,
-    "theta": 1.1907
+    "theta": 1.1907,
+    "year": 2012
   },
   {
     "id": "shackleton-three-eps",
@@ -1799,7 +1898,8 @@ export const worksSeed = [
     "y": 2.5356,
     "z": 3.7124,
     "phi": 2.1034,
-    "theta": 1.039
+    "theta": 1.039,
+    "year": null
   },
   {
     "id": "merzbow-pulse-demon",
@@ -1817,7 +1917,8 @@ export const worksSeed = [
     "y": 2.7893,
     "z": 3.7975,
     "phi": 1.1559,
-    "theta": 0.979
+    "theta": 0.979,
+    "year": 1987
   },
   {
     "id": "coil-horse-rotorvator",
@@ -1835,7 +1936,8 @@ export const worksSeed = [
     "y": 1.7155,
     "z": -4.6903,
     "phi": 4.7637,
-    "theta": 1.2206
+    "theta": 1.2206,
+    "year": null
   },
   {
     "id": "coil-love-s-secret-domain",
@@ -1853,7 +1955,8 @@ export const worksSeed = [
     "y": 1.9886,
     "z": 3.2121,
     "phi": 2.3659,
-    "theta": 1.1618
+    "theta": 1.1618,
+    "year": null
   },
   {
     "id": "current-93-thunder-perfect-mind",
@@ -1871,7 +1974,8 @@ export const worksSeed = [
     "y": 0.6579,
     "z": 3.899,
     "phi": 0.9053,
-    "theta": 1.4388
+    "theta": 1.4388,
+    "year": null
   },
   {
     "id": "nurse-with-wound-soliloquy-for-lilith",
@@ -1889,7 +1993,8 @@ export const worksSeed = [
     "y": 2.0141,
     "z": -4.2446,
     "phi": 5.0955,
-    "theta": 1.1562
+    "theta": 1.1562,
+    "year": null
   },
   {
     "id": "stars-of-the-lid-and-their-refinement-of-the-decline",
@@ -1907,7 +2012,8 @@ export const worksSeed = [
     "y": -3.9037,
     "z": -0.2672,
     "phi": 3.2272,
-    "theta": 2.4666
+    "theta": 2.4666,
+    "year": 2000
   },
   {
     "id": "tim-hecker-ravedeath-1972",
@@ -1925,7 +2031,8 @@ export const worksSeed = [
     "y": 1.5275,
     "z": -4.452,
     "phi": 4.3501,
-    "theta": 1.2603
+    "theta": 1.2603,
+    "year": 2010
   },
   {
     "id": "tim-hecker-harmony-in-ultraviolet",
@@ -1943,7 +2050,8 @@ export const worksSeed = [
     "y": -3.8623,
     "z": -3.1662,
     "phi": 4.6365,
-    "theta": 2.4535
+    "theta": 2.4535,
+    "year": 2004
   },
   {
     "id": "william-basinski-disintegration-loops",
@@ -1961,7 +2069,8 @@ export const worksSeed = [
     "y": -0.1708,
     "z": -3.5545,
     "phi": 3.933,
-    "theta": 1.605
+    "theta": 1.605,
+    "year": 2000
   },
   {
     "id": "grouper-dragging-a-dead-deer-up-a-hill",
@@ -1979,7 +2088,8 @@ export const worksSeed = [
     "y": -0.0474,
     "z": -0.1129,
     "phi": 3.1642,
-    "theta": 1.5803
+    "theta": 1.5803,
+    "year": 2007
   },
   {
     "id": "grouper-aia-alien-observer",
@@ -1997,7 +2107,8 @@ export const worksSeed = [
     "y": -1.6218,
     "z": -2.5671,
     "phi": 3.7153,
-    "theta": 1.9011
+    "theta": 1.9011,
+    "year": 2008
   },
   {
     "id": "julianna-barwick-nepenthe",
@@ -2015,7 +2126,8 @@ export const worksSeed = [
     "y": -1.5019,
     "z": -4.0234,
     "phi": 5.2792,
-    "theta": 1.8759
+    "theta": 1.8759,
+    "year": null
   },
   {
     "id": "laurel-halo-quarantine",
@@ -2033,7 +2145,8 @@ export const worksSeed = [
     "y": -1.4905,
     "z": 2.9089,
     "phi": 2.4862,
-    "theta": 1.8735
+    "theta": 1.8735,
+    "year": null
   },
   {
     "id": "holly-herndon-platform",
@@ -2051,7 +2164,8 @@ export const worksSeed = [
     "y": -3.8237,
     "z": 1.0264,
     "phi": 2.8174,
-    "theta": 2.4414
+    "theta": 2.4414,
+    "year": 2016
   },
   {
     "id": "holly-herndon-proto",
@@ -2069,7 +2183,8 @@ export const worksSeed = [
     "y": -2.9358,
     "z": -0.5256,
     "phi": 3.2718,
-    "theta": 2.1983
+    "theta": 2.1983,
+    "year": 2014
   },
   {
     "id": "terre-thaemlitz-couture-cosmetique",
@@ -2087,7 +2202,8 @@ export const worksSeed = [
     "y": -1.0597,
     "z": 0.1861,
     "phi": 3.1035,
-    "theta": 1.7844
+    "theta": 1.7844,
+    "year": null
   },
   {
     "id": "mika-vainio-vandalism",
@@ -2105,7 +2221,8 @@ export const worksSeed = [
     "y": -1.6305,
     "z": 3.5134,
     "phi": 2.3036,
-    "theta": 1.903
+    "theta": 1.903,
+    "year": null
   },
   {
     "id": "eliane-radigue-trilogie-de-la-mort",
@@ -2123,7 +2240,8 @@ export const worksSeed = [
     "y": -4.6098,
     "z": 0.9126,
     "phi": 2.6509,
-    "theta": 2.7439
+    "theta": 2.7439,
+    "year": null
   },
   {
     "id": "alva-noto-unitxt",
@@ -2141,7 +2259,8 @@ export const worksSeed = [
     "y": 1.7791,
     "z": 2.6722,
     "phi": 2.5328,
-    "theta": 1.207
+    "theta": 1.207,
+    "year": null
   },
   {
     "id": "ryoji-ikeda-test-pattern",
@@ -2159,7 +2278,8 @@ export const worksSeed = [
     "y": 0.1183,
     "z": 4.941,
     "phi": 1.7227,
-    "theta": 1.5471
+    "theta": 1.5471,
+    "year": null
   },
   {
     "id": "fennesz-endless-summer",
@@ -2177,7 +2297,8 @@ export const worksSeed = [
     "y": 0.1425,
     "z": -4.9728,
     "phi": 4.8128,
-    "theta": 1.5423
+    "theta": 1.5423,
+    "year": 2002
   },
   {
     "id": "fennesz-venice",
@@ -2195,7 +2316,8 @@ export const worksSeed = [
     "y": -3.8937,
     "z": 0.0729,
     "phi": 3.1183,
-    "theta": 2.4634
+    "theta": 2.4634,
+    "year": 2002
   },
   {
     "id": "gas-narkopop",
@@ -2213,7 +2335,8 @@ export const worksSeed = [
     "y": -0.9875,
     "z": 4.741,
     "phi": 1.8275,
-    "theta": 1.7696
+    "theta": 1.7696,
+    "year": null
   },
   {
     "id": "gas-pop",
@@ -2231,7 +2354,8 @@ export const worksSeed = [
     "y": -4.0166,
     "z": 2.542,
     "phi": 2.1186,
-    "theta": 2.5037
+    "theta": 2.5037,
+    "year": null
   },
   {
     "id": "pole-steingarten",
@@ -2249,7 +2373,8 @@ export const worksSeed = [
     "y": 1.1334,
     "z": 3.6445,
     "phi": 2.296,
-    "theta": 1.3421
+    "theta": 1.3421,
+    "year": null
   },
   {
     "id": "basic-channel-bcd",
@@ -2267,7 +2392,8 @@ export const worksSeed = [
     "y": -0.0581,
     "z": 4.8758,
     "phi": 1.7939,
-    "theta": 1.5824
+    "theta": 1.5824,
+    "year": null
   },
   {
     "id": "drexciya-neptune-s-lair",
@@ -2285,7 +2411,8 @@ export const worksSeed = [
     "y": 0.5732,
     "z": -4.5683,
     "phi": 4.309,
-    "theta": 1.4559
+    "theta": 1.4559,
+    "year": null
   },
   {
     "id": "detroit-techno-compilation-techno-the-new-dance-sound-of-detroit",
@@ -2303,7 +2430,8 @@ export const worksSeed = [
     "y": 1.7408,
     "z": 2.9318,
     "phi": 2.4658,
-    "theta": 1.2152
+    "theta": 1.2152,
+    "year": null
   },
   {
     "id": "plastikman-consumed",
@@ -2321,7 +2449,8 @@ export const worksSeed = [
     "y": 0.0538,
     "z": 4.3216,
     "phi": 2.0977,
-    "theta": 1.56
+    "theta": 1.56,
+    "year": null
   },
   {
     "id": "sandwell-district-feed-forward",
@@ -2339,7 +2468,8 @@ export const worksSeed = [
     "y": -2.9418,
     "z": 4.002,
     "phi": 1.4283,
-    "theta": 2.1998
+    "theta": 2.1998,
+    "year": null
   },
   {
     "id": "burial-rival-dealer",
@@ -2357,7 +2487,8 @@ export const worksSeed = [
     "y": 0.3406,
     "z": -4.7275,
     "phi": 5.0372,
-    "theta": 1.5026
+    "theta": 1.5026,
+    "year": 2010
   },
   {
     "id": "machinedrum-room-s",
@@ -2375,7 +2506,8 @@ export const worksSeed = [
     "y": -1.1089,
     "z": -4.4313,
     "phi": 5.1426,
-    "theta": 1.7944
+    "theta": 1.7944,
+    "year": null
   },
   {
     "id": "dabrye-one-three",
@@ -2393,7 +2525,8 @@ export const worksSeed = [
     "y": 0.5426,
     "z": -3.1886,
     "phi": 3.8381,
-    "theta": 1.4621
+    "theta": 1.4621,
+    "year": null
   },
   {
     "id": "prefuse-73-vocal-studies-uprock-narratives",
@@ -2411,7 +2544,8 @@ export const worksSeed = [
     "y": 2.1063,
     "z": 1.9528,
     "phi": 2.6964,
-    "theta": 1.136
+    "theta": 1.136,
+    "year": null
   },
   {
     "id": "squarepusher-feed-me-weird-things",
@@ -2429,7 +2563,8 @@ export const worksSeed = [
     "y": -2.9907,
     "z": 1.0922,
     "phi": 2.8655,
-    "theta": 2.212
+    "theta": 2.212,
+    "year": null
   },
   {
     "id": "squarepusher-hard-normal-daddy",
@@ -2447,7 +2582,8 @@ export const worksSeed = [
     "y": -4.3049,
     "z": 2.4127,
     "phi": 1.8925,
-    "theta": 2.608
+    "theta": 2.608,
+    "year": null
   },
   {
     "id": "lfo-frequencies",
@@ -2465,7 +2601,8 @@ export const worksSeed = [
     "y": 4.101,
     "z": -2.3831,
     "phi": 5.2984,
-    "theta": 0.609
+    "theta": 0.609,
+    "year": null
   },
   {
     "id": "orbital-brown-album",
@@ -2483,7 +2620,8 @@ export const worksSeed = [
     "y": -4.1698,
     "z": 0.2449,
     "phi": 3.0527,
-    "theta": 2.557
+    "theta": 2.557,
+    "year": null
   },
   {
     "id": "the-prodigy-music-for-the-jilted-generation",
@@ -2501,7 +2639,8 @@ export const worksSeed = [
     "y": 2.6557,
     "z": 3.9449,
     "phi": 1.944,
-    "theta": 1.0108
+    "theta": 1.0108,
+    "year": null
   },
   {
     "id": "portishead-dummy",
@@ -2519,7 +2658,8 @@ export const worksSeed = [
     "y": -0.4097,
     "z": -4.4086,
     "phi": 4.2274,
-    "theta": 1.6528
+    "theta": 1.6528,
+    "year": 1998
   },
   {
     "id": "portishead-portishead",
@@ -2537,7 +2677,8 @@ export const worksSeed = [
     "y": 3.6017,
     "z": -3.4209,
     "phi": 4.8776,
-    "theta": 0.7665
+    "theta": 0.7665,
+    "year": 1998
   },
   {
     "id": "massive-attack-mezzanine",
@@ -2555,7 +2696,8 @@ export const worksSeed = [
     "y": -0.7118,
     "z": -4.7529,
     "phi": 4.4299,
-    "theta": 1.7136
+    "theta": 1.7136,
+    "year": 1993
   },
   {
     "id": "massive-attack-blue-lines",
@@ -2573,7 +2715,8 @@ export const worksSeed = [
     "y": 1.4858,
     "z": -4.7309,
     "phi": 4.5777,
-    "theta": 1.2691
+    "theta": 1.2691,
+    "year": 1992
   },
   {
     "id": "tricky-maxinquaye",
@@ -2591,7 +2734,8 @@ export const worksSeed = [
     "y": 1.4903,
     "z": -2.2736,
     "phi": 5.7867,
-    "theta": 1.2681
+    "theta": 1.2681,
+    "year": 1998
   },
   {
     "id": "björk-homogenic",
@@ -2609,7 +2753,8 @@ export const worksSeed = [
     "y": 2.6909,
     "z": -4.2141,
     "phi": 4.7062,
-    "theta": 1.0025
+    "theta": 1.0025,
+    "year": null
   },
   {
     "id": "björk-vespertine",
@@ -2627,7 +2772,8 @@ export const worksSeed = [
     "y": 1.9126,
     "z": -4.1129,
     "phi": 5.1852,
-    "theta": 1.1783
+    "theta": 1.1783,
+    "year": null
   },
   {
     "id": "björk-medúlla",
@@ -2645,7 +2791,8 @@ export const worksSeed = [
     "y": 1.9366,
     "z": -4.6067,
     "phi": 4.7486,
-    "theta": 1.1731
+    "theta": 1.1731,
+    "year": null
   },
   {
     "id": "björk-vulnicura",
@@ -2663,7 +2810,8 @@ export const worksSeed = [
     "y": 1.8812,
     "z": -2.3623,
     "phi": 5.7481,
-    "theta": 1.1851
+    "theta": 1.1851,
+    "year": null
   },
   {
     "id": "death-grips-the-money-store",
@@ -2681,7 +2829,8 @@ export const worksSeed = [
     "y": 2.142,
     "z": 0.5857,
     "phi": 0.13,
-    "theta": 1.1281
+    "theta": 1.1281,
+    "year": 2017
   },
   {
     "id": "death-grips-bottomless-pit",
@@ -2699,7 +2848,8 @@ export const worksSeed = [
     "y": 4.9163,
     "z": 0.6681,
     "phi": 0.8231,
-    "theta": 0.1833
+    "theta": 0.1833,
+    "year": 2016
   },
   {
     "id": "clipping-splendor-misery",
@@ -2717,7 +2867,8 @@ export const worksSeed = [
     "y": 0.8749,
     "z": 4.2743,
     "phi": 2.0899,
-    "theta": 1.3949
+    "theta": 1.3949,
+    "year": null
   },
   {
     "id": "injury-reserve-by-the-time-i-get-to-phoenix",
@@ -2735,7 +2886,8 @@ export const worksSeed = [
     "y": 2.5287,
     "z": 3.8557,
     "phi": 2.0356,
-    "theta": 1.0405
+    "theta": 1.0405,
+    "year": null
   },
   {
     "id": "burial",
@@ -2753,7 +2905,8 @@ export const worksSeed = [
     "y": 4.2074,
     "z": -1.5291,
     "phi": 5.6815,
-    "theta": 0.5708
+    "theta": 0.5708,
+    "year": 2010
   },
   {
     "id": "autechre",
@@ -2771,7 +2924,8 @@ export const worksSeed = [
     "y": -0.5678,
     "z": -1.1486,
     "phi": 3.3749,
-    "theta": 1.6846
+    "theta": 1.6846,
+    "year": 1999
   },
   {
     "id": "aphex-twin",
@@ -2789,7 +2943,8 @@ export const worksSeed = [
     "y": -4.083,
     "z": 0.4926,
     "phi": 2.9701,
-    "theta": 2.5263
+    "theta": 2.5263,
+    "year": 1991
   },
   {
     "id": "boards-of-canada",
@@ -2807,7 +2962,8 @@ export const worksSeed = [
     "y": -1.2864,
     "z": 0.8815,
     "phi": 2.9581,
-    "theta": 1.831
+    "theta": 1.831,
+    "year": 2003
   },
   {
     "id": "the-caretaker",
@@ -2825,7 +2981,8 @@ export const worksSeed = [
     "y": -1.0736,
     "z": 3.7245,
     "phi": 2.2741,
-    "theta": 1.7872
+    "theta": 1.7872,
+    "year": null
   },
   {
     "id": "arca",
@@ -2843,7 +3000,8 @@ export const worksSeed = [
     "y": 1.7507,
     "z": 4.2064,
     "phi": 1.1155,
-    "theta": 1.2131
+    "theta": 1.2131,
+    "year": 2012
   },
   {
     "id": "actress",
@@ -2861,7 +3019,8 @@ export const worksSeed = [
     "y": -1.0456,
     "z": -2.0756,
     "phi": 3.58,
-    "theta": 1.7815
+    "theta": 1.7815,
+    "year": 2007
   },
   {
     "id": "four-tet",
@@ -2879,7 +3038,8 @@ export const worksSeed = [
     "y": 0.1405,
     "z": 3.3091,
     "phi": 2.418,
-    "theta": 1.5427
+    "theta": 1.5427,
+    "year": 2006
   },
   {
     "id": "oneohtrix-point-never",
@@ -2897,7 +3057,8 @@ export const worksSeed = [
     "y": -2.9439,
     "z": -1.1576,
     "phi": 3.4321,
-    "theta": 2.2003
+    "theta": 2.2003,
+    "year": 2013
   },
   {
     "id": "dean-blunt",
@@ -2915,7 +3076,8 @@ export const worksSeed = [
     "y": -2.2683,
     "z": -3.4873,
     "phi": 4.0405,
-    "theta": 2.0417
+    "theta": 2.0417,
+    "year": null
   },
   {
     "id": "tim-hecker",
@@ -2933,7 +3095,8 @@ export const worksSeed = [
     "y": -2.7018,
     "z": 1.001,
     "phi": 2.9014,
-    "theta": 2.1417
+    "theta": 2.1417,
+    "year": 2007
   },
   {
     "id": "william-basinski",
@@ -2951,7 +3114,8 @@ export const worksSeed = [
     "y": -4.7811,
     "z": -0.9855,
     "phi": 3.8806,
-    "theta": 2.8446
+    "theta": 2.8446,
+    "year": 2007
   },
   {
     "id": "grouper",
@@ -2969,7 +3133,8 @@ export const worksSeed = [
     "y": -1.922,
     "z": -2.5684,
     "phi": 3.7317,
-    "theta": 1.9654
+    "theta": 1.9654,
+    "year": 2013
   },
   {
     "id": "eliane-radigue",
@@ -2987,7 +3152,8 @@ export const worksSeed = [
     "y": 0.6898,
     "z": 4.4388,
     "phi": 2.0302,
-    "theta": 1.4324
+    "theta": 1.4324,
+    "year": null
   },
   {
     "id": "fennesz",
@@ -3005,7 +3171,8 @@ export const worksSeed = [
     "y": -0.2914,
     "z": -1.4363,
     "phi": 3.4335,
-    "theta": 1.6291
+    "theta": 1.6291,
+    "year": 2003
   },
   {
     "id": "gas",
@@ -3023,7 +3190,8 @@ export const worksSeed = [
     "y": -3.6829,
     "z": 2.7974,
     "phi": 2.1675,
-    "theta": 2.3988
+    "theta": 2.3988,
+    "year": null
   },
   {
     "id": "andy-stott",
@@ -3041,7 +3209,8 @@ export const worksSeed = [
     "y": -0.0365,
     "z": -2.7933,
     "phi": 3.7344,
-    "theta": 1.5781
+    "theta": 1.5781,
+    "year": 2016
   },
   {
     "id": "death-grips",
@@ -3059,7 +3228,8 @@ export const worksSeed = [
     "y": 0.8347,
     "z": 0.5629,
     "phi": 0.1144,
-    "theta": 1.4031
+    "theta": 1.4031,
+    "year": 2010
   },
   {
     "id": "clipping",
@@ -3077,7 +3247,8 @@ export const worksSeed = [
     "y": -3.3978,
     "z": 0.4668,
     "phi": 3.014,
-    "theta": 2.318
+    "theta": 2.318,
+    "year": null
   },
   {
     "id": "holly-herndon",
@@ -3095,7 +3266,8 @@ export const worksSeed = [
     "y": -4.4944,
     "z": -1.2527,
     "phi": 3.7503,
-    "theta": 2.688
+    "theta": 2.688,
+    "year": 2014
   },
   {
     "id": "laurel-halo",
@@ -3113,7 +3285,8 @@ export const worksSeed = [
     "y": -1.6274,
     "z": 3.8083,
     "phi": 2.205,
-    "theta": 1.9023
+    "theta": 1.9023,
+    "year": null
   },
   {
     "id": "pan-daijing",
@@ -3131,7 +3304,8 @@ export const worksSeed = [
     "y": 1.6417,
     "z": 1.8408,
     "phi": 2.7412,
-    "theta": 1.2362
+    "theta": 1.2362,
+    "year": null
   },
   {
     "id": "merzbow",
@@ -3149,7 +3323,8 @@ export const worksSeed = [
     "y": 4.8449,
     "z": 1.016,
     "phi": 0.9652,
-    "theta": 0.2497
+    "theta": 0.2497,
+    "year": 1983
   },
   {
     "id": "coil",
@@ -3167,7 +3342,8 @@ export const worksSeed = [
     "y": 2.3091,
     "z": 4.4348,
     "phi": 1.566,
-    "theta": 1.0908
+    "theta": 1.0908,
+    "year": null
   },
   {
     "id": "talk-talk-spirit-of-eden",
@@ -3185,7 +3361,8 @@ export const worksSeed = [
     "y": 1.775,
     "z": -4.6151,
     "phi": 4.5531,
-    "theta": 1.2079
+    "theta": 1.2079,
+    "year": 1986
   },
   {
     "id": "talk-talk-laughing-stock",
@@ -3203,7 +3380,8 @@ export const worksSeed = [
     "y": -1.6673,
     "z": -4.2866,
     "phi": 4.2834,
-    "theta": 1.9108
+    "theta": 1.9108,
+    "year": 1987
   },
   {
     "id": "scott-walker-tilt",
@@ -3221,7 +3399,8 @@ export const worksSeed = [
     "y": 4.4482,
     "z": 2.2311,
     "phi": 1.3566,
-    "theta": 0.4742
+    "theta": 0.4742,
+    "year": 1971
   },
   {
     "id": "scott-walker-the-drift",
@@ -3239,7 +3418,8 @@ export const worksSeed = [
     "y": 4.3586,
     "z": 1.1981,
     "phi": 0.511,
-    "theta": 0.5121
+    "theta": 0.5121,
+    "year": 1973
   },
   {
     "id": "scott-walker-bish-bosch",
@@ -3257,7 +3437,8 @@ export const worksSeed = [
     "y": 3.4775,
     "z": -1.9242,
     "phi": -0.5652,
-    "theta": 0.8017
+    "theta": 0.8017,
+    "year": 1973
   },
   {
     "id": "slint-spiderland",
@@ -3275,7 +3456,8 @@ export const worksSeed = [
     "y": 2.6156,
     "z": 3.7232,
     "phi": 2.0788,
-    "theta": 1.0203
+    "theta": 1.0203,
+    "year": null
   },
   {
     "id": "tortoise-millions-now-living-will-never-die",
@@ -3293,7 +3475,8 @@ export const worksSeed = [
     "y": -2.5547,
     "z": 3.4746,
     "phi": 2.2002,
-    "theta": 2.1071
+    "theta": 2.1071,
+    "year": 1996
   },
   {
     "id": "tortoise-tnt",
@@ -3311,7 +3494,8 @@ export const worksSeed = [
     "y": -2.5667,
     "z": -0.8276,
     "phi": 3.3357,
-    "theta": 2.1099
+    "theta": 2.1099,
+    "year": 1991
   },
   {
     "id": "godspeed-you-black-emperor-lift-your-skinny-fists-like-antennas-",
@@ -3329,7 +3513,8 @@ export const worksSeed = [
     "y": 4.6173,
     "z": 1.5052,
     "phi": 0.902,
-    "theta": 0.3938
+    "theta": 0.3938,
+    "year": 2002
   },
   {
     "id": "godspeed-you-black-emperor-f-a",
@@ -3347,7 +3532,8 @@ export const worksSeed = [
     "y": 1.6846,
     "z": 1.6673,
     "phi": 0.362,
-    "theta": 1.2272
+    "theta": 1.2272,
+    "year": 1997
   },
   {
     "id": "godspeed-you-black-emperor-yanqui-u-x-o",
@@ -3365,7 +3551,8 @@ export const worksSeed = [
     "y": 3.7732,
     "z": 2.9835,
     "phi": 1.1418,
-    "theta": 0.7157
+    "theta": 0.7157,
+    "year": 1997
   },
   {
     "id": "godspeed-you-black-emperor-asunder-sweet-and-other-distress",
@@ -3383,7 +3570,8 @@ export const worksSeed = [
     "y": 1.2697,
     "z": 2.4759,
     "phi": 0.5375,
-    "theta": 1.3141
+    "theta": 1.3141,
+    "year": 1996
   },
   {
     "id": "explosions-in-the-sky-the-earth-is-not-a-cold-dead-place",
@@ -3401,7 +3589,8 @@ export const worksSeed = [
     "y": -3.6157,
     "z": 1.6882,
     "phi": 2.6308,
-    "theta": 2.3791
+    "theta": 2.3791,
+    "year": null
   },
   {
     "id": "mogwai-young-team",
@@ -3419,7 +3608,8 @@ export const worksSeed = [
     "y": -3.3611,
     "z": 3.5985,
     "phi": 1.8076,
-    "theta": 2.308
+    "theta": 2.308,
+    "year": null
   },
   {
     "id": "mogwai-come-on-die-young",
@@ -3437,7 +3627,8 @@ export const worksSeed = [
     "y": 1.0811,
     "z": 4.1808,
     "phi": 2.1133,
-    "theta": 1.3528
+    "theta": 1.3528,
+    "year": null
   },
   {
     "id": "mogwai-rock-action",
@@ -3455,7 +3646,8 @@ export const worksSeed = [
     "y": -4.9306,
     "z": 0.0536,
     "phi": 3.077,
-    "theta": 2.9747
+    "theta": 2.9747,
+    "year": null
   },
   {
     "id": "swans-filth",
@@ -3473,7 +3665,8 @@ export const worksSeed = [
     "y": 4.4699,
     "z": 2.1139,
     "phi": 1.2331,
-    "theta": 0.4646
+    "theta": 0.4646,
+    "year": 1983
   },
   {
     "id": "swans-children-of-god",
@@ -3491,7 +3684,8 @@ export const worksSeed = [
     "y": 2.1398,
     "z": -0.1176,
     "phi": -0.026,
-    "theta": 1.1286
+    "theta": 1.1286,
+    "year": 1986
   },
   {
     "id": "swans-the-seer",
@@ -3509,7 +3703,8 @@ export const worksSeed = [
     "y": 3.3172,
     "z": 3.6047,
     "phi": 1.3,
-    "theta": 0.8454
+    "theta": 0.8454,
+    "year": 1982
   },
   {
     "id": "swans-to-be-kind",
@@ -3527,7 +3722,8 @@ export const worksSeed = [
     "y": 2.5492,
     "z": 3.5966,
     "phi": 0.9902,
-    "theta": 1.0358
+    "theta": 1.0358,
+    "year": 1987
   },
   {
     "id": "my-bloody-valentine-loveless",
@@ -3545,7 +3741,8 @@ export const worksSeed = [
     "y": 4.9101,
     "z": -0.9204,
     "phi": 4.9363,
-    "theta": 0.1899
+    "theta": 0.1899,
+    "year": null
   },
   {
     "id": "my-bloody-valentine-isn-t-anything",
@@ -3563,7 +3760,8 @@ export const worksSeed = [
     "y": 3.4375,
     "z": 2.6888,
     "phi": 2.3078,
-    "theta": 0.8128
+    "theta": 0.8128,
+    "year": null
   },
   {
     "id": "sonic-youth-daydream-nation",
@@ -3581,7 +3779,8 @@ export const worksSeed = [
     "y": 2.0325,
     "z": -2.767,
     "phi": 5.6326,
-    "theta": 1.1522
+    "theta": 1.1522,
+    "year": 1986
   },
   {
     "id": "sonic-youth-goo",
@@ -3599,7 +3798,8 @@ export const worksSeed = [
     "y": 1.2708,
     "z": -4.1875,
     "phi": 5.2362,
-    "theta": 1.3138
+    "theta": 1.3138,
+    "year": 1980
   },
   {
     "id": "pavement-slanted-and-enchanted",
@@ -3617,7 +3817,8 @@ export const worksSeed = [
     "y": -1.3482,
     "z": -4.8147,
     "phi": 4.7065,
-    "theta": 1.8438
+    "theta": 1.8438,
+    "year": null
   },
   {
     "id": "pavement-crooked-rain-crooked-rain",
@@ -3635,7 +3836,8 @@ export const worksSeed = [
     "y": 4.1075,
     "z": 0.7549,
     "phi": 6.5512,
-    "theta": 0.6067
+    "theta": 0.6067,
+    "year": null
   },
   {
     "id": "radiohead-ok-computer",
@@ -3653,7 +3855,8 @@ export const worksSeed = [
     "y": -0.6061,
     "z": -4.9562,
     "phi": 4.7651,
-    "theta": 1.6923
+    "theta": 1.6923,
+    "year": 1999
   },
   {
     "id": "radiohead-kid-a",
@@ -3671,7 +3874,8 @@ export const worksSeed = [
     "y": 1.54,
     "z": -3.8714,
     "phi": 4.0923,
-    "theta": 1.2577
+    "theta": 1.2577,
+    "year": 1998
   },
   {
     "id": "radiohead-amnesiac",
@@ -3689,7 +3893,8 @@ export const worksSeed = [
     "y": 2.6748,
     "z": -4.2216,
     "phi": 4.7492,
-    "theta": 1.0063
+    "theta": 1.0063,
+    "year": 2002
   },
   {
     "id": "radiohead-in-rainbows",
@@ -3707,7 +3912,8 @@ export const worksSeed = [
     "y": 0.4724,
     "z": -1.1135,
     "phi": 6.0576,
-    "theta": 1.4762
+    "theta": 1.4762,
+    "year": 1994
   },
   {
     "id": "radiohead-the-bends",
@@ -3725,7 +3931,8 @@ export const worksSeed = [
     "y": 2.2649,
     "z": -4.0671,
     "phi": 5.1341,
-    "theta": 1.1007
+    "theta": 1.1007,
+    "year": 1997
   },
   {
     "id": "thom-yorke-the-eraser",
@@ -3743,7 +3950,8 @@ export const worksSeed = [
     "y": 1.7222,
     "z": 4.4526,
     "phi": 1.8929,
-    "theta": 1.2192
+    "theta": 1.2192,
+    "year": null
   },
   {
     "id": "pj-harvey-rid-of-me",
@@ -3761,7 +3969,8 @@ export const worksSeed = [
     "y": 0.601,
     "z": -3.3862,
     "phi": 3.8923,
-    "theta": 1.4503
+    "theta": 1.4503,
+    "year": null
   },
   {
     "id": "pj-harvey-stories-from-the-city-stories-from-the-sea",
@@ -3779,7 +3988,8 @@ export const worksSeed = [
     "y": 2.3344,
     "z": -4.3332,
     "phi": 4.5121,
-    "theta": 1.085
+    "theta": 1.085,
+    "year": null
   },
   {
     "id": "pj-harvey-let-england-shake",
@@ -3797,7 +4007,8 @@ export const worksSeed = [
     "y": 1.4312,
     "z": -4.7496,
     "phi": 4.5812,
-    "theta": 1.2805
+    "theta": 1.2805,
+    "year": null
   },
   {
     "id": "nick-cave-and-the-bad-seeds-murder-ballads",
@@ -3815,7 +4026,8 @@ export const worksSeed = [
     "y": 2.5028,
     "z": -3.4267,
     "phi": 5.3697,
-    "theta": 1.0466
+    "theta": 1.0466,
+    "year": 1991
   },
   {
     "id": "nick-cave-and-the-bad-seeds-the-boatman-s-call",
@@ -3833,7 +4045,8 @@ export const worksSeed = [
     "y": 2.275,
     "z": -4.4524,
     "phi": 4.707,
-    "theta": 1.0984
+    "theta": 1.0984,
+    "year": 1986
   },
   {
     "id": "nick-cave-and-the-bad-seeds-skeleton-tree",
@@ -3851,7 +4064,8 @@ export const worksSeed = [
     "y": 1.9108,
     "z": -4.0312,
     "phi": 5.223,
-    "theta": 1.1787
+    "theta": 1.1787,
+    "year": 1991
   },
   {
     "id": "nick-cave-and-the-bad-seeds-ghosteen",
@@ -3869,7 +4083,8 @@ export const worksSeed = [
     "y": 1.7828,
     "z": -4.2734,
     "phi": 4.2967,
-    "theta": 1.2062
+    "theta": 1.2062,
+    "year": 1992
   },
   {
     "id": "nick-cave-and-the-bad-seeds-push-the-sky-away",
@@ -3887,7 +4102,8 @@ export const worksSeed = [
     "y": -0.5185,
     "z": -4.7085,
     "phi": 5.04,
-    "theta": 1.6747
+    "theta": 1.6747,
+    "year": 1991
   },
   {
     "id": "the-fall-hex-enduction-hour",
@@ -3905,7 +4121,8 @@ export const worksSeed = [
     "y": 2.988,
     "z": -3.832,
     "phi": 5.0107,
-    "theta": 0.9303
+    "theta": 0.9303,
+    "year": null
   },
   {
     "id": "the-fall-this-nation-s-saving-grace",
@@ -3923,7 +4140,8 @@ export const worksSeed = [
     "y": 0.0909,
     "z": -4.9224,
     "phi": 4.8879,
-    "theta": 1.5526
+    "theta": 1.5526,
+    "year": null
   },
   {
     "id": "wire-pink-flag",
@@ -3941,7 +4159,8 @@ export const worksSeed = [
     "y": 1.5721,
     "z": -4.7051,
     "phi": 4.8444,
-    "theta": 1.2509
+    "theta": 1.2509,
+    "year": 1976
   },
   {
     "id": "wire-chairs-missing",
@@ -3959,7 +4178,8 @@ export const worksSeed = [
     "y": 3.7039,
     "z": -3.0027,
     "phi": 5.177,
-    "theta": 0.7366
+    "theta": 0.7366,
+    "year": 1979
   },
   {
     "id": "gang-of-four-entertainment",
@@ -3977,7 +4197,8 @@ export const worksSeed = [
     "y": 3.9215,
     "z": -2.5295,
     "phi": 5.3297,
-    "theta": 0.6692
+    "theta": 0.6692,
+    "year": null
   },
   {
     "id": "pere-ubu-dub-housing",
@@ -3995,7 +4216,8 @@ export const worksSeed = [
     "y": 1.1936,
     "z": -4.0008,
     "phi": 5.3148,
-    "theta": 1.3297
+    "theta": 1.3297,
+    "year": null
   },
   {
     "id": "magazine-real-life",
@@ -4013,7 +4235,8 @@ export const worksSeed = [
     "y": -4.5293,
     "z": 1.689,
     "phi": 2.2184,
-    "theta": 2.7042
+    "theta": 2.7042,
+    "year": null
   },
   {
     "id": "the-pop-group-y",
@@ -4031,7 +4254,8 @@ export const worksSeed = [
     "y": 0.0539,
     "z": 2.9072,
     "phi": 2.5211,
-    "theta": 1.56
+    "theta": 1.56,
+    "year": null
   },
   {
     "id": "felt-crumbling-the-antiseptic-beauty",
@@ -4049,7 +4273,8 @@ export const worksSeed = [
     "y": -3.5833,
     "z": 0.8419,
     "phi": 2.8977,
-    "theta": 2.3698
+    "theta": 2.3698,
+    "year": null
   },
   {
     "id": "the-durutti-column-the-return-of-the-durutti-column",
@@ -4067,7 +4292,8 @@ export const worksSeed = [
     "y": -0.146,
     "z": 1.6072,
     "phi": 2.8142,
-    "theta": 1.6
+    "theta": 1.6,
+    "year": null
   },
   {
     "id": "mark-hollis-mark-hollis",
@@ -4085,7 +4311,8 @@ export const worksSeed = [
     "y": 0.4421,
     "z": -2.5445,
     "phi": 5.747,
-    "theta": 1.4823
+    "theta": 1.4823,
+    "year": null
   },
   {
     "id": "low-things-we-lost-in-the-fire",
@@ -4103,7 +4330,8 @@ export const worksSeed = [
     "y": 1.2749,
     "z": -2.1767,
     "phi": 5.8162,
-    "theta": 1.313
+    "theta": 1.313,
+    "year": 1995
   },
   {
     "id": "low-the-great-destroyer",
@@ -4121,7 +4349,8 @@ export const worksSeed = [
     "y": -3.9774,
     "z": -0.5238,
     "phi": 3.3153,
-    "theta": 2.4906
+    "theta": 2.4906,
+    "year": 1995
   },
   {
     "id": "low-double-negative",
@@ -4139,7 +4368,8 @@ export const worksSeed = [
     "y": -1.7455,
     "z": 0.9556,
     "phi": 2.9362,
-    "theta": 1.9274
+    "theta": 1.9274,
+    "year": 1991
   },
   {
     "id": "have-a-nice-life-deathconsciousness",
@@ -4157,7 +4387,8 @@ export const worksSeed = [
     "y": -1.5222,
     "z": -2.4576,
     "phi": 3.6838,
-    "theta": 1.8801
+    "theta": 1.8801,
+    "year": null
   },
   {
     "id": "microphones-the-glow-pt-2",
@@ -4175,7 +4406,8 @@ export const worksSeed = [
     "y": 1.3346,
     "z": -4.6089,
     "phi": 4.4163,
-    "theta": 1.3006
+    "theta": 1.3006,
+    "year": null
   },
   {
     "id": "mount-eerie-a-crow-looked-at-me",
@@ -4193,7 +4425,8 @@ export const worksSeed = [
     "y": -1.5932,
     "z": 4.6413,
     "phi": 1.7746,
-    "theta": 1.8951
+    "theta": 1.8951,
+    "year": 2017
   },
   {
     "id": "mount-eerie-now-only",
@@ -4211,7 +4444,8 @@ export const worksSeed = [
     "y": -1.3579,
     "z": 2.6234,
     "phi": 2.565,
-    "theta": 1.8458
+    "theta": 1.8458,
+    "year": 2019
   },
   {
     "id": "sufjan-stevens-illinois",
@@ -4229,7 +4463,8 @@ export const worksSeed = [
     "y": 0.4723,
     "z": -4.9297,
     "phi": 4.8512,
-    "theta": 1.4762
+    "theta": 1.4762,
+    "year": 2006
   },
   {
     "id": "sufjan-stevens-carrie-lowell",
@@ -4247,7 +4482,8 @@ export const worksSeed = [
     "y": -0.4777,
     "z": -2.7771,
     "phi": 5.6913,
-    "theta": 1.6665
+    "theta": 1.6665,
+    "year": 2008
   },
   {
     "id": "bon-iver-for-emma-forever-ago",
@@ -4265,7 +4501,8 @@ export const worksSeed = [
     "y": -0.6859,
     "z": 4.5449,
     "phi": 1.9795,
-    "theta": 1.7084
+    "theta": 1.7084,
+    "year": 2007
   },
   {
     "id": "bon-iver-bon-iver",
@@ -4283,7 +4520,8 @@ export const worksSeed = [
     "y": -0.0851,
     "z": -4.3928,
     "phi": 5.2101,
-    "theta": 1.5878
+    "theta": 1.5878,
+    "year": 2009
   },
   {
     "id": "joanna-newsom-ys",
@@ -4301,7 +4539,8 @@ export const worksSeed = [
     "y": -3.768,
     "z": 2.8007,
     "phi": 2.1215,
-    "theta": 2.4243
+    "theta": 2.4243,
+    "year": 2009
   },
   {
     "id": "joanna-newsom-have-one-on-me",
@@ -4319,7 +4558,8 @@ export const worksSeed = [
     "y": -4.0888,
     "z": 2.6401,
     "phi": 1.9801,
-    "theta": 2.5283
+    "theta": 2.5283,
+    "year": 2010
   },
   {
     "id": "animal-collective-feels",
@@ -4337,7 +4577,8 @@ export const worksSeed = [
     "y": 0.7679,
     "z": -4.4876,
     "phi": 5.144,
-    "theta": 1.4166
+    "theta": 1.4166,
+    "year": 2005
   },
   {
     "id": "animal-collective-merriweather-post-pavilion",
@@ -4355,7 +4596,8 @@ export const worksSeed = [
     "y": -2.3448,
     "z": 3.772,
     "phi": 2.1177,
-    "theta": 2.0589
+    "theta": 2.0589,
+    "year": 2005
   },
   {
     "id": "deerhunter-microcastle",
@@ -4373,7 +4615,8 @@ export const worksSeed = [
     "y": -2.0363,
     "z": -0.8362,
     "phi": 6.099,
-    "theta": 1.9902
+    "theta": 1.9902,
+    "year": null
   },
   {
     "id": "deerhunter-halcyon-digest",
@@ -4391,7 +4634,8 @@ export const worksSeed = [
     "y": 2.5063,
     "z": 3.3162,
     "phi": 2.2682,
-    "theta": 1.0458
+    "theta": 1.0458,
+    "year": null
   },
   {
     "id": "beach-house-teen-dream",
@@ -4409,7 +4653,8 @@ export const worksSeed = [
     "y": -0.663,
     "z": 0.4505,
     "phi": 3.0506,
-    "theta": 1.7038
+    "theta": 1.7038,
+    "year": 2009
   },
   {
     "id": "beach-house-bloom",
@@ -4427,7 +4672,8 @@ export const worksSeed = [
     "y": -1.0621,
     "z": -3.9283,
     "phi": 4.0756,
-    "theta": 1.7849
+    "theta": 1.7849,
+    "year": 2010
   },
   {
     "id": "beach-house-depression-cherry",
@@ -4445,7 +4691,8 @@ export const worksSeed = [
     "y": -3.2186,
     "z": -1.4212,
     "phi": 3.5221,
-    "theta": 2.2701
+    "theta": 2.2701,
+    "year": 2005
   },
   {
     "id": "arcade-fire-funeral",
@@ -4463,7 +4710,8 @@ export const worksSeed = [
     "y": 2.8458,
     "z": -3.4072,
     "phi": 5.3063,
-    "theta": 0.9653
+    "theta": 0.9653,
+    "year": 2007
   },
   {
     "id": "arcade-fire-the-suburbs",
@@ -4481,7 +4729,8 @@ export const worksSeed = [
     "y": -3.1264,
     "z": -2.5879,
     "phi": 3.8667,
-    "theta": 2.2463
+    "theta": 2.2463,
+    "year": 2001
   },
   {
     "id": "the-national-alligator",
@@ -4499,7 +4748,8 @@ export const worksSeed = [
     "y": 4.4659,
     "z": -2.2295,
     "phi": 4.8422,
-    "theta": 0.4664
+    "theta": 0.4664,
+    "year": 2004
   },
   {
     "id": "the-national-boxer",
@@ -4517,7 +4767,8 @@ export const worksSeed = [
     "y": 0.2405,
     "z": -4.9568,
     "phi": 4.59,
-    "theta": 1.5227
+    "theta": 1.5227,
+    "year": 2010
   },
   {
     "id": "the-national-sleep-well-beast",
@@ -4535,7 +4786,8 @@ export const worksSeed = [
     "y": 1.5472,
     "z": -4.6412,
     "phi": 4.4935,
-    "theta": 1.2562
+    "theta": 1.2562,
+    "year": 2010
   },
   {
     "id": "dirty-projectors-bitte-orca",
@@ -4553,7 +4805,8 @@ export const worksSeed = [
     "y": -2.734,
     "z": 1.4895,
     "phi": 2.7778,
-    "theta": 2.1493
+    "theta": 2.1493,
+    "year": null
   },
   {
     "id": "julia-holter-ekstasis",
@@ -4571,7 +4824,8 @@ export const worksSeed = [
     "y": -3.1635,
     "z": -2.1842,
     "phi": 3.7409,
-    "theta": 2.2558
+    "theta": 2.2558,
+    "year": 2011
   },
   {
     "id": "julia-holter-loud-city-song",
@@ -4589,7 +4843,8 @@ export const worksSeed = [
     "y": -0.3023,
     "z": -0.6252,
     "phi": 3.2672,
-    "theta": 1.6313
+    "theta": 1.6313,
+    "year": 2012
   },
   {
     "id": "julia-holter-have-you-in-my-wilderness",
@@ -4607,7 +4862,8 @@ export const worksSeed = [
     "y": -0.2419,
     "z": -4.2054,
     "phi": 4.1427,
-    "theta": 1.6192
+    "theta": 1.6192,
+    "year": 2016
   },
   {
     "id": "weyes-blood-titanic-rising",
@@ -4625,7 +4881,8 @@ export const worksSeed = [
     "y": -2.0231,
     "z": 4.4374,
     "phi": 1.3272,
-    "theta": 1.9874
+    "theta": 1.9874,
+    "year": null
   },
   {
     "id": "angel-olsen-burn-your-fire-for-no-witness",
@@ -4643,7 +4900,8 @@ export const worksSeed = [
     "y": 1.7534,
     "z": -4.2538,
     "phi": 4.2812,
-    "theta": 1.2125
+    "theta": 1.2125,
+    "year": null
   },
   {
     "id": "angel-olsen-my-woman",
@@ -4661,7 +4919,8 @@ export const worksSeed = [
     "y": 3.6171,
     "z": -3.4099,
     "phi": 4.5559,
-    "theta": 0.7621
+    "theta": 0.7621,
+    "year": null
   },
   {
     "id": "sharon-van-etten-tramp",
@@ -4679,7 +4938,8 @@ export const worksSeed = [
     "y": -2.1941,
     "z": 2.3184,
     "phi": 2.5994,
-    "theta": 2.0251
+    "theta": 2.0251,
+    "year": null
   },
   {
     "id": "aldous-harding-party",
@@ -4697,7 +4957,8 @@ export const worksSeed = [
     "y": 1.966,
     "z": -3.4276,
     "phi": 5.4418,
-    "theta": 1.1667
+    "theta": 1.1667,
+    "year": null
   },
   {
     "id": "aldous-harding-designer",
@@ -4715,7 +4976,8 @@ export const worksSeed = [
     "y": 0.3038,
     "z": 4.1203,
     "phi": 2.1704,
-    "theta": 1.51
+    "theta": 1.51,
+    "year": null
   },
   {
     "id": "caroline-polachek-pang",
@@ -4733,7 +4995,8 @@ export const worksSeed = [
     "y": 1.933,
     "z": 4.6011,
     "phi": 1.6371,
-    "theta": 1.1738
+    "theta": 1.1738,
+    "year": null
   },
   {
     "id": "james-blake-james-blake",
@@ -4751,7 +5014,8 @@ export const worksSeed = [
     "y": -2.7742,
     "z": 0.5075,
     "phi": 3.0193,
-    "theta": 2.159
+    "theta": 2.159,
+    "year": null
   },
   {
     "id": "james-blake-overgrown",
@@ -4769,7 +5033,8 @@ export const worksSeed = [
     "y": 2.0434,
     "z": -1.8037,
     "phi": 5.8768,
-    "theta": 1.1498
+    "theta": 1.1498,
+    "year": null
   },
   {
     "id": "frank-ocean-blonde",
@@ -4787,7 +5052,8 @@ export const worksSeed = [
     "y": -0.991,
     "z": -0.4499,
     "phi": 6.1912,
-    "theta": 1.7703
+    "theta": 1.7703,
+    "year": 2010
   },
   {
     "id": "frank-ocean-channel-orange",
@@ -4805,7 +5071,8 @@ export const worksSeed = [
     "y": 0.8258,
     "z": -4.2581,
     "phi": 4.1837,
-    "theta": 1.4049
+    "theta": 1.4049,
+    "year": 2011
   },
   {
     "id": "solange-a-seat-at-the-table",
@@ -4823,7 +5090,8 @@ export const worksSeed = [
     "y": -2.8034,
     "z": 0.3215,
     "phi": 3.0639,
-    "theta": 2.166
+    "theta": 2.166,
+    "year": null
   },
   {
     "id": "solange-when-i-get-home",
@@ -4841,7 +5109,8 @@ export const worksSeed = [
     "y": 0.177,
     "z": -3.3758,
     "phi": 5.5414,
-    "theta": 1.5354
+    "theta": 1.5354,
+    "year": null
   },
   {
     "id": "talk-talk",
@@ -4859,7 +5128,8 @@ export const worksSeed = [
     "y": 2.8093,
     "z": -3.66,
     "phi": 4.2278,
-    "theta": 0.9742
+    "theta": 0.9742,
+    "year": 1980
   },
   {
     "id": "scott-walker",
@@ -4877,7 +5147,8 @@ export const worksSeed = [
     "y": 1.8185,
     "z": 3.3819,
     "phi": 0.8126,
-    "theta": 1.1986
+    "theta": 1.1986,
+    "year": 1966
   },
   {
     "id": "slint",
@@ -4895,7 +5166,8 @@ export const worksSeed = [
     "y": 1.6799,
     "z": -4.178,
     "phi": 4.2328,
-    "theta": 1.2281
+    "theta": 1.2281,
+    "year": null
   },
   {
     "id": "godspeed-you-black-emperor",
@@ -4913,7 +5185,8 @@ export const worksSeed = [
     "y": 4.614,
     "z": 1.8601,
     "phi": 1.3075,
-    "theta": 0.3955
+    "theta": 0.3955,
+    "year": 2001
   },
   {
     "id": "swans",
@@ -4931,7 +5204,8 @@ export const worksSeed = [
     "y": 3.9528,
     "z": 2.6743,
     "phi": 1.0621,
-    "theta": 0.6591
+    "theta": 0.6591,
+    "year": 1979
   },
   {
     "id": "my-bloody-valentine",
@@ -4949,7 +5223,8 @@ export const worksSeed = [
     "y": -1.3167,
     "z": 2.6596,
     "phi": 2.5576,
-    "theta": 1.8373
+    "theta": 1.8373,
+    "year": null
   },
   {
     "id": "radiohead",
@@ -4967,7 +5242,8 @@ export const worksSeed = [
     "y": 2.84,
     "z": -3.9519,
     "phi": 4.4298,
-    "theta": 0.9667
+    "theta": 0.9667,
+    "year": 2000
   },
   {
     "id": "pj-harvey",
@@ -4985,7 +5261,8 @@ export const worksSeed = [
     "y": 1.0332,
     "z": -4.3622,
     "phi": 5.1821,
-    "theta": 1.3627
+    "theta": 1.3627,
+    "year": null
   },
   {
     "id": "nick-cave-and-the-bad-seeds",
@@ -5003,7 +5280,8 @@ export const worksSeed = [
     "y": 0.3273,
     "z": -4.9275,
     "phi": 4.5549,
-    "theta": 1.5053
+    "theta": 1.5053,
+    "year": 1991
   },
   {
     "id": "the-fall",
@@ -5021,7 +5299,8 @@ export const worksSeed = [
     "y": 2.5529,
     "z": -3.4,
     "phi": 5.371,
-    "theta": 1.0349
+    "theta": 1.0349,
+    "year": null
   },
   {
     "id": "wire",
@@ -5039,7 +5318,8 @@ export const worksSeed = [
     "y": 1.2684,
     "z": -1.6328,
     "phi": 5.9388,
-    "theta": 1.3143
+    "theta": 1.3143,
+    "year": 1975
   },
   {
     "id": "low",
@@ -5057,7 +5337,8 @@ export const worksSeed = [
     "y": -3.2833,
     "z": -2.1308,
     "phi": 3.7421,
-    "theta": 2.2872
+    "theta": 2.2872,
+    "year": 1997
   },
   {
     "id": "mount-eerie",
@@ -5075,7 +5356,8 @@ export const worksSeed = [
     "y": 3.2994,
     "z": -1.7062,
     "phi": 5.8118,
-    "theta": 0.8501
+    "theta": 0.8501,
+    "year": 2022
   },
   {
     "id": "joanna-newsom",
@@ -5093,7 +5375,8 @@ export const worksSeed = [
     "y": -3.5425,
     "z": 2.2881,
     "phi": 2.436,
-    "theta": 2.3582
+    "theta": 2.3582,
+    "year": 2004
   },
   {
     "id": "julia-holter",
@@ -5111,7 +5394,8 @@ export const worksSeed = [
     "y": -2.6052,
     "z": -2.8005,
     "phi": 3.8574,
-    "theta": 2.1189
+    "theta": 2.1189,
+    "year": 2015
   },
   {
     "id": "weyes-blood",
@@ -5129,7 +5413,8 @@ export const worksSeed = [
     "y": 0.1931,
     "z": 4.7849,
     "phi": 1.2789,
-    "theta": 1.5322
+    "theta": 1.5322,
+    "year": null
   },
   {
     "id": "james-blake",
@@ -5147,7 +5432,8 @@ export const worksSeed = [
     "y": 1.9958,
     "z": 4.5111,
     "phi": 1.7498,
-    "theta": 1.1602
+    "theta": 1.1602,
+    "year": null
   },
   {
     "id": "frank-ocean",
@@ -5165,7 +5451,8 @@ export const worksSeed = [
     "y": 1.8082,
     "z": -3.97,
     "phi": 5.2641,
-    "theta": 1.2008
+    "theta": 1.2008,
+    "year": 2013
   },
   {
     "id": "solange",
@@ -5183,7 +5470,8 @@ export const worksSeed = [
     "y": -4.5004,
     "z": 1.1459,
     "phi": 2.5877,
-    "theta": 2.6908
+    "theta": 2.6908,
+    "year": null
   },
   {
     "id": "beach-house",
@@ -5201,7 +5489,8 @@ export const worksSeed = [
     "y": -2.4956,
     "z": -4.3033,
     "phi": 4.596,
-    "theta": 2.0934
+    "theta": 2.0934,
+    "year": 2011
   },
   {
     "id": "animal-collective",
@@ -5219,7 +5508,8 @@ export const worksSeed = [
     "y": 2.4891,
     "z": 1.5585,
     "phi": 2.774,
-    "theta": 1.0497
+    "theta": 1.0497,
+    "year": 2001
   },
   {
     "id": "deerhunter",
@@ -5237,7 +5527,8 @@ export const worksSeed = [
     "y": -4.3338,
     "z": 2.0933,
     "phi": 2.1453,
-    "theta": 2.6195
+    "theta": 2.6195,
+    "year": null
   },
   {
     "id": "have-a-nice-life",
@@ -5255,7 +5546,8 @@ export const worksSeed = [
     "y": -0.8493,
     "z": -0.0127,
     "phi": 3.1442,
-    "theta": 1.7415
+    "theta": 1.7415,
+    "year": null
   },
   {
     "id": "kendrick-lamar-to-pimp-a-butterfly",
@@ -5273,7 +5565,8 @@ export const worksSeed = [
     "y": 0.4582,
     "z": -2.7468,
     "phi": 5.6988,
-    "theta": 1.479
+    "theta": 1.479,
+    "year": 2017
   },
   {
     "id": "kendrick-lamar-good-kid-m-a-a-d-city",
@@ -5291,7 +5584,8 @@ export const worksSeed = [
     "y": 2.4581,
     "z": -2.3,
     "phi": 5.7266,
-    "theta": 1.0568
+    "theta": 1.0568,
+    "year": 2009
   },
   {
     "id": "kendrick-lamar-damn",
@@ -5309,7 +5603,8 @@ export const worksSeed = [
     "y": 3.3903,
     "z": -2.9001,
     "phi": 5.3738,
-    "theta": 0.8257
+    "theta": 0.8257,
+    "year": 2011
   },
   {
     "id": "kendrick-lamar-mr-morale-the-big-steppers",
@@ -5327,7 +5622,8 @@ export const worksSeed = [
     "y": 1.7934,
     "z": -3.9943,
     "phi": 5.2561,
-    "theta": 1.204
+    "theta": 1.204,
+    "year": 2013
   },
   {
     "id": "madlib-madvillainy",
@@ -5345,7 +5641,8 @@ export const worksSeed = [
     "y": -0.224,
     "z": 3.1956,
     "phi": 2.4474,
-    "theta": 1.6156
+    "theta": 1.6156,
+    "year": null
   },
   {
     "id": "mf-doom-operation-doomsday",
@@ -5363,7 +5660,8 @@ export const worksSeed = [
     "y": 2.5901,
     "z": 2.6761,
     "phi": 2.4655,
-    "theta": 1.0263
+    "theta": 1.0263,
+    "year": null
   },
   {
     "id": "mf-doom-mm-food",
@@ -5381,7 +5679,8 @@ export const worksSeed = [
     "y": -3.7074,
     "z": -2.9769,
     "phi": 4.2332,
-    "theta": 2.4061
+    "theta": 2.4061,
+    "year": null
   },
   {
     "id": "de-la-soul-3-feet-high-and-rising",
@@ -5399,7 +5698,8 @@ export const worksSeed = [
     "y": 2.2844,
     "z": 2.3639,
     "phi": 2.5812,
-    "theta": 1.0963
+    "theta": 1.0963,
+    "year": null
   },
   {
     "id": "de-la-soul-de-la-soul-is-dead",
@@ -5417,7 +5717,8 @@ export const worksSeed = [
     "y": -2.2184,
     "z": -0.9902,
     "phi": 3.3644,
-    "theta": 2.0305
+    "theta": 2.0305,
+    "year": null
   },
   {
     "id": "a-tribe-called-quest-the-low-end-theory",
@@ -5435,7 +5736,8 @@ export const worksSeed = [
     "y": -4.964,
     "z": 0.0652,
     "phi": 3.0325,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": null
   },
   {
     "id": "a-tribe-called-quest-midnight-marauders",
@@ -5453,7 +5755,8 @@ export const worksSeed = [
     "y": -0.759,
     "z": -1.415,
     "phi": 5.9928,
-    "theta": 1.7232
+    "theta": 1.7232,
+    "year": null
   },
   {
     "id": "wu-tang-clan-enter-the-wu-tang-36-chambers",
@@ -5471,7 +5774,8 @@ export const worksSeed = [
     "y": -1.3108,
     "z": -3.8492,
     "phi": 5.3597,
-    "theta": 1.836
+    "theta": 1.836,
+    "year": null
   },
   {
     "id": "gza-liquid-swords",
@@ -5489,7 +5793,8 @@ export const worksSeed = [
     "y": -0.7653,
     "z": 4.7733,
     "phi": 1.3094,
-    "theta": 1.7245
+    "theta": 1.7245,
+    "year": null
   },
   {
     "id": "raekwon-only-built-4-cuban-linx",
@@ -5507,7 +5812,8 @@ export const worksSeed = [
     "y": 0.2961,
     "z": -4.8101,
     "phi": 4.4421,
-    "theta": 1.5115
+    "theta": 1.5115,
+    "year": null
   },
   {
     "id": "jay-z-the-blueprint",
@@ -5525,7 +5831,8 @@ export const worksSeed = [
     "y": -3.4931,
     "z": -1.2958,
     "phi": 3.5122,
-    "theta": 2.3443
+    "theta": 2.3443,
+    "year": 1997
   },
   {
     "id": "nas-illmatic",
@@ -5543,7 +5850,8 @@ export const worksSeed = [
     "y": 0.9896,
     "z": 0.3874,
     "phi": 3.0625,
-    "theta": 1.3716
+    "theta": 1.3716,
+    "year": null
   },
   {
     "id": "the-notorious-b-i-g-ready-to-die",
@@ -5561,7 +5869,8 @@ export const worksSeed = [
     "y": -1.6681,
     "z": 4.5412,
     "phi": 1.2996,
-    "theta": 1.9109
+    "theta": 1.9109,
+    "year": null
   },
   {
     "id": "outkast-aquemini",
@@ -5579,7 +5888,8 @@ export const worksSeed = [
     "y": 1.3826,
     "z": -3.6995,
     "phi": 5.4045,
-    "theta": 1.2906
+    "theta": 1.2906,
+    "year": 1996
   },
   {
     "id": "outkast-stankonia",
@@ -5597,7 +5907,8 @@ export const worksSeed = [
     "y": 3.1205,
     "z": -3.2166,
     "phi": 5.3159,
-    "theta": 0.8968
+    "theta": 0.8968,
+    "year": 1997
   },
   {
     "id": "outkast-speakerboxxx-the-love-below",
@@ -5615,7 +5926,8 @@ export const worksSeed = [
     "y": 2.0141,
     "z": -4.3067,
     "phi": 4.3673,
-    "theta": 1.1562
+    "theta": 1.1562,
+    "year": 2003
   },
   {
     "id": "kanye-west-the-college-dropout",
@@ -5633,7 +5945,8 @@ export const worksSeed = [
     "y": 2.8886,
     "z": -3.7993,
     "phi": 5.0862,
-    "theta": 0.9549
+    "theta": 0.9549,
+    "year": 2009
   },
   {
     "id": "kanye-west-late-registration",
@@ -5651,7 +5964,8 @@ export const worksSeed = [
     "y": -0.9424,
     "z": -3.6585,
     "phi": 5.4426,
-    "theta": 1.7604
+    "theta": 1.7604,
+    "year": 2007
   },
   {
     "id": "kanye-west-my-beautiful-dark-twisted-fantasy",
@@ -5669,7 +5983,8 @@ export const worksSeed = [
     "y": 1.4194,
     "z": -3.8993,
     "phi": 5.3333,
-    "theta": 1.283
+    "theta": 1.283,
+    "year": 2001
   },
   {
     "id": "kanye-west-yeezus",
@@ -5687,7 +6002,8 @@ export const worksSeed = [
     "y": 2.7479,
     "z": -3.4801,
     "phi": 5.2985,
-    "theta": 0.9889
+    "theta": 0.9889,
+    "year": 2009
   },
   {
     "id": "kanye-west-808s-heartbreak",
@@ -5705,7 +6021,8 @@ export const worksSeed = [
     "y": -1.6205,
     "z": -2.1247,
     "phi": 5.8173,
-    "theta": 1.9009
+    "theta": 1.9009,
+    "year": 2007
   },
   {
     "id": "lil-wayne-tha-carter-iii",
@@ -5723,7 +6040,8 @@ export const worksSeed = [
     "y": 1.9092,
     "z": -2.464,
     "phi": 5.7208,
-    "theta": 1.179
+    "theta": 1.179,
+    "year": 2008
   },
   {
     "id": "drake-take-care",
@@ -5741,7 +6059,8 @@ export const worksSeed = [
     "y": 0.4639,
     "z": -2.6799,
     "phi": 5.7148,
-    "theta": 1.4779
+    "theta": 1.4779,
+    "year": 2012
   },
   {
     "id": "tyler-the-creator-goblin",
@@ -5759,7 +6078,8 @@ export const worksSeed = [
     "y": 3.7092,
     "z": -3.0154,
     "phi": 5.1649,
-    "theta": 0.735
+    "theta": 0.735,
+    "year": 2014
   },
   {
     "id": "tyler-the-creator-flower-boy",
@@ -5777,7 +6097,8 @@ export const worksSeed = [
     "y": 0.3844,
     "z": -4.7197,
     "phi": 5.0402,
-    "theta": 1.4938
+    "theta": 1.4938,
+    "year": 2016
   },
   {
     "id": "tyler-the-creator-igor",
@@ -5795,7 +6116,8 @@ export const worksSeed = [
     "y": 1.2945,
     "z": -4.3913,
     "phi": 5.1417,
-    "theta": 1.3089
+    "theta": 1.3089,
+    "year": 2009
   },
   {
     "id": "earl-sweatshirt-doris",
@@ -5813,7 +6135,8 @@ export const worksSeed = [
     "y": -4.4988,
     "z": 1.8472,
     "phi": 2.1321,
-    "theta": 2.69
+    "theta": 2.69,
+    "year": null
   },
   {
     "id": "earl-sweatshirt-i-don-t-like-shit-i-don-t-go-outside",
@@ -5831,7 +6154,8 @@ export const worksSeed = [
     "y": -0.1401,
     "z": 1.6347,
     "phi": 2.8084,
-    "theta": 1.5988
+    "theta": 1.5988,
+    "year": null
   },
   {
     "id": "vince-staples-summertime-06",
@@ -5849,7 +6173,8 @@ export const worksSeed = [
     "y": 0.098,
     "z": 4.6824,
     "phi": 1.9286,
-    "theta": 1.5512
+    "theta": 1.5512,
+    "year": null
   },
   {
     "id": "vince-staples-big-fish-theory",
@@ -5867,7 +6192,8 @@ export const worksSeed = [
     "y": -1.3089,
     "z": -0.7292,
     "phi": 3.2933,
-    "theta": 1.8357
+    "theta": 1.8357,
+    "year": null
   },
   {
     "id": "danny-brown-xxx",
@@ -5885,7 +6211,8 @@ export const worksSeed = [
     "y": 0.976,
     "z": -4.5802,
     "phi": 5.0777,
-    "theta": 1.3743
+    "theta": 1.3743,
+    "year": null
   },
   {
     "id": "danny-brown-atrocity-exhibition",
@@ -5903,7 +6230,8 @@ export const worksSeed = [
     "y": -0.0383,
     "z": 4.1881,
     "phi": 2.1486,
-    "theta": 1.5785
+    "theta": 1.5785,
+    "year": null
   },
   {
     "id": "clipping-clppng",
@@ -5921,7 +6249,8 @@ export const worksSeed = [
     "y": 3.2585,
     "z": 3.7916,
     "phi": 1.5509,
-    "theta": 0.861
+    "theta": 0.861,
+    "year": null
   },
   {
     "id": "death-grips-exmilitary",
@@ -5939,7 +6268,8 @@ export const worksSeed = [
     "y": 3.4323,
     "z": 0.6672,
     "phi": 0.1845,
-    "theta": 0.8142
+    "theta": 0.8142,
+    "year": 2012
   },
   {
     "id": "death-grips-niggas-on-the-moon",
@@ -5957,7 +6287,8 @@ export const worksSeed = [
     "y": 3.9228,
     "z": 1.5141,
     "phi": 0.5102,
-    "theta": 0.6688
+    "theta": 0.6688,
+    "year": 2010
   },
   {
     "id": "jpegmafia-veteran",
@@ -5975,7 +6306,8 @@ export const worksSeed = [
     "y": 2.3317,
     "z": 2.865,
     "phi": 2.437,
-    "theta": 1.0856
+    "theta": 1.0856,
+    "year": null
   },
   {
     "id": "jpegmafia-all-my-heroes-are-cornballs",
@@ -5993,7 +6325,8 @@ export const worksSeed = [
     "y": 4.2747,
     "z": -1.7996,
     "phi": 5.5164,
-    "theta": 0.5453
+    "theta": 0.5453,
+    "year": null
   },
   {
     "id": "billy-woods-hiding-places",
@@ -6011,7 +6344,8 @@ export const worksSeed = [
     "y": -3.5422,
     "z": 1.6689,
     "phi": 2.649,
-    "theta": 2.3581
+    "theta": 2.3581,
+    "year": null
   },
   {
     "id": "billy-woods-aethiopes",
@@ -6029,7 +6363,8 @@ export const worksSeed = [
     "y": -4.909,
     "z": -0.2063,
     "phi": 3.3606,
-    "theta": 2.9505
+    "theta": 2.9505,
+    "year": null
   },
   {
     "id": "armand-hammer-rome",
@@ -6047,7 +6382,8 @@ export const worksSeed = [
     "y": -4.3377,
     "z": -1.9136,
     "phi": 4.0197,
-    "theta": 2.621
+    "theta": 2.621,
+    "year": null
   },
   {
     "id": "mach-hommy-pray-for-haiti",
@@ -6065,7 +6401,8 @@ export const worksSeed = [
     "y": 2.4202,
     "z": -3.3872,
     "phi": 5.3978,
-    "theta": 1.0655
+    "theta": 1.0655,
+    "year": null
   },
   {
     "id": "ka-grief-pedigree",
@@ -6083,7 +6420,8 @@ export const worksSeed = [
     "y": 2.9442,
     "z": -3.7963,
     "phi": 4.3624,
-    "theta": 0.9412
+    "theta": 0.9412,
+    "year": null
   },
   {
     "id": "roc-marciano-marcberg",
@@ -6101,7 +6439,8 @@ export const worksSeed = [
     "y": -4.964,
     "z": 0.4407,
     "phi": 2.3141,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": null
   },
   {
     "id": "freddie-gibbs-piñata",
@@ -6119,7 +6458,8 @@ export const worksSeed = [
     "y": -0.5678,
     "z": -2.2067,
     "phi": 3.6019,
-    "theta": 1.6846
+    "theta": 1.6846,
+    "year": null
   },
   {
     "id": "freddie-gibbs-bandana",
@@ -6137,7 +6477,8 @@ export const worksSeed = [
     "y": -1.8834,
     "z": 2.6096,
     "phi": 2.5431,
-    "theta": 1.957
+    "theta": 1.957,
+    "year": null
   },
   {
     "id": "isaiah-rashad-cilvia-demo",
@@ -6155,7 +6496,8 @@ export const worksSeed = [
     "y": 0.3424,
     "z": 4.3883,
     "phi": 1.0753,
-    "theta": 1.5023
+    "theta": 1.5023,
+    "year": null
   },
   {
     "id": "sza-ctrl",
@@ -6173,7 +6515,8 @@ export const worksSeed = [
     "y": -3.33,
     "z": 2.5571,
     "phi": 2.3862,
-    "theta": 2.2996
+    "theta": 2.2996,
+    "year": 2020
   },
   {
     "id": "noname-telefone",
@@ -6191,7 +6534,8 @@ export const worksSeed = [
     "y": 1.9276,
     "z": -3.144,
     "phi": 3.8914,
-    "theta": 1.175
+    "theta": 1.175,
+    "year": null
   },
   {
     "id": "noname-room-25",
@@ -6209,7 +6553,8 @@ export const worksSeed = [
     "y": -3.265,
     "z": 3.7859,
     "phi": 1.5492,
-    "theta": 2.2823
+    "theta": 2.2823,
+    "year": null
   },
   {
     "id": "lomepal-jeannine",
@@ -6227,7 +6572,8 @@ export const worksSeed = [
     "y": -0.4368,
     "z": 4.5953,
     "phi": 1.9669,
-    "theta": 1.6583
+    "theta": 1.6583,
+    "year": null
   },
   {
     "id": "nekfeu-cyborg",
@@ -6245,7 +6591,8 @@ export const worksSeed = [
     "y": 1.4459,
     "z": 3.809,
     "phi": 0.9203,
-    "theta": 1.2774
+    "theta": 1.2774,
+    "year": 2020
   },
   {
     "id": "sch-jvlivs",
@@ -6263,7 +6610,8 @@ export const worksSeed = [
     "y": 2.4967,
     "z": -4.1983,
     "phi": 4.4632,
-    "theta": 1.048
+    "theta": 1.048,
+    "year": null
   },
   {
     "id": "damso-batterie-faible",
@@ -6281,7 +6629,8 @@ export const worksSeed = [
     "y": -0.4105,
     "z": -1.5266,
     "phi": 3.4529,
-    "theta": 1.653
+    "theta": 1.653,
+    "year": null
   },
   {
     "id": "damso-lithopédion",
@@ -6299,7 +6648,8 @@ export const worksSeed = [
     "y": -3.8877,
     "z": 2.1692,
     "phi": 2.3802,
-    "theta": 2.4616
+    "theta": 2.4616,
+    "year": null
   },
   {
     "id": "stromae-racine-carrée",
@@ -6317,7 +6667,8 @@ export const worksSeed = [
     "y": -4.7934,
     "z": -0.4086,
     "phi": 3.433,
-    "theta": 2.8531
+    "theta": 2.8531,
+    "year": 2018
   },
   {
     "id": "orelsan-la-fête-est-finie",
@@ -6335,7 +6686,8 @@ export const worksSeed = [
     "y": -1.1534,
     "z": -3.2797,
     "phi": 5.5434,
-    "theta": 1.8036
+    "theta": 1.8036,
+    "year": null
   },
   {
     "id": "orelsan-civilisation",
@@ -6353,7 +6705,8 @@ export const worksSeed = [
     "y": 2.8451,
     "z": -4.0806,
     "phi": 4.5895,
-    "theta": 0.9655
+    "theta": 0.9655,
+    "year": null
   },
   {
     "id": "laylow-trinity",
@@ -6371,7 +6724,8 @@ export const worksSeed = [
     "y": -3.7595,
     "z": 1.9428,
     "phi": 2.5113,
-    "theta": 2.4217
+    "theta": 2.4217,
+    "year": null
   },
   {
     "id": "hamza-sincèrement",
@@ -6389,7 +6743,8 @@ export const worksSeed = [
     "y": 1.3313,
     "z": 3.4838,
     "phi": 2.3337,
-    "theta": 1.3013
+    "theta": 1.3013,
+    "year": null
   },
   {
     "id": "freeze-corleone-lmf",
@@ -6407,7 +6762,8 @@ export const worksSeed = [
     "y": -2.8702,
     "z": 2.8753,
     "phi": 2.363,
-    "theta": 2.1822
+    "theta": 2.1822,
+    "year": 2024
   },
   {
     "id": "médine-protest-song",
@@ -6425,7 +6781,8 @@ export const worksSeed = [
     "y": -0.0226,
     "z": -3.5986,
     "phi": 5.4798,
-    "theta": 1.5753
+    "theta": 1.5753,
+    "year": null
   },
   {
     "id": "oxmo-puccino-lipopette-bar",
@@ -6443,7 +6800,8 @@ export const worksSeed = [
     "y": 4.3629,
     "z": -2.2544,
     "phi": 5.1073,
-    "theta": 0.5103
+    "theta": 0.5103,
+    "year": null
   },
   {
     "id": "iam-l-école-du-micro-d-argent",
@@ -6461,7 +6819,8 @@ export const worksSeed = [
     "y": -3.119,
     "z": 0.6618,
     "phi": 2.9714,
-    "theta": 2.2444
+    "theta": 2.2444,
+    "year": null
   },
   {
     "id": "ntm-paris-sous-les-bombes",
@@ -6479,7 +6838,8 @@ export const worksSeed = [
     "y": -2.8587,
     "z": 2.6485,
     "phi": 2.4397,
-    "theta": 2.1794
+    "theta": 2.1794,
+    "year": null
   },
   {
     "id": "mc-solaar-prose-combat",
@@ -6497,7 +6857,8 @@ export const worksSeed = [
     "y": -2.5232,
     "z": 4.0923,
     "phi": 1.247,
-    "theta": 2.0998
+    "theta": 2.0998,
+    "year": null
   },
   {
     "id": "booba-temps-mort",
@@ -6515,7 +6876,8 @@ export const worksSeed = [
     "y": 0.8409,
     "z": -4.7013,
     "phi": 4.4074,
-    "theta": 1.4018
+    "theta": 1.4018,
+    "year": 2011
   },
   {
     "id": "booba-lunatic",
@@ -6533,7 +6895,8 @@ export const worksSeed = [
     "y": 4.0442,
     "z": -2.8163,
     "phi": 4.4212,
-    "theta": 0.6286
+    "theta": 0.6286,
+    "year": 2008
   },
   {
     "id": "lunatic-mauvais-œil",
@@ -6551,7 +6914,8 @@ export const worksSeed = [
     "y": -4.5706,
     "z": 0.7975,
     "phi": 2.7372,
-    "theta": 2.7242
+    "theta": 2.7242,
+    "year": null
   },
   {
     "id": "kendrick-lamar",
@@ -6569,7 +6933,8 @@ export const worksSeed = [
     "y": -0.0818,
     "z": -4.8732,
     "phi": 4.9375,
-    "theta": 1.5872
+    "theta": 1.5872,
+    "year": 2015
   },
   {
     "id": "mf-doom",
@@ -6587,7 +6952,8 @@ export const worksSeed = [
     "y": 1.1381,
     "z": 3.9914,
     "phi": 2.1805,
-    "theta": 1.3412
+    "theta": 1.3412,
+    "year": null
   },
   {
     "id": "madlib",
@@ -6605,7 +6971,8 @@ export const worksSeed = [
     "y": 3.4721,
     "z": -1.7581,
     "phi": 5.7726,
-    "theta": 0.8032
+    "theta": 0.8032,
+    "year": null
   },
   {
     "id": "de-la-soul",
@@ -6623,7 +6990,8 @@ export const worksSeed = [
     "y": -1.6655,
     "z": 1.1834,
     "phi": 2.8879,
-    "theta": 1.9104
+    "theta": 1.9104,
+    "year": null
   },
   {
     "id": "a-tribe-called-quest",
@@ -6641,7 +7009,8 @@ export const worksSeed = [
     "y": 2.898,
     "z": -3.213,
     "phi": 5.3747,
-    "theta": 0.9526
+    "theta": 0.9526,
+    "year": null
   },
   {
     "id": "outkast",
@@ -6659,7 +7028,8 @@ export const worksSeed = [
     "y": 3.1643,
     "z": -3.6171,
     "phi": 5.0768,
-    "theta": 0.8855
+    "theta": 0.8855,
+    "year": 1996
   },
   {
     "id": "kanye-west",
@@ -6677,7 +7047,8 @@ export const worksSeed = [
     "y": 1.2594,
     "z": -4.8096,
     "phi": 4.8223,
-    "theta": 1.3162
+    "theta": 1.3162,
+    "year": 2006
   },
   {
     "id": "tyler-the-creator",
@@ -6695,7 +7066,8 @@ export const worksSeed = [
     "y": 0.5815,
     "z": -4.7788,
     "phi": 4.9879,
-    "theta": 1.4542
+    "theta": 1.4542,
+    "year": 2015
   },
   {
     "id": "earl-sweatshirt",
@@ -6713,7 +7085,8 @@ export const worksSeed = [
     "y": 0.1561,
     "z": -4.2411,
     "phi": 4.155,
-    "theta": 1.5396
+    "theta": 1.5396,
+    "year": null
   },
   {
     "id": "danny-brown",
@@ -6731,7 +7104,8 @@ export const worksSeed = [
     "y": -3.6319,
     "z": 2.9426,
     "phi": 2.1135,
-    "theta": 2.3838
+    "theta": 2.3838,
+    "year": null
   },
   {
     "id": "jpegmafia",
@@ -6749,7 +7123,8 @@ export const worksSeed = [
     "y": 3.0132,
     "z": 2.8556,
     "phi": 2.344,
-    "theta": 0.924
+    "theta": 0.924,
+    "year": null
   },
   {
     "id": "billy-woods",
@@ -6767,7 +7142,8 @@ export const worksSeed = [
     "y": -3.427,
     "z": 3.6063,
     "phi": 1.4331,
-    "theta": 2.326
+    "theta": 2.326,
+    "year": null
   },
   {
     "id": "armand-hammer",
@@ -6785,7 +7161,8 @@ export const worksSeed = [
     "y": -1.4685,
     "z": 0.2052,
     "phi": 3.0986,
-    "theta": 1.8689
+    "theta": 1.8689,
+    "year": null
   },
   {
     "id": "vince-staples",
@@ -6803,7 +7180,8 @@ export const worksSeed = [
     "y": -2.1129,
     "z": 3.0885,
     "phi": 2.3917,
-    "theta": 2.0071
+    "theta": 2.0071,
+    "year": null
   },
   {
     "id": "injury-reserve",
@@ -6821,7 +7199,8 @@ export const worksSeed = [
     "y": -1.9101,
     "z": -2.9498,
     "phi": 5.5908,
-    "theta": 1.9628
+    "theta": 1.9628,
+    "year": null
   },
   {
     "id": "damso",
@@ -6839,7 +7218,8 @@ export const worksSeed = [
     "y": 4.7647,
     "z": -1.1656,
     "phi": 4.0188,
-    "theta": 0.308
+    "theta": 0.308,
+    "year": null
   },
   {
     "id": "sch",
@@ -6857,7 +7237,8 @@ export const worksSeed = [
     "y": 3.8222,
     "z": -3.1778,
     "phi": 4.5438,
-    "theta": 0.7006
+    "theta": 0.7006,
+    "year": null
   },
   {
     "id": "orelsan",
@@ -6875,7 +7256,8 @@ export const worksSeed = [
     "y": 1.9635,
     "z": 3.0503,
     "phi": 2.4163,
-    "theta": 1.1672
+    "theta": 1.1672,
+    "year": null
   },
   {
     "id": "laylow",
@@ -6893,7 +7275,8 @@ export const worksSeed = [
     "y": 1.7874,
     "z": 4.653,
     "phi": 1.6551,
-    "theta": 1.2052
+    "theta": 1.2052,
+    "year": null
   },
   {
     "id": "freeze-corleone",
@@ -6911,7 +7294,8 @@ export const worksSeed = [
     "y": 0.5802,
     "z": -3.7326,
     "phi": 3.9921,
-    "theta": 1.4545
+    "theta": 1.4545,
+    "year": 2019
   },
   {
     "id": "stromae",
@@ -6929,7 +7313,8 @@ export const worksSeed = [
     "y": -2.8101,
     "z": 1.11,
     "phi": 2.8699,
-    "theta": 2.1676
+    "theta": 2.1676,
+    "year": 2013
   },
   {
     "id": "nekfeu",
@@ -6947,7 +7332,8 @@ export const worksSeed = [
     "y": -0.0252,
     "z": 4.9941,
     "phi": 1.5226,
-    "theta": 1.5758
+    "theta": 1.5758,
+    "year": 2013
   },
   {
     "id": "lomepal",
@@ -6965,7 +7351,8 @@ export const worksSeed = [
     "y": -0.8779,
     "z": 4.8751,
     "phi": 1.7094,
-    "theta": 1.7473
+    "theta": 1.7473,
+    "year": null
   },
   {
     "id": "steve-reich-music-for-18-musicians",
@@ -6983,7 +7370,8 @@ export const worksSeed = [
     "y": 0.4097,
     "z": 4.8338,
     "phi": 1.8163,
-    "theta": 1.4888
+    "theta": 1.4888,
+    "year": 1978
   },
   {
     "id": "steve-reich-different-trains",
@@ -7001,7 +7389,8 @@ export const worksSeed = [
     "y": 0.0328,
     "z": 2.8561,
     "phi": 2.5336,
-    "theta": 1.5642
+    "theta": 1.5642,
+    "year": 1976
   },
   {
     "id": "philip-glass-glassworks",
@@ -7019,7 +7408,8 @@ export const worksSeed = [
     "y": 2.2373,
     "z": 3.2434,
     "phi": 2.3301,
-    "theta": 1.1069
+    "theta": 1.1069,
+    "year": 1978
   },
   {
     "id": "philip-glass-einstein-on-the-beach",
@@ -7037,7 +7427,8 @@ export const worksSeed = [
     "y": -2.4462,
     "z": 3.984,
     "phi": 1.9895,
-    "theta": 2.082
+    "theta": 2.082,
+    "year": 1980
   },
   {
     "id": "arvo-pärt-tabula-rasa",
@@ -7055,7 +7446,8 @@ export const worksSeed = [
     "y": 0.3827,
     "z": 4.7441,
     "phi": 1.8831,
-    "theta": 1.4942
+    "theta": 1.4942,
+    "year": 1981
   },
   {
     "id": "arvo-pärt-spiegel-im-spiegel",
@@ -7073,7 +7465,8 @@ export const worksSeed = [
     "y": 3.4559,
     "z": 3.6108,
     "phi": 1.5334,
-    "theta": 0.8077
+    "theta": 0.8077,
+    "year": 1979
   },
   {
     "id": "morton-feldman-rothko-chapel",
@@ -7091,7 +7484,8 @@ export const worksSeed = [
     "y": 1.215,
     "z": 2.5454,
     "phi": 2.5891,
-    "theta": 1.3253
+    "theta": 1.3253,
+    "year": 1969
   },
   {
     "id": "morton-feldman-for-philip-guston",
@@ -7109,7 +7503,8 @@ export const worksSeed = [
     "y": 1.4234,
     "z": 4.4456,
     "phi": 1.9539,
-    "theta": 1.2821
+    "theta": 1.2821,
+    "year": 1968
   },
   {
     "id": "iannis-xenakis-metastaseis",
@@ -7127,7 +7522,8 @@ export const worksSeed = [
     "y": -0.3399,
     "z": 2.5938,
     "phi": 2.5948,
-    "theta": 1.6388
+    "theta": 1.6388,
+    "year": null
   },
   {
     "id": "olivier-messiaen-quartet-for-the-end-of-time",
@@ -7145,7 +7541,8 @@ export const worksSeed = [
     "y": 2.9565,
     "z": 2.9265,
     "phi": 2.3295,
-    "theta": 0.9381
+    "theta": 0.9381,
+    "year": 1954
   },
   {
     "id": "john-cage-4-33",
@@ -7163,7 +7560,8 @@ export const worksSeed = [
     "y": 1.798,
     "z": 4.4315,
     "phi": 1.8888,
-    "theta": 1.2029
+    "theta": 1.2029,
+    "year": null
   },
   {
     "id": "john-cage-music-of-changes",
@@ -7181,7 +7579,8 @@ export const worksSeed = [
     "y": 0.7449,
     "z": -4.938,
     "phi": 4.7623,
-    "theta": 1.4213
+    "theta": 1.4213,
+    "year": null
   },
   {
     "id": "karlheinz-stockhausen-gesang-der-jünglinge",
@@ -7199,7 +7598,8 @@ export const worksSeed = [
     "y": -1.6696,
     "z": -2.0677,
     "phi": 5.829,
-    "theta": 1.9112
+    "theta": 1.9112,
+    "year": null
   },
   {
     "id": "luigi-nono-prometeo",
@@ -7217,7 +7617,8 @@ export const worksSeed = [
     "y": 0.251,
     "z": -2.3731,
     "phi": 5.788,
-    "theta": 1.5206
+    "theta": 1.5206,
+    "year": null
   },
   {
     "id": "pierre-boulez-le-marteau-sans-maître",
@@ -7235,7 +7636,8 @@ export const worksSeed = [
     "y": 1.889,
     "z": -4.4824,
     "phi": 4.9651,
-    "theta": 1.1834
+    "theta": 1.1834,
+    "year": null
   },
   {
     "id": "helmut-lachenmann-air",
@@ -7253,7 +7655,8 @@ export const worksSeed = [
     "y": -1.962,
     "z": 4.5989,
     "phi": 1.5756,
-    "theta": 1.974
+    "theta": 1.974,
+    "year": null
   },
   {
     "id": "györgy-ligeti-études-pour-piano",
@@ -7271,7 +7674,8 @@ export const worksSeed = [
     "y": 0.3953,
     "z": -4.9619,
     "phi": 4.8074,
-    "theta": 1.4917
+    "theta": 1.4917,
+    "year": null
   },
   {
     "id": "george-crumb-black-angels",
@@ -7289,7 +7693,8 @@ export const worksSeed = [
     "y": 1.7555,
     "z": 4.0361,
     "phi": 2.1022,
-    "theta": 1.2121
+    "theta": 1.2121,
+    "year": null
   },
   {
     "id": "pauline-oliveros-deep-listening",
@@ -7307,7 +7712,8 @@ export const worksSeed = [
     "y": -2.1217,
     "z": 0.3341,
     "phi": 3.0677,
-    "theta": 2.009
+    "theta": 2.009,
+    "year": null
   },
   {
     "id": "alvin-lucier-i-am-sitting-in-a-room",
@@ -7325,7 +7731,8 @@ export const worksSeed = [
     "y": 2.6447,
     "z": 4.1695,
     "phi": 1.384,
-    "theta": 1.0135
+    "theta": 1.0135,
+    "year": 1972
   },
   {
     "id": "la-monte-young-the-well-tuned-piano",
@@ -7343,7 +7750,8 @@ export const worksSeed = [
     "y": -4.964,
     "z": -0.1403,
     "phi": 3.3782,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": null
   },
   {
     "id": "terry-riley-in-c",
@@ -7361,7 +7769,8 @@ export const worksSeed = [
     "y": 1.3597,
     "z": 3.808,
     "phi": 2.2284,
-    "theta": 1.2954
+    "theta": 1.2954,
+    "year": 1968
   },
   {
     "id": "terry-riley-a-rainbow-in-curved-air",
@@ -7379,7 +7788,8 @@ export const worksSeed = [
     "y": 3.1883,
     "z": 3.8416,
     "phi": 1.4989,
-    "theta": 0.8793
+    "theta": 0.8793,
+    "year": 1972
   },
   {
     "id": "gavin-bryars-the-sinking-of-the-titanic",
@@ -7397,7 +7807,8 @@ export const worksSeed = [
     "y": -3.1052,
     "z": 3.1143,
     "phi": 2.2231,
-    "theta": 2.2409
+    "theta": 2.2409,
+    "year": null
   },
   {
     "id": "harold-budd-the-plateaux-of-mirror",
@@ -7415,7 +7826,8 @@ export const worksSeed = [
     "y": 2.0885,
     "z": -3.498,
     "phi": 4.0204,
-    "theta": 1.1399
+    "theta": 1.1399,
+    "year": 1984
   },
   {
     "id": "brian-eno-discreet-music",
@@ -7433,7 +7845,8 @@ export const worksSeed = [
     "y": -1.9064,
     "z": -4.1503,
     "phi": 4.2566,
-    "theta": 1.962
+    "theta": 1.962,
+    "year": 1978
   },
   {
     "id": "brian-eno-ambient-1-music-for-airports",
@@ -7451,7 +7864,8 @@ export const worksSeed = [
     "y": -3.7399,
     "z": 0.6563,
     "phi": 2.9425,
-    "theta": 2.4158
+    "theta": 2.4158,
+    "year": 1975
   },
   {
     "id": "brian-eno-the-pearl",
@@ -7469,7 +7883,8 @@ export const worksSeed = [
     "y": -1.755,
     "z": 0.0791,
     "phi": 3.1247,
-    "theta": 1.9294
+    "theta": 1.9294,
+    "year": 1981
   },
   {
     "id": "charlemagne-palestine-strumming-music",
@@ -7487,7 +7902,8 @@ export const worksSeed = [
     "y": -2.621,
     "z": -4.2332,
     "phi": 4.8203,
-    "theta": 2.1226
+    "theta": 2.1226,
+    "year": null
   },
   {
     "id": "meredith-monk-dolmen-music",
@@ -7505,7 +7921,8 @@ export const worksSeed = [
     "y": -1.4955,
     "z": -4.7609,
     "phi": 4.7779,
-    "theta": 1.8745
+    "theta": 1.8745,
+    "year": null
   },
   {
     "id": "georg-friedrich-haas-in-vain",
@@ -7523,7 +7940,8 @@ export const worksSeed = [
     "y": -2.2597,
     "z": -1.6053,
     "phi": 3.5098,
-    "theta": 2.0397
+    "theta": 2.0397,
+    "year": null
   },
   {
     "id": "salvatore-sciarrino-carnaval",
@@ -7541,7 +7959,8 @@ export const worksSeed = [
     "y": -4.552,
     "z": 0.507,
     "phi": 2.894,
-    "theta": 2.715
+    "theta": 2.715,
+    "year": null
   },
   {
     "id": "tristan-murail-gondwana",
@@ -7559,7 +7978,8 @@ export const worksSeed = [
     "y": 0.878,
     "z": -4.8456,
     "phi": 4.8892,
-    "theta": 1.3943
+    "theta": 1.3943,
+    "year": null
   },
   {
     "id": "gérard-grisey-les-espaces-acoustiques",
@@ -7577,7 +7997,8 @@ export const worksSeed = [
     "y": -0.2599,
     "z": 4.8277,
     "phi": 1.3126,
-    "theta": 1.6228
+    "theta": 1.6228,
+    "year": null
   },
   {
     "id": "sofia-gubaidulina-offertorium",
@@ -7595,7 +8016,8 @@ export const worksSeed = [
     "y": -2.0922,
     "z": 1.5985,
     "phi": 2.7819,
-    "theta": 2.0025
+    "theta": 2.0025,
+    "year": null
   },
   {
     "id": "valentin-silvestrov-requiem-for-larissa",
@@ -7613,7 +8035,8 @@ export const worksSeed = [
     "y": 0.4444,
     "z": 4.227,
     "phi": 2.128,
-    "theta": 1.4818
+    "theta": 1.4818,
+    "year": null
   },
   {
     "id": "john-adams-nixon-in-china",
@@ -7631,7 +8054,8 @@ export const worksSeed = [
     "y": 3.6109,
     "z": -2.7323,
     "phi": 5.3723,
-    "theta": 0.7638
+    "theta": 0.7638,
+    "year": null
   },
   {
     "id": "john-adams-harmonielehre",
@@ -7649,7 +8073,8 @@ export const worksSeed = [
     "y": 0.5239,
     "z": 4.9419,
     "phi": 1.6817,
-    "theta": 1.4658
+    "theta": 1.4658,
+    "year": null
   },
   {
     "id": "tan-dun-ghost-opera",
@@ -7667,7 +8092,8 @@ export const worksSeed = [
     "y": 1.0974,
     "z": -3.1612,
     "phi": 5.5782,
-    "theta": 1.3495
+    "theta": 1.3495,
+    "year": null
   },
   {
     "id": "steve-reich",
@@ -7685,7 +8111,8 @@ export const worksSeed = [
     "y": -1.6562,
     "z": 4.7148,
     "phi": 1.6059,
-    "theta": 1.9084
+    "theta": 1.9084,
+    "year": 1979
   },
   {
     "id": "philip-glass",
@@ -7703,7 +8130,8 @@ export const worksSeed = [
     "y": 0.9132,
     "z": 4.5841,
     "phi": 1.9403,
-    "theta": 1.3871
+    "theta": 1.3871,
+    "year": 1979
   },
   {
     "id": "arvo-pärt",
@@ -7721,7 +8149,8 @@ export const worksSeed = [
     "y": -0.3435,
     "z": 4.5966,
     "phi": 1.9697,
-    "theta": 1.6396
+    "theta": 1.6396,
+    "year": 1982
   },
   {
     "id": "morton-feldman",
@@ -7739,7 +8168,8 @@ export const worksSeed = [
     "y": 1.5261,
     "z": 4.6662,
     "phi": 1.7711,
-    "theta": 1.2606
+    "theta": 1.2606,
+    "year": 1969
   },
   {
     "id": "iannis-xenakis",
@@ -7757,7 +8187,8 @@ export const worksSeed = [
     "y": -1.1407,
     "z": -2.9462,
     "phi": 3.7916,
-    "theta": 1.801
+    "theta": 1.801,
+    "year": null
   },
   {
     "id": "john-cage",
@@ -7775,7 +8206,8 @@ export const worksSeed = [
     "y": 1.6362,
     "z": 4.3841,
     "phi": 1.1887,
-    "theta": 1.2374
+    "theta": 1.2374,
+    "year": null
   },
   {
     "id": "terry-riley",
@@ -7793,7 +8225,8 @@ export const worksSeed = [
     "y": 0.4045,
     "z": 4.54,
     "phi": 1.9959,
-    "theta": 1.4898
+    "theta": 1.4898,
+    "year": 1965
   },
   {
     "id": "brian-eno",
@@ -7811,7 +8244,8 @@ export const worksSeed = [
     "y": -2.3175,
     "z": -0.8712,
     "phi": 3.3395,
-    "theta": 2.0527
+    "theta": 2.0527,
+    "year": 1975
   },
   {
     "id": "pauline-oliveros",
@@ -7829,7 +8263,8 @@ export const worksSeed = [
     "y": 2.3116,
     "z": 3.8666,
     "phi": 2.0821,
-    "theta": 1.0902
+    "theta": 1.0902,
+    "year": null
   },
   {
     "id": "helmut-lachenmann",
@@ -7847,7 +8282,8 @@ export const worksSeed = [
     "y": -0.7281,
     "z": 2.992,
     "phi": 2.492,
-    "theta": 1.7169
+    "theta": 1.7169,
+    "year": null
   },
   {
     "id": "györgy-ligeti",
@@ -7865,7 +8301,8 @@ export const worksSeed = [
     "y": -1.5514,
     "z": -0.9853,
     "phi": 3.3504,
-    "theta": 1.8863
+    "theta": 1.8863,
+    "year": null
   },
   {
     "id": "stars-of-the-lid-the-tired-sounds-of-stars-of-the-lid",
@@ -7883,7 +8320,8 @@ export const worksSeed = [
     "y": 1.2303,
     "z": -3.8715,
     "phi": 4.067,
-    "theta": 1.3222
+    "theta": 1.3222,
+    "year": 2001
   },
   {
     "id": "labradford-e-luxo-so",
@@ -7901,7 +8339,8 @@ export const worksSeed = [
     "y": -1.6824,
     "z": -2.1786,
     "phi": 3.6226,
-    "theta": 1.914
+    "theta": 1.914,
+    "year": 1992
   },
   {
     "id": "windy-carl-depths",
@@ -7919,7 +8358,8 @@ export const worksSeed = [
     "y": 2.6792,
     "z": 3.6716,
     "phi": 2.087,
-    "theta": 1.0053
+    "theta": 1.0053,
+    "year": null
   },
   {
     "id": "loscil-plume",
@@ -7937,7 +8377,8 @@ export const worksSeed = [
     "y": -4.1914,
     "z": -2.0587,
     "phi": 3.9975,
-    "theta": 2.5649
+    "theta": 2.5649,
+    "year": null
   },
   {
     "id": "loscil-sketches-from-new-brighton",
@@ -7955,7 +8396,8 @@ export const worksSeed = [
     "y": -2.5703,
     "z": 3.4999,
     "phi": 0.9546,
-    "theta": 2.1107
+    "theta": 2.1107,
+    "year": null
   },
   {
     "id": "biosphere-substrata",
@@ -7973,7 +8415,8 @@ export const worksSeed = [
     "y": 1.663,
     "z": 4.2438,
     "phi": 2.0218,
-    "theta": 1.2317
+    "theta": 1.2317,
+    "year": null
   },
   {
     "id": "the-sight-below-glider",
@@ -7991,7 +8434,8 @@ export const worksSeed = [
     "y": 2.9558,
     "z": -3.2489,
     "phi": 5.3465,
-    "theta": 0.9383
+    "theta": 0.9383,
+    "year": null
   },
   {
     "id": "rafael-anton-irisarri-the-north-bend",
@@ -8009,7 +8453,8 @@ export const worksSeed = [
     "y": 3.2841,
     "z": -3.5969,
     "phi": 4.408,
-    "theta": 0.8542
+    "theta": 0.8542,
+    "year": null
   },
   {
     "id": "hammock-chasing-after-shadows-living-with-the-ghosts",
@@ -8027,7 +8472,8 @@ export const worksSeed = [
     "y": -4.0403,
     "z": 1.3167,
     "phi": 2.6782,
-    "theta": 2.5116
+    "theta": 2.5116,
+    "year": null
   },
   {
     "id": "johann-johannsson-arrival",
@@ -8045,7 +8491,8 @@ export const worksSeed = [
     "y": 3.6855,
     "z": 3.0481,
     "phi": 2.017,
-    "theta": 0.742
+    "theta": 0.742,
+    "year": null
   },
   {
     "id": "johann-johannsson-the-theory-of-everything",
@@ -8063,7 +8510,8 @@ export const worksSeed = [
     "y": -0.1671,
     "z": 4.9958,
     "phi": 1.5468,
-    "theta": 1.6042
+    "theta": 1.6042,
+    "year": null
   },
   {
     "id": "max-richter-sleep",
@@ -8081,7 +8529,8 @@ export const worksSeed = [
     "y": -0.9461,
     "z": -4.8591,
     "phi": 4.8561,
-    "theta": 1.7612
+    "theta": 1.7612,
+    "year": null
   },
   {
     "id": "nils-frahm-spaces",
@@ -8099,7 +8548,8 @@ export const worksSeed = [
     "y": -4.019,
     "z": 2.7895,
     "phi": 1.9254,
-    "theta": 2.5044
+    "theta": 2.5044,
+    "year": null
   },
   {
     "id": "nils-frahm-felt",
@@ -8117,7 +8567,8 @@ export const worksSeed = [
     "y": -2.2546,
     "z": -4.361,
     "phi": 4.4984,
-    "theta": 2.0386
+    "theta": 2.0386,
+    "year": null
   },
   {
     "id": "hauschka-radar",
@@ -8135,7 +8586,8 @@ export const worksSeed = [
     "y": -1.6693,
     "z": 3.2571,
     "phi": 2.3786,
-    "theta": 1.9112
+    "theta": 1.9112,
+    "year": null
   },
   {
     "id": "dustin-o-halloran-lumière",
@@ -8153,7 +8605,8 @@ export const worksSeed = [
     "y": -1.4344,
     "z": 4.5823,
     "phi": 1.8662,
-    "theta": 1.8618
+    "theta": 1.8618,
+    "year": null
   },
   {
     "id": "jóhann-jóhannsson-ibm-1401-a-user-s-manual",
@@ -8171,7 +8624,8 @@ export const worksSeed = [
     "y": -2.879,
     "z": 3.9602,
     "phi": 1.8215,
-    "theta": 2.1844
+    "theta": 2.1844,
+    "year": null
   },
   {
     "id": "ólafur-arnalds-and-they-have-escaped-the-weight-of-darkness",
@@ -8189,7 +8643,8 @@ export const worksSeed = [
     "y": 3.9844,
     "z": -2.9643,
     "phi": 4.9059,
-    "theta": 0.6487
+    "theta": 0.6487,
+    "year": null
   },
   {
     "id": "ryuichi-sakamoto-thousand-knives",
@@ -8207,7 +8662,8 @@ export const worksSeed = [
     "y": -1.3962,
     "z": -3.3118,
     "phi": 3.9028,
-    "theta": 1.8538
+    "theta": 1.8538,
+    "year": 1981
   },
   {
     "id": "ryuichi-sakamoto-beauty",
@@ -8225,7 +8681,8 @@ export const worksSeed = [
     "y": 0.6514,
     "z": -0.3078,
     "phi": 3.2037,
-    "theta": 1.4401
+    "theta": 1.4401,
+    "year": 1983
   },
   {
     "id": "ryuichi-sakamoto-async",
@@ -8243,7 +8700,8 @@ export const worksSeed = [
     "y": 0.534,
     "z": 0.2641,
     "phi": 3.0884,
-    "theta": 1.4638
+    "theta": 1.4638,
+    "year": 1985
   },
   {
     "id": "harold-budd-abandoned-cities",
@@ -8261,7 +8719,8 @@ export const worksSeed = [
     "y": -1.4461,
     "z": -1.8235,
     "phi": 3.5325,
-    "theta": 1.8642
+    "theta": 1.8642,
+    "year": 1980
   },
   {
     "id": "stars-of-the-lid",
@@ -8279,7 +8738,8 @@ export const worksSeed = [
     "y": -0.8546,
     "z": -0.0345,
     "phi": 3.1486,
-    "theta": 1.7426
+    "theta": 1.7426,
+    "year": 1999
   },
   {
     "id": "nils-frahm",
@@ -8297,7 +8757,8 @@ export const worksSeed = [
     "y": -0.4484,
     "z": -0.2936,
     "phi": 3.2006,
-    "theta": 1.6606
+    "theta": 1.6606,
+    "year": null
   },
   {
     "id": "ryuichi-sakamoto",
@@ -8315,7 +8776,8 @@ export const worksSeed = [
     "y": -0.7491,
     "z": 2.8663,
     "phi": 2.5231,
-    "theta": 1.7212
+    "theta": 1.7212,
+    "year": 1985
   },
   {
     "id": "johann-johannsson",
@@ -8333,7 +8795,8 @@ export const worksSeed = [
     "y": 4.964,
     "z": -0.4433,
     "phi": 5.4492,
-    "theta": 0.12
+    "theta": 0.12,
+    "year": null
   },
   {
     "id": "max-richter",
@@ -8351,7 +8814,8 @@ export const worksSeed = [
     "y": 4.0295,
     "z": 2.5612,
     "phi": 2.0961,
-    "theta": 0.6336
+    "theta": 0.6336,
+    "year": null
   },
   {
     "id": "hailu-mergia-hailu-mergia-his-classical-instrument",
@@ -8369,7 +8833,8 @@ export const worksSeed = [
     "y": 4.6389,
     "z": -0.9128,
     "phi": 5.7719,
-    "theta": 0.3824
+    "theta": 0.3824,
+    "year": null
   },
   {
     "id": "hailu-mergia-lala-belu",
@@ -8387,7 +8852,8 @@ export const worksSeed = [
     "y": -3.0819,
     "z": -3.1884,
     "phi": 4.0854,
-    "theta": 2.2349
+    "theta": 2.2349,
+    "year": null
   },
   {
     "id": "mulatu-astatke-ethiopiques-vol-4",
@@ -8405,7 +8871,8 @@ export const worksSeed = [
     "y": -1.4828,
     "z": 4.3196,
     "phi": 2.0111,
-    "theta": 1.8719
+    "theta": 1.8719,
+    "year": null
   },
   {
     "id": "fela-kuti-zombie",
@@ -8423,7 +8890,8 @@ export const worksSeed = [
     "y": -0.139,
     "z": 4.6847,
     "phi": 1.9268,
-    "theta": 1.5986
+    "theta": 1.5986,
+    "year": 1974
   },
   {
     "id": "fela-kuti-expensive-shit",
@@ -8441,7 +8909,8 @@ export const worksSeed = [
     "y": 0.0567,
     "z": 4.9194,
     "phi": 1.3913,
-    "theta": 1.5595
+    "theta": 1.5595,
+    "year": 1976
   },
   {
     "id": "fela-kuti-music-of-many-colours",
@@ -8459,7 +8928,8 @@ export const worksSeed = [
     "y": -3.2792,
     "z": 3.0984,
     "phi": 2.1786,
-    "theta": 2.2861
+    "theta": 2.2861,
+    "year": 1977
   },
   {
     "id": "tony-allen-no-accommodation-for-lagos",
@@ -8477,7 +8947,8 @@ export const worksSeed = [
     "y": 3.229,
     "z": -2.1823,
     "phi": 5.6747,
-    "theta": 0.8687
+    "theta": 0.8687,
+    "year": null
   },
   {
     "id": "william-onyeabor-who-is-william-onyeabor",
@@ -8495,7 +8966,8 @@ export const worksSeed = [
     "y": -0.5263,
     "z": -0.153,
     "phi": 3.1724,
-    "theta": 1.6763
+    "theta": 1.6763,
+    "year": null
   },
   {
     "id": "tinariwen-aman-iman",
@@ -8513,7 +8985,8 @@ export const worksSeed = [
     "y": 2.9662,
     "z": 3.8314,
     "phi": 1.8823,
-    "theta": 0.9357
+    "theta": 0.9357,
+    "year": null
   },
   {
     "id": "tinariwen-tassili",
@@ -8531,7 +9004,8 @@ export const worksSeed = [
     "y": -2.601,
     "z": 4.1571,
     "phi": 1.8015,
-    "theta": 2.1179
+    "theta": 2.1179,
+    "year": null
   },
   {
     "id": "bombino-agadez",
@@ -8549,7 +9023,8 @@ export const worksSeed = [
     "y": 1.8966,
     "z": 2.6693,
     "phi": 2.5266,
-    "theta": 1.1817
+    "theta": 1.1817,
+    "year": null
   },
   {
     "id": "orchestra-baobab-specialist-in-all-styles",
@@ -8567,7 +9042,8 @@ export const worksSeed = [
     "y": 0.8581,
     "z": 4.847,
     "phi": 1.7499,
-    "theta": 1.3983
+    "theta": 1.3983,
+    "year": null
   },
   {
     "id": "youssou-n-dour-the-guide-wommat",
@@ -8585,7 +9061,8 @@ export const worksSeed = [
     "y": -1.2114,
     "z": 4.7591,
     "phi": 1.7658,
-    "theta": 1.8155
+    "theta": 1.8155,
+    "year": null
   },
   {
     "id": "salif-keita-soro",
@@ -8603,7 +9080,8 @@ export const worksSeed = [
     "y": 3.5636,
     "z": -2.8327,
     "phi": 5.343,
-    "theta": 0.7774
+    "theta": 0.7774,
+    "year": null
   },
   {
     "id": "ali-farka-touré-the-river",
@@ -8621,7 +9099,8 @@ export const worksSeed = [
     "y": -2.6872,
     "z": -1.0499,
     "phi": 3.3932,
-    "theta": 2.1382
+    "theta": 2.1382,
+    "year": null
   },
   {
     "id": "rokia-traoré-bowmboï",
@@ -8639,7 +9118,8 @@ export const worksSeed = [
     "y": 2.8295,
     "z": 1.6368,
     "phi": 2.7333,
-    "theta": 0.9693
+    "theta": 0.9693,
+    "year": null
   },
   {
     "id": "angélique-kidjo-logozo",
@@ -8657,7 +9137,8 @@ export const worksSeed = [
     "y": -2.7247,
     "z": -4.0321,
     "phi": 4.435,
-    "theta": 2.1471
+    "theta": 2.1471,
+    "year": null
   },
   {
     "id": "miriam-makeba-pata-pata",
@@ -8675,7 +9156,8 @@ export const worksSeed = [
     "y": 1.1997,
     "z": 4.8234,
     "phi": 1.4586,
-    "theta": 1.3285
+    "theta": 1.3285,
+    "year": null
   },
   {
     "id": "hugh-masekela-grazin-in-the-grass",
@@ -8693,7 +9175,8 @@ export const worksSeed = [
     "y": 0.3572,
     "z": -4.9455,
     "phi": 4.583,
-    "theta": 1.4993
+    "theta": 1.4993,
+    "year": null
   },
   {
     "id": "abdullah-ibrahim-mannenberg",
@@ -8711,7 +9194,8 @@ export const worksSeed = [
     "y": -2.7212,
     "z": 4.1571,
     "phi": 1.4369,
-    "theta": 2.1463
+    "theta": 2.1463,
+    "year": null
   },
   {
     "id": "ravi-shankar-west-meets-east",
@@ -8729,7 +9213,8 @@ export const worksSeed = [
     "y": -1.1223,
     "z": -4.8073,
     "phi": 4.8761,
-    "theta": 1.7972
+    "theta": 1.7972,
+    "year": null
   },
   {
     "id": "nusrat-fateh-ali-khan-mustt-mustt",
@@ -8747,7 +9232,8 @@ export const worksSeed = [
     "y": -0.5468,
     "z": 4.5799,
     "phi": 1.9696,
-    "theta": 1.6804
+    "theta": 1.6804,
+    "year": null
   },
   {
     "id": "nusrat-fateh-ali-khan-en-concert-à-paris",
@@ -8765,7 +9251,8 @@ export const worksSeed = [
     "y": 3.1616,
     "z": 2.7752,
     "phi": 2.3429,
-    "theta": 0.8862
+    "theta": 0.8862,
+    "year": null
   },
   {
     "id": "anouar-brahem-barzakh",
@@ -8783,7 +9270,8 @@ export const worksSeed = [
     "y": -1.7728,
     "z": 2.5929,
     "phi": 2.5537,
-    "theta": 1.9332
+    "theta": 1.9332,
+    "year": null
   },
   {
     "id": "khaled-khaled",
@@ -8801,7 +9289,8 @@ export const worksSeed = [
     "y": 1.9416,
     "z": -3.9462,
     "phi": 4.17,
-    "theta": 1.172
+    "theta": 1.172,
+    "year": null
   },
   {
     "id": "rachid-taha-diwan",
@@ -8819,7 +9308,8 @@ export const worksSeed = [
     "y": -0.0697,
     "z": -4.081,
     "phi": 5.3282,
-    "theta": 1.5847
+    "theta": 1.5847,
+    "year": null
   },
   {
     "id": "transglobal-underground-dream-of-100-nations",
@@ -8837,7 +9327,8 @@ export const worksSeed = [
     "y": -1.8844,
     "z": -2.6515,
     "phi": 3.7512,
-    "theta": 1.9572
+    "theta": 1.9572,
+    "year": null
   },
   {
     "id": "buena-vista-social-club-buena-vista-social-club",
@@ -8855,7 +9346,8 @@ export const worksSeed = [
     "y": 0.8777,
     "z": 3.2144,
     "phi": 2.43,
-    "theta": 1.3943
+    "theta": 1.3943,
+    "year": null
   },
   {
     "id": "caetano-veloso-transa",
@@ -8873,7 +9365,8 @@ export const worksSeed = [
     "y": -1.4275,
     "z": -1.0288,
     "phi": 3.358,
-    "theta": 1.8603
+    "theta": 1.8603,
+    "year": 1972
   },
   {
     "id": "caetano-veloso-livro",
@@ -8891,7 +9384,8 @@ export const worksSeed = [
     "y": -4.3228,
     "z": -0.6664,
     "phi": 3.41,
-    "theta": 2.6151
+    "theta": 2.6151,
+    "year": 1970
   },
   {
     "id": "gilberto-gil-refazenda",
@@ -8909,7 +9403,8 @@ export const worksSeed = [
     "y": 3.5315,
     "z": -2.9951,
     "phi": 5.2744,
-    "theta": 0.7865
+    "theta": 0.7865,
+    "year": 1972
   },
   {
     "id": "jorge-ben-jor-força-bruta",
@@ -8927,7 +9422,8 @@ export const worksSeed = [
     "y": 2.6612,
     "z": -0.2811,
     "phi": 6.2167,
-    "theta": 1.0096
+    "theta": 1.0096,
+    "year": null
   },
   {
     "id": "os-mutantes-os-mutantes",
@@ -8945,7 +9441,8 @@ export const worksSeed = [
     "y": -3.5202,
     "z": 2.1532,
     "phi": 2.4901,
-    "theta": 2.3519
+    "theta": 2.3519,
+    "year": null
   },
   {
     "id": "tom-zé-estudando-o-samba",
@@ -8963,7 +9460,8 @@ export const worksSeed = [
     "y": -0.0545,
     "z": 4.2983,
     "phi": 1.0347,
-    "theta": 1.5817
+    "theta": 1.5817,
+    "year": null
   },
   {
     "id": "hermeto-pascoal-slaves-mass",
@@ -8981,7 +9479,8 @@ export const worksSeed = [
     "y": 2.2509,
     "z": 0.1489,
     "phi": 3.1082,
-    "theta": 1.1038
+    "theta": 1.1038,
+    "year": null
   },
   {
     "id": "joão-gilberto-getz-gilberto",
@@ -8999,7 +9498,8 @@ export const worksSeed = [
     "y": 2.0257,
     "z": -4.5333,
     "phi": 4.8414,
-    "theta": 1.1537
+    "theta": 1.1537,
+    "year": null
   },
   {
     "id": "astrud-gilberto-the-astrud-gilberto-album",
@@ -9017,7 +9517,8 @@ export const worksSeed = [
     "y": -1.8213,
     "z": 0.9181,
     "phi": 2.9431,
-    "theta": 1.9436
+    "theta": 1.9436,
+    "year": null
   },
   {
     "id": "seu-jorge-cru",
@@ -9035,7 +9536,8 @@ export const worksSeed = [
     "y": 0.7051,
     "z": 3.9171,
     "phi": 2.2286,
-    "theta": 1.4293
+    "theta": 1.4293,
+    "year": null
   },
   {
     "id": "fela-kuti",
@@ -9053,7 +9555,8 @@ export const worksSeed = [
     "y": 1.7532,
     "z": 3.711,
     "phi": 2.2267,
-    "theta": 1.2125
+    "theta": 1.2125,
+    "year": 1977
   },
   {
     "id": "hailu-mergia",
@@ -9071,7 +9574,8 @@ export const worksSeed = [
     "y": 0.1577,
     "z": -4.7377,
     "phi": 4.3885,
-    "theta": 1.5392
+    "theta": 1.5392,
+    "year": null
   },
   {
     "id": "tinariwen",
@@ -9089,7 +9593,8 @@ export const worksSeed = [
     "y": 3.2136,
     "z": -3.0459,
     "phi": 5.3639,
-    "theta": 0.8728
+    "theta": 0.8728,
+    "year": null
   },
   {
     "id": "mulatu-astatke",
@@ -9107,7 +9612,8 @@ export const worksSeed = [
     "y": -4.1291,
     "z": 2.7831,
     "phi": 1.7321,
-    "theta": 2.5424
+    "theta": 2.5424,
+    "year": null
   },
   {
     "id": "tony-allen",
@@ -9125,7 +9631,8 @@ export const worksSeed = [
     "y": -0.7511,
     "z": 4.7676,
     "phi": 1.8382,
-    "theta": 1.7216
+    "theta": 1.7216,
+    "year": null
   },
   {
     "id": "caetano-veloso",
@@ -9143,7 +9650,8 @@ export const worksSeed = [
     "y": -2.4689,
     "z": 3.1826,
     "phi": 2.3204,
-    "theta": 2.0872
+    "theta": 2.0872,
+    "year": 1968
   },
   {
     "id": "youssou-n-dour",
@@ -9161,7 +9669,8 @@ export const worksSeed = [
     "y": 2.3031,
     "z": -2.6018,
     "phi": 5.6568,
-    "theta": 1.0921
+    "theta": 1.0921,
+    "year": null
   },
   {
     "id": "nusrat-fateh-ali-khan",
@@ -9179,7 +9688,8 @@ export const worksSeed = [
     "y": 4.4314,
     "z": -2.3128,
     "phi": 4.7626,
-    "theta": 0.4815
+    "theta": 0.4815,
+    "year": null
   },
   {
     "id": "ravi-shankar",
@@ -9197,7 +9707,8 @@ export const worksSeed = [
     "y": 2.3442,
     "z": 3.6346,
     "phi": 2.175,
-    "theta": 1.0828
+    "theta": 1.0828,
+    "year": null
   },
   {
     "id": "anouar-brahem",
@@ -9215,7 +9726,8 @@ export const worksSeed = [
     "y": -0.965,
     "z": 4.7779,
     "phi": 1.7998,
-    "theta": 1.765
+    "theta": 1.765,
+    "year": null
   },
   {
     "id": "alain-bashung-fantaisie-militaire",
@@ -9233,7 +9745,8 @@ export const worksSeed = [
     "y": 3.3583,
     "z": -3.4059,
     "phi": 4.3082,
-    "theta": 0.8344
+    "theta": 0.8344,
+    "year": 1982
   },
   {
     "id": "alain-bashung-osez-joséphine",
@@ -9251,7 +9764,8 @@ export const worksSeed = [
     "y": 1.8438,
     "z": -4.4123,
     "phi": 4.3928,
-    "theta": 1.1931
+    "theta": 1.1931,
+    "year": 1981
   },
   {
     "id": "alain-bashung-bleu-pétrole",
@@ -9269,7 +9783,8 @@ export const worksSeed = [
     "y": 0.0379,
     "z": -4.9922,
     "phi": 4.7677,
-    "theta": 1.5632
+    "theta": 1.5632,
+    "year": 1985
   },
   {
     "id": "alain-bashung-l-imprudence",
@@ -9287,7 +9802,8 @@ export const worksSeed = [
     "y": 0.5339,
     "z": -3.8129,
     "phi": 5.4091,
-    "theta": 1.4638
+    "theta": 1.4638,
+    "year": 1980
   },
   {
     "id": "barbara-ma-plus-belle-histoire-d-amour",
@@ -9305,7 +9821,8 @@ export const worksSeed = [
     "y": -2.9734,
     "z": 3.8042,
     "phi": 1.8998,
-    "theta": 2.2077
+    "theta": 2.2077,
+    "year": null
   },
   {
     "id": "barbara-l-aigle-noir",
@@ -9323,7 +9840,8 @@ export const worksSeed = [
     "y": -4.9061,
     "z": 0.3162,
     "phi": 2.8075,
-    "theta": 2.9475
+    "theta": 2.9475,
+    "year": null
   },
   {
     "id": "léo-ferré-avec-le-temps",
@@ -9341,7 +9859,8 @@ export const worksSeed = [
     "y": 1.7233,
     "z": 4.6823,
     "phi": 1.6403,
-    "theta": 1.2189
+    "theta": 1.2189,
+    "year": null
   },
   {
     "id": "léo-ferré-la-solitude",
@@ -9359,7 +9878,8 @@ export const worksSeed = [
     "y": 3.5729,
     "z": 3.3615,
     "phi": 1.8508,
-    "theta": 0.7748
+    "theta": 0.7748,
+    "year": null
   },
   {
     "id": "jacques-brel-les-bourgeois",
@@ -9377,7 +9897,8 @@ export const worksSeed = [
     "y": -4.964,
     "z": -0.3102,
     "phi": 3.6865,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": null
   },
   {
     "id": "jacques-brel-ne-me-quitte-pas",
@@ -9395,7 +9916,8 @@ export const worksSeed = [
     "y": -0.3558,
     "z": -4.3404,
     "phi": 5.2274,
-    "theta": 1.642
+    "theta": 1.642,
+    "year": null
   },
   {
     "id": "georges-brassens-la-mauvaise-réputation",
@@ -9413,7 +9935,8 @@ export const worksSeed = [
     "y": 0.1091,
     "z": -2.6934,
     "phi": 3.7106,
-    "theta": 1.549
+    "theta": 1.549,
+    "year": null
   },
   {
     "id": "serge-gainsbourg-histoire-de-melody-nelson",
@@ -9431,7 +9954,8 @@ export const worksSeed = [
     "y": 3.1851,
     "z": -1.5817,
     "phi": 5.8603,
-    "theta": 0.8802
+    "theta": 0.8802,
+    "year": 1969
   },
   {
     "id": "serge-gainsbourg-l-homme-à-tête-de-chou",
@@ -9449,7 +9973,8 @@ export const worksSeed = [
     "y": 0.9447,
     "z": -4.8814,
     "phi": 4.8202,
-    "theta": 1.3807
+    "theta": 1.3807,
+    "year": 1972
   },
   {
     "id": "serge-gainsbourg-aux-armes-et-cætera",
@@ -9467,7 +9992,8 @@ export const worksSeed = [
     "y": -0.5711,
     "z": -4.9633,
     "phi": 4.6724,
-    "theta": 1.6853
+    "theta": 1.6853,
+    "year": 1968
   },
   {
     "id": "brigitte-fontaine-comme-à-la-radio",
@@ -9485,7 +10011,8 @@ export const worksSeed = [
     "y": 2.8431,
     "z": 1.2191,
     "phi": 2.8407,
-    "theta": 0.966
+    "theta": 0.966,
+    "year": null
   },
   {
     "id": "brigitte-fontaine-zorglub",
@@ -9503,7 +10030,8 @@ export const worksSeed = [
     "y": -1.7954,
     "z": 4.6538,
     "phi": 1.4971,
-    "theta": 1.9381
+    "theta": 1.9381,
+    "year": null
   },
   {
     "id": "étienne-daho-pop-satori",
@@ -9521,7 +10049,8 @@ export const worksSeed = [
     "y": 0.9453,
     "z": 4.6017,
     "phi": 1.2146,
-    "theta": 1.3806
+    "theta": 1.3806,
+    "year": null
   },
   {
     "id": "étienne-daho-l-homme-qui-marche",
@@ -9539,7 +10068,8 @@ export const worksSeed = [
     "y": 0.0358,
     "z": -4.9001,
     "phi": 4.9125,
-    "theta": 1.5636
+    "theta": 1.5636,
+    "year": null
   },
   {
     "id": "dominique-a-la-fossette",
@@ -9557,7 +10087,8 @@ export const worksSeed = [
     "y": -2.2877,
     "z": 4.2165,
     "phi": 1.8935,
-    "theta": 2.046
+    "theta": 2.046,
+    "year": null
   },
   {
     "id": "dominique-a-remué",
@@ -9575,7 +10106,8 @@ export const worksSeed = [
     "y": -4.964,
     "z": 0.5394,
     "phi": 2.0192,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": null
   },
   {
     "id": "vincent-delerm-les-piqûres-d-araignée",
@@ -9593,7 +10125,8 @@ export const worksSeed = [
     "y": 1.5539,
     "z": 3.7213,
     "phi": 2.2421,
-    "theta": 1.2548
+    "theta": 1.2548,
+    "year": null
   },
   {
     "id": "benjamin-biolay-rose-kennedy",
@@ -9611,7 +10144,8 @@ export const worksSeed = [
     "y": 1.9749,
     "z": -1.9221,
     "phi": 3.5733,
-    "theta": 1.1648
+    "theta": 1.1648,
+    "year": null
   },
   {
     "id": "benjamin-biolay-négatif",
@@ -9629,7 +10163,8 @@ export const worksSeed = [
     "y": 2.1176,
     "z": -3.3143,
     "phi": 5.4623,
-    "theta": 1.1335
+    "theta": 1.1335,
+    "year": null
   },
   {
     "id": "camille-le-fil",
@@ -9647,7 +10182,8 @@ export const worksSeed = [
     "y": -0.0898,
     "z": 3.7298,
     "phi": 2.2994,
-    "theta": 1.5888
+    "theta": 1.5888,
+    "year": 2002
   },
   {
     "id": "camille-music-hole",
@@ -9665,7 +10201,8 @@ export const worksSeed = [
     "y": -1.1931,
     "z": -2.7187,
     "phi": 5.6889,
-    "theta": 1.8117
+    "theta": 1.8117,
+    "year": 2009
   },
   {
     "id": "miossec-boire",
@@ -9683,7 +10220,8 @@ export const worksSeed = [
     "y": -0.4325,
     "z": -2.5857,
     "phi": 5.7374,
-    "theta": 1.6574
+    "theta": 1.6574,
+    "year": 1992
   },
   {
     "id": "miossec-finistériens",
@@ -9701,7 +10239,8 @@ export const worksSeed = [
     "y": 4.0323,
     "z": -1.2074,
     "phi": 5.8625,
-    "theta": 0.6327
+    "theta": 0.6327,
+    "year": 1995
   },
   {
     "id": "arno-ratata",
@@ -9719,7 +10258,8 @@ export const worksSeed = [
     "y": 0.645,
     "z": -3.7685,
     "phi": 5.4198,
-    "theta": 1.4414
+    "theta": 1.4414,
+    "year": null
   },
   {
     "id": "la-femme-psycho-tropical-berlin",
@@ -9737,7 +10277,8 @@ export const worksSeed = [
     "y": -4.7773,
     "z": -0.5766,
     "phi": 3.543,
-    "theta": 2.842
+    "theta": 2.842,
+    "year": null
   },
   {
     "id": "la-femme-mystère",
@@ -9755,7 +10296,8 @@ export const worksSeed = [
     "y": -0.9514,
     "z": -3.2648,
     "phi": 3.8692,
-    "theta": 1.7622
+    "theta": 1.7622,
+    "year": null
   },
   {
     "id": "christine-and-the-queens-chaleur-humaine",
@@ -9773,7 +10315,8 @@ export const worksSeed = [
     "y": -4.4352,
     "z": 0.4141,
     "phi": 2.9612,
-    "theta": 2.6617
+    "theta": 2.6617,
+    "year": 2019
   },
   {
     "id": "christine-and-the-queens-chris",
@@ -9791,7 +10334,8 @@ export const worksSeed = [
     "y": -0.4265,
     "z": 1.8307,
     "phi": 2.7653,
-    "theta": 1.6562
+    "theta": 1.6562,
+    "year": 2016
   },
   {
     "id": "flavien-berger-contre-temps",
@@ -9809,7 +10353,8 @@ export const worksSeed = [
     "y": 1.4817,
     "z": 4.7126,
     "phi": 1.7332,
-    "theta": 1.2699
+    "theta": 1.2699,
+    "year": null
   },
   {
     "id": "juliette-armanet-petite-amie",
@@ -9827,7 +10372,8 @@ export const worksSeed = [
     "y": -0.2214,
     "z": -3.9019,
     "phi": 4.0381,
-    "theta": 1.6151
+    "theta": 1.6151,
+    "year": 2015
   },
   {
     "id": "pomme-à-peu-près",
@@ -9845,7 +10391,8 @@ export const worksSeed = [
     "y": 4.8638,
     "z": -1.1147,
     "phi": 4.9896,
-    "theta": 0.2339
+    "theta": 0.2339,
+    "year": null
   },
   {
     "id": "bertrand-belin-persona",
@@ -9863,7 +10410,8 @@ export const worksSeed = [
     "y": -2.9594,
     "z": 0.7143,
     "phi": 2.9634,
-    "theta": 2.2042
+    "theta": 2.2042,
+    "year": null
   },
   {
     "id": "dominique-dalcan-les-vacances-du-peuple",
@@ -9881,7 +10429,8 @@ export const worksSeed = [
     "y": 1.7792,
     "z": 4.5451,
     "phi": 1.3365,
-    "theta": 1.207
+    "theta": 1.207,
+    "year": null
   },
   {
     "id": "jacques-higelin-alertez-les-bébés",
@@ -9899,7 +10448,8 @@ export const worksSeed = [
     "y": 1.3335,
     "z": 4.7896,
     "phi": 1.4604,
-    "theta": 1.3008
+    "theta": 1.3008,
+    "year": null
   },
   {
     "id": "renaud-marche-à-l-ombre",
@@ -9917,7 +10467,8 @@ export const worksSeed = [
     "y": 1.375,
     "z": -4.6728,
     "phi": 4.4754,
-    "theta": 1.2922
+    "theta": 1.2922,
+    "year": null
   },
   {
     "id": "renaud-morgane-de-toi",
@@ -9935,7 +10486,8 @@ export const worksSeed = [
     "y": 4.0778,
     "z": -2.8422,
     "phi": 4.9008,
-    "theta": 0.6171
+    "theta": 0.6171,
+    "year": null
   },
   {
     "id": "alain-bashung",
@@ -9953,7 +10505,8 @@ export const worksSeed = [
     "y": 2.448,
     "z": -4.2699,
     "phi": 4.9157,
-    "theta": 1.0592
+    "theta": 1.0592,
+    "year": 1980
   },
   {
     "id": "serge-gainsbourg",
@@ -9971,7 +10524,8 @@ export const worksSeed = [
     "y": 2.6446,
     "z": -4.2013,
     "phi": 4.8533,
-    "theta": 1.0135
+    "theta": 1.0135,
+    "year": 1973
   },
   {
     "id": "barbara",
@@ -9989,7 +10543,8 @@ export const worksSeed = [
     "y": -0.2838,
     "z": 4.6795,
     "phi": 1.2151,
-    "theta": 1.6276
+    "theta": 1.6276,
+    "year": null
   },
   {
     "id": "léo-ferré",
@@ -10007,7 +10562,8 @@ export const worksSeed = [
     "y": 1.1936,
     "z": -4.8412,
     "phi": 4.7891,
-    "theta": 1.3297
+    "theta": 1.3297,
+    "year": null
   },
   {
     "id": "jacques-brel",
@@ -10025,7 +10581,8 @@ export const worksSeed = [
     "y": -0.3097,
     "z": -4.4276,
     "phi": 5.1919,
-    "theta": 1.6328
+    "theta": 1.6328,
+    "year": null
   },
   {
     "id": "brigitte-fontaine",
@@ -10043,7 +10600,8 @@ export const worksSeed = [
     "y": 2.4486,
     "z": 0.8811,
     "phi": 2.9381,
-    "theta": 1.059
+    "theta": 1.059,
+    "year": null
   },
   {
     "id": "dominique-a",
@@ -10061,7 +10619,8 @@ export const worksSeed = [
     "y": -3.0113,
     "z": 2.4519,
     "phi": 2.4801,
-    "theta": 2.2171
+    "theta": 2.2171,
+    "year": null
   },
   {
     "id": "camille",
@@ -10079,7 +10638,8 @@ export const worksSeed = [
     "y": 1.3367,
     "z": -4.0906,
     "phi": 5.2691,
-    "theta": 1.3002
+    "theta": 1.3002,
+    "year": 2007
   },
   {
     "id": "christine-and-the-queens",
@@ -10097,7 +10657,8 @@ export const worksSeed = [
     "y": -4.964,
     "z": -0.3344,
     "phi": 3.7345,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": 2017
   },
   {
     "id": "la-femme",
@@ -10115,7 +10676,8 @@ export const worksSeed = [
     "y": -0.2095,
     "z": 2.7438,
     "phi": 2.5601,
-    "theta": 1.6127
+    "theta": 1.6127,
+    "year": null
   },
   {
     "id": "benjamin-biolay",
@@ -10133,7 +10695,8 @@ export const worksSeed = [
     "y": -4.673,
     "z": -0.1739,
     "phi": 3.2396,
-    "theta": 2.7779
+    "theta": 2.7779,
+    "year": null
   },
   {
     "id": "miossec",
@@ -10151,7 +10714,8 @@ export const worksSeed = [
     "y": -0.1219,
     "z": 1.2571,
     "phi": 2.8874,
-    "theta": 1.5952
+    "theta": 1.5952,
+    "year": 1997
   },
   {
     "id": "renaud",
@@ -10169,7 +10733,8 @@ export const worksSeed = [
     "y": -3.2935,
     "z": 3.7588,
     "phi": 1.5292,
-    "theta": 2.2899
+    "theta": 2.2899,
+    "year": null
   },
   {
     "id": "neurosis-through-silver-in-blood",
@@ -10187,7 +10752,8 @@ export const worksSeed = [
     "y": 4.8088,
     "z": 1.2052,
     "phi": 1.0761,
-    "theta": 0.2774
+    "theta": 0.2774,
+    "year": 1989
   },
   {
     "id": "neurosis-times-of-grace",
@@ -10205,7 +10771,8 @@ export const worksSeed = [
     "y": 2.7397,
     "z": -0.0185,
     "phi": -0.0044,
-    "theta": 0.9909
+    "theta": 0.9909,
+    "year": 1990
   },
   {
     "id": "sunn-o-black-one",
@@ -10223,7 +10790,8 @@ export const worksSeed = [
     "y": 3.4299,
     "z": 0.5409,
     "phi": 0.1492,
-    "theta": 0.8148
+    "theta": 0.8148,
+    "year": 2000
   },
   {
     "id": "sunn-o-monoliths-dimensions",
@@ -10241,7 +10809,8 @@ export const worksSeed = [
     "y": 1.5489,
     "z": 2.3946,
     "phi": 0.5279,
-    "theta": 1.2558
+    "theta": 1.2558,
+    "year": 2005
   },
   {
     "id": "wolves-in-the-throne-room-two-hunters",
@@ -10259,7 +10828,8 @@ export const worksSeed = [
     "y": 2.2034,
     "z": -4.4881,
     "phi": 4.7034,
-    "theta": 1.1144
+    "theta": 1.1144,
+    "year": null
   },
   {
     "id": "deathspell-omega-si-monumentum-requires-circumspice",
@@ -10277,7 +10847,8 @@ export const worksSeed = [
     "y": -1.7417,
     "z": 3.3544,
     "phi": 2.344,
-    "theta": 1.9266
+    "theta": 1.9266,
+    "year": null
   },
   {
     "id": "deathspell-omega-paracletus",
@@ -10295,7 +10866,8 @@ export const worksSeed = [
     "y": -4.1786,
     "z": -1.0991,
     "phi": 3.5534,
-    "theta": 2.5602
+    "theta": 2.5602,
+    "year": null
   },
   {
     "id": "mgła-exercises-in-futility",
@@ -10313,7 +10885,8 @@ export const worksSeed = [
     "y": 2.3546,
     "z": -3.8952,
     "phi": 5.2008,
-    "theta": 1.0805
+    "theta": 1.0805,
+    "year": null
   },
   {
     "id": "mgła-with-hearts-toward-none",
@@ -10331,7 +10904,8 @@ export const worksSeed = [
     "y": -1.5479,
     "z": 2.2871,
     "phi": 2.6397,
-    "theta": 1.8855
+    "theta": 1.8855,
+    "year": null
   },
   {
     "id": "batushka-litourgiya",
@@ -10349,7 +10923,8 @@ export const worksSeed = [
     "y": 1.7864,
     "z": -2.7651,
     "phi": 5.6495,
-    "theta": 1.2055
+    "theta": 1.2055,
+    "year": null
   },
   {
     "id": "alcest-souvenirs-d-un-autre-monde",
@@ -10367,7 +10942,8 @@ export const worksSeed = [
     "y": 0.2499,
     "z": -4.3549,
     "phi": 4.201,
-    "theta": 1.5208
+    "theta": 1.5208,
+    "year": null
   },
   {
     "id": "alcest-écailles-de-lune",
@@ -10385,7 +10961,8 @@ export const worksSeed = [
     "y": -2.7618,
     "z": 3.853,
     "phi": 1.9621,
-    "theta": 2.156
+    "theta": 2.156,
+    "year": null
   },
   {
     "id": "agalloch-ashes-against-the-grain",
@@ -10403,7 +10980,8 @@ export const worksSeed = [
     "y": 0.4661,
     "z": -4.8758,
     "phi": 4.9156,
-    "theta": 1.4774
+    "theta": 1.4774,
+    "year": null
   },
   {
     "id": "agalloch-the-mantle",
@@ -10421,7 +10999,8 @@ export const worksSeed = [
     "y": 2.8959,
     "z": -1.0505,
     "phi": 3.4023,
-    "theta": 0.9531
+    "theta": 0.9531,
+    "year": null
   },
   {
     "id": "isis-oceanic",
@@ -10439,7 +11018,8 @@ export const worksSeed = [
     "y": -4.2594,
     "z": 2.6158,
     "phi": 1.5246,
-    "theta": 2.5904
+    "theta": 2.5904,
+    "year": null
   },
   {
     "id": "isis-panopticon",
@@ -10457,7 +11037,8 @@ export const worksSeed = [
     "y": -1.7833,
     "z": -2.0403,
     "phi": 3.5936,
-    "theta": 1.9355
+    "theta": 1.9355,
+    "year": null
   },
   {
     "id": "isis-celestial",
@@ -10475,7 +11056,8 @@ export const worksSeed = [
     "y": 1.4667,
     "z": 3.9896,
     "phi": 2.1541,
-    "theta": 1.2731
+    "theta": 1.2731,
+    "year": null
   },
   {
     "id": "pelican-the-fire-in-our-throats-will-beckon-the-thaw",
@@ -10493,7 +11075,8 @@ export const worksSeed = [
     "y": -2.6725,
     "z": 3.5228,
     "phi": 2.156,
-    "theta": 2.1347
+    "theta": 2.1347,
+    "year": null
   },
   {
     "id": "earth-earth-2",
@@ -10511,7 +11094,8 @@ export const worksSeed = [
     "y": 4.964,
     "z": 0.3895,
     "phi": 0.7084,
-    "theta": 0.12
+    "theta": 0.12,
+    "year": 1991
   },
   {
     "id": "earth-hex-or-printing-in-the-infernal-method",
@@ -10529,7 +11113,8 @@ export const worksSeed = [
     "y": 4.3066,
     "z": 1.9116,
     "phi": 0.8519,
-    "theta": 0.5329
+    "theta": 0.5329,
+    "year": 1996
   },
   {
     "id": "boris-flood",
@@ -10547,7 +11132,8 @@ export const worksSeed = [
     "y": 1.2624,
     "z": 3.2153,
     "phi": 0.7269,
-    "theta": 1.3156
+    "theta": 1.3156,
+    "year": 1995
   },
   {
     "id": "boris-pink",
@@ -10565,7 +11151,8 @@ export const worksSeed = [
     "y": 1.0631,
     "z": 3.9473,
     "phi": 0.9406,
-    "theta": 1.3565
+    "theta": 1.3565,
+    "year": 2003
   },
   {
     "id": "mastodon-leviathan",
@@ -10583,7 +11170,8 @@ export const worksSeed = [
     "y": 3.4389,
     "z": -3.1706,
     "phi": 5.2207,
-    "theta": 0.8124
+    "theta": 0.8124,
+    "year": null
   },
   {
     "id": "mastodon-blood-mountain",
@@ -10601,7 +11189,8 @@ export const worksSeed = [
     "y": 3.3354,
     "z": -3.2623,
     "phi": 5.2161,
-    "theta": 0.8405
+    "theta": 0.8405,
+    "year": null
   },
   {
     "id": "converge-jane-doe",
@@ -10619,7 +11208,8 @@ export const worksSeed = [
     "y": 1.313,
     "z": 4.4708,
     "phi": 1.9561,
-    "theta": 1.3051
+    "theta": 1.3051,
+    "year": null
   },
   {
     "id": "botch-we-are-the-romans",
@@ -10637,7 +11227,8 @@ export const worksSeed = [
     "y": 3.4728,
     "z": 3.0269,
     "phi": 2.1416,
-    "theta": 0.803
+    "theta": 0.803,
+    "year": null
   },
   {
     "id": "cult-of-luna-somewhere-along-the-highway",
@@ -10655,7 +11246,8 @@ export const worksSeed = [
     "y": -3.1311,
     "z": -0.4333,
     "phi": 6.1718,
-    "theta": 2.2475
+    "theta": 2.2475,
+    "year": null
   },
   {
     "id": "russian-circles-memorial",
@@ -10673,7 +11265,8 @@ export const worksSeed = [
     "y": 2.7762,
     "z": -3.4925,
     "phi": 4.1386,
-    "theta": 0.9821
+    "theta": 0.9821,
+    "year": null
   },
   {
     "id": "amenra-mass-v",
@@ -10691,7 +11284,8 @@ export const worksSeed = [
     "y": 1.9553,
     "z": 3.8631,
     "phi": 2.1453,
-    "theta": 1.169
+    "theta": 1.169,
+    "year": null
   },
   {
     "id": "the-ocean-pelagial",
@@ -10709,7 +11303,8 @@ export const worksSeed = [
     "y": 2.9691,
     "z": -3.9214,
     "phi": 4.9376,
-    "theta": 0.935
+    "theta": 0.935,
+    "year": null
   },
   {
     "id": "yob-clearing-the-path-to-ascend",
@@ -10727,7 +11322,8 @@ export const worksSeed = [
     "y": 1.9442,
     "z": 0.9374,
     "phi": 2.9367,
-    "theta": 1.1714
+    "theta": 1.1714,
+    "year": null
   },
   {
     "id": "primitive-man-caustic",
@@ -10745,7 +11341,8 @@ export const worksSeed = [
     "y": 4.964,
     "z": -0.592,
     "phi": 4.5644,
-    "theta": 0.12
+    "theta": 0.12,
+    "year": null
   },
   {
     "id": "thou-magus",
@@ -10763,7 +11360,8 @@ export const worksSeed = [
     "y": 3.3643,
     "z": 3.6973,
     "phi": 1.6003,
-    "theta": 0.8327
+    "theta": 0.8327,
+    "year": null
   },
   {
     "id": "inter-arma-sky-burial",
@@ -10781,7 +11379,8 @@ export const worksSeed = [
     "y": -2.7604,
     "z": 3.1862,
     "phi": 2.2717,
-    "theta": 2.1556
+    "theta": 2.1556,
+    "year": null
   },
   {
     "id": "oranssi-pazuzu-värähtelijä",
@@ -10799,7 +11398,8 @@ export const worksSeed = [
     "y": 0.1417,
     "z": 4.4056,
     "phi": 1.079,
-    "theta": 1.5424
+    "theta": 1.5424,
+    "year": null
   },
   {
     "id": "oranssi-pazuzu-mestarin-kynsi",
@@ -10817,7 +11417,8 @@ export const worksSeed = [
     "y": -2.4769,
     "z": 2.1762,
     "phi": 2.6168,
-    "theta": 2.0891
+    "theta": 2.0891,
+    "year": null
   },
   {
     "id": "peste-noire-la-sanie-des-siècles",
@@ -10835,7 +11436,8 @@ export const worksSeed = [
     "y": -2.6391,
     "z": -2.2962,
     "phi": 3.7128,
-    "theta": 2.1268
+    "theta": 2.1268,
+    "year": null
   },
   {
     "id": "darkthrone-transilvanian-hunger",
@@ -10853,7 +11455,8 @@ export const worksSeed = [
     "y": 2.0987,
     "z": -3.8092,
     "phi": 5.2871,
-    "theta": 1.1376
+    "theta": 1.1376,
+    "year": null
   },
   {
     "id": "mayhem-de-mysteriis-dom-sathanas",
@@ -10871,7 +11474,8 @@ export const worksSeed = [
     "y": -2.4231,
     "z": 0.3386,
     "phi": 3.0641,
-    "theta": 2.0767
+    "theta": 2.0767,
+    "year": null
   },
   {
     "id": "burzum-filosofem",
@@ -10889,7 +11493,8 @@ export const worksSeed = [
     "y": 2.493,
     "z": 4.1506,
     "phi": 1.8629,
-    "theta": 1.0488
+    "theta": 1.0488,
+    "year": null
   },
   {
     "id": "emperor-in-the-nightside-eclipse",
@@ -10907,7 +11512,8 @@ export const worksSeed = [
     "y": 2.5887,
     "z": -3.6466,
     "phi": 5.2625,
-    "theta": 1.0266
+    "theta": 1.0266,
+    "year": null
   },
   {
     "id": "ulver-bergtatt",
@@ -10925,7 +11531,8 @@ export const worksSeed = [
     "y": 3.9513,
     "z": 3.0161,
     "phi": 1.3939,
-    "theta": 0.6596
+    "theta": 0.6596,
+    "year": null
   },
   {
     "id": "ulver-themes-from-william-blake-s-the-marriage-of-heaven-and-hel",
@@ -10943,7 +11550,8 @@ export const worksSeed = [
     "y": -4.964,
     "z": 0.3894,
     "phi": 2.4332,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": null
   },
   {
     "id": "neurosis",
@@ -10961,7 +11569,8 @@ export const worksSeed = [
     "y": 3.3141,
     "z": 3.1097,
     "phi": 0.9802,
-    "theta": 0.8462
+    "theta": 0.8462,
+    "year": 1985
   },
   {
     "id": "sunn-o",
@@ -10979,7 +11588,8 @@ export const worksSeed = [
     "y": 4.964,
     "z": 0.3777,
     "phi": 0.6828,
-    "theta": 0.12
+    "theta": 0.12,
+    "year": 2001
   },
   {
     "id": "deathspell-omega",
@@ -10997,7 +11607,8 @@ export const worksSeed = [
     "y": -1.3044,
     "z": 4.6985,
     "phi": 1.802,
-    "theta": 1.8347
+    "theta": 1.8347,
+    "year": null
   },
   {
     "id": "mgła",
@@ -11015,7 +11626,8 @@ export const worksSeed = [
     "y": -4.4174,
     "z": 1.7271,
     "phi": 2.3125,
-    "theta": 2.6541
+    "theta": 2.6541,
+    "year": null
   },
   {
     "id": "alcest",
@@ -11033,7 +11645,8 @@ export const worksSeed = [
     "y": -4.4041,
     "z": -0.7699,
     "phi": 3.4728,
-    "theta": 2.6484
+    "theta": 2.6484,
+    "year": null
   },
   {
     "id": "isis",
@@ -11051,7 +11664,8 @@ export const worksSeed = [
     "y": 0.0613,
     "z": 4.4519,
     "phi": 1.0983,
-    "theta": 1.5585
+    "theta": 1.5585,
+    "year": null
   },
   {
     "id": "boris",
@@ -11069,7 +11683,8 @@ export const worksSeed = [
     "y": 4.503,
     "z": 0.8164,
     "phi": 0.3851,
-    "theta": 0.4496
+    "theta": 0.4496,
+    "year": 2002
   },
   {
     "id": "oranssi-pazuzu",
@@ -11087,7 +11702,8 @@ export const worksSeed = [
     "y": 2.0691,
     "z": -4.3722,
     "phi": 4.9942,
-    "theta": 1.1442
+    "theta": 1.1442,
+    "year": null
   },
   {
     "id": "earth",
@@ -11105,7 +11721,8 @@ export const worksSeed = [
     "y": 3.4209,
     "z": 1.4553,
     "phi": 0.4105,
-    "theta": 0.8173
+    "theta": 0.8173,
+    "year": 1988
   },
   {
     "id": "wolves-in-the-throne-room",
@@ -11123,7 +11740,8 @@ export const worksSeed = [
     "y": -0.0457,
     "z": -4.9992,
     "phi": 4.7273,
-    "theta": 1.5799
+    "theta": 1.5799,
+    "year": null
   },
   {
     "id": "converge",
@@ -11141,7 +11759,8 @@ export const worksSeed = [
     "y": 2.3078,
     "z": -4.2487,
     "phi": 5.0037,
-    "theta": 1.091
+    "theta": 1.091,
+    "year": null
   },
   {
     "id": "thou",
@@ -11159,7 +11778,8 @@ export const worksSeed = [
     "y": -2.5516,
     "z": -2.6673,
     "phi": 3.8107,
-    "theta": 2.1063
+    "theta": 2.1063,
+    "year": null
   },
   {
     "id": "d-angelo-voodoo",
@@ -11177,7 +11797,8 @@ export const worksSeed = [
     "y": 1.3998,
     "z": -4.5754,
     "phi": 5.0195,
-    "theta": 1.287
+    "theta": 1.287,
+    "year": 2000
   },
   {
     "id": "d-angelo-black-messiah",
@@ -11195,7 +11816,8 @@ export const worksSeed = [
     "y": 3.5864,
     "z": -3.4333,
     "phi": 4.883,
-    "theta": 0.7709
+    "theta": 0.7709,
+    "year": 1992
   },
   {
     "id": "marvin-gaye-what-s-going-on",
@@ -11213,7 +11835,8 @@ export const worksSeed = [
     "y": 2.0667,
     "z": -4.5527,
     "phi": 4.7035,
-    "theta": 1.1447
+    "theta": 1.1447,
+    "year": 1969
   },
   {
     "id": "marvin-gaye-let-s-get-it-on",
@@ -11231,7 +11854,8 @@ export const worksSeed = [
     "y": 1.0025,
     "z": -1.5879,
     "phi": 5.9531,
-    "theta": 1.3689
+    "theta": 1.3689,
+    "year": 1967
   },
   {
     "id": "marvin-gaye-here-my-dear",
@@ -11249,7 +11873,8 @@ export const worksSeed = [
     "y": 1.5696,
     "z": -4.7407,
     "phi": 4.765,
-    "theta": 1.2515
+    "theta": 1.2515,
+    "year": 1966
   },
   {
     "id": "curtis-mayfield-superfly",
@@ -11267,7 +11892,8 @@ export const worksSeed = [
     "y": -2.1329,
     "z": 3.9317,
     "phi": 2.0876,
-    "theta": 2.0115
+    "theta": 2.0115,
+    "year": null
   },
   {
     "id": "curtis-mayfield-there-s-no-place-like-america-today",
@@ -11285,7 +11911,8 @@ export const worksSeed = [
     "y": -1.0181,
     "z": -2.9839,
     "phi": 5.6277,
-    "theta": 1.7759
+    "theta": 1.7759,
+    "year": null
   },
   {
     "id": "sly-the-family-stone-there-s-a-riot-goin-on",
@@ -11303,7 +11930,8 @@ export const worksSeed = [
     "y": 2.1361,
     "z": 2.326,
     "phi": 2.6012,
-    "theta": 1.1294
+    "theta": 1.1294,
+    "year": null
   },
   {
     "id": "sly-the-family-stone-stand",
@@ -11321,7 +11949,8 @@ export const worksSeed = [
     "y": -0.7832,
     "z": -4.6911,
     "phi": 5.0301,
-    "theta": 1.7281
+    "theta": 1.7281,
+    "year": null
   },
   {
     "id": "james-brown-sex-machine",
@@ -11339,7 +11968,8 @@ export const worksSeed = [
     "y": -2.7874,
     "z": 2.8671,
     "phi": 2.3791,
-    "theta": 2.1621
+    "theta": 2.1621,
+    "year": null
   },
   {
     "id": "isaac-hayes-hot-buttered-soul",
@@ -11357,7 +11987,8 @@ export const worksSeed = [
     "y": -0.6843,
     "z": 4.8184,
     "phi": 1.3371,
-    "theta": 1.7081
+    "theta": 1.7081,
+    "year": null
   },
   {
     "id": "isaac-hayes-shaft",
@@ -11375,7 +12006,8 @@ export const worksSeed = [
     "y": 2.8354,
     "z": -2.5502,
     "phi": 5.6154,
-    "theta": 0.9678
+    "theta": 0.9678,
+    "year": null
   },
   {
     "id": "gil-scott-heron-pieces-of-a-man",
@@ -11393,7 +12025,8 @@ export const worksSeed = [
     "y": 1.0854,
     "z": -2.8387,
     "phi": 5.6625,
-    "theta": 1.352
+    "theta": 1.352,
+    "year": null
   },
   {
     "id": "gil-scott-heron-winter-in-america",
@@ -11411,7 +12044,8 @@ export const worksSeed = [
     "y": -4.757,
     "z": -1.4376,
     "phi": 4.3462,
-    "theta": 2.8286
+    "theta": 2.8286,
+    "year": null
   },
   {
     "id": "nina-simone-black-gold",
@@ -11429,7 +12063,8 @@ export const worksSeed = [
     "y": -3.5493,
     "z": 3.0138,
     "phi": 2.1145,
-    "theta": 2.3601
+    "theta": 2.3601,
+    "year": null
   },
   {
     "id": "nina-simone-pastel-blues",
@@ -11447,7 +12082,8 @@ export const worksSeed = [
     "y": 4.2318,
     "z": -2.5099,
     "phi": 4.3716,
-    "theta": 0.5617
+    "theta": 0.5617,
+    "year": null
   },
   {
     "id": "bill-withers-still-bill",
@@ -11465,7 +12101,8 @@ export const worksSeed = [
     "y": 2.3345,
     "z": -3.6454,
     "phi": 5.3139,
-    "theta": 1.085
+    "theta": 1.085,
+    "year": null
   },
   {
     "id": "al-green-let-s-stay-together",
@@ -11483,7 +12120,8 @@ export const worksSeed = [
     "y": 2.4744,
     "z": -4.2427,
     "phi": 4.9296,
-    "theta": 1.0531
+    "theta": 1.0531,
+    "year": null
   },
   {
     "id": "donny-hathaway-live",
@@ -11501,7 +12139,8 @@ export const worksSeed = [
     "y": -4.964,
     "z": 0.3866,
     "phi": 2.4395,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": null
   },
   {
     "id": "stevie-wonder-innervisions",
@@ -11519,7 +12158,8 @@ export const worksSeed = [
     "y": 1.4027,
     "z": 3.5691,
     "phi": 2.303,
-    "theta": 1.2864
+    "theta": 1.2864,
+    "year": 1975
   },
   {
     "id": "stevie-wonder-songs-in-the-key-of-life",
@@ -11537,7 +12177,8 @@ export const worksSeed = [
     "y": 0.0389,
     "z": 4.9857,
     "phi": 1.646,
-    "theta": 1.563
+    "theta": 1.563,
+    "year": 1971
   },
   {
     "id": "prince-sign-o-the-times",
@@ -11555,7 +12196,8 @@ export const worksSeed = [
     "y": 3.1948,
     "z": -1.3074,
     "phi": 5.9363,
-    "theta": 0.8777
+    "theta": 0.8777,
+    "year": 1982
   },
   {
     "id": "prince-purple-rain",
@@ -11573,7 +12215,8 @@ export const worksSeed = [
     "y": 0.3455,
     "z": -4.8478,
     "phi": 4.9501,
-    "theta": 1.5017
+    "theta": 1.5017,
+    "year": 1987
   },
   {
     "id": "prince-around-the-world-in-a-day",
@@ -11591,7 +12234,8 @@ export const worksSeed = [
     "y": 2.244,
     "z": -2.676,
     "phi": 5.641,
-    "theta": 1.1054
+    "theta": 1.1054,
+    "year": 1984
   },
   {
     "id": "janet-jackson-control",
@@ -11609,7 +12253,8 @@ export const worksSeed = [
     "y": 1.4775,
     "z": 4.0299,
     "phi": 1.0041,
-    "theta": 1.2708
+    "theta": 1.2708,
+    "year": null
   },
   {
     "id": "janet-jackson-rhythm-nation-1814",
@@ -11627,7 +12272,8 @@ export const worksSeed = [
     "y": 2.2737,
     "z": 3.496,
     "phi": 2.2388,
-    "theta": 1.0987
+    "theta": 1.0987,
+    "year": null
   },
   {
     "id": "maxwell-urban-hang-suite",
@@ -11645,7 +12291,8 @@ export const worksSeed = [
     "y": -2.7116,
     "z": 1.7884,
     "phi": 2.7018,
-    "theta": 2.144
+    "theta": 2.144,
+    "year": null
   },
   {
     "id": "erykah-badu-baduizm",
@@ -11663,7 +12310,8 @@ export const worksSeed = [
     "y": -0.6065,
     "z": 2.3828,
     "phi": 2.6408,
-    "theta": 1.6924
+    "theta": 1.6924,
+    "year": null
   },
   {
     "id": "erykah-badu-mama-s-gun",
@@ -11681,7 +12329,8 @@ export const worksSeed = [
     "y": -3.9501,
     "z": 0.0335,
     "phi": 3.1307,
-    "theta": 2.4816
+    "theta": 2.4816,
+    "year": null
   },
   {
     "id": "erykah-badu-new-amerykah-part-one",
@@ -11699,7 +12348,8 @@ export const worksSeed = [
     "y": 1.2743,
     "z": 3.0338,
     "phi": 2.4633,
-    "theta": 1.3131
+    "theta": 1.3131,
+    "year": null
   },
   {
     "id": "lauryn-hill-the-miseducation-of-lauryn-hill",
@@ -11717,7 +12367,8 @@ export const worksSeed = [
     "y": -4.7226,
     "z": 0.2381,
     "phi": 2.9961,
-    "theta": 2.8069
+    "theta": 2.8069,
+    "year": null
   },
   {
     "id": "meshell-ndegeocello-bitter",
@@ -11735,7 +12386,8 @@ export const worksSeed = [
     "y": -2.5141,
     "z": 3.2112,
     "phi": 2.304,
-    "theta": 2.0977
+    "theta": 2.0977,
+    "year": null
   },
   {
     "id": "blood-orange-freetown-sound",
@@ -11753,7 +12405,8 @@ export const worksSeed = [
     "y": -0.7465,
     "z": -4.3778,
     "phi": 4.2291,
-    "theta": 1.7207
+    "theta": 1.7207,
+    "year": null
   },
   {
     "id": "hiatus-kaiyote-choose-your-weapon",
@@ -11771,7 +12424,8 @@ export const worksSeed = [
     "y": 2.4841,
     "z": -4.2225,
     "phi": 4.9449,
-    "theta": 1.0509
+    "theta": 1.0509,
+    "year": null
   },
   {
     "id": "badbadnotgood-iv",
@@ -11789,7 +12443,8 @@ export const worksSeed = [
     "y": 0.572,
     "z": -2.7561,
     "phi": 5.695,
-    "theta": 1.4561
+    "theta": 1.4561,
+    "year": null
   },
   {
     "id": "sampha-process",
@@ -11807,7 +12462,8 @@ export const worksSeed = [
     "y": -3.2577,
     "z": 0.7148,
     "phi": 2.952,
-    "theta": 2.2804
+    "theta": 2.2804,
+    "year": null
   },
   {
     "id": "sault-untitled-black-is",
@@ -11825,7 +12481,8 @@ export const worksSeed = [
     "y": -3.7348,
     "z": -0.4403,
     "phi": 3.2744,
-    "theta": 2.4143
+    "theta": 2.4143,
+    "year": null
   },
   {
     "id": "sault-9",
@@ -11843,7 +12500,8 @@ export const worksSeed = [
     "y": -3.8284,
     "z": 2.7507,
     "phi": 2.1155,
-    "theta": 2.4429
+    "theta": 2.4429,
+    "year": null
   },
   {
     "id": "d-angelo",
@@ -11861,7 +12519,8 @@ export const worksSeed = [
     "y": 2.1994,
     "z": -4.2096,
     "phi": 5.0678,
-    "theta": 1.1153
+    "theta": 1.1153,
+    "year": 1996
   },
   {
     "id": "marvin-gaye",
@@ -11879,7 +12538,8 @@ export const worksSeed = [
     "y": 2.5371,
     "z": -4.299,
     "phi": 4.6461,
-    "theta": 1.0386
+    "theta": 1.0386,
+    "year": 1971
   },
   {
     "id": "curtis-mayfield",
@@ -11897,7 +12557,8 @@ export const worksSeed = [
     "y": -3.6548,
     "z": 0.6429,
     "phi": 2.952,
-    "theta": 2.3905
+    "theta": 2.3905,
+    "year": null
   },
   {
     "id": "sly-the-family-stone",
@@ -11915,7 +12576,8 @@ export const worksSeed = [
     "y": 3.3729,
     "z": 0.1573,
     "phi": 3.099,
-    "theta": 0.8304
+    "theta": 0.8304,
+    "year": null
   },
   {
     "id": "gil-scott-heron",
@@ -11933,7 +12595,8 @@ export const worksSeed = [
     "y": 0.0254,
     "z": 4.7258,
     "phi": 1.9035,
-    "theta": 1.5657
+    "theta": 1.5657,
+    "year": null
   },
   {
     "id": "nina-simone",
@@ -11951,7 +12614,8 @@ export const worksSeed = [
     "y": -3.1699,
     "z": 1.7731,
     "phi": 2.6652,
-    "theta": 2.2575
+    "theta": 2.2575,
+    "year": null
   },
   {
     "id": "stevie-wonder",
@@ -11969,7 +12633,8 @@ export const worksSeed = [
     "y": -3.4872,
     "z": -1.0584,
     "phi": 3.4414,
-    "theta": 2.3426
+    "theta": 2.3426,
+    "year": 1972
   },
   {
     "id": "prince",
@@ -11987,7 +12652,8 @@ export const worksSeed = [
     "y": 2.6284,
     "z": -2.1036,
     "phi": 5.7659,
-    "theta": 1.0173
+    "theta": 1.0173,
+    "year": 1981
   },
   {
     "id": "erykah-badu",
@@ -12005,7 +12671,8 @@ export const worksSeed = [
     "y": -4.2057,
     "z": 1.2486,
     "phi": 2.6616,
-    "theta": 2.5702
+    "theta": 2.5702,
+    "year": null
   },
   {
     "id": "lauryn-hill",
@@ -12023,7 +12690,8 @@ export const worksSeed = [
     "y": -4.7604,
     "z": 0.9715,
     "phi": 2.4533,
-    "theta": 2.8307
+    "theta": 2.8307,
+    "year": null
   },
   {
     "id": "sault",
@@ -12041,7 +12709,8 @@ export const worksSeed = [
     "y": -4.1793,
     "z": -0.0315,
     "phi": 3.1531,
-    "theta": 2.5605
+    "theta": 2.5605,
+    "year": null
   },
   {
     "id": "blood-orange",
@@ -12059,7 +12728,8 @@ export const worksSeed = [
     "y": -0.5062,
     "z": 3.785,
     "phi": 2.2769,
-    "theta": 1.6722
+    "theta": 1.6722,
+    "year": null
   },
   {
     "id": "hiatus-kaiyote",
@@ -12077,7 +12747,8 @@ export const worksSeed = [
     "y": -3.6723,
     "z": 2.2991,
     "phi": 2.3972,
-    "theta": 2.3957
+    "theta": 2.3957,
+    "year": null
   },
   {
     "id": "ed-sheeran-shape-of-you",
@@ -12095,7 +12766,8 @@ export const worksSeed = [
     "y": -4.1579,
     "z": -0.8663,
     "phi": 3.4429,
-    "theta": 2.5296
+    "theta": 2.5296,
+    "year": 2012
   },
   {
     "id": "ed-sheeran-thinking-out-loud",
@@ -12113,7 +12785,8 @@ export const worksSeed = [
     "y": -4.5316,
     "z": 2.0886,
     "phi": 1.999,
-    "theta": 2.6726
+    "theta": 2.6726,
+    "year": 2012
   },
   {
     "id": "ed-sheeran-perfect",
@@ -12131,7 +12804,8 @@ export const worksSeed = [
     "y": -4.5742,
     "z": -0.6568,
     "phi": 3.4434,
-    "theta": 2.6916
+    "theta": 2.6916,
+    "year": 2015
   },
   {
     "id": "ed-sheeran-bad-habits",
@@ -12149,7 +12823,8 @@ export const worksSeed = [
     "y": -0.2891,
     "z": -1.0553,
     "phi": 3.3512,
-    "theta": 1.6277
+    "theta": 1.6277,
+    "year": 2012
   },
   {
     "id": "ed-sheeran-shivers",
@@ -12167,7 +12842,8 @@ export const worksSeed = [
     "y": -3.0006,
     "z": 2.9531,
     "phi": 2.3372,
-    "theta": 2.2027
+    "theta": 2.2027,
+    "year": 2016
   },
   {
     "id": "ed-sheeran-photograph",
@@ -12185,7 +12861,8 @@ export const worksSeed = [
     "y": -2.3151,
     "z": 1.7924,
     "phi": 2.734,
-    "theta": 2.044
+    "theta": 2.044,
+    "year": 2017
   },
   {
     "id": "ed-sheeran",
@@ -12203,7 +12880,8 @@ export const worksSeed = [
     "y": 2.2056,
     "z": -3.9661,
     "phi": 5.2347,
-    "theta": 1.1217
+    "theta": 1.1217,
+    "year": 2015
   },
   {
     "id": "ed-sheeran-x",
@@ -12221,7 +12899,8 @@ export const worksSeed = [
     "y": 3.1621,
     "z": -2.8637,
     "phi": 5.479,
-    "theta": 0.8989
+    "theta": 0.8989,
+    "year": 2016
   },
   {
     "id": "ed-sheeran-8",
@@ -12239,7 +12918,8 @@ export const worksSeed = [
     "y": -2.993,
     "z": -2.0904,
     "phi": 3.6759,
-    "theta": 2.2008
+    "theta": 2.2008,
+    "year": 2016
   },
   {
     "id": "taylor-swift-shake-it-off",
@@ -12257,7 +12937,8 @@ export const worksSeed = [
     "y": -4.4982,
     "z": 0.172,
     "phi": 3.0686,
-    "theta": 2.6583
+    "theta": 2.6583,
+    "year": 2012
   },
   {
     "id": "taylor-swift-blank-space",
@@ -12275,7 +12956,8 @@ export const worksSeed = [
     "y": 1.1278,
     "z": 3.6016,
     "phi": 2.3275,
-    "theta": 1.3469
+    "theta": 1.3469,
+    "year": 2008
   },
   {
     "id": "taylor-swift-love-story",
@@ -12293,7 +12975,8 @@ export const worksSeed = [
     "y": -2.2588,
     "z": 0.4923,
     "phi": 3.0332,
-    "theta": 2.0316
+    "theta": 2.0316,
+    "year": 2015
   },
   {
     "id": "taylor-swift-you-belong-with-me",
@@ -12311,7 +12994,8 @@ export const worksSeed = [
     "y": -2.2482,
     "z": -3.21,
     "phi": 3.9235,
-    "theta": 2.0292
+    "theta": 2.0292,
+    "year": 2014
   },
   {
     "id": "taylor-swift-anti-hero",
@@ -12329,7 +13013,8 @@ export const worksSeed = [
     "y": -2.6565,
     "z": 3.7338,
     "phi": 2.1018,
-    "theta": 2.1211
+    "theta": 2.1211,
+    "year": 2014
   },
   {
     "id": "taylor-swift-bad-blood",
@@ -12347,7 +13032,8 @@ export const worksSeed = [
     "y": -3.4621,
     "z": -3.3857,
     "phi": 4.2866,
-    "theta": 2.3206
+    "theta": 2.3206,
+    "year": 2010
   },
   {
     "id": "taylor-swift-1989",
@@ -12365,7 +13051,8 @@ export const worksSeed = [
     "y": 2.8544,
     "z": -3.4916,
     "phi": 4.1223,
-    "theta": 0.9741
+    "theta": 0.9741,
+    "year": 2008
   },
   {
     "id": "taylor-swift-reputation",
@@ -12383,7 +13070,8 @@ export const worksSeed = [
     "y": 2.3415,
     "z": -1.6633,
     "phi": 5.9053,
-    "theta": 1.0917
+    "theta": 1.0917,
+    "year": 2013
   },
   {
     "id": "taylor-swift-midnights",
@@ -12401,7 +13089,8 @@ export const worksSeed = [
     "y": -0.4847,
     "z": -4.5249,
     "phi": 5.1752,
-    "theta": 1.6664
+    "theta": 1.6664,
+    "year": 2014
   },
   {
     "id": "taylor-swift-fearless",
@@ -12419,7 +13108,8 @@ export const worksSeed = [
     "y": -1.0975,
     "z": 1.6592,
     "phi": 2.8005,
-    "theta": 1.7886
+    "theta": 1.7886,
+    "year": 2012
   },
   {
     "id": "taylor-swift-folklore",
@@ -12437,7 +13127,8 @@ export const worksSeed = [
     "y": -0.1621,
     "z": -5.0643,
     "phi": 4.6405,
-    "theta": 1.6027
+    "theta": 1.6027,
+    "year": 2013
   },
   {
     "id": "taylor-swift-evermore",
@@ -12455,7 +13146,8 @@ export const worksSeed = [
     "y": 2.3538,
     "z": -2.3718,
     "phi": 5.7283,
-    "theta": 1.089
+    "theta": 1.089,
+    "year": 2015
   },
   {
     "id": "katy-perry-roar",
@@ -12473,7 +13165,8 @@ export const worksSeed = [
     "y": -3.4524,
     "z": -0.0061,
     "phi": 3.1432,
-    "theta": 2.318
+    "theta": 2.318,
+    "year": 2011
   },
   {
     "id": "katy-perry-firework",
@@ -12491,7 +13184,8 @@ export const worksSeed = [
     "y": -0.3082,
     "z": 0.4326,
     "phi": 3.0562,
-    "theta": 1.6315
+    "theta": 1.6315,
+    "year": 2006
   },
   {
     "id": "katy-perry-dark-horse",
@@ -12509,7 +13203,8 @@ export const worksSeed = [
     "y": -0.4904,
     "z": -2.0788,
     "phi": 3.5653,
-    "theta": 1.6675
+    "theta": 1.6675,
+    "year": 2012
   },
   {
     "id": "katy-perry-teenage-dream",
@@ -12527,7 +13222,8 @@ export const worksSeed = [
     "y": -3.0748,
     "z": 2.5219,
     "phi": 2.4682,
-    "theta": 2.2209
+    "theta": 2.2209,
+    "year": 2007
   },
   {
     "id": "katy-perry-california-gurls",
@@ -12545,7 +13241,8 @@ export const worksSeed = [
     "y": -2.9749,
     "z": 2.4427,
     "phi": 2.5066,
-    "theta": 2.1964
+    "theta": 2.1964,
+    "year": 2013
   },
   {
     "id": "katy-perry-prism",
@@ -12563,7 +13260,8 @@ export const worksSeed = [
     "y": -3.5361,
     "z": 2.5979,
     "phi": 2.3488,
-    "theta": 2.3407
+    "theta": 2.3407,
+    "year": 2013
   },
   {
     "id": "justin-bieber-baby",
@@ -12581,7 +13279,8 @@ export const worksSeed = [
     "y": 1.3152,
     "z": 0.7324,
     "phi": 2.9918,
-    "theta": 1.3089
+    "theta": 1.3089,
+    "year": 2008
   },
   {
     "id": "justin-bieber-sorry",
@@ -12599,7 +13298,8 @@ export const worksSeed = [
     "y": -4.4664,
     "z": 0.5749,
     "phi": 2.9018,
-    "theta": 2.645
+    "theta": 2.645,
+    "year": 2013
   },
   {
     "id": "justin-bieber-love-yourself",
@@ -12617,7 +13317,8 @@ export const worksSeed = [
     "y": -3.1665,
     "z": -2.381,
     "phi": 3.7843,
-    "theta": 2.2438
+    "theta": 2.2438,
+    "year": 2014
   },
   {
     "id": "justin-bieber-peaches",
@@ -12635,7 +13336,8 @@ export const worksSeed = [
     "y": -4.8003,
     "z": -1.0932,
     "phi": 3.8593,
-    "theta": 2.8082
+    "theta": 2.8082,
+    "year": 2014
   },
   {
     "id": "justin-bieber-intentions",
@@ -12653,7 +13355,8 @@ export const worksSeed = [
     "y": -5.0435,
     "z": -0.1835,
     "phi": 3.4481,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": 2015
   },
   {
     "id": "justin-bieber-justice",
@@ -12671,7 +13374,8 @@ export const worksSeed = [
     "y": -3.7232,
     "z": 1.3081,
     "phi": 2.7534,
-    "theta": 2.3934
+    "theta": 2.3934,
+    "year": 2009
   },
   {
     "id": "justin-bieber-purpose",
@@ -12689,7 +13393,8 @@ export const worksSeed = [
     "y": -2.1866,
     "z": 1.8678,
     "phi": 2.722,
-    "theta": 2.0158
+    "theta": 2.0158,
+    "year": 2007
   },
   {
     "id": "rihanna-umbrella",
@@ -12707,7 +13412,8 @@ export const worksSeed = [
     "y": -0.8743,
     "z": 3.6216,
     "phi": 2.3324,
-    "theta": 1.7438
+    "theta": 1.7438,
+    "year": 2004
   },
   {
     "id": "rihanna-we-found-love",
@@ -12725,7 +13431,8 @@ export const worksSeed = [
     "y": -4.8625,
     "z": 1.2019,
     "phi": 2.1848,
-    "theta": 2.8479
+    "theta": 2.8479,
+    "year": 2010
   },
   {
     "id": "rihanna-diamonds",
@@ -12743,7 +13450,8 @@ export const worksSeed = [
     "y": -4.5574,
     "z": -0.1622,
     "phi": 3.2139,
-    "theta": 2.684
+    "theta": 2.684,
+    "year": 2012
   },
   {
     "id": "rihanna-work",
@@ -12761,7 +13469,8 @@ export const worksSeed = [
     "y": -2.5191,
     "z": 0.9663,
     "phi": 2.9208,
-    "theta": 2.0897
+    "theta": 2.0897,
+    "year": 2011
   },
   {
     "id": "rihanna-stay",
@@ -12779,7 +13488,8 @@ export const worksSeed = [
     "y": -4.1861,
     "z": 0.9212,
     "phi": 2.8158,
-    "theta": 2.5393
+    "theta": 2.5393,
+    "year": 2010
   },
   {
     "id": "rihanna-only-girl",
@@ -12797,7 +13507,8 @@ export const worksSeed = [
     "y": -3.9155,
     "z": -1.6745,
     "phi": 3.6854,
-    "theta": 2.4508
+    "theta": 2.4508,
+    "year": 2010
   },
   {
     "id": "rihanna-anti",
@@ -12815,7 +13526,8 @@ export const worksSeed = [
     "y": 2.9923,
     "z": -4.0419,
     "phi": 4.8882,
-    "theta": 0.9409
+    "theta": 0.9409,
+    "year": 2007
   },
   {
     "id": "rihanna-unapologetic",
@@ -12833,7 +13545,8 @@ export const worksSeed = [
     "y": -3.7993,
     "z": 1.927,
     "phi": 2.5333,
-    "theta": 2.4157
+    "theta": 2.4157,
+    "year": 2004
   },
   {
     "id": "maroon-5-sugar",
@@ -12851,7 +13564,8 @@ export const worksSeed = [
     "y": -2.0986,
     "z": -2.947,
     "phi": 3.8322,
-    "theta": 1.9967
+    "theta": 1.9967,
+    "year": 2000
   },
   {
     "id": "maroon-5-girls-like-you",
@@ -12869,7 +13583,8 @@ export const worksSeed = [
     "y": -1.828,
     "z": -1.2432,
     "phi": 3.407,
-    "theta": 1.9389
+    "theta": 1.9389,
+    "year": 2002
   },
   {
     "id": "maroon-5-moves-like-jagger",
@@ -12887,7 +13602,8 @@ export const worksSeed = [
     "y": -2.8157,
     "z": -2.0329,
     "phi": 3.6432,
-    "theta": 2.1583
+    "theta": 2.1583,
+    "year": 2005
   },
   {
     "id": "maroon-5-animals",
@@ -12905,7 +13621,8 @@ export const worksSeed = [
     "y": -2.6764,
     "z": -2.1721,
     "phi": 3.6687,
-    "theta": 2.1257
+    "theta": 2.1257,
+    "year": 2001
   },
   {
     "id": "maroon-5-payphone",
@@ -12923,7 +13640,8 @@ export const worksSeed = [
     "y": -1.6002,
     "z": 3.7409,
     "phi": 2.2535,
-    "theta": 1.8912
+    "theta": 1.8912,
+    "year": 2004
   },
   {
     "id": "maroon-5-maps",
@@ -12941,7 +13659,8 @@ export const worksSeed = [
     "y": -4.1266,
     "z": 2.6929,
     "phi": 2.0009,
-    "theta": 2.5189
+    "theta": 2.5189,
+    "year": 2006
   },
   {
     "id": "coldplay-yellow",
@@ -12959,7 +13678,8 @@ export const worksSeed = [
     "y": 2.6641,
     "z": -3.9407,
     "phi": 5.1373,
-    "theta": 1.0188
+    "theta": 1.0188,
+    "year": 2001
   },
   {
     "id": "coldplay-the-scientist",
@@ -12977,7 +13697,8 @@ export const worksSeed = [
     "y": 2.0188,
     "z": -4.5563,
     "phi": 4.9254,
-    "theta": 1.1621
+    "theta": 1.1621,
+    "year": 2005
   },
   {
     "id": "coldplay-fix-you",
@@ -12995,7 +13716,8 @@ export const worksSeed = [
     "y": -0.1964,
     "z": -5.0527,
     "phi": 4.8086,
-    "theta": 1.6095
+    "theta": 1.6095,
+    "year": 1999
   },
   {
     "id": "coldplay-clocks",
@@ -13013,7 +13735,8 @@ export const worksSeed = [
     "y": 1.1671,
     "z": -1.8203,
     "phi": 5.9061,
-    "theta": 1.339
+    "theta": 1.339,
+    "year": 1999
   },
   {
     "id": "coldplay-viva-la-vida",
@@ -13031,7 +13754,8 @@ export const worksSeed = [
     "y": -0.223,
     "z": -4.509,
     "phi": 4.2355,
-    "theta": 1.6147
+    "theta": 1.6147,
+    "year": 1997
   },
   {
     "id": "coldplay-a-sky-full-of-stars",
@@ -13049,7 +13773,8 @@ export const worksSeed = [
     "y": -3.0628,
     "z": 0.2406,
     "phi": 3.0822,
-    "theta": 2.2179
+    "theta": 2.2179,
+    "year": 1998
   },
   {
     "id": "coldplay-parachutes",
@@ -13067,7 +13792,8 @@ export const worksSeed = [
     "y": 1.3651,
     "z": -4.5326,
     "phi": 5.0987,
-    "theta": 1.2987
+    "theta": 1.2987,
+    "year": 1998
   },
   {
     "id": "coldplay-a-rush-of-blood-to-the-head",
@@ -13085,7 +13811,8 @@ export const worksSeed = [
     "y": 2.7915,
     "z": -3.7176,
     "phi": 5.2159,
-    "theta": 0.989
+    "theta": 0.989,
+    "year": 2003
   },
   {
     "id": "coldplay-x-y",
@@ -13103,7 +13830,8 @@ export const worksSeed = [
     "y": 2.6955,
     "z": -4.2988,
     "phi": 4.6549,
-    "theta": 1.0115
+    "theta": 1.0115,
+    "year": 2005
   },
   {
     "id": "coldplay-music-of-the-spheres",
@@ -13121,7 +13849,8 @@ export const worksSeed = [
     "y": -2.9724,
     "z": 2.2027,
     "phi": 2.5774,
-    "theta": 2.1958
+    "theta": 2.1958,
+    "year": 1998
   },
   {
     "id": "one-direction-what-makes-you-beautiful",
@@ -13139,7 +13868,8 @@ export const worksSeed = [
     "y": -1.5621,
     "z": 0.5112,
     "phi": 3.0356,
-    "theta": 1.8834
+    "theta": 1.8834,
+    "year": 2012
   },
   {
     "id": "one-direction-story-of-my-life",
@@ -13157,7 +13887,8 @@ export const worksSeed = [
     "y": -4.5671,
     "z": 1.8367,
     "phi": 2.1701,
-    "theta": 2.6884
+    "theta": 2.6884,
+    "year": 2008
   },
   {
     "id": "harry-styles-watermelon-sugar",
@@ -13175,7 +13906,8 @@ export const worksSeed = [
     "y": -3.0061,
     "z": -0.5564,
     "phi": 3.2779,
-    "theta": 2.204
+    "theta": 2.204,
+    "year": 2018
   },
   {
     "id": "harry-styles-as-it-was",
@@ -13193,7 +13925,8 @@ export const worksSeed = [
     "y": -1.6678,
     "z": -0.996,
     "phi": 3.3507,
-    "theta": 1.9053
+    "theta": 1.9053,
+    "year": 2022
   },
   {
     "id": "harry-styles-fine-line",
@@ -13211,7 +13944,8 @@ export const worksSeed = [
     "y": 2.3168,
     "z": -4.3133,
     "phi": 5.0166,
-    "theta": 1.0972
+    "theta": 1.0972,
+    "year": 2015
   },
   {
     "id": "harry-styles-harry-s-house",
@@ -13229,7 +13963,8 @@ export const worksSeed = [
     "y": -0.57,
     "z": -3.1855,
     "phi": 5.6003,
-    "theta": 1.6832
+    "theta": 1.6832,
+    "year": 2022
   },
   {
     "id": "beyoncé-crazy-in-love",
@@ -13247,7 +13982,8 @@ export const worksSeed = [
     "y": 3.7581,
     "z": -2.5213,
     "phi": 5.4536,
-    "theta": 0.738
+    "theta": 0.738,
+    "year": 2001
   },
   {
     "id": "beyoncé-single-ladies",
@@ -13265,7 +14001,8 @@ export const worksSeed = [
     "y": -1.5095,
     "z": -0.4406,
     "phi": 3.2325,
-    "theta": 1.8725
+    "theta": 1.8725,
+    "year": 2004
   },
   {
     "id": "beyoncé-halo",
@@ -13283,7 +14020,8 @@ export const worksSeed = [
     "y": -0.0587,
     "z": -4.6589,
     "phi": 5.1223,
-    "theta": 1.5824
+    "theta": 1.5824,
+    "year": 2003
   },
   {
     "id": "beyoncé-formation",
@@ -13301,7 +14039,8 @@ export const worksSeed = [
     "y": 3.3129,
     "z": -3.2294,
     "phi": 4.1362,
-    "theta": 0.8604
+    "theta": 0.8604,
+    "year": 2001
   },
   {
     "id": "beyoncé-lemonade",
@@ -13319,7 +14058,8 @@ export const worksSeed = [
     "y": 0.9978,
     "z": -4.9798,
     "phi": 4.6903,
-    "theta": 1.3731
+    "theta": 1.3731,
+    "year": 2008
   },
   {
     "id": "beyoncé-renaissance",
@@ -13337,7 +14077,8 @@ export const worksSeed = [
     "y": 2.1947,
     "z": -4.5267,
     "phi": 4.5577,
-    "theta": 1.1241
+    "theta": 1.1241,
+    "year": 2007
   },
   {
     "id": "beyoncé-b-day",
@@ -13355,7 +14096,8 @@ export const worksSeed = [
     "y": 1.2317,
     "z": -3.5769,
     "phi": 5.471,
-    "theta": 1.3259
+    "theta": 1.3259,
+    "year": 2004
   },
   {
     "id": "beyoncé-4",
@@ -13373,7 +14115,8 @@ export const worksSeed = [
     "y": 1.127,
     "z": -4.5534,
     "phi": 5.117,
-    "theta": 1.3471
+    "theta": 1.3471,
+    "year": 2004
   },
   {
     "id": "ariana-grande-thank-u-next",
@@ -13391,7 +14134,8 @@ export const worksSeed = [
     "y": -1.4247,
     "z": -4.7003,
     "phi": 4.443,
-    "theta": 1.8551
+    "theta": 1.8551,
+    "year": 2018
   },
   {
     "id": "ariana-grande-7-rings",
@@ -13409,7 +14153,8 @@ export const worksSeed = [
     "y": -3.0079,
     "z": -1.4082,
     "phi": 3.4928,
-    "theta": 2.2045
+    "theta": 2.2045,
+    "year": 2015
   },
   {
     "id": "ariana-grande-problem",
@@ -13427,7 +14172,8 @@ export const worksSeed = [
     "y": -2.1765,
     "z": 1.0913,
     "phi": 2.9015,
-    "theta": 2.0136
+    "theta": 2.0136,
+    "year": 2014
   },
   {
     "id": "ariana-grande-god-is-a-woman",
@@ -13445,7 +14191,8 @@ export const worksSeed = [
     "y": 3.6931,
     "z": -3.3929,
     "phi": 4.4781,
-    "theta": 0.7569
+    "theta": 0.7569,
+    "year": 2014
   },
   {
     "id": "ariana-grande-positions",
@@ -13463,7 +14210,8 @@ export const worksSeed = [
     "y": -3.2649,
     "z": -0.321,
     "phi": 3.2242,
-    "theta": 2.2688
+    "theta": 2.2688,
+    "year": 2012
   },
   {
     "id": "ariana-grande-sweetener",
@@ -13481,7 +14229,8 @@ export const worksSeed = [
     "y": 1.8653,
     "z": -4.706,
     "phi": 4.8026,
-    "theta": 1.1948
+    "theta": 1.1948,
+    "year": 2016
   },
   {
     "id": "billie-eilish-bad-guy",
@@ -13499,7 +14248,8 @@ export const worksSeed = [
     "y": 0.477,
     "z": -4.9268,
     "phi": 4.4845,
-    "theta": 1.4768
+    "theta": 1.4768,
+    "year": 2022
   },
   {
     "id": "billie-eilish-ocean-eyes",
@@ -13517,7 +14267,8 @@ export const worksSeed = [
     "y": 2.2597,
     "z": -4.4248,
     "phi": 4.4775,
-    "theta": 1.1098
+    "theta": 1.1098,
+    "year": 2018
   },
   {
     "id": "billie-eilish-happier-than-ever",
@@ -13535,7 +14286,8 @@ export const worksSeed = [
     "y": 0.8938,
     "z": -3.612,
     "phi": 5.4761,
-    "theta": 1.3939
+    "theta": 1.3939,
+    "year": 2018
   },
   {
     "id": "billie-eilish-when-we-all-fall-asleep",
@@ -13553,7 +14305,8 @@ export const worksSeed = [
     "y": 0.059,
     "z": -4.5073,
     "phi": 5.1917,
-    "theta": 1.5592
+    "theta": 1.5592,
+    "year": 2017
   },
   {
     "id": "billie-eilish-oxytocin",
@@ -13571,7 +14324,8 @@ export const worksSeed = [
     "y": 1.7755,
     "z": -4.7389,
     "phi": 4.6189,
-    "theta": 1.2138
+    "theta": 1.2138,
+    "year": 2018
   },
   {
     "id": "adele-hello",
@@ -13589,7 +14343,8 @@ export const worksSeed = [
     "y": 2.1769,
     "z": -3.7721,
     "phi": 5.3186,
-    "theta": 1.1279
+    "theta": 1.1279,
+    "year": 2010
   },
   {
     "id": "adele-someone-like-you",
@@ -13607,7 +14362,8 @@ export const worksSeed = [
     "y": 2.2214,
     "z": -4.4364,
     "phi": 4.9535,
-    "theta": 1.1182
+    "theta": 1.1182,
+    "year": 2014
   },
   {
     "id": "adele-rolling-in-the-deep",
@@ -13625,7 +14381,8 @@ export const worksSeed = [
     "y": 0.7633,
     "z": -2.4939,
     "phi": 5.7635,
-    "theta": 1.42
+    "theta": 1.42,
+    "year": 2014
   },
   {
     "id": "adele-set-fire-to-the-rain",
@@ -13643,7 +14400,8 @@ export const worksSeed = [
     "y": 1.9048,
     "z": -3.4756,
     "phi": 5.4531,
-    "theta": 1.1864
+    "theta": 1.1864,
+    "year": 2014
   },
   {
     "id": "adele-21",
@@ -13661,7 +14419,8 @@ export const worksSeed = [
     "y": 0.0953,
     "z": -5.0474,
     "phi": 4.8242,
-    "theta": 1.552
+    "theta": 1.552,
+    "year": 2009
   },
   {
     "id": "adele-25",
@@ -13679,7 +14438,8 @@ export const worksSeed = [
     "y": 3.6249,
     "z": -2.9252,
     "phi": 5.3184,
-    "theta": 0.7762
+    "theta": 0.7762,
+    "year": 2009
   },
   {
     "id": "adele-30",
@@ -13697,7 +14457,8 @@ export const worksSeed = [
     "y": 1.8727,
     "z": -3.9802,
     "phi": 5.2806,
-    "theta": 1.1932
+    "theta": 1.1932,
+    "year": 2012
   },
   {
     "id": "dua-lipa-levitating",
@@ -13715,7 +14476,8 @@ export const worksSeed = [
     "y": -2.8609,
     "z": 2.2813,
     "phi": 2.5671,
-    "theta": 2.169
+    "theta": 2.169,
+    "year": 2022
   },
   {
     "id": "dua-lipa-don-t-start-now",
@@ -13733,7 +14495,8 @@ export const worksSeed = [
     "y": 2.6193,
     "z": -4.2943,
     "phi": 4.8763,
-    "theta": 1.0291
+    "theta": 1.0291,
+    "year": 2019
   },
   {
     "id": "dua-lipa-physical",
@@ -13751,7 +14514,8 @@ export const worksSeed = [
     "y": -2.5557,
     "z": 4.2214,
     "phi": 1.2925,
-    "theta": 2.098
+    "theta": 2.098,
+    "year": 2016
   },
   {
     "id": "dua-lipa-future-nostalgia",
@@ -13769,7 +14533,8 @@ export const worksSeed = [
     "y": 3.5516,
     "z": -2.9359,
     "phi": 5.3419,
-    "theta": 0.7966
+    "theta": 0.7966,
+    "year": 2018
   },
   {
     "id": "dua-lipa-new-rules",
@@ -13787,7 +14552,8 @@ export const worksSeed = [
     "y": -2.416,
     "z": -1.1692,
     "phi": 3.4063,
-    "theta": 2.0664
+    "theta": 2.0664,
+    "year": 2016
   },
   {
     "id": "the-weeknd-blinding-lights",
@@ -13805,7 +14571,8 @@ export const worksSeed = [
     "y": 3.6924,
     "z": -3.0748,
     "phi": 5.2046,
-    "theta": 0.7571
+    "theta": 0.7571,
+    "year": 2012
   },
   {
     "id": "the-weeknd-starboy",
@@ -13823,7 +14590,8 @@ export const worksSeed = [
     "y": -0.1737,
     "z": -3.8528,
     "phi": 5.4216,
-    "theta": 1.605
+    "theta": 1.605,
+    "year": 2012
   },
   {
     "id": "the-weeknd-save-your-tears",
@@ -13841,7 +14609,8 @@ export const worksSeed = [
     "y": -2.0128,
     "z": -2.7458,
     "phi": 5.6537,
-    "theta": 1.9782
+    "theta": 1.9782,
+    "year": 2017
   },
   {
     "id": "the-weeknd-the-hills",
@@ -13859,7 +14628,8 @@ export const worksSeed = [
     "y": 1.3713,
     "z": -3.5111,
     "phi": 3.9422,
-    "theta": 1.2975
+    "theta": 1.2975,
+    "year": 2013
   },
   {
     "id": "the-weeknd-after-hours",
@@ -13877,7 +14647,8 @@ export const worksSeed = [
     "y": 1.0877,
     "z": -4.8943,
     "phi": 4.878,
-    "theta": 1.355
+    "theta": 1.355,
+    "year": 2010
   },
   {
     "id": "the-weeknd-dawn-fm",
@@ -13895,7 +14666,8 @@ export const worksSeed = [
     "y": 1.5563,
     "z": -4.1229,
     "phi": 5.2623,
-    "theta": 1.2594
+    "theta": 1.2594,
+    "year": 2011
   },
   {
     "id": "the-weeknd-beauty-behind-the-madness",
@@ -13913,7 +14685,8 @@ export const worksSeed = [
     "y": 1.4855,
     "z": -3.4793,
     "phi": 5.4848,
-    "theta": 1.274
+    "theta": 1.274,
+    "year": 2015
   },
   {
     "id": "post-malone-rockstar",
@@ -13931,7 +14704,8 @@ export const worksSeed = [
     "y": -2.4666,
     "z": -1.5601,
     "phi": 3.5006,
-    "theta": 2.0778
+    "theta": 2.0778,
+    "year": 2015
   },
   {
     "id": "post-malone-sunflower",
@@ -13949,7 +14723,8 @@ export const worksSeed = [
     "y": -2.65,
     "z": 2.2028,
     "phi": 2.6084,
-    "theta": 2.1196
+    "theta": 2.1196,
+    "year": 2019
   },
   {
     "id": "post-malone-circles",
@@ -13967,7 +14742,8 @@ export const worksSeed = [
     "y": -3.2994,
     "z": 2.2789,
     "phi": 2.5106,
-    "theta": 2.2777
+    "theta": 2.2777,
+    "year": 2019
   },
   {
     "id": "post-malone-hollywood-s-bleeding",
@@ -13985,7 +14761,8 @@ export const worksSeed = [
     "y": -0.7298,
     "z": -2.6612,
     "phi": 5.7254,
-    "theta": 1.715
+    "theta": 1.715,
+    "year": 2020
   },
   {
     "id": "shawn-mendes-stitches",
@@ -14003,7 +14780,8 @@ export const worksSeed = [
     "y": -2.8284,
     "z": 1.7114,
     "phi": 2.724,
-    "theta": 2.1613
+    "theta": 2.1613,
+    "year": 2018
   },
   {
     "id": "shawn-mendes-treat-you-better",
@@ -14021,7 +14799,8 @@ export const worksSeed = [
     "y": -3.0888,
     "z": 0.4386,
     "phi": 3.0326,
-    "theta": 2.2244
+    "theta": 2.2244,
+    "year": 2014
   },
   {
     "id": "shawn-mendes-wonder",
@@ -14039,7 +14818,8 @@ export const worksSeed = [
     "y": -1.8195,
     "z": 0.3244,
     "phi": 3.0731,
-    "theta": 1.9371
+    "theta": 1.9371,
+    "year": 2014
   },
   {
     "id": "shawn-mendes-in-my-blood",
@@ -14057,7 +14837,8 @@ export const worksSeed = [
     "y": -2.8773,
     "z": -1.4794,
     "phi": 3.5028,
-    "theta": 2.1729
+    "theta": 2.1729,
+    "year": 2013
   },
   {
     "id": "sam-smith-stay-with-me",
@@ -14075,7 +14856,8 @@ export const worksSeed = [
     "y": -2.8726,
     "z": 2.0637,
     "phi": 2.6266,
-    "theta": 2.1718
+    "theta": 2.1718,
+    "year": 2016
   },
   {
     "id": "sam-smith-writing-s-on-the-wall",
@@ -14093,7 +14875,8 @@ export const worksSeed = [
     "y": -2.6046,
     "z": 0.0537,
     "phi": 3.1293,
-    "theta": 2.1091
+    "theta": 2.1091,
+    "year": 2014
   },
   {
     "id": "sam-smith-unholy",
@@ -14111,7 +14894,8 @@ export const worksSeed = [
     "y": -3.5298,
     "z": -0.5675,
     "phi": 3.2976,
-    "theta": 2.339
+    "theta": 2.339,
+    "year": 2011
   },
   {
     "id": "sam-smith-in-the-lonely-hour",
@@ -14129,7 +14913,8 @@ export const worksSeed = [
     "y": 1.3919,
     "z": -4.4272,
     "phi": 4.2757,
-    "theta": 1.2932
+    "theta": 1.2932,
+    "year": 2018
   },
   {
     "id": "lizzo-truth-hurts",
@@ -14147,7 +14932,8 @@ export const worksSeed = [
     "y": 1.5917,
     "z": -4.795,
     "phi": 4.8224,
-    "theta": 1.2521
+    "theta": 1.2521,
+    "year": 2023
   },
   {
     "id": "lizzo-good-as-hell",
@@ -14165,7 +14951,8 @@ export const worksSeed = [
     "y": 2.5715,
     "z": -3.3322,
     "phi": 5.419,
-    "theta": 1.04
+    "theta": 1.04,
+    "year": 2018
   },
   {
     "id": "lizzo-about-damn-time",
@@ -14183,7 +14970,8 @@ export const worksSeed = [
     "y": -1.4631,
     "z": 0.1838,
     "phi": 3.1038,
-    "theta": 1.8629
+    "theta": 1.8629,
+    "year": 2023
   },
   {
     "id": "lizzo-cuz-i-love-you",
@@ -14201,7 +14989,8 @@ export const worksSeed = [
     "y": -0.3422,
     "z": -5.0213,
     "phi": 4.849,
-    "theta": 1.6382
+    "theta": 1.6382,
+    "year": 2018
   },
   {
     "id": "bruno-mars-just-the-way-you-are",
@@ -14219,7 +15008,8 @@ export const worksSeed = [
     "y": -2.9404,
     "z": 2.3928,
     "phi": 2.5258,
-    "theta": 2.1881
+    "theta": 2.1881,
+    "year": 2007
   },
   {
     "id": "bruno-mars-uptown-funk",
@@ -14237,7 +15027,8 @@ export const worksSeed = [
     "y": -4.4087,
     "z": -1.4048,
     "phi": 3.7319,
-    "theta": 2.6217
+    "theta": 2.6217,
+    "year": 2008
   },
   {
     "id": "bruno-mars-that-s-what-i-like",
@@ -14255,7 +15046,8 @@ export const worksSeed = [
     "y": -3.5581,
     "z": 0.7474,
     "phi": 2.934,
-    "theta": 2.3468
+    "theta": 2.3468,
+    "year": 2013
   },
   {
     "id": "bruno-mars-24k-magic",
@@ -14273,7 +15065,8 @@ export const worksSeed = [
     "y": -2.7561,
     "z": -0.1071,
     "phi": 3.1667,
-    "theta": 2.1443
+    "theta": 2.1443,
+    "year": 2011
   },
   {
     "id": "bruno-mars-when-i-was-your-man",
@@ -14291,7 +15084,8 @@ export const worksSeed = [
     "y": -3.8214,
     "z": 2.3899,
     "phi": 2.3464,
-    "theta": 2.4222
+    "theta": 2.4222,
+    "year": 2010
   },
   {
     "id": "bruno-mars-locked-out-of-heaven",
@@ -14309,7 +15103,8 @@ export const worksSeed = [
     "y": -3.8332,
     "z": 0.4064,
     "phi": 3.0194,
-    "theta": 2.4258
+    "theta": 2.4258,
+    "year": 2007
   },
   {
     "id": "drake-god-s-plan",
@@ -14327,7 +15122,8 @@ export const worksSeed = [
     "y": -0.963,
     "z": -2.5347,
     "phi": 3.6747,
-    "theta": 1.7615
+    "theta": 1.7615,
+    "year": 2008
   },
   {
     "id": "drake-hotline-bling",
@@ -14345,7 +15141,8 @@ export const worksSeed = [
     "y": -1.6711,
     "z": 0.1288,
     "phi": 3.1147,
-    "theta": 1.906
+    "theta": 1.906,
+    "year": 2015
   },
   {
     "id": "drake-one-dance",
@@ -14363,7 +15160,8 @@ export const worksSeed = [
     "y": -4.1856,
     "z": 1.7753,
     "phi": 2.477,
-    "theta": 2.5391
+    "theta": 2.5391,
+    "year": 2008
   },
   {
     "id": "drake-started-from-the-bottom",
@@ -14381,7 +15179,8 @@ export const worksSeed = [
     "y": -1.2557,
     "z": -0.7768,
     "phi": 3.3001,
-    "theta": 1.8206
+    "theta": 1.8206,
+    "year": 2015
   },
   {
     "id": "drake-nice-for-what",
@@ -14399,7 +15198,8 @@ export const worksSeed = [
     "y": -3.7217,
     "z": -2.2827,
     "phi": 3.8627,
-    "theta": 2.393
+    "theta": 2.393,
+    "year": 2012
   },
   {
     "id": "drake-in-my-feelings",
@@ -14417,7 +15217,8 @@ export const worksSeed = [
     "y": -2.0142,
     "z": 0.7662,
     "phi": 2.9765,
-    "theta": 1.9785
+    "theta": 1.9785,
+    "year": 2013
   },
   {
     "id": "drake-scorpion",
@@ -14435,7 +15236,8 @@ export const worksSeed = [
     "y": 0.3476,
     "z": -3.9184,
     "phi": 5.3994,
-    "theta": 1.5023
+    "theta": 1.5023,
+    "year": 2012
   },
   {
     "id": "drake-thank-me-later",
@@ -14453,7 +15255,8 @@ export const worksSeed = [
     "y": 3.0056,
     "z": -3.9841,
     "phi": 4.9462,
-    "theta": 0.9377
+    "theta": 0.9377,
+    "year": 2007
   },
   {
     "id": "drake-nothing-was-the-same",
@@ -14471,7 +15274,8 @@ export const worksSeed = [
     "y": 0.1759,
     "z": -4.0743,
     "phi": 5.3517,
-    "theta": 1.5362
+    "theta": 1.5362,
+    "year": 2007
   },
   {
     "id": "cardi-b-bodak-yellow",
@@ -14489,7 +15293,8 @@ export const worksSeed = [
     "y": -4.0573,
     "z": -2.2588,
     "phi": 3.973,
-    "theta": 2.4959
+    "theta": 2.4959,
+    "year": 2019
   },
   {
     "id": "cardi-b-i-like-it",
@@ -14507,7 +15312,8 @@ export const worksSeed = [
     "y": -1.6793,
     "z": 0.2626,
     "phi": 3.0868,
-    "theta": 1.9077
+    "theta": 1.9077,
+    "year": 2021
   },
   {
     "id": "cardi-b-wap",
@@ -14525,7 +15331,8 @@ export const worksSeed = [
     "y": -3.457,
     "z": 3.201,
     "phi": 2.1064,
-    "theta": 2.3193
+    "theta": 2.3193,
+    "year": 2015
   },
   {
     "id": "cardi-b-invasion-of-privacy",
@@ -14543,7 +15350,8 @@ export const worksSeed = [
     "y": -1.4286,
     "z": -0.0486,
     "phi": 3.1516,
-    "theta": 1.8559
+    "theta": 1.8559,
+    "year": 2022
   },
   {
     "id": "nicki-minaj-super-bass",
@@ -14561,7 +15369,8 @@ export const worksSeed = [
     "y": -2.6458,
     "z": 2.9645,
     "phi": 2.3889,
-    "theta": 2.1186
+    "theta": 2.1186,
+    "year": 2010
   },
   {
     "id": "nicki-minaj-anaconda",
@@ -14579,7 +15388,8 @@ export const worksSeed = [
     "y": -2.4265,
     "z": -0.2378,
     "phi": 3.1949,
-    "theta": 2.0688
+    "theta": 2.0688,
+    "year": 2015
   },
   {
     "id": "nicki-minaj-starships",
@@ -14597,7 +15407,8 @@ export const worksSeed = [
     "y": -0.1168,
     "z": 0.8847,
     "phi": 2.9665,
-    "theta": 1.5938
+    "theta": 1.5938,
+    "year": 2009
   },
   {
     "id": "nicki-minaj-pink-friday",
@@ -14615,7 +15426,8 @@ export const worksSeed = [
     "y": -2.2674,
     "z": -0.0587,
     "phi": 3.1545,
-    "theta": 2.0335
+    "theta": 2.0335,
+    "year": 2011
   },
   {
     "id": "nicki-minaj-the-pinkprint",
@@ -14633,7 +15445,8 @@ export const worksSeed = [
     "y": -0.0463,
     "z": -0.6304,
     "phi": 3.266,
-    "theta": 1.5799
+    "theta": 1.5799,
+    "year": 2008
   },
   {
     "id": "lil-wayne-lollipop",
@@ -14651,7 +15464,8 @@ export const worksSeed = [
     "y": -4.6545,
     "z": -1.805,
     "phi": 5.1926,
-    "theta": 2.7294
+    "theta": 2.7294,
+    "year": 2003
   },
   {
     "id": "lil-wayne-a-milli",
@@ -14669,7 +15483,8 @@ export const worksSeed = [
     "y": -3.9267,
     "z": 1.294,
     "phi": 2.7284,
-    "theta": 2.4543
+    "theta": 2.4543,
+    "year": 2005
   },
   {
     "id": "lil-wayne-how-to-love",
@@ -14687,7 +15502,8 @@ export const worksSeed = [
     "y": -1.2121,
     "z": 0.2882,
     "phi": 3.0831,
-    "theta": 1.8117
+    "theta": 1.8117,
+    "year": 2002
   },
   {
     "id": "lil-wayne-tha-carter-iv",
@@ -14705,7 +15521,8 @@ export const worksSeed = [
     "y": -4.1683,
     "z": 0.6346,
     "phi": 2.9213,
-    "theta": 2.5331
+    "theta": 2.5331,
+    "year": 2003
   },
   {
     "id": "travis-scott-sicko-mode",
@@ -14723,7 +15540,8 @@ export const worksSeed = [
     "y": -4.2197,
     "z": 2.7308,
     "phi": 1.8345,
-    "theta": 2.5511
+    "theta": 2.5511,
+    "year": 2016
   },
   {
     "id": "travis-scott-goosebumps",
@@ -14741,7 +15559,8 @@ export const worksSeed = [
     "y": -4.8873,
     "z": 0.7332,
     "phi": 2.5841,
-    "theta": 2.8653
+    "theta": 2.8653,
+    "year": 2019
   },
   {
     "id": "travis-scott-antidote",
@@ -14759,7 +15578,8 @@ export const worksSeed = [
     "y": -2.2728,
     "z": 1.7089,
     "phi": 2.756,
-    "theta": 2.0346
+    "theta": 2.0346,
+    "year": 2020
   },
   {
     "id": "travis-scott-astroworld",
@@ -14777,7 +15597,8 @@ export const worksSeed = [
     "y": 1.5188,
     "z": -4.8416,
     "phi": 4.6625,
-    "theta": 1.2672
+    "theta": 1.2672,
+    "year": 2021
   },
   {
     "id": "travis-scott-utopia",
@@ -14795,7 +15616,8 @@ export const worksSeed = [
     "y": 0.8897,
     "z": -4.2161,
     "phi": 5.2804,
-    "theta": 1.3947
+    "theta": 1.3947,
+    "year": 2019
   },
   {
     "id": "migos-bad-and-boujee",
@@ -14813,7 +15635,8 @@ export const worksSeed = [
     "y": -5.0435,
     "z": 0.0644,
     "phi": 3.0355,
-    "theta": 3.0216
+    "theta": 3.0216,
+    "year": 2017
   },
   {
     "id": "migos-walk-it-talk-it",
@@ -14831,7 +15654,8 @@ export const worksSeed = [
     "y": -1.6105,
     "z": -2.5102,
     "phi": 3.6896,
-    "theta": 1.8934
+    "theta": 1.8934,
+    "year": 2021
   },
   {
     "id": "migos-culture",
@@ -14849,7 +15673,8 @@ export const worksSeed = [
     "y": -2.9752,
     "z": 0.8953,
     "phi": 2.9224,
-    "theta": 2.1965
+    "theta": 2.1965,
+    "year": 2014
   },
   {
     "id": "lil-nas-x-old-town-road",
@@ -14867,7 +15692,8 @@ export const worksSeed = [
     "y": -2.7612,
     "z": 4.2565,
     "phi": 1.5112,
-    "theta": 2.1454
+    "theta": 2.1454,
+    "year": 2024
   },
   {
     "id": "lil-nas-x-montero",
@@ -14885,7 +15711,8 @@ export const worksSeed = [
     "y": -3.7015,
     "z": 1.8777,
     "phi": 2.5715,
-    "theta": 2.3871
+    "theta": 2.3871,
+    "year": 2023
   },
   {
     "id": "lil-nas-x-industry-baby",
@@ -14903,7 +15730,8 @@ export const worksSeed = [
     "y": -1.6555,
     "z": 1.6252,
     "phi": 2.7964,
-    "theta": 1.9028
+    "theta": 1.9028,
+    "year": 2022
   },
   {
     "id": "eminem-lose-yourself",
@@ -14921,7 +15749,8 @@ export const worksSeed = [
     "y": 1.1067,
     "z": -2.2111,
     "phi": 3.6038,
-    "theta": 1.3512
+    "theta": 1.3512,
+    "year": 1999
   },
   {
     "id": "eminem-slim-shady-lp",
@@ -14939,7 +15768,8 @@ export const worksSeed = [
     "y": 1.7576,
     "z": -4.7528,
     "phi": 4.7876,
-    "theta": 1.2175
+    "theta": 1.2175,
+    "year": 2002
   },
   {
     "id": "eminem-marshall-mathers-lp",
@@ -14957,7 +15787,8 @@ export const worksSeed = [
     "y": 0.5793,
     "z": -5.0309,
     "phi": 4.792,
-    "theta": 1.4565
+    "theta": 1.4565,
+    "year": 2003
   },
   {
     "id": "eminem-recovery",
@@ -14975,7 +15806,8 @@ export const worksSeed = [
     "y": -3.266,
     "z": -0.8481,
     "phi": 3.3613,
-    "theta": 2.2691
+    "theta": 2.2691,
+    "year": 2001
   },
   {
     "id": "eminem-the-marshall-mathers-lp-2",
@@ -14993,7 +15825,8 @@ export const worksSeed = [
     "y": 4.0096,
     "z": -3.0979,
     "phi": 4.5954,
-    "theta": 0.6611
+    "theta": 0.6611,
+    "year": 2002
   },
   {
     "id": "eminem-encore",
@@ -15011,7 +15844,8 @@ export const worksSeed = [
     "y": -3.4231,
     "z": 3.0611,
     "phi": 2.1879,
-    "theta": 2.3102
+    "theta": 2.3102,
+    "year": 1996
   },
   {
     "id": "eminem-relapse",
@@ -15029,7 +15863,8 @@ export const worksSeed = [
     "y": 0.8602,
     "z": -2.6241,
     "phi": 5.7315,
-    "theta": 1.4007
+    "theta": 1.4007,
+    "year": 1998
   },
   {
     "id": "eminem-kamikaze",
@@ -15047,7 +15882,8 @@ export const worksSeed = [
     "y": 1.3719,
     "z": -1.4048,
     "phi": 5.9919,
-    "theta": 1.2973
+    "theta": 1.2973,
+    "year": 1996
   },
   {
     "id": "jay-z-99-problems",
@@ -15065,7 +15901,8 @@ export const worksSeed = [
     "y": 0.9443,
     "z": -4.8365,
     "phi": 4.9622,
-    "theta": 1.3838
+    "theta": 1.3838,
+    "year": 1993
   },
   {
     "id": "jay-z-empire-state-of-mind",
@@ -15083,7 +15920,8 @@ export const worksSeed = [
     "y": 0.6733,
     "z": -4.738,
     "phi": 4.3671,
-    "theta": 1.4379
+    "theta": 1.4379,
+    "year": 2000
   },
   {
     "id": "jay-z-reasonable-doubt",
@@ -15101,7 +15939,8 @@ export const worksSeed = [
     "y": 2.8945,
     "z": -3.224,
     "phi": 5.4008,
-    "theta": 0.9646
+    "theta": 0.9646,
+    "year": 1996
   },
   {
     "id": "jay-z-4-44",
@@ -15119,7 +15958,8 @@ export const worksSeed = [
     "y": 0.9589,
     "z": -4.7413,
     "phi": 5.0286,
-    "theta": 1.3809
+    "theta": 1.3809,
+    "year": 1999
   },
   {
     "id": "jay-z-the-black-album",
@@ -15137,7 +15977,8 @@ export const worksSeed = [
     "y": -0.1596,
     "z": -4.2714,
     "phi": 5.2836,
-    "theta": 1.6022
+    "theta": 1.6022,
+    "year": 1994
   },
   {
     "id": "50-cent-in-da-club",
@@ -15155,7 +15996,8 @@ export const worksSeed = [
     "y": -2.6645,
     "z": -1.4219,
     "phi": 3.4766,
-    "theta": 2.1229
+    "theta": 2.1229,
+    "year": 2005
   },
   {
     "id": "50-cent-candy-shop",
@@ -15173,7 +16015,8 @@ export const worksSeed = [
     "y": -0.5575,
     "z": 2.2639,
     "phi": 2.6767,
-    "theta": 1.6808
+    "theta": 1.6808,
+    "year": 2002
   },
   {
     "id": "50-cent-get-rich-or-die-tryin",
@@ -15191,7 +16034,8 @@ export const worksSeed = [
     "y": -1.4019,
     "z": -3.9453,
     "phi": 5.3424,
-    "theta": 1.8504
+    "theta": 1.8504,
+    "year": 2004
   },
   {
     "id": "chance-the-rapper-coloring-book",
@@ -15209,7 +16053,8 @@ export const worksSeed = [
     "y": 2.4089,
     "z": -4.2561,
     "phi": 5.0247,
-    "theta": 1.0767
+    "theta": 1.0767,
+    "year": 2011
   },
   {
     "id": "chance-the-rapper-acid-rap",
@@ -15227,7 +16072,8 @@ export const worksSeed = [
     "y": 1.8226,
     "z": -4.5116,
     "phi": 5.0252,
-    "theta": 1.2038
+    "theta": 1.2038,
+    "year": 2016
   },
   {
     "id": "chance-the-rapper-no-problem",
@@ -15245,7 +16091,8 @@ export const worksSeed = [
     "y": 1.7664,
     "z": -3.0437,
     "phi": 5.59,
-    "theta": 1.2157
+    "theta": 1.2157,
+    "year": 2018
   },
   {
     "id": "j-cole-no-role-modelz",
@@ -15263,7 +16110,8 @@ export const worksSeed = [
     "y": 3.4063,
     "z": -3.6441,
     "phi": 4.4545,
-    "theta": 0.8359
+    "theta": 0.8359,
+    "year": 2009
   },
   {
     "id": "j-cole-love-yourz",
@@ -15281,7 +16129,8 @@ export const worksSeed = [
     "y": 2.2589,
     "z": -2.5439,
     "phi": 5.6899,
-    "theta": 1.11
+    "theta": 1.11,
+    "year": 2015
   },
   {
     "id": "j-cole-kod",
@@ -15299,7 +16148,8 @@ export const worksSeed = [
     "y": 1.2473,
     "z": -4.8733,
     "phi": 4.8567,
-    "theta": 1.3227
+    "theta": 1.3227,
+    "year": 2010
   },
   {
     "id": "j-cole-2014-forest-hills-drive",
@@ -15317,7 +16167,8 @@ export const worksSeed = [
     "y": 1.0166,
     "z": -4.9029,
     "phi": 4.5394,
-    "theta": 1.3693
+    "theta": 1.3693,
+    "year": 2009
   },
   {
     "id": "j-cole-born-sinner",
@@ -15335,7 +16186,8 @@ export const worksSeed = [
     "y": 1.5945,
     "z": -3.3633,
     "phi": 5.5115,
-    "theta": 1.2515
+    "theta": 1.2515,
+    "year": 2009
   },
   {
     "id": "u2-with-or-without-you",
@@ -15353,7 +16205,8 @@ export const worksSeed = [
     "y": 4.494,
     "z": 1.6142,
     "phi": 0.7498,
-    "theta": 0.4851
+    "theta": 0.4851,
+    "year": 1987
   },
   {
     "id": "u2-one",
@@ -15371,7 +16224,8 @@ export const worksSeed = [
     "y": 4.038,
     "z": 2.3809,
     "phi": 0.8827,
-    "theta": 0.652
+    "theta": 0.652,
+    "year": 1992
   },
   {
     "id": "u2-sunday-bloody-sunday",
@@ -15389,7 +16243,8 @@ export const worksSeed = [
     "y": 4.1029,
     "z": 1.3834,
     "phi": 0.4801,
-    "theta": 0.6306
+    "theta": 0.6306,
+    "year": 1985
   },
   {
     "id": "u2-where-the-streets-have-no-name",
@@ -15407,7 +16262,8 @@ export const worksSeed = [
     "y": 0.787,
     "z": -0.8996,
     "phi": -0.1802,
-    "theta": 1.4153
+    "theta": 1.4153,
+    "year": 1990
   },
   {
     "id": "u2-the-joshua-tree",
@@ -15425,7 +16281,8 @@ export const worksSeed = [
     "y": 3.642,
     "z": 2.7262,
     "phi": 0.8785,
-    "theta": 0.7714
+    "theta": 0.7714,
+    "year": 1985
   },
   {
     "id": "u2-achtung-baby",
@@ -15443,7 +16300,8 @@ export const worksSeed = [
     "y": 3.19,
     "z": 1.8686,
     "phi": 0.4923,
-    "theta": 0.8919
+    "theta": 0.8919,
+    "year": 1985
   },
   {
     "id": "u2-zooropa",
@@ -15461,7 +16319,8 @@ export const worksSeed = [
     "y": 2.2709,
     "z": 1.8073,
     "phi": 0.409,
-    "theta": 1.1074
+    "theta": 1.1074,
+    "year": 1992
   },
   {
     "id": "u2-pop",
@@ -15479,7 +16338,8 @@ export const worksSeed = [
     "y": 2.9203,
     "z": 3.199,
     "phi": 0.8782,
-    "theta": 0.9584
+    "theta": 0.9584,
+    "year": 1989
   },
   {
     "id": "muse-uprising",
@@ -15497,7 +16357,8 @@ export const worksSeed = [
     "y": 2.22,
     "z": -4.4985,
     "phi": 4.8886,
-    "theta": 1.1185
+    "theta": 1.1185,
+    "year": 2006
   },
   {
     "id": "muse-madness",
@@ -15515,7 +16376,8 @@ export const worksSeed = [
     "y": 3.2587,
     "z": -3.5745,
     "phi": 5.1222,
-    "theta": 0.8744
+    "theta": 0.8744,
+    "year": 2000
   },
   {
     "id": "muse-supermassive-black-hole",
@@ -15533,7 +16395,8 @@ export const worksSeed = [
     "y": 2.9847,
     "z": -4.0654,
     "phi": 4.8609,
-    "theta": 0.9428
+    "theta": 0.9428,
+    "year": 2004
   },
   {
     "id": "muse-knights-of-cydonia",
@@ -15551,7 +16414,8 @@ export const worksSeed = [
     "y": 3.5797,
     "z": 2.6091,
     "phi": 0.8094,
-    "theta": 0.7888
+    "theta": 0.7888,
+    "year": 2003
   },
   {
     "id": "muse-origin-of-symmetry",
@@ -15569,7 +16433,8 @@ export const worksSeed = [
     "y": 4.2973,
     "z": 1.4736,
     "phi": 0.5751,
-    "theta": 0.5625
+    "theta": 0.5625,
+    "year": 2006
   },
   {
     "id": "muse-absolution",
@@ -15587,7 +16452,8 @@ export const worksSeed = [
     "y": 2.1935,
     "z": 2.5895,
     "phi": 0.6006,
-    "theta": 1.1243
+    "theta": 1.1243,
+    "year": 1998
   },
   {
     "id": "muse-black-holes-and-revelations",
@@ -15605,7 +16471,8 @@ export const worksSeed = [
     "y": 3.3134,
     "z": 2.1577,
     "phi": 0.5948,
-    "theta": 0.8603
+    "theta": 0.8603,
+    "year": 2003
   },
   {
     "id": "muse-the-resistance",
@@ -15623,7 +16490,8 @@ export const worksSeed = [
     "y": 3.7339,
     "z": 3.2049,
     "phi": 1.1957,
-    "theta": 0.7451
+    "theta": 0.7451,
+    "year": 2006
   },
   {
     "id": "foo-fighters-everlong",
@@ -15641,7 +16509,8 @@ export const worksSeed = [
     "y": 1.842,
     "z": 3.6597,
     "phi": 0.8836,
-    "theta": 1.1997
+    "theta": 1.1997,
+    "year": 1999
   },
   {
     "id": "foo-fighters-best-of-you",
@@ -15659,7 +16528,8 @@ export const worksSeed = [
     "y": 0.3845,
     "z": -4.3594,
     "phi": 5.2467,
-    "theta": 1.495
+    "theta": 1.495,
+    "year": 1994
   },
   {
     "id": "foo-fighters-the-pretender",
@@ -15677,7 +16547,8 @@ export const worksSeed = [
     "y": 4.3119,
     "z": 1.4413,
     "phi": 0.5664,
-    "theta": 0.5571
+    "theta": 0.5571,
+    "year": 1992
   },
   {
     "id": "foo-fighters-learn-to-fly",
@@ -15695,7 +16566,8 @@ export const worksSeed = [
     "y": 3.6341,
     "z": -3.498,
     "phi": 4.8831,
-    "theta": 0.7736
+    "theta": 0.7736,
+    "year": 1993
   },
   {
     "id": "foo-fighters-there-is-nothing-left-to-lose",
@@ -15713,7 +16585,8 @@ export const worksSeed = [
     "y": 0.5808,
     "z": 2.5611,
     "phi": 0.5323,
-    "theta": 1.4562
+    "theta": 1.4562,
+    "year": 1996
   },
   {
     "id": "foo-fighters-the-colour-and-the-shape",
@@ -15731,7 +16604,8 @@ export const worksSeed = [
     "y": 4.2191,
     "z": 1.6394,
     "phi": 0.618,
-    "theta": 0.5907
+    "theta": 0.5907,
+    "year": 1999
   },
   {
     "id": "green-day-boulevard-of-broken-dreams",
@@ -15749,7 +16623,8 @@ export const worksSeed = [
     "y": 0.8467,
     "z": -3.7852,
     "phi": 5.4265,
-    "theta": 1.4033
+    "theta": 1.4033,
+    "year": 1996
   },
   {
     "id": "green-day-american-idiot",
@@ -15767,7 +16642,8 @@ export const worksSeed = [
     "y": 2.0279,
     "z": 2.4619,
     "phi": 0.5569,
-    "theta": 1.1602
+    "theta": 1.1602,
+    "year": 1999
   },
   {
     "id": "green-day-good-riddance",
@@ -15785,7 +16661,8 @@ export const worksSeed = [
     "y": 1.2014,
     "z": -4.8988,
     "phi": 4.835,
-    "theta": 1.332
+    "theta": 1.332,
+    "year": 1996
   },
   {
     "id": "green-day-wake-me-up-when-september-ends",
@@ -15803,7 +16680,8 @@ export const worksSeed = [
     "y": 1.7152,
     "z": -4.7744,
     "phi": 4.7676,
-    "theta": 1.2264
+    "theta": 1.2264,
+    "year": 1995
   },
   {
     "id": "green-day-american-idiot-album",
@@ -15821,7 +16699,8 @@ export const worksSeed = [
     "y": 1.7927,
     "z": 3.3625,
     "phi": 0.7858,
-    "theta": 1.2101
+    "theta": 1.2101,
+    "year": 1992
   },
   {
     "id": "green-day-dookie",
@@ -15839,7 +16718,8 @@ export const worksSeed = [
     "y": 0.0283,
     "z": 4.9552,
     "phi": 1.3488,
-    "theta": 1.5652
+    "theta": 1.5652,
+    "year": 1994
   },
   {
     "id": "red-hot-chili-peppers-under-the-bridge",
@@ -15857,7 +16737,8 @@ export const worksSeed = [
     "y": 3.8256,
     "z": 1.356,
     "phi": 0.4177,
-    "theta": 0.7181
+    "theta": 0.7181,
+    "year": 1989
   },
   {
     "id": "red-hot-chili-peppers-californication",
@@ -15875,7 +16756,8 @@ export const worksSeed = [
     "y": 1.4224,
     "z": 1.2111,
     "phi": 0.251,
-    "theta": 1.287
+    "theta": 1.287,
+    "year": 1990
   },
   {
     "id": "red-hot-chili-peppers-by-the-way",
@@ -15893,7 +16775,8 @@ export const worksSeed = [
     "y": 2.4479,
     "z": -3.7077,
     "phi": 4.126,
-    "theta": 1.068
+    "theta": 1.068,
+    "year": 1995
   },
   {
     "id": "red-hot-chili-peppers-scar-tissue",
@@ -15911,7 +16794,8 @@ export const worksSeed = [
     "y": 1.3863,
     "z": -4.6656,
     "phi": 5.0146,
-    "theta": 1.2944
+    "theta": 1.2944,
+    "year": 1995
   },
   {
     "id": "red-hot-chili-peppers-blood-sugar-sex-magik",
@@ -15929,7 +16813,8 @@ export const worksSeed = [
     "y": 2.7245,
     "z": 1.1315,
     "phi": 0.2671,
-    "theta": 1.0047
+    "theta": 1.0047,
+    "year": 1989
   },
   {
     "id": "red-hot-chili-peppers-californication-album",
@@ -15947,7 +16832,8 @@ export const worksSeed = [
     "y": 4.2002,
     "z": 1.8107,
     "phi": 0.6863,
-    "theta": 0.5974
+    "theta": 0.5974,
+    "year": 1994
   },
   {
     "id": "linkin-park-in-the-end",
@@ -15965,7 +16851,8 @@ export const worksSeed = [
     "y": 0.5491,
     "z": -3.4117,
     "phi": 5.5415,
-    "theta": 1.4625
+    "theta": 1.4625,
+    "year": 2005
   },
   {
     "id": "linkin-park-numb",
@@ -15983,7 +16870,8 @@ export const worksSeed = [
     "y": 0.5045,
     "z": -2.8144,
     "phi": 5.6927,
-    "theta": 1.4713
+    "theta": 1.4713,
+    "year": 1999
   },
   {
     "id": "linkin-park-crawling",
@@ -16001,7 +16889,8 @@ export const worksSeed = [
     "y": 4.1818,
     "z": -2.8153,
     "phi": 4.9314,
-    "theta": 0.6038
+    "theta": 0.6038,
+    "year": 2002
   },
   {
     "id": "linkin-park-hybrid-theory",
@@ -16019,7 +16908,8 @@ export const worksSeed = [
     "y": 2.443,
     "z": 3.6356,
     "phi": 0.9549,
-    "theta": 1.0691
+    "theta": 1.0691,
+    "year": 1997
   },
   {
     "id": "linkin-park-meteora",
@@ -16037,7 +16927,8 @@ export const worksSeed = [
     "y": 4.2895,
     "z": 0.2053,
     "phi": 0.0755,
-    "theta": 0.5654
+    "theta": 0.5654,
+    "year": 1999
   },
   {
     "id": "linkin-park-minutes-to-midnight",
@@ -16055,7 +16946,8 @@ export const worksSeed = [
     "y": 3.5448,
     "z": -3.3419,
     "phi": 5.1191,
-    "theta": 0.7985
+    "theta": 0.7985,
+    "year": 2002
   },
   {
     "id": "arctic-monkeys-do-i-wanna-know",
@@ -16073,7 +16965,8 @@ export const worksSeed = [
     "y": 4.6188,
     "z": 1.5324,
     "phi": 0.8103,
-    "theta": 0.4294
+    "theta": 0.4294,
+    "year": 2010
   },
   {
     "id": "arctic-monkeys-r-u-mine",
@@ -16091,7 +16984,8 @@ export const worksSeed = [
     "y": 4.0067,
     "z": 1.1678,
     "phi": 0.3833,
-    "theta": 0.6621
+    "theta": 0.6621,
+    "year": 2005
   },
   {
     "id": "arctic-monkeys-i-bet-you-look-good-on-the-dancefloor",
@@ -16109,7 +17003,8 @@ export const worksSeed = [
     "y": 3.3734,
     "z": 1.1855,
     "phi": 0.3174,
-    "theta": 0.8446
+    "theta": 0.8446,
+    "year": 2006
   },
   {
     "id": "arctic-monkeys-whatever-people-say-i-am",
@@ -16127,7 +17022,8 @@ export const worksSeed = [
     "y": 4.3141,
     "z": 2.2474,
     "phi": 0.9933,
-    "theta": 0.5563
+    "theta": 0.5563,
+    "year": 2009
   },
   {
     "id": "arctic-monkeys-favourite-worst-nightmare",
@@ -16145,7 +17041,8 @@ export const worksSeed = [
     "y": 4.3604,
     "z": 1.4243,
     "phi": 0.5781,
-    "theta": 0.5388
+    "theta": 0.5388,
+    "year": 2004
   },
   {
     "id": "arctic-monkeys-humbug",
@@ -16163,7 +17060,8 @@ export const worksSeed = [
     "y": 3.0817,
     "z": 3.005,
     "phi": 0.8392,
-    "theta": 0.919
+    "theta": 0.919,
+    "year": 2011
   },
   {
     "id": "arctic-monkeys-am",
@@ -16181,7 +17079,8 @@ export const worksSeed = [
     "y": 2.4833,
     "z": 3.1809,
     "phi": 0.8006,
-    "theta": 1.06
+    "theta": 1.06,
+    "year": 2010
   },
   {
     "id": "arctic-monkeys-tranquility-base-hotel",
@@ -16199,7 +17098,8 @@ export const worksSeed = [
     "y": 3.4968,
     "z": 2.1798,
     "phi": 0.633,
-    "theta": 0.8116
+    "theta": 0.8116,
+    "year": 2007
   },
   {
     "id": "the-strokes-last-nite",
@@ -16217,7 +17117,8 @@ export const worksSeed = [
     "y": 3.4521,
     "z": 1.6696,
     "phi": 0.4645,
-    "theta": 0.8237
+    "theta": 0.8237,
+    "year": 2004
   },
   {
     "id": "the-strokes-reptilia",
@@ -16235,7 +17136,8 @@ export const worksSeed = [
     "y": 3.2961,
     "z": 1.4816,
     "phi": 0.3933,
-    "theta": 0.8648
+    "theta": 0.8648,
+    "year": 1999
   },
   {
     "id": "the-strokes-is-this-it",
@@ -16253,7 +17155,8 @@ export const worksSeed = [
     "y": 4.416,
     "z": 0.8621,
     "phi": 0.3504,
-    "theta": 0.517
+    "theta": 0.517,
+    "year": 2002
   },
   {
     "id": "the-strokes-room-on-fire",
@@ -16271,7 +17174,8 @@ export const worksSeed = [
     "y": 2.4645,
     "z": 4.044,
     "phi": 1.1442,
-    "theta": 1.0643
+    "theta": 1.0643,
+    "year": 2000
   },
   {
     "id": "the-strokes-first-impressions-of-earth",
@@ -16289,7 +17193,8 @@ export const worksSeed = [
     "y": 3.2422,
     "z": 1.8918,
     "phi": 0.5049,
-    "theta": 0.8786
+    "theta": 0.8786,
+    "year": 1998
   },
   {
     "id": "metallica-enter-sandman",
@@ -16307,7 +17212,8 @@ export const worksSeed = [
     "y": 4.1733,
     "z": 1.8275,
     "phi": 0.6827,
-    "theta": 0.6067
+    "theta": 0.6067,
+    "year": 1983
   },
   {
     "id": "metallica-nothing-else-matters",
@@ -16325,7 +17231,8 @@ export const worksSeed = [
     "y": 0.9115,
     "z": -4.9854,
     "phi": 4.6427,
-    "theta": 1.3904
+    "theta": 1.3904,
+    "year": 1991
   },
   {
     "id": "metallica-one",
@@ -16343,7 +17250,8 @@ export const worksSeed = [
     "y": 1.4725,
     "z": 3.777,
     "phi": 0.8897,
-    "theta": 1.2767
+    "theta": 1.2767,
+    "year": 1984
   },
   {
     "id": "metallica-master-of-puppets",
@@ -16361,7 +17269,8 @@ export const worksSeed = [
     "y": 2.3135,
     "z": 2.3224,
     "phi": 0.5393,
-    "theta": 1.098
+    "theta": 1.098,
+    "year": 1991
   },
   {
     "id": "metallica-ride-the-lightning",
@@ -16379,7 +17288,8 @@ export const worksSeed = [
     "y": 2.6908,
     "z": 2.9595,
     "phi": 0.7572,
-    "theta": 1.0126
+    "theta": 1.0126,
+    "year": 1991
   },
   {
     "id": "metallica-the-black-album",
@@ -16397,7 +17307,8 @@ export const worksSeed = [
     "y": 4.0815,
     "z": 2.9582,
     "phi": 1.7805,
-    "theta": 0.6377
+    "theta": 0.6377,
+    "year": 1990
   },
   {
     "id": "pearl-jam-even-flow",
@@ -16415,7 +17326,8 @@ export const worksSeed = [
     "y": 2.88,
     "z": 2.7567,
     "phi": 0.7191,
-    "theta": 0.968
+    "theta": 0.968,
+    "year": 1996
   },
   {
     "id": "pearl-jam-jeremy",
@@ -16433,7 +17345,8 @@ export const worksSeed = [
     "y": 4.2705,
     "z": 1.3268,
     "phi": 0.5032,
-    "theta": 0.5723
+    "theta": 0.5723,
+    "year": 1989
   },
   {
     "id": "pearl-jam-black",
@@ -16451,7 +17364,8 @@ export const worksSeed = [
     "y": 3.2355,
     "z": 2.2304,
     "phi": 0.6059,
-    "theta": 0.8803
+    "theta": 0.8803,
+    "year": 1989
   },
   {
     "id": "pearl-jam-ten",
@@ -16469,7 +17383,8 @@ export const worksSeed = [
     "y": 2.7625,
     "z": 3.1337,
     "phi": 0.8258,
-    "theta": 0.9958
+    "theta": 0.9958,
+    "year": 1990
   },
   {
     "id": "pearl-jam-vs",
@@ -16487,7 +17402,8 @@ export const worksSeed = [
     "y": 2.1693,
     "z": 2.3075,
     "phi": 0.5263,
-    "theta": 1.1296
+    "theta": 1.1296,
+    "year": 1993
   },
   {
     "id": "smashing-pumpkins-bullet-with-butterfly-wings",
@@ -16505,7 +17421,8 @@ export const worksSeed = [
     "y": 2.8096,
     "z": 1.9615,
     "phi": 0.4819,
-    "theta": 0.9847
+    "theta": 0.9847,
+    "year": 1992
   },
   {
     "id": "smashing-pumpkins-today",
@@ -16523,7 +17440,8 @@ export const worksSeed = [
     "y": 3.5477,
     "z": 3.1517,
     "phi": 1.0488,
-    "theta": 0.7977
+    "theta": 0.7977,
+    "year": 1996
   },
   {
     "id": "smashing-pumpkins-tonight-tonight",
@@ -16541,7 +17459,8 @@ export const worksSeed = [
     "y": 1.4129,
     "z": 2.4912,
     "phi": 0.5358,
-    "theta": 1.289
+    "theta": 1.289,
+    "year": 1992
   },
   {
     "id": "smashing-pumpkins-siamese-dream",
@@ -16559,7 +17478,8 @@ export const worksSeed = [
     "y": 3.343,
     "z": 1.1138,
     "phi": 0.2955,
-    "theta": 0.8526
+    "theta": 0.8526,
+    "year": 1992
   },
   {
     "id": "smashing-pumpkins-mellon-collie",
@@ -16577,7 +17497,8 @@ export const worksSeed = [
     "y": 4.5325,
     "z": 0.4933,
     "phi": 0.2167,
-    "theta": 0.4686
+    "theta": 0.4686,
+    "year": 1994
   },
   {
     "id": "oasis-wonderwall",
@@ -16595,7 +17516,8 @@ export const worksSeed = [
     "y": -0.5495,
     "z": -4.84,
     "phi": 5.0019,
-    "theta": 1.6792
+    "theta": 1.6792,
+    "year": 1996
   },
   {
     "id": "oasis-don-t-look-back-in-anger",
@@ -16613,7 +17535,8 @@ export const worksSeed = [
     "y": 0.3654,
     "z": -2.7549,
     "phi": 5.7083,
-    "theta": 1.4988
+    "theta": 1.4988,
+    "year": 1997
   },
   {
     "id": "oasis-champagne-supernova",
@@ -16631,7 +17554,8 @@ export const worksSeed = [
     "y": 4.0137,
     "z": 2.5706,
     "phi": 0.9711,
-    "theta": 0.6598
+    "theta": 0.6598,
+    "year": 1995
   },
   {
     "id": "oasis-live-forever",
@@ -16649,7 +17573,8 @@ export const worksSeed = [
     "y": 1.2901,
     "z": -1.1062,
     "phi": -0.2271,
-    "theta": 1.314
+    "theta": 1.314,
+    "year": 1996
   },
   {
     "id": "oasis-definitely-maybe",
@@ -16667,7 +17592,8 @@ export const worksSeed = [
     "y": 2.9066,
     "z": 1.7791,
     "phi": 0.4412,
-    "theta": 0.9617
+    "theta": 0.9617,
+    "year": 1999
   },
   {
     "id": "oasis-what-s-the-story-morning-glory",
@@ -16685,7 +17611,8 @@ export const worksSeed = [
     "y": 3.4207,
     "z": 2.7132,
     "phi": 0.8073,
-    "theta": 0.832
+    "theta": 0.832,
+    "year": 1993
   },
   {
     "id": "m-pokora-envole-moi",
@@ -16703,7 +17630,8 @@ export const worksSeed = [
     "y": -3.1689,
     "z": 1.8775,
     "phi": 2.6491,
-    "theta": 2.2444
+    "theta": 2.2444,
+    "year": 2002
   },
   {
     "id": "m-pokora-on-est-là",
@@ -16721,7 +17649,8 @@ export const worksSeed = [
     "y": -0.9445,
     "z": -0.2661,
     "phi": 3.1949,
-    "theta": 1.7578
+    "theta": 1.7578,
+    "year": 2003
   },
   {
     "id": "m-pokora-juste-une-photo-de-toi",
@@ -16739,7 +17668,8 @@ export const worksSeed = [
     "y": -4.7262,
     "z": 0.1106,
     "phi": 3.0822,
-    "theta": 2.7662
+    "theta": 2.7662,
+    "year": 2003
   },
   {
     "id": "aya-nakamura-djadja",
@@ -16757,7 +17687,8 @@ export const worksSeed = [
     "y": -2.7719,
     "z": 4.0656,
     "phi": 1.8719,
-    "theta": 2.148
+    "theta": 2.148,
+    "year": 2021
   },
   {
     "id": "aya-nakamura-pookie",
@@ -16775,7 +17706,8 @@ export const worksSeed = [
     "y": -3.5603,
     "z": 2.5286,
     "phi": 2.3693,
-    "theta": 2.3474
+    "theta": 2.3474,
+    "year": 2022
   },
   {
     "id": "aya-nakamura-copines",
@@ -16793,7 +17725,8 @@ export const worksSeed = [
     "y": -4.1715,
     "z": 1.0838,
     "phi": 2.7585,
-    "theta": 2.5342
+    "theta": 2.5342,
+    "year": 2018
   },
   {
     "id": "aya-nakamura-jolie-nana",
@@ -16811,7 +17744,8 @@ export const worksSeed = [
     "y": -1.528,
     "z": -4.5727,
     "phi": 4.3757,
-    "theta": 1.8763
+    "theta": 1.8763,
+    "year": 2016
   },
   {
     "id": "patrick-bruel-place-des-grands-hommes",
@@ -16829,7 +17763,8 @@ export const worksSeed = [
     "y": -2.6176,
     "z": -0.3193,
     "phi": 3.215,
-    "theta": 2.1121
+    "theta": 2.1121,
+    "year": 1995
   },
   {
     "id": "patrick-bruel-casser-la-voix",
@@ -16847,7 +17782,8 @@ export const worksSeed = [
     "y": -2.0947,
     "z": 1.656,
     "phi": 2.7757,
-    "theta": 1.9958
+    "theta": 1.9958,
+    "year": 1992
   },
   {
     "id": "patrick-bruel-qui-a-le-droit",
@@ -16865,7 +17801,8 @@ export const worksSeed = [
     "y": -4.7577,
     "z": 0.8229,
     "phi": 2.6612,
-    "theta": 2.7835
+    "theta": 2.7835,
+    "year": 1988
   },
   {
     "id": "céline-dion-my-heart-will-go-on",
@@ -16883,7 +17820,8 @@ export const worksSeed = [
     "y": -3.4353,
     "z": 0.611,
     "phi": 2.9776,
-    "theta": 2.3134
+    "theta": 2.3134,
+    "year": 1987
   },
   {
     "id": "céline-dion-pour-que-tu-m-aimes-encore",
@@ -16901,7 +17839,8 @@ export const worksSeed = [
     "y": -3.7349,
     "z": -0.9837,
     "phi": 3.4313,
-    "theta": 2.3968
+    "theta": 2.3968,
+    "year": 1994
   },
   {
     "id": "céline-dion-the-power-of-love",
@@ -16919,7 +17858,8 @@ export const worksSeed = [
     "y": -3.6628,
     "z": 0.6273,
     "phi": 2.9624,
-    "theta": 2.3761
+    "theta": 2.3761,
+    "year": 1991
   },
   {
     "id": "céline-dion-s-il-suffisait-d-aimer",
@@ -16937,7 +17877,8 @@ export const worksSeed = [
     "y": 3.0347,
     "z": -3.9192,
     "phi": 4.9889,
-    "theta": 0.9306
+    "theta": 0.9306,
+    "year": 1988
   },
   {
     "id": "stromae-papaoutai",
@@ -16955,7 +17896,8 @@ export const worksSeed = [
     "y": 0.5926,
     "z": -4.464,
     "phi": 5.1972,
-    "theta": 1.4539
+    "theta": 1.4539,
+    "year": 2012
   },
   {
     "id": "stromae-alors-on-danse",
@@ -16973,7 +17915,8 @@ export const worksSeed = [
     "y": 1.2392,
     "z": -3.8864,
     "phi": 5.3742,
-    "theta": 1.3244
+    "theta": 1.3244,
+    "year": 2018
   },
   {
     "id": "stromae-formidable",
@@ -16991,7 +17934,8 @@ export const worksSeed = [
     "y": 1.9814,
     "z": -4.6659,
     "phi": 4.7833,
-    "theta": 1.1701
+    "theta": 1.1701,
+    "year": 2018
   },
   {
     "id": "stromae-multitude",
@@ -17009,7 +17953,8 @@ export const worksSeed = [
     "y": 0.9752,
     "z": -3.4366,
     "phi": 5.5226,
-    "theta": 1.3776
+    "theta": 1.3776,
+    "year": 2010
   },
   {
     "id": "angèle-balance-ton-quoi",
@@ -17027,7 +17972,8 @@ export const worksSeed = [
     "y": 1.3694,
     "z": -3.8834,
     "phi": 5.3661,
-    "theta": 1.2979
+    "theta": 1.2979,
+    "year": 2019
   },
   {
     "id": "angèle-tout-oublier",
@@ -17045,7 +17991,8 @@ export const worksSeed = [
     "y": 0.7706,
     "z": -4.8669,
     "phi": 4.961,
-    "theta": 1.4185
+    "theta": 1.4185,
+    "year": 2016
   },
   {
     "id": "angèle-la-loi-de-murphy",
@@ -17063,7 +18010,8 @@ export const worksSeed = [
     "y": 0.538,
     "z": -3.5536,
     "phi": 3.9219,
-    "theta": 1.4647
+    "theta": 1.4647,
+    "year": 2023
   },
   {
     "id": "angèle-nonante-cinq",
@@ -17081,7 +18029,8 @@ export const worksSeed = [
     "y": 1.2076,
     "z": -4.9044,
     "phi": 4.8228,
-    "theta": 1.3308
+    "theta": 1.3308,
+    "year": 2019
   },
   {
     "id": "camille-paris",
@@ -17099,7 +18048,8 @@ export const worksSeed = [
     "y": 0.1892,
     "z": -5.0041,
     "phi": 4.8814,
-    "theta": 1.5335
+    "theta": 1.5335,
+    "year": 2009
   },
   {
     "id": "christine-and-the-queens-it",
@@ -17117,7 +18067,8 @@ export const worksSeed = [
     "y": -1.5472,
     "z": -3.884,
     "phi": 5.3514,
-    "theta": 1.8803
+    "theta": 1.8803,
+    "year": 2011
   },
   {
     "id": "christine-and-the-queens-redcar",
@@ -17135,7 +18086,8 @@ export const worksSeed = [
     "y": 1.8339,
     "z": -4.5928,
     "phi": 4.9601,
-    "theta": 1.2015
+    "theta": 1.2015,
+    "year": 2012
   },
   {
     "id": "clara-luciani-sainte-victoire",
@@ -17153,7 +18105,8 @@ export const worksSeed = [
     "y": 2.4542,
     "z": -4.2502,
     "phi": 4.4132,
-    "theta": 1.0666
+    "theta": 1.0666,
+    "year": 2022
   },
   {
     "id": "clara-luciani-cœur",
@@ -17171,7 +18124,8 @@ export const worksSeed = [
     "y": 2.6525,
     "z": -4.331,
     "phi": 4.7389,
-    "theta": 1.0214
+    "theta": 1.0214,
+    "year": 2016
   },
   {
     "id": "clara-luciani-la-grenade",
@@ -17189,7 +18143,8 @@ export const worksSeed = [
     "y": 3.8943,
     "z": -1.5127,
     "phi": 5.801,
-    "theta": 0.6973
+    "theta": 0.6973,
+    "year": 2016
   },
   {
     "id": "juliette-armanet-l-éternité",
@@ -17207,7 +18162,8 @@ export const worksSeed = [
     "y": 1.908,
     "z": -4.7069,
     "phi": 4.6899,
-    "theta": 1.1858
+    "theta": 1.1858,
+    "year": 2020
   },
   {
     "id": "juliette-armanet-brûler-le-feu",
@@ -17225,7 +18181,8 @@ export const worksSeed = [
     "y": 1.5761,
     "z": -4.705,
     "phi": 4.9398,
-    "theta": 1.2553
+    "theta": 1.2553,
+    "year": 2020
   },
   {
     "id": "juliette-armanet-joie-de-vivre",
@@ -17243,7 +18200,8 @@ export const worksSeed = [
     "y": 1.4653,
     "z": -4.8495,
     "phi": 4.6349,
-    "theta": 1.2782
+    "theta": 1.2782,
+    "year": 2015
   },
   {
     "id": "eddy-de-pretto-ego",
@@ -17261,7 +18219,8 @@ export const worksSeed = [
     "y": 1.1472,
     "z": -4.9335,
     "phi": 4.7908,
-    "theta": 1.343
+    "theta": 1.343,
+    "year": 2015
   },
   {
     "id": "eddy-de-pretto-kid",
@@ -17279,7 +18238,8 @@ export const worksSeed = [
     "y": 0.6311,
     "z": -4.7538,
     "phi": 5.0514,
-    "theta": 1.4462
+    "theta": 1.4462,
+    "year": 2020
   },
   {
     "id": "eddy-de-pretto-cure",
@@ -17297,7 +18257,8 @@ export const worksSeed = [
     "y": 1.9004,
     "z": -3.7733,
     "phi": 5.3543,
-    "theta": 1.1874
+    "theta": 1.1874,
+    "year": 2015
   },
   {
     "id": "nekfeu-étoiles",
@@ -17315,7 +18276,8 @@ export const worksSeed = [
     "y": -2.1709,
     "z": -4.3495,
     "phi": 5.0393,
-    "theta": 2.0124
+    "theta": 2.0124,
+    "year": 2016
   },
   {
     "id": "nekfeu-foufoune-à-bruxelles",
@@ -17333,7 +18295,8 @@ export const worksSeed = [
     "y": 1.5136,
     "z": -4.7074,
     "phi": 4.9548,
-    "theta": 1.2682
+    "theta": 1.2682,
+    "year": 2015
   },
   {
     "id": "nekfeu-les-étoiles-vagabondes",
@@ -17351,7 +18314,8 @@ export const worksSeed = [
     "y": 2.1522,
     "z": -4.4688,
     "phi": 4.4716,
-    "theta": 1.1333
+    "theta": 1.1333,
+    "year": 2018
   },
   {
     "id": "booba-pitbull",
@@ -17369,7 +18333,8 @@ export const worksSeed = [
     "y": 3.115,
     "z": -4.0034,
     "phi": 4.7812,
-    "theta": 0.9107
+    "theta": 0.9107,
+    "year": 2004
   },
   {
     "id": "booba-dkr",
@@ -17387,7 +18352,8 @@ export const worksSeed = [
     "y": 1.4812,
     "z": -3.701,
     "phi": 4.0074,
-    "theta": 1.2749
+    "theta": 1.2749,
+    "year": 2004
   },
   {
     "id": "booba-nero-nemesis",
@@ -17405,7 +18371,8 @@ export const worksSeed = [
     "y": -0.28,
     "z": -4.6605,
     "phi": 5.1181,
-    "theta": 1.6259
+    "theta": 1.6259,
+    "year": 2004
   },
   {
     "id": "booba-ultra",
@@ -17423,7 +18390,8 @@ export const worksSeed = [
     "y": 2.7869,
     "z": -3.6976,
     "phi": 5.2268,
-    "theta": 0.9901
+    "theta": 0.9901,
+    "year": 2010
   },
   {
     "id": "pnl-au-dd",
@@ -17441,7 +18409,8 @@ export const worksSeed = [
     "y": 0.3493,
     "z": -4.9516,
     "phi": 4.9271,
-    "theta": 1.502
+    "theta": 1.502,
+    "year": 2018
   },
   {
     "id": "pnl-dans-la-légende",
@@ -17459,7 +18428,8 @@ export const worksSeed = [
     "y": 1.5112,
     "z": -4.0784,
     "phi": 5.2842,
-    "theta": 1.2688
+    "theta": 1.2688,
+    "year": 2019
   },
   {
     "id": "pnl-naha",
@@ -17477,7 +18447,8 @@ export const worksSeed = [
     "y": -0.7982,
     "z": -4.2949,
     "phi": 5.2555,
-    "theta": 1.7286
+    "theta": 1.7286,
+    "year": 2021
   },
   {
     "id": "pnl-que-la-famille",
@@ -17495,7 +18466,8 @@ export const worksSeed = [
     "y": 0.2141,
     "z": -4.2893,
     "phi": 5.2764,
-    "theta": 1.5286
+    "theta": 1.5286,
+    "year": 2021
   },
   {
     "id": "soprano-chocolat",
@@ -17513,7 +18485,8 @@ export const worksSeed = [
     "y": -2.414,
     "z": 3.0256,
     "phi": 2.398,
-    "theta": 2.066
+    "theta": 2.066,
+    "year": 2002
   },
   {
     "id": "soprano-amel",
@@ -17531,7 +18504,8 @@ export const worksSeed = [
     "y": -3.3655,
     "z": -3.5362,
     "phi": 4.3341,
-    "theta": 2.295
+    "theta": 2.295,
+    "year": 2009
   },
   {
     "id": "soprano-legend",
@@ -17549,7 +18523,8 @@ export const worksSeed = [
     "y": 1.7806,
     "z": -4.6914,
     "phi": 4.5453,
-    "theta": 1.2127
+    "theta": 1.2127,
+    "year": 2004
   },
   {
     "id": "maes-validé",
@@ -17567,7 +18542,8 @@ export const worksSeed = [
     "y": -1.3527,
     "z": -4.237,
     "phi": 5.2375,
-    "theta": 1.8403
+    "theta": 1.8403,
+    "year": 2022
   },
   {
     "id": "maes-se-donne",
@@ -17585,7 +18561,8 @@ export const worksSeed = [
     "y": 2.2029,
     "z": -4.5286,
     "phi": 4.8588,
-    "theta": 1.1223
+    "theta": 1.1223,
+    "year": 2018
   },
   {
     "id": "freeze-corleone-667",
@@ -17603,7 +18580,8 @@ export const worksSeed = [
     "y": 2.5051,
     "z": -4.4144,
     "phi": 4.76,
-    "theta": 1.0551
+    "theta": 1.0551,
+    "year": 2024
   },
   {
     "id": "gaël-faye-petit-pays",
@@ -17621,7 +18599,8 @@ export const worksSeed = [
     "y": 2.9674,
     "z": -3.5643,
     "phi": 5.2392,
-    "theta": 0.947
+    "theta": 0.947,
+    "year": 2017
   },
   {
     "id": "gaël-faye-pili-pili-sur-un-croissant-au-beurre",
@@ -17639,7 +18618,8 @@ export const worksSeed = [
     "y": 1.1673,
     "z": -3.4869,
     "phi": 5.5004,
-    "theta": 1.3389
+    "theta": 1.3389,
+    "year": 2017
   },
   {
     "id": "miossec-à-prendre",
@@ -17657,7 +18637,8 @@ export const worksSeed = [
     "y": 1.1761,
     "z": -4.3413,
     "phi": 5.2106,
-    "theta": 1.3372
+    "theta": 1.3372,
+    "year": 1992
   },
   {
     "id": "alain-bashung-vertige-de-l-amour",
@@ -17675,7 +18656,8 @@ export const worksSeed = [
     "y": 2.157,
     "z": -4.1732,
     "phi": 5.1462,
-    "theta": 1.1323
+    "theta": 1.1323,
+    "year": 1980
   },
   {
     "id": "alain-bashung-la-nuit-je-mens",
@@ -17693,7 +18675,8 @@ export const worksSeed = [
     "y": 1.1914,
     "z": -4.2927,
     "phi": 5.2295,
-    "theta": 1.3341
+    "theta": 1.3341,
+    "year": 1978
   },
   {
     "id": "serge-gainsbourg-ballade-de-melody-nelson",
@@ -17711,7 +18694,8 @@ export const worksSeed = [
     "y": 1.2339,
     "z": -4.7277,
     "phi": 4.9984,
-    "theta": 1.3254
+    "theta": 1.3254,
+    "year": 1967
   },
   {
     "id": "serge-gainsbourg-je-t-aime-moi-non-plus",
@@ -17729,7 +18713,8 @@ export const worksSeed = [
     "y": 0.0581,
     "z": -5.075,
     "phi": 4.7554,
-    "theta": 1.5594
+    "theta": 1.5594,
+    "year": 1973
   },
   {
     "id": "serge-gainsbourg-les-sucettes",
@@ -17747,7 +18732,8 @@ export const worksSeed = [
     "y": 1.8236,
     "z": -4.5266,
     "phi": 5.0145,
-    "theta": 1.2036
+    "theta": 1.2036,
+    "year": 1972
   },
   {
     "id": "france-gall-il-jouait-du-piano-debout",
@@ -17765,7 +18751,8 @@ export const worksSeed = [
     "y": 4.9246,
     "z": -0.5658,
     "phi": 5.8122,
-    "theta": 0.248
+    "theta": 0.248,
+    "year": 1987
   },
   {
     "id": "france-gall-ella-elle-l-a",
@@ -17783,7 +18770,8 @@ export const worksSeed = [
     "y": 2.3126,
     "z": -4.4631,
     "phi": 4.5493,
-    "theta": 1.0982
+    "theta": 1.0982,
+    "year": 1981
   },
   {
     "id": "france-gall-babacar",
@@ -17801,7 +18789,8 @@ export const worksSeed = [
     "y": 0.8897,
     "z": -4.8129,
     "phi": 4.9879,
-    "theta": 1.3948
+    "theta": 1.3948,
+    "year": 1987
   },
   {
     "id": "michel-sardou-la-maladie-d-amour",
@@ -17819,7 +18808,8 @@ export const worksSeed = [
     "y": -1.8115,
     "z": 1.7857,
     "phi": 2.7558,
-    "theta": 1.9354
+    "theta": 1.9354,
+    "year": 1979
   },
   {
     "id": "michel-sardou-je-vais-t-aimer",
@@ -17837,7 +18827,8 @@ export const worksSeed = [
     "y": -4.7362,
     "z": 0.8972,
     "phi": 2.6314,
-    "theta": 2.7716
+    "theta": 2.7716,
+    "year": 1972
   },
   {
     "id": "michel-sardou-être-une-femme",
@@ -17855,7 +18846,8 @@ export const worksSeed = [
     "y": -3.8197,
     "z": 2.0011,
     "phi": 2.5012,
-    "theta": 2.4217
+    "theta": 2.4217,
+    "year": 1972
   },
   {
     "id": "johnny-hallyday-l-idole-des-jeunes",
@@ -17873,7 +18865,8 @@ export const worksSeed = [
     "y": -3.7229,
     "z": -0.3241,
     "phi": 3.2355,
-    "theta": 2.3933
+    "theta": 2.3933,
+    "year": 1963
   },
   {
     "id": "johnny-hallyday-que-je-t-aime",
@@ -17891,7 +18884,8 @@ export const worksSeed = [
     "y": 1.2385,
     "z": -3.6648,
     "phi": 5.4444,
-    "theta": 1.3245
+    "theta": 1.3245,
+    "year": 1963
   },
   {
     "id": "johnny-hallyday-allumer-le-feu",
@@ -17909,7 +18903,8 @@ export const worksSeed = [
     "y": -4.4639,
     "z": 0.8187,
     "phi": 2.7972,
-    "theta": 2.644
+    "theta": 2.644,
+    "year": 1963
   },
   {
     "id": "vanessa-paradis-joe-le-taxi",
@@ -17927,7 +18922,8 @@ export const worksSeed = [
     "y": -2.9416,
     "z": 1.4191,
     "phi": 2.7919,
-    "theta": 2.1884
+    "theta": 2.1884,
+    "year": 1986
   },
   {
     "id": "vanessa-paradis-manolo-manolete",
@@ -17945,7 +18941,8 @@ export const worksSeed = [
     "y": 0.5563,
     "z": -1.1666,
     "phi": 3.3747,
-    "theta": 1.4611
+    "theta": 1.4611,
+    "year": 1991
   },
   {
     "id": "mylène-farmer-désenchantée",
@@ -17963,7 +18960,8 @@ export const worksSeed = [
     "y": 2.4669,
     "z": -3.3736,
     "phi": 5.4204,
-    "theta": 1.0637
+    "theta": 1.0637,
+    "year": 1983
   },
   {
     "id": "mylène-farmer-sans-contrefaçon",
@@ -17981,7 +18979,8 @@ export const worksSeed = [
     "y": -0.1309,
     "z": -4.9037,
     "phi": 4.9754,
-    "theta": 1.5966
+    "theta": 1.5966,
+    "year": 1983
   },
   {
     "id": "mylène-farmer-ainsi-soit-je",
@@ -17999,7 +18998,8 @@ export const worksSeed = [
     "y": 1.9163,
     "z": -4.7041,
     "phi": 4.696,
-    "theta": 1.184
+    "theta": 1.184,
+    "year": 1985
   },
   {
     "id": "mylène-farmer-l-autre",
@@ -18017,7 +19017,8 @@ export const worksSeed = [
     "y": 2.5276,
     "z": -4.3853,
     "phi": 4.8107,
-    "theta": 1.05
+    "theta": 1.05,
+    "year": 1990
   },
   {
     "id": "indochine-3ème-sexe",
@@ -18035,7 +19036,8 @@ export const worksSeed = [
     "y": 1.3581,
     "z": -3.9674,
     "phi": 4.0866,
-    "theta": 1.3002
+    "theta": 1.3002,
+    "year": 1980
   },
   {
     "id": "indochine-tes-yeux-noirs",
@@ -18053,7 +19055,8 @@ export const worksSeed = [
     "y": -0.0754,
     "z": -4.5251,
     "phi": 5.184,
-    "theta": 1.5856
+    "theta": 1.5856,
+    "year": 1979
   },
   {
     "id": "indochine-alice-june",
@@ -18071,7 +19074,8 @@ export const worksSeed = [
     "y": 0.2457,
     "z": -4.9809,
     "phi": 4.9043,
-    "theta": 1.5224
+    "theta": 1.5224,
+    "year": 1981
   },
   {
     "id": "indochine-black-city-parade",
@@ -18089,7 +19093,8 @@ export const worksSeed = [
     "y": 1.7432,
     "z": -3.5644,
     "phi": 5.4396,
-    "theta": 1.2205
+    "theta": 1.2205,
+    "year": 1980
   },
   {
     "id": "phoenix-lisztomania",
@@ -18107,7 +19112,8 @@ export const worksSeed = [
     "y": 2.1285,
     "z": -4.2326,
     "phi": 5.1211,
-    "theta": 1.1385
+    "theta": 1.1385,
+    "year": 2009
   },
   {
     "id": "phoenix-1901",
@@ -18125,7 +19131,8 @@ export const worksSeed = [
     "y": 2.6904,
     "z": -3.9587,
     "phi": 5.1184,
-    "theta": 1.0127
+    "theta": 1.0127,
+    "year": 2008
   },
   {
     "id": "phoenix-wolfgang-amadeus-phoenix",
@@ -18143,7 +19150,8 @@ export const worksSeed = [
     "y": 2.3879,
     "z": -3.6584,
     "phi": 5.3289,
-    "theta": 1.0814
+    "theta": 1.0814,
+    "year": 2002
   },
   {
     "id": "phoenix-ti-amo",
@@ -18161,7 +19169,8 @@ export const worksSeed = [
     "y": 2.9876,
     "z": -3.6028,
     "phi": 5.2138,
-    "theta": 0.9421
+    "theta": 0.9421,
+    "year": 2008
   },
   {
     "id": "air-sexy-boy",
@@ -18179,7 +19188,8 @@ export const worksSeed = [
     "y": 1.2782,
     "z": -4.5967,
     "phi": 5.0751,
-    "theta": 1.3165
+    "theta": 1.3165,
+    "year": 1997
   },
   {
     "id": "air-kelly-watch-the-stars",
@@ -18197,7 +19207,8 @@ export const worksSeed = [
     "y": 0.1432,
     "z": -5.064,
     "phi": 4.6383,
-    "theta": 1.5426
+    "theta": 1.5426,
+    "year": 1995
   },
   {
     "id": "air-moon-safari",
@@ -18215,7 +19226,8 @@ export const worksSeed = [
     "y": 2.6393,
     "z": -4.3405,
     "phi": 4.7129,
-    "theta": 1.0245
+    "theta": 1.0245,
+    "year": 1995
   },
   {
     "id": "air-talkie-walkie",
@@ -18233,7 +19245,8 @@ export const worksSeed = [
     "y": 0.8506,
     "z": -3.4523,
     "phi": 5.5226,
-    "theta": 1.4026
+    "theta": 1.4026,
+    "year": 1998
   },
   {
     "id": "daft-punk-get-lucky",
@@ -18251,7 +19264,8 @@ export const worksSeed = [
     "y": 3.2206,
     "z": -3.7659,
     "phi": 4.4235,
-    "theta": 0.8841
+    "theta": 0.8841,
+    "year": 1995
   },
   {
     "id": "daft-punk-one-more-time",
@@ -18269,7 +19283,8 @@ export const worksSeed = [
     "y": 1.5205,
     "z": -4.6752,
     "phi": 4.9795,
-    "theta": 1.2668
+    "theta": 1.2668,
+    "year": 1998
   },
   {
     "id": "daft-punk-harder-better-faster-stronger",
@@ -18287,7 +19302,8 @@ export const worksSeed = [
     "y": 1.6366,
     "z": -4.0249,
     "phi": 5.2915,
-    "theta": 1.2428
+    "theta": 1.2428,
+    "year": 1994
   },
   {
     "id": "daft-punk-human-after-all",
@@ -18305,7 +19321,8 @@ export const worksSeed = [
     "y": 1.4272,
     "z": -4.315,
     "phi": 5.1966,
-    "theta": 1.286
+    "theta": 1.286,
+    "year": 1994
   },
   {
     "id": "michael-jackson-thriller",
@@ -18323,7 +19340,8 @@ export const worksSeed = [
     "y": -2.5267,
     "z": 2.4126,
     "phi": 2.5623,
-    "theta": 2.0914
+    "theta": 2.0914,
+    "year": 1986
   },
   {
     "id": "michael-jackson-billie-jean",
@@ -18341,7 +19359,8 @@ export const worksSeed = [
     "y": -1.2428,
     "z": 1.5017,
     "phi": 2.8318,
-    "theta": 1.8179
+    "theta": 1.8179,
+    "year": 1979
   },
   {
     "id": "michael-jackson-beat-it",
@@ -18359,7 +19378,8 @@ export const worksSeed = [
     "y": -2.8919,
     "z": 1.3303,
     "phi": 2.8174,
-    "theta": 2.1764
+    "theta": 2.1764,
+    "year": 1983
   },
   {
     "id": "michael-jackson-black-or-white",
@@ -18377,7 +19397,8 @@ export const worksSeed = [
     "y": -2.5348,
     "z": 2.1609,
     "phi": 2.6285,
-    "theta": 2.0932
+    "theta": 2.0932,
+    "year": 1979
   },
   {
     "id": "michael-jackson-thriller-album",
@@ -18395,7 +19416,8 @@ export const worksSeed = [
     "y": 1.5504,
     "z": 4.7283,
     "phi": 1.7838,
-    "theta": 1.2606
+    "theta": 1.2606,
+    "year": 1979
   },
   {
     "id": "michael-jackson-off-the-wall",
@@ -18413,7 +19435,8 @@ export const worksSeed = [
     "y": -0.1411,
     "z": 4.0693,
     "phi": 2.212,
-    "theta": 1.5986
+    "theta": 1.5986,
+    "year": 1981
   },
   {
     "id": "michael-jackson-bad",
@@ -18431,7 +19454,8 @@ export const worksSeed = [
     "y": -2.5479,
     "z": -0.0588,
     "phi": 3.155,
-    "theta": 2.0962
+    "theta": 2.0962,
+    "year": 1983
   },
   {
     "id": "michael-jackson-dangerous",
@@ -18449,7 +19473,8 @@ export const worksSeed = [
     "y": -2.5578,
     "z": -0.0588,
     "phi": 3.155,
-    "theta": 2.0985
+    "theta": 2.0985,
+    "year": 1987
   },
   {
     "id": "stevie-wonder-superstition",
@@ -18467,7 +19492,8 @@ export const worksSeed = [
     "y": 0.3244,
     "z": 3.4127,
     "phi": 2.4031,
-    "theta": 1.5069
+    "theta": 1.5069,
+    "year": 1974
   },
   {
     "id": "stevie-wonder-sir-duke",
@@ -18485,7 +19511,8 @@ export const worksSeed = [
     "y": 0.383,
     "z": 4.5705,
     "phi": 2.0166,
-    "theta": 1.4953
+    "theta": 1.4953,
+    "year": 1969
   },
   {
     "id": "stevie-wonder-talking-book",
@@ -18503,7 +19530,8 @@ export const worksSeed = [
     "y": 0.8221,
     "z": 4.3689,
     "phi": 2.0833,
-    "theta": 1.4083
+    "theta": 1.4083,
+    "year": 1973
   },
   {
     "id": "aretha-franklin-respect",
@@ -18521,7 +19549,8 @@ export const worksSeed = [
     "y": 1.2315,
     "z": 4.8626,
     "phi": 1.7345,
-    "theta": 1.3259
+    "theta": 1.3259,
+    "year": 1967
   },
   {
     "id": "aretha-franklin-think",
@@ -18539,7 +19568,8 @@ export const worksSeed = [
     "y": 1.9087,
     "z": 4.1248,
     "phi": 2.0737,
-    "theta": 1.1856
+    "theta": 1.1856,
+    "year": 1965
   },
   {
     "id": "aretha-franklin-i-never-loved-a-man",
@@ -18557,7 +19587,8 @@ export const worksSeed = [
     "y": 0.0086,
     "z": 4.9733,
     "phi": 1.7761,
-    "theta": 1.5691
+    "theta": 1.5691,
+    "year": 1965
   },
   {
     "id": "aretha-franklin-lady-soul",
@@ -18575,7 +19606,8 @@ export const worksSeed = [
     "y": 1.9719,
     "z": 3.6501,
     "phi": 2.2475,
-    "theta": 1.1721
+    "theta": 1.1721,
+    "year": 1971
   },
   {
     "id": "whitney-houston-i-will-always-love-you",
@@ -18593,7 +19625,8 @@ export const worksSeed = [
     "y": 1.7707,
     "z": -1.6056,
     "phi": 5.9392,
-    "theta": 1.2148
+    "theta": 1.2148,
+    "year": 1983
   },
   {
     "id": "whitney-houston-greatest-love-of-all",
@@ -18611,7 +19644,8 @@ export const worksSeed = [
     "y": 4.0655,
     "z": -2.9526,
     "phi": 4.9606,
-    "theta": 0.643
+    "theta": 0.643,
+    "year": 1988
   },
   {
     "id": "whitney-houston-i-wanna-dance-with-somebody",
@@ -18629,7 +19663,8 @@ export const worksSeed = [
     "y": 2.9251,
     "z": -2.0432,
     "phi": 5.7689,
-    "theta": 0.9572
+    "theta": 0.9572,
+    "year": 1987
   },
   {
     "id": "whitney-houston-the-bodyguard",
@@ -18647,7 +19682,8 @@ export const worksSeed = [
     "y": -1.3615,
     "z": -4.2156,
     "phi": 5.2453,
-    "theta": 1.8421
+    "theta": 1.8421,
+    "year": 1989
   },
   {
     "id": "alicia-keys-fallin",
@@ -18665,7 +19701,8 @@ export const worksSeed = [
     "y": -3.5406,
     "z": -0.0918,
     "phi": 3.1668,
-    "theta": 2.3419
+    "theta": 2.3419,
+    "year": 2001
   },
   {
     "id": "alicia-keys-if-i-ain-t-got-you",
@@ -18683,7 +19720,8 @@ export const worksSeed = [
     "y": -3.2042,
     "z": 1.6161,
     "phi": 2.7192,
-    "theta": 2.2533
+    "theta": 2.2533,
+    "year": 2005
   },
   {
     "id": "alicia-keys-no-one",
@@ -18701,7 +19739,8 @@ export const worksSeed = [
     "y": -2.1225,
     "z": 3.6687,
     "phi": 2.2228,
-    "theta": 2.0018
+    "theta": 2.0018,
+    "year": 2005
   },
   {
     "id": "alicia-keys-songs-in-a-minor",
@@ -18719,7 +19758,8 @@ export const worksSeed = [
     "y": -4.2263,
     "z": -0.2379,
     "phi": 3.2261,
-    "theta": 2.5534
+    "theta": 2.5534,
+    "year": 2005
   },
   {
     "id": "sza-kill-bill",
@@ -18737,7 +19777,8 @@ export const worksSeed = [
     "y": -3.4395,
     "z": -0.6911,
     "phi": 3.3275,
-    "theta": 2.3146
+    "theta": 2.3146,
+    "year": 2021
   },
   {
     "id": "sza-good-days",
@@ -18755,7 +19796,8 @@ export const worksSeed = [
     "y": -3.8796,
     "z": 1.769,
     "phi": 2.5719,
-    "theta": 2.4398
+    "theta": 2.4398,
+    "year": 2016
   },
   {
     "id": "sza-sos",
@@ -18773,7 +19815,8 @@ export const worksSeed = [
     "y": -2.6992,
     "z": 1.4548,
     "phi": 2.7968,
-    "theta": 2.131
+    "theta": 2.131,
+    "year": 2021
   },
   {
     "id": "h-e-r-focus",
@@ -18791,7 +19834,8 @@ export const worksSeed = [
     "y": -1.9573,
     "z": -0.4003,
     "phi": 3.2271,
-    "theta": 1.9663
+    "theta": 1.9663,
+    "year": 2020
   },
   {
     "id": "h-e-r-best-part",
@@ -18809,7 +19853,8 @@ export const worksSeed = [
     "y": -2.8518,
     "z": 1.5356,
     "phi": 2.7677,
-    "theta": 2.1669
+    "theta": 2.1669,
+    "year": 2018
   },
   {
     "id": "h-e-r-h-e-r-vol-1",
@@ -18827,7 +19872,8 @@ export const worksSeed = [
     "y": -3.7224,
     "z": 2.1915,
     "phi": 2.4549,
-    "theta": 2.3932
+    "theta": 2.3932,
+    "year": 2017
   },
   {
     "id": "jhené-aiko-none-of-your-concern",
@@ -18845,7 +19891,8 @@ export const worksSeed = [
     "y": -3.8561,
     "z": -1.5293,
     "phi": 3.6223,
-    "theta": 2.4327
+    "theta": 2.4327,
+    "year": 2019
   },
   {
     "id": "jhené-aiko-trip",
@@ -18863,7 +19910,8 @@ export const worksSeed = [
     "y": -4.539,
     "z": 1.1337,
     "phi": 2.6215,
-    "theta": 2.6759
+    "theta": 2.6759,
+    "year": 2013
   },
   {
     "id": "jhené-aiko-souled-out",
@@ -18881,7 +19929,8 @@ export const worksSeed = [
     "y": -3.3104,
     "z": -0.4052,
     "phi": 3.2469,
-    "theta": 2.2806
+    "theta": 2.2806,
+    "year": 2014
   },
   {
     "id": "john-legend-all-of-me",
@@ -18899,7 +19948,8 @@ export const worksSeed = [
     "y": 3.4838,
     "z": -3.382,
     "phi": 4.2964,
-    "theta": 0.8151
+    "theta": 0.8151,
+    "year": 2003
   },
   {
     "id": "john-legend-ordinary-people",
@@ -18917,7 +19967,8 @@ export const worksSeed = [
     "y": 0.3378,
     "z": -5.0564,
     "phi": 4.7821,
-    "theta": 1.5043
+    "theta": 1.5043,
+    "year": 2002
   },
   {
     "id": "john-legend-get-lifted",
@@ -18935,7 +19986,8 @@ export const worksSeed = [
     "y": -4.709,
     "z": -0.9273,
     "phi": 3.6498,
-    "theta": 2.757
+    "theta": 2.757,
+    "year": 2006
   },
   {
     "id": "usher-yeah",
@@ -18953,7 +20005,8 @@ export const worksSeed = [
     "y": -0.8292,
     "z": -2.9646,
     "phi": 5.6502,
-    "theta": 1.7348
+    "theta": 1.7348,
+    "year": 2006
   },
   {
     "id": "usher-confessions",
@@ -18971,7 +20024,8 @@ export const worksSeed = [
     "y": -4.8184,
     "z": -0.1669,
     "phi": 3.2455,
-    "theta": 2.8193
+    "theta": 2.8193,
+    "year": 2008
   },
   {
     "id": "usher-u-got-it-bad",
@@ -18989,7 +20043,8 @@ export const worksSeed = [
     "y": 1.6096,
     "z": -4.8181,
     "phi": 4.7037,
-    "theta": 1.2484
+    "theta": 1.2484,
+    "year": 2006
   },
   {
     "id": "chris-brown-forever",
@@ -19007,7 +20062,8 @@ export const worksSeed = [
     "y": 1.2909,
     "z": -3.0434,
     "phi": 5.6152,
-    "theta": 1.3139
+    "theta": 1.3139,
+    "year": 2009
   },
   {
     "id": "chris-brown-with-you",
@@ -19025,7 +20081,8 @@ export const worksSeed = [
     "y": 2.0301,
     "z": -4.0376,
     "phi": 5.2339,
-    "theta": 1.1597
+    "theta": 1.1597,
+    "year": 2004
   },
   {
     "id": "chris-brown-no-guidance",
@@ -19043,7 +20100,8 @@ export const worksSeed = [
     "y": -0.2155,
     "z": -0.6655,
     "phi": 6.1517,
-    "theta": 1.6132
+    "theta": 1.6132,
+    "year": 2011
   },
   {
     "id": "chris-brown-fortune",
@@ -19061,7 +20119,8 @@ export const worksSeed = [
     "y": 1.4463,
     "z": -3.3493,
     "phi": 5.5248,
-    "theta": 1.2821
+    "theta": 1.2821,
+    "year": 2011
   },
   {
     "id": "ne-yo-so-sick",
@@ -19079,7 +20138,8 @@ export const worksSeed = [
     "y": 1.1016,
     "z": -2.4938,
     "phi": 5.7563,
-    "theta": 1.3522
+    "theta": 1.3522,
+    "year": 2008
   },
   {
     "id": "ne-yo-because-of-you",
@@ -19097,7 +20157,8 @@ export const worksSeed = [
     "y": 3.4152,
     "z": -3.5393,
     "phi": 4.3675,
-    "theta": 0.8335
+    "theta": 0.8335,
+    "year": 2008
   },
   {
     "id": "ne-yo-miss-independent",
@@ -19115,7 +20176,8 @@ export const worksSeed = [
     "y": 2.0945,
     "z": -4.0031,
     "phi": 5.2381,
-    "theta": 1.1458
+    "theta": 1.1458,
+    "year": 2010
   },
   {
     "id": "janelle-monáe-make-me-feel",
@@ -19133,7 +20195,8 @@ export const worksSeed = [
     "y": -3.2143,
     "z": -1.4037,
     "phi": 3.5065,
-    "theta": 2.2559
+    "theta": 2.2559,
+    "year": 2014
   },
   {
     "id": "janelle-monáe-q-u-e-e-n",
@@ -19151,7 +20214,8 @@ export const worksSeed = [
     "y": 0.5166,
     "z": 4.7301,
     "phi": 1.9306,
-    "theta": 1.4689
+    "theta": 1.4689,
+    "year": 2013
   },
   {
     "id": "janelle-monáe-the-archandroid",
@@ -19169,7 +20233,8 @@ export const worksSeed = [
     "y": -0.8291,
     "z": 3.4173,
     "phi": 2.3913,
-    "theta": 1.7347
+    "theta": 1.7347,
+    "year": 2009
   },
   {
     "id": "janelle-monáe-dirty-computer",
@@ -19187,7 +20252,8 @@ export const worksSeed = [
     "y": 0.8995,
     "z": 3.6775,
     "phi": 2.3151,
-    "theta": 1.3928
+    "theta": 1.3928,
+    "year": 2007
   },
   {
     "id": "calvin-harris-summer",
@@ -19205,7 +20271,8 @@ export const worksSeed = [
     "y": -4.0166,
     "z": 2.134,
     "phi": 2.3854,
-    "theta": 2.4827
+    "theta": 2.4827,
+    "year": 2013
   },
   {
     "id": "calvin-harris-feel-so-close",
@@ -19223,7 +20290,8 @@ export const worksSeed = [
     "y": -3.8062,
     "z": 0.357,
     "phi": 3.0353,
-    "theta": 2.4177
+    "theta": 2.4177,
+    "year": 2011
   },
   {
     "id": "calvin-harris-this-is-what-you-came-for",
@@ -19241,7 +20309,8 @@ export const worksSeed = [
     "y": -4.2012,
     "z": 1.0926,
     "phi": 2.749,
-    "theta": 2.5446
+    "theta": 2.5446,
+    "year": 2011
   },
   {
     "id": "calvin-harris-18-months",
@@ -19259,7 +20328,8 @@ export const worksSeed = [
     "y": -3.691,
     "z": 1.9063,
     "phi": 2.5638,
-    "theta": 2.3841
+    "theta": 2.3841,
+    "year": 2013
   },
   {
     "id": "david-guetta-titanium",
@@ -19277,7 +20347,8 @@ export const worksSeed = [
     "y": -3.115,
     "z": -0.6518,
     "phi": 3.3048,
-    "theta": 2.2309
+    "theta": 2.2309,
+    "year": 2014
   },
   {
     "id": "david-guetta-without-you",
@@ -19295,7 +20366,8 @@ export const worksSeed = [
     "y": -1.0408,
     "z": -1.5155,
     "phi": 3.4513,
-    "theta": 1.7771
+    "theta": 1.7771,
+    "year": 2012
   },
   {
     "id": "david-guetta-when-love-takes-over",
@@ -19313,7 +20385,8 @@ export const worksSeed = [
     "y": -2.5019,
     "z": -4.2369,
     "phi": 4.4227,
-    "theta": 2.0857
+    "theta": 2.0857,
+    "year": 2009
   },
   {
     "id": "david-guetta-one-love",
@@ -19331,7 +20404,8 @@ export const worksSeed = [
     "y": 0.0489,
     "z": 3.75,
     "phi": 2.3112,
-    "theta": 1.5612
+    "theta": 1.5612,
+    "year": 2009
   },
   {
     "id": "avicii-wake-me-up",
@@ -19349,7 +20423,8 @@ export const worksSeed = [
     "y": -4.9444,
     "z": 0.3667,
     "phi": 2.8217,
-    "theta": 2.91
+    "theta": 2.91,
+    "year": 2015
   },
   {
     "id": "avicii-levels",
@@ -19367,7 +20442,8 @@ export const worksSeed = [
     "y": -4.789,
     "z": 0.2123,
     "phi": 3.016,
-    "theta": 2.8015
+    "theta": 2.8015,
+    "year": 2010
   },
   {
     "id": "avicii-hey-brother",
@@ -19385,7 +20461,8 @@ export const worksSeed = [
     "y": -1.9527,
     "z": -1.698,
     "phi": 3.5121,
-    "theta": 1.9653
+    "theta": 1.9653,
+    "year": 2009
   },
   {
     "id": "avicii-true",
@@ -19403,7 +20480,8 @@ export const worksSeed = [
     "y": -2.4736,
     "z": -3.2471,
     "phi": 3.9626,
-    "theta": 2.0794
+    "theta": 2.0794,
+    "year": 2011
   },
   {
     "id": "avicii-stories",
@@ -19421,7 +20499,8 @@ export const worksSeed = [
     "y": -4.8036,
     "z": 1.0569,
     "phi": 2.4477,
-    "theta": 2.8102
+    "theta": 2.8102,
+    "year": 2011
   },
   {
     "id": "kygo-firestone",
@@ -19439,7 +20518,8 @@ export const worksSeed = [
     "y": -1.4873,
     "z": -3.175,
     "phi": 3.854,
-    "theta": 1.8679
+    "theta": 1.8679,
+    "year": 2013
   },
   {
     "id": "kygo-stole-the-show",
@@ -19457,7 +20537,8 @@ export const worksSeed = [
     "y": -3.1355,
     "z": 0.8457,
     "phi": 2.9284,
-    "theta": 2.236
+    "theta": 2.236,
+    "year": 2018
   },
   {
     "id": "kygo-cloud-nine",
@@ -19475,7 +20556,8 @@ export const worksSeed = [
     "y": -0.2868,
     "z": 1.9268,
     "phi": 2.7519,
-    "theta": 1.6273
+    "theta": 1.6273,
+    "year": 2012
   },
   {
     "id": "the-chainsmokers-closer",
@@ -19493,7 +20575,8 @@ export const worksSeed = [
     "y": 0.3344,
     "z": -0.3212,
     "phi": 3.205,
-    "theta": 1.5049
+    "theta": 1.5049,
+    "year": 2017
   },
   {
     "id": "the-chainsmokers-something-just-like-this",
@@ -19511,7 +20594,8 @@ export const worksSeed = [
     "y": -2.297,
     "z": 1.4728,
     "phi": 2.8105,
-    "theta": 2.04
+    "theta": 2.04,
+    "year": 2018
   },
   {
     "id": "the-chainsmokers-don-t-let-me-down",
@@ -19529,7 +20613,8 @@ export const worksSeed = [
     "y": -4.6443,
     "z": -0.4025,
     "phi": 3.3384,
-    "theta": 2.7244
+    "theta": 2.7244,
+    "year": 2018
   },
   {
     "id": "marshmello-alone",
@@ -19547,7 +20632,8 @@ export const worksSeed = [
     "y": -4.237,
     "z": -0.6839,
     "phi": 3.3881,
-    "theta": 2.5572
+    "theta": 2.5572,
+    "year": 2018
   },
   {
     "id": "marshmello-happier",
@@ -19565,7 +20651,8 @@ export const worksSeed = [
     "y": -0.0033,
     "z": 3.9028,
     "phi": 2.2655,
-    "theta": 1.5714
+    "theta": 1.5714,
+    "year": 2021
   },
   {
     "id": "marshmello-wolves",
@@ -19583,7 +20670,8 @@ export const worksSeed = [
     "y": -1.8297,
     "z": 3.7352,
     "phi": 2.2338,
-    "theta": 1.9393
+    "theta": 1.9393,
+    "year": 2017
   },
   {
     "id": "skrillex-scary-monsters-and-nice-sprites",
@@ -19601,7 +20689,8 @@ export const worksSeed = [
     "y": -0.029,
     "z": -1.2027,
     "phi": 3.3806,
-    "theta": 1.5765
+    "theta": 1.5765,
+    "year": 2016
   },
   {
     "id": "skrillex-bangarang",
@@ -19619,7 +20708,8 @@ export const worksSeed = [
     "y": -1.0227,
     "z": -2.5219,
     "phi": 3.6731,
-    "theta": 1.7735
+    "theta": 1.7735,
+    "year": 2010
   },
   {
     "id": "skrillex-recess",
@@ -19637,7 +20727,8 @@ export const worksSeed = [
     "y": -1.6864,
     "z": 0.9924,
     "phi": 2.933,
-    "theta": 1.9092
+    "theta": 1.9092,
+    "year": 2011
   },
   {
     "id": "diplo-express-yourself",
@@ -19655,7 +20746,8 @@ export const worksSeed = [
     "y": -2.0452,
     "z": -0.2414,
     "phi": 3.1935,
-    "theta": 1.9851
+    "theta": 1.9851,
+    "year": 2013
   },
   {
     "id": "diplo-revolution",
@@ -19673,7 +20765,8 @@ export const worksSeed = [
     "y": 2.1942,
     "z": -1.4615,
     "phi": 3.4663,
-    "theta": 1.1242
+    "theta": 1.1242,
+    "year": 2009
   },
   {
     "id": "the-chemical-brothers-block-rockin-beats",
@@ -19691,7 +20784,8 @@ export const worksSeed = [
     "y": 2.6793,
     "z": -3.7086,
     "phi": 4.1754,
-    "theta": 1.0152
+    "theta": 1.0152,
+    "year": 2000
   },
   {
     "id": "the-chemical-brothers-setting-sun",
@@ -19709,7 +20803,8 @@ export const worksSeed = [
     "y": -0.3963,
     "z": -2.6493,
     "phi": 3.6921,
-    "theta": 1.6489
+    "theta": 1.6489,
+    "year": 1996
   },
   {
     "id": "the-chemical-brothers-exit-planet-dust",
@@ -19727,7 +20822,8 @@ export const worksSeed = [
     "y": -0.2558,
     "z": -3.8301,
     "phi": 3.9971,
-    "theta": 1.6212
+    "theta": 1.6212,
+    "year": 1996
   },
   {
     "id": "the-chemical-brothers-dig-your-own-hole",
@@ -19745,7 +20841,8 @@ export const worksSeed = [
     "y": -1.1267,
     "z": -2.4893,
     "phi": 3.6681,
-    "theta": 1.7944
+    "theta": 1.7944,
+    "year": 1998
   },
   {
     "id": "the-chemical-brothers-come-with-us",
@@ -19763,7 +20860,8 @@ export const worksSeed = [
     "y": -0.4972,
     "z": 0.2497,
     "phi": 3.0922,
-    "theta": 1.6688
+    "theta": 1.6688,
+    "year": 1998
   },
   {
     "id": "massive-attack-safe-from-harm",
@@ -19781,7 +20879,8 @@ export const worksSeed = [
     "y": -0.4193,
     "z": -1.5565,
     "phi": 3.4541,
-    "theta": 1.6534
+    "theta": 1.6534,
+    "year": 1990
   },
   {
     "id": "massive-attack-protection",
@@ -19799,7 +20898,8 @@ export const worksSeed = [
     "y": -0.7063,
     "z": -2.6868,
     "phi": 3.705,
-    "theta": 1.7103
+    "theta": 1.7103,
+    "year": 1989
   },
   {
     "id": "massive-attack-heligoland",
@@ -19817,7 +20917,8 @@ export const worksSeed = [
     "y": -3.41,
     "z": -0.8778,
     "phi": 3.3769,
-    "theta": 2.3067
+    "theta": 2.3067,
+    "year": 1996
   },
   {
     "id": "massive-attack-100th-window",
@@ -19835,7 +20936,8 @@ export const worksSeed = [
     "y": 0.4115,
     "z": -0.6141,
     "phi": 3.2632,
-    "theta": 1.4897
+    "theta": 1.4897,
+    "year": 1989
   },
   {
     "id": "fatboy-slim-praise-you",
@@ -19853,7 +20955,8 @@ export const worksSeed = [
     "y": -1.715,
     "z": -3.3457,
     "phi": 3.9165,
-    "theta": 1.9152
+    "theta": 1.9152,
+    "year": 2002
   },
   {
     "id": "fatboy-slim-right-here-right-now",
@@ -19871,7 +20974,8 @@ export const worksSeed = [
     "y": -2.2629,
     "z": 0.6673,
     "phi": 2.9943,
-    "theta": 2.0325
+    "theta": 2.0325,
+    "year": 1996
   },
   {
     "id": "fatboy-slim-you-ve-come-a-long-way-baby",
@@ -19889,7 +20993,8 @@ export const worksSeed = [
     "y": -0.143,
     "z": -2.7773,
     "phi": 3.7203,
-    "theta": 1.5989
+    "theta": 1.5989,
+    "year": 1996
   },
   {
     "id": "moby-porcelain",
@@ -19907,7 +21012,8 @@ export const worksSeed = [
     "y": -3.875,
     "z": -2.7471,
     "phi": 4.1321,
-    "theta": 2.4384
+    "theta": 2.4384,
+    "year": 1998
   },
   {
     "id": "moby-why-does-my-heart-feel-so-bad",
@@ -19925,7 +21031,8 @@ export const worksSeed = [
     "y": -1.3651,
     "z": -2.1246,
     "phi": 3.5907,
-    "theta": 1.8429
+    "theta": 1.8429,
+    "year": 2003
   },
   {
     "id": "moby-play",
@@ -19943,7 +21050,8 @@ export const worksSeed = [
     "y": -3.8812,
     "z": -1.9932,
     "phi": 3.7953,
-    "theta": 2.4403
+    "theta": 2.4403,
+    "year": 2002
   },
   {
     "id": "moby-hotel",
@@ -19961,7 +21069,8 @@ export const worksSeed = [
     "y": -2.1139,
     "z": -2.3591,
     "phi": 3.6776,
-    "theta": 2.0
+    "theta": 2.0,
+    "year": 2001
   },
   {
     "id": "four-tet-baby",
@@ -19979,7 +21088,8 @@ export const worksSeed = [
     "y": -3.3129,
     "z": -1.3752,
     "phi": 3.5067,
-    "theta": 2.2812
+    "theta": 2.2812,
+    "year": 2004
   },
   {
     "id": "four-tet-morning-evening",
@@ -19997,7 +21107,8 @@ export const worksSeed = [
     "y": -0.6085,
     "z": -1.358,
     "phi": 3.4142,
-    "theta": 1.6909
+    "theta": 1.6909,
+    "year": 2001
   },
   {
     "id": "caribou-sun",
@@ -20015,7 +21126,8 @@ export const worksSeed = [
     "y": 0.0256,
     "z": -2.3899,
     "phi": 3.6314,
-    "theta": 1.5658
+    "theta": 1.5658,
+    "year": 2007
   },
   {
     "id": "caribou-swim",
@@ -20033,7 +21145,8 @@ export const worksSeed = [
     "y": -0.7332,
     "z": -2.2409,
     "phi": 3.6036,
-    "theta": 1.7156
+    "theta": 1.7156,
+    "year": 2002
   },
   {
     "id": "caribou-our-love",
@@ -20051,7 +21164,8 @@ export const worksSeed = [
     "y": 1.5462,
     "z": -4.5064,
     "phi": 4.3395,
-    "theta": 1.2615
+    "theta": 1.2615,
+    "year": 2002
   },
   {
     "id": "lcd-soundsystem-i-can-change",
@@ -20069,7 +21183,8 @@ export const worksSeed = [
     "y": -2.753,
     "z": -1.4502,
     "phi": 3.4882,
-    "theta": 2.1435
+    "theta": 2.1435,
+    "year": 2011
   },
   {
     "id": "lcd-soundsystem-all-my-friends",
@@ -20087,7 +21202,8 @@ export const worksSeed = [
     "y": -1.3377,
     "z": -4.3564,
     "phi": 4.2366,
-    "theta": 1.8373
+    "theta": 1.8373,
+    "year": 2007
   },
   {
     "id": "lcd-soundsystem-sound-of-silver",
@@ -20105,7 +21221,8 @@ export const worksSeed = [
     "y": -0.8372,
     "z": -1.4935,
     "phi": 3.4443,
-    "theta": 1.7364
+    "theta": 1.7364,
+    "year": 2010
   },
   {
     "id": "norah-jones-come-away-with-me",
@@ -20123,7 +21240,8 @@ export const worksSeed = [
     "y": -0.0909,
     "z": 4.7627,
     "phi": 1.9257,
-    "theta": 1.5887
+    "theta": 1.5887,
+    "year": 2001
   },
   {
     "id": "norah-jones-don-t-know-why",
@@ -20141,7 +21259,8 @@ export const worksSeed = [
     "y": -2.2538,
     "z": 3.3531,
     "phi": 2.3137,
-    "theta": 2.0305
+    "theta": 2.0305,
+    "year": 2007
   },
   {
     "id": "norah-jones-feels-like-home",
@@ -20159,7 +21278,8 @@ export const worksSeed = [
     "y": -0.5886,
     "z": 4.6818,
     "phi": 1.1887,
-    "theta": 1.6869
+    "theta": 1.6869,
+    "year": 2006
   },
   {
     "id": "diana-krall-the-look-of-love",
@@ -20177,7 +21297,8 @@ export const worksSeed = [
     "y": 1.3986,
     "z": 3.424,
     "phi": 2.3646,
-    "theta": 1.2919
+    "theta": 1.2919,
+    "year": 2001
   },
   {
     "id": "diana-krall-when-i-look-in-your-eyes",
@@ -20195,7 +21316,8 @@ export const worksSeed = [
     "y": 1.7148,
     "z": 4.5642,
     "phi": 1.8737,
-    "theta": 1.2265
+    "theta": 1.2265,
+    "year": 2004
   },
   {
     "id": "amy-winehouse-rehab",
@@ -20213,7 +21335,8 @@ export const worksSeed = [
     "y": 1.3299,
     "z": 4.8843,
     "phi": 1.6577,
-    "theta": 1.3059
+    "theta": 1.3059,
+    "year": 2009
   },
   {
     "id": "amy-winehouse-back-to-black",
@@ -20231,7 +21354,8 @@ export const worksSeed = [
     "y": 1.577,
     "z": 3.8016,
     "phi": 2.2353,
-    "theta": 1.2552
+    "theta": 1.2552,
+    "year": 2006
   },
   {
     "id": "amy-winehouse-frank",
@@ -20249,7 +21373,8 @@ export const worksSeed = [
     "y": 2.0434,
     "z": 4.486,
     "phi": 1.8379,
-    "theta": 1.1568
+    "theta": 1.1568,
+    "year": 2008
   },
   {
     "id": "gregory-porter-liquid-spirit",
@@ -20267,7 +21392,8 @@ export const worksSeed = [
     "y": -0.4071,
     "z": 3.2449,
     "phi": 2.446,
-    "theta": 1.651
+    "theta": 1.651,
+    "year": 2017
   },
   {
     "id": "gregory-porter-take-me-to-the-alley",
@@ -20285,7 +21411,8 @@ export const worksSeed = [
     "y": -0.6546,
     "z": 4.5194,
     "phi": 2.0284,
-    "theta": 1.7
+    "theta": 1.7,
+    "year": 2012
   },
   {
     "id": "chet-baker-almost-blue",
@@ -20303,7 +21430,8 @@ export const worksSeed = [
     "y": 2.3371,
     "z": 3.742,
     "phi": 2.1631,
-    "theta": 1.0927
+    "theta": 1.0927,
+    "year": 1957
   },
   {
     "id": "chet-baker-let-s-get-lost",
@@ -20321,7 +21449,8 @@ export const worksSeed = [
     "y": 0.8081,
     "z": 4.1404,
     "phi": 2.1704,
-    "theta": 1.4111
+    "theta": 1.4111,
+    "year": 1957
   },
   {
     "id": "dave-brubeck-take-five",
@@ -20339,7 +21468,8 @@ export const worksSeed = [
     "y": 0.3751,
     "z": 4.3388,
     "phi": 2.1133,
-    "theta": 1.4969
+    "theta": 1.4969,
+    "year": 1963
   },
   {
     "id": "dave-brubeck-time-out",
@@ -20357,7 +21487,8 @@ export const worksSeed = [
     "y": 2.0178,
     "z": 2.3449,
     "phi": 2.6146,
-    "theta": 1.1623
+    "theta": 1.1623,
+    "year": 1959
   },
   {
     "id": "sonny-rollins-st-thomas",
@@ -20375,7 +21506,8 @@ export const worksSeed = [
     "y": 1.3405,
     "z": 3.2644,
     "phi": 2.4125,
-    "theta": 1.3038
+    "theta": 1.3038,
+    "year": 1957
   },
   {
     "id": "sonny-rollins-saxophone-colossus",
@@ -20393,7 +21525,8 @@ export const worksSeed = [
     "y": -0.7887,
     "z": 4.9426,
     "phi": 1.3968,
-    "theta": 1.7267
+    "theta": 1.7267,
+    "year": 1959
   },
   {
     "id": "wes-montgomery-west-coast-blues",
@@ -20411,7 +21544,8 @@ export const worksSeed = [
     "y": 2.2278,
     "z": 4.5654,
     "phi": 1.5769,
-    "theta": 1.1168
+    "theta": 1.1168,
+    "year": 1963
   },
   {
     "id": "wes-montgomery-smokin-at-the-half-note",
@@ -20429,7 +21563,8 @@ export const worksSeed = [
     "y": 0.8118,
     "z": 4.9908,
     "phi": 1.6686,
-    "theta": 1.4103
+    "theta": 1.4103,
+    "year": 1962
   },
   {
     "id": "art-blakey-moanin",
@@ -20447,7 +21582,8 @@ export const worksSeed = [
     "y": -0.8466,
     "z": 4.2318,
     "phi": 2.1353,
-    "theta": 1.7382
+    "theta": 1.7382,
+    "year": 1959
   },
   {
     "id": "art-blakey-a-night-in-tunisia",
@@ -20465,7 +21601,8 @@ export const worksSeed = [
     "y": 0.6052,
     "z": 3.8542,
     "phi": 2.2719,
-    "theta": 1.4514
+    "theta": 1.4514,
+    "year": 1961
   },
   {
     "id": "dizzy-gillespie-a-night-in-tunisia",
@@ -20483,7 +21620,8 @@ export const worksSeed = [
     "y": -0.0038,
     "z": 4.4816,
     "phi": 2.0611,
-    "theta": 1.5715
+    "theta": 1.5715,
+    "year": 1950
   },
   {
     "id": "dizzy-gillespie-salt-peanuts",
@@ -20501,7 +21639,8 @@ export const worksSeed = [
     "y": -0.1053,
     "z": 4.252,
     "phi": 2.1495,
-    "theta": 1.5915
+    "theta": 1.5915,
+    "year": 1951
   },
   {
     "id": "cannonball-adderley-mercy-mercy-mercy",
@@ -20519,7 +21658,8 @@ export const worksSeed = [
     "y": -1.0862,
     "z": 3.9461,
     "phi": 2.2223,
-    "theta": 1.7863
+    "theta": 1.7863,
+    "year": 1957
   },
   {
     "id": "cannonball-adderley-somethin-else",
@@ -20537,7 +21677,8 @@ export const worksSeed = [
     "y": 1.8989,
     "z": 4.5531,
     "phi": 1.831,
-    "theta": 1.1877
+    "theta": 1.1877,
+    "year": 1963
   },
   {
     "id": "horace-silver-song-for-my-father",
@@ -20555,7 +21696,8 @@ export const worksSeed = [
     "y": 0.4102,
     "z": 5.0321,
     "phi": 1.6821,
-    "theta": 1.49
+    "theta": 1.49,
+    "year": 1968
   },
   {
     "id": "horace-silver-doin-the-thing",
@@ -20573,7 +21715,8 @@ export const worksSeed = [
     "y": -1.5669,
     "z": 4.5093,
     "phi": 1.9385,
-    "theta": 1.8844
+    "theta": 1.8844,
+    "year": 1960
   },
   {
     "id": "ahmad-jamal-poinciana",
@@ -20591,7 +21734,8 @@ export const worksSeed = [
     "y": 1.9617,
     "z": 3.7796,
     "phi": 2.2033,
-    "theta": 1.1743
+    "theta": 1.1743,
+    "year": 1958
   },
   {
     "id": "ahmad-jamal-at-the-pershing",
@@ -20609,7 +21753,8 @@ export const worksSeed = [
     "y": 0.7898,
     "z": 4.5826,
     "phi": 1.9905,
-    "theta": 1.4147
+    "theta": 1.4147,
+    "year": 1957
   },
   {
     "id": "arcade-fire-wake-up",
@@ -20627,7 +21772,8 @@ export const worksSeed = [
     "y": 2.4611,
     "z": 1.5309,
     "phi": 0.3517,
-    "theta": 1.065
+    "theta": 1.065,
+    "year": 2003
   },
   {
     "id": "arcade-fire-rebellion",
@@ -20645,7 +21791,8 @@ export const worksSeed = [
     "y": 2.2596,
     "z": 3.7623,
     "phi": 0.9736,
-    "theta": 1.1098
+    "theta": 1.1098,
+    "year": 2002
   },
   {
     "id": "arcade-fire-neon-bible",
@@ -20663,7 +21810,8 @@ export const worksSeed = [
     "y": 3.466,
     "z": 1.67,
     "phi": 0.4664,
-    "theta": 0.8199
+    "theta": 0.8199,
+    "year": 2002
   },
   {
     "id": "arcade-fire-reflektor",
@@ -20681,7 +21829,8 @@ export const worksSeed = [
     "y": 2.9994,
     "z": 3.4427,
     "phi": 0.9967,
-    "theta": 0.9392
+    "theta": 0.9392,
+    "year": 2001
   },
   {
     "id": "bon-iver-skinny-love",
@@ -20699,7 +21848,8 @@ export const worksSeed = [
     "y": 3.7068,
     "z": 1.8613,
     "phi": 0.5655,
-    "theta": 0.7529
+    "theta": 0.7529,
+    "year": 2007
   },
   {
     "id": "bon-iver-bon-iver-bon-iver",
@@ -20717,7 +21867,8 @@ export const worksSeed = [
     "y": 2.4478,
     "z": 3.9237,
     "phi": 1.0789,
-    "theta": 1.068
+    "theta": 1.068,
+    "year": 2012
   },
   {
     "id": "bon-iver-22-a-million",
@@ -20735,7 +21886,8 @@ export const worksSeed = [
     "y": 1.6383,
     "z": 2.21,
     "phi": 0.4775,
-    "theta": 1.2424
+    "theta": 1.2424,
+    "year": 2008
   },
   {
     "id": "fleet-foxes-white-winter-hymnal",
@@ -20753,7 +21905,8 @@ export const worksSeed = [
     "y": 2.9632,
     "z": 4.1262,
     "phi": 1.5679,
-    "theta": 0.948
+    "theta": 0.948,
+    "year": 2012
   },
   {
     "id": "fleet-foxes-fleet-foxes",
@@ -20771,7 +21924,8 @@ export const worksSeed = [
     "y": 2.7136,
     "z": 0.52,
     "phi": 0.1214,
-    "theta": 1.0073
+    "theta": 1.0073,
+    "year": 2008
   },
   {
     "id": "fleet-foxes-helplessness-blues",
@@ -20789,7 +21943,8 @@ export const worksSeed = [
     "y": 3.8987,
     "z": 1.4938,
     "phi": 0.4765,
-    "theta": 0.6959
+    "theta": 0.6959,
+    "year": 2009
   },
   {
     "id": "fleet-foxes-shore",
@@ -20807,7 +21962,8 @@ export const worksSeed = [
     "y": 1.5254,
     "z": 2.204,
     "phi": 0.4722,
-    "theta": 1.2658
+    "theta": 1.2658,
+    "year": 2013
   },
   {
     "id": "vampire-weekend-a-punk",
@@ -20825,7 +21981,8 @@ export const worksSeed = [
     "y": 0.2493,
     "z": 3.5185,
     "phi": 0.7663,
-    "theta": 1.5217
+    "theta": 1.5217,
+    "year": 2011
   },
   {
     "id": "vampire-weekend-oxford-comma",
@@ -20843,7 +22000,8 @@ export const worksSeed = [
     "y": 3.4805,
     "z": 2.6332,
     "phi": 0.7918,
-    "theta": 0.816
+    "theta": 0.816,
+    "year": 2013
   },
   {
     "id": "vampire-weekend-vampire-weekend",
@@ -20861,7 +22019,8 @@ export const worksSeed = [
     "y": 3.771,
     "z": 2.0272,
     "phi": 0.638,
-    "theta": 0.7343
+    "theta": 0.7343,
+    "year": 2006
   },
   {
     "id": "vampire-weekend-contra",
@@ -20879,7 +22038,8 @@ export const worksSeed = [
     "y": 3.7848,
     "z": 2.4144,
     "phi": 0.7931,
-    "theta": 0.7302
+    "theta": 0.7302,
+    "year": 2009
   },
   {
     "id": "vampire-weekend-modern-vampires",
@@ -20897,7 +22057,8 @@ export const worksSeed = [
     "y": 3.4234,
     "z": 3.1133,
     "phi": 0.9782,
-    "theta": 0.8313
+    "theta": 0.8313,
+    "year": 2011
   },
   {
     "id": "vampire-weekend-father-of-the-bride",
@@ -20915,7 +22076,8 @@ export const worksSeed = [
     "y": 3.936,
     "z": 1.7284,
     "phi": 0.5683,
-    "theta": 0.6844
+    "theta": 0.6844,
+    "year": 2009
   },
   {
     "id": "animal-collective-my-girls",
@@ -20933,7 +22095,8 @@ export const worksSeed = [
     "y": 2.4866,
     "z": 3.6314,
     "phi": 0.961,
-    "theta": 1.0593
+    "theta": 1.0593,
+    "year": 2004
   },
   {
     "id": "animal-collective-strawberry-jam",
@@ -20951,7 +22114,8 @@ export const worksSeed = [
     "y": 4.0207,
     "z": 2.7445,
     "phi": 1.0842,
-    "theta": 0.6576
+    "theta": 0.6576,
+    "year": 2008
   },
   {
     "id": "tame-impala-let-it-happen",
@@ -20969,7 +22133,8 @@ export const worksSeed = [
     "y": 4.03,
     "z": 1.8239,
     "phi": 0.6307,
-    "theta": 0.6546
+    "theta": 0.6546,
+    "year": 2010
   },
   {
     "id": "tame-impala-the-less-i-know-the-better",
@@ -20987,7 +22152,8 @@ export const worksSeed = [
     "y": 1.5366,
     "z": 3.5128,
     "phi": 0.8117,
-    "theta": 1.2635
+    "theta": 1.2635,
+    "year": 2010
   },
   {
     "id": "tame-impala-currents",
@@ -21005,7 +22171,8 @@ export const worksSeed = [
     "y": 3.5543,
     "z": 2.5804,
     "phi": 0.7909,
-    "theta": 0.7959
+    "theta": 0.7959,
+    "year": 2009
   },
   {
     "id": "tame-impala-lonerism",
@@ -21023,7 +22190,8 @@ export const worksSeed = [
     "y": 2.8999,
     "z": 2.7623,
     "phi": 0.7238,
-    "theta": 0.9633
+    "theta": 0.9633,
+    "year": 2009
   },
   {
     "id": "tame-impala-innerspeaker",
@@ -21041,7 +22209,8 @@ export const worksSeed = [
     "y": 4.856,
     "z": 0.7987,
     "phi": 0.565,
-    "theta": 0.2981
+    "theta": 0.2981,
+    "year": 2010
   },
   {
     "id": "tame-impala-the-slow-rush",
@@ -21059,7 +22228,8 @@ export const worksSeed = [
     "y": 3.5164,
     "z": 1.9712,
     "phi": 0.5677,
-    "theta": 0.8063
+    "theta": 0.8063,
+    "year": 2014
   },
   {
     "id": "sufjan-stevens-chicago",
@@ -21077,7 +22247,8 @@ export const worksSeed = [
     "y": 1.8303,
     "z": 1.8942,
     "phi": 0.4112,
-    "theta": 1.2022
+    "theta": 1.2022,
+    "year": 2002
   },
   {
     "id": "sufjan-stevens-death-with-dignity",
@@ -21095,7 +22266,8 @@ export const worksSeed = [
     "y": 1.4809,
     "z": 3.7418,
     "phi": 0.8789,
-    "theta": 1.275
+    "theta": 1.275,
+    "year": 2002
   },
   {
     "id": "sufjan-stevens-michigan",
@@ -21113,7 +22285,8 @@ export const worksSeed = [
     "y": 3.8302,
     "z": 1.3347,
     "phi": 0.4115,
-    "theta": 0.7167
+    "theta": 0.7167,
+    "year": 2002
   },
   {
     "id": "joanna-newsom-sadie",
@@ -21131,7 +22304,8 @@ export const worksSeed = [
     "y": 3.2127,
     "z": 2.7576,
     "phi": 0.7765,
-    "theta": 0.8861
+    "theta": 0.8861,
+    "year": 2010
   },
   {
     "id": "joanna-newsom-divers",
@@ -21149,7 +22323,8 @@ export const worksSeed = [
     "y": 2.9372,
     "z": 1.88,
     "phi": 0.4708,
-    "theta": 0.9543
+    "theta": 0.9543,
+    "year": 2009
   },
   {
     "id": "sun-kil-moon-carry-me-ohio",
@@ -21167,7 +22342,8 @@ export const worksSeed = [
     "y": 3.5302,
     "z": 2.5512,
     "phi": 0.7732,
-    "theta": 0.8025
+    "theta": 0.8025,
+    "year": 2011
   },
   {
     "id": "sun-kil-moon-benji",
@@ -21185,7 +22361,8 @@ export const worksSeed = [
     "y": 4.3676,
     "z": 1.9947,
     "phi": 0.8771,
-    "theta": 0.536
+    "theta": 0.536,
+    "year": 2019
   },
   {
     "id": "bright-eyes-at-the-bottom-of-everything",
@@ -21203,7 +22380,8 @@ export const worksSeed = [
     "y": 3.9883,
     "z": 2.4531,
     "phi": 0.8941,
-    "theta": 0.668
+    "theta": 0.668,
+    "year": 2003
   },
   {
     "id": "bright-eyes-i-m-wide-awake-it-s-morning",
@@ -21221,7 +22399,8 @@ export const worksSeed = [
     "y": 3.3533,
     "z": 3.2535,
     "phi": 1.0209,
-    "theta": 0.8499
+    "theta": 0.8499,
+    "year": 2002
   },
   {
     "id": "bright-eyes-cassadaga",
@@ -21239,7 +22418,8 @@ export const worksSeed = [
     "y": 3.5549,
     "z": 2.5021,
     "phi": 0.7608,
-    "theta": 0.7957
+    "theta": 0.7957,
+    "year": 2006
   },
   {
     "id": "black-sabbath-paranoid",
@@ -21257,7 +22437,8 @@ export const worksSeed = [
     "y": 2.7341,
     "z": 0.7622,
     "phi": 0.179,
-    "theta": 1.0025
+    "theta": 1.0025,
+    "year": 1968
   },
   {
     "id": "black-sabbath-iron-man",
@@ -21275,7 +22456,8 @@ export const worksSeed = [
     "y": 3.5146,
     "z": 0.6113,
     "phi": 0.1674,
-    "theta": 0.8067
+    "theta": 0.8067,
+    "year": 1967
   },
   {
     "id": "black-sabbath-war-pigs",
@@ -21293,7 +22475,8 @@ export const worksSeed = [
     "y": 3.4654,
     "z": 2.3651,
     "phi": 0.6902,
-    "theta": 0.8201
+    "theta": 0.8201,
+    "year": 1968
   },
   {
     "id": "black-sabbath-black-sabbath-album",
@@ -21311,7 +22494,8 @@ export const worksSeed = [
     "y": 2.1396,
     "z": 2.0762,
     "phi": 0.4675,
-    "theta": 1.136
+    "theta": 1.136,
+    "year": 1969
   },
   {
     "id": "black-sabbath-paranoid-album",
@@ -21329,7 +22513,8 @@ export const worksSeed = [
     "y": 2.8759,
     "z": 2.4537,
     "phi": 0.6261,
-    "theta": 0.969
+    "theta": 0.969,
+    "year": 1974
   },
   {
     "id": "led-zeppelin-stairway-to-heaven",
@@ -21347,7 +22532,8 @@ export const worksSeed = [
     "y": 4.0052,
     "z": 1.9296,
     "phi": 0.6656,
-    "theta": 0.6625
+    "theta": 0.6625,
+    "year": 1973
   },
   {
     "id": "led-zeppelin-whole-lotta-love",
@@ -21365,7 +22551,8 @@ export const worksSeed = [
     "y": 3.9176,
     "z": 0.6481,
     "phi": 0.2018,
-    "theta": 0.6901
+    "theta": 0.6901,
+    "year": 1969
   },
   {
     "id": "led-zeppelin-led-zeppelin-iv",
@@ -21383,7 +22570,8 @@ export const worksSeed = [
     "y": 3.099,
     "z": 2.2189,
     "phi": 0.5839,
-    "theta": 0.9147
+    "theta": 0.9147,
+    "year": 1970
   },
   {
     "id": "led-zeppelin-physical-graffiti",
@@ -21401,7 +22589,8 @@ export const worksSeed = [
     "y": 2.6257,
     "z": 2.2147,
     "phi": 0.5343,
-    "theta": 1.0276
+    "theta": 1.0276,
+    "year": 1969
   },
   {
     "id": "led-zeppelin-houses-of-the-holy",
@@ -21419,7 +22608,8 @@ export const worksSeed = [
     "y": 3.7281,
     "z": 1.5656,
     "phi": 0.4709,
-    "theta": 0.7468
+    "theta": 0.7468,
+    "year": 1974
   },
   {
     "id": "iron-maiden-the-trooper",
@@ -21437,7 +22627,8 @@ export const worksSeed = [
     "y": 2.2787,
     "z": 3.3556,
     "phi": 0.8317,
-    "theta": 1.1056
+    "theta": 1.1056,
+    "year": 1981
   },
   {
     "id": "iron-maiden-hallowed-be-thy-name",
@@ -21455,7 +22646,8 @@ export const worksSeed = [
     "y": 3.7306,
     "z": 3.1114,
     "phi": 1.1252,
-    "theta": 0.7461
+    "theta": 0.7461,
+    "year": 1983
   },
   {
     "id": "iron-maiden-the-number-of-the-beast",
@@ -21473,7 +22665,8 @@ export const worksSeed = [
     "y": 2.8865,
     "z": 2.7358,
     "phi": 0.7135,
-    "theta": 0.9665
+    "theta": 0.9665,
+    "year": 1985
   },
   {
     "id": "iron-maiden-powerslave",
@@ -21491,7 +22684,8 @@ export const worksSeed = [
     "y": 2.4689,
     "z": 2.8162,
     "phi": 0.6871,
-    "theta": 1.0633
+    "theta": 1.0633,
+    "year": 1978
   },
   {
     "id": "slayer-raining-blood",
@@ -21509,7 +22703,8 @@ export const worksSeed = [
     "y": 4.0701,
     "z": 3.005,
     "phi": 1.7224,
-    "theta": 0.6415
+    "theta": 0.6415,
+    "year": 1981
   },
   {
     "id": "slayer-reign-in-blood",
@@ -21527,7 +22722,8 @@ export const worksSeed = [
     "y": 2.7627,
     "z": 3.6158,
     "phi": 1.0125,
-    "theta": 0.9958
+    "theta": 0.9958,
+    "year": 1987
   },
   {
     "id": "megadeth-peace-sells",
@@ -21545,7 +22741,8 @@ export const worksSeed = [
     "y": 2.9792,
     "z": 2.8032,
     "phi": 0.7495,
-    "theta": 0.9441
+    "theta": 0.9441,
+    "year": 1987
   },
   {
     "id": "megadeth-rust-in-peace",
@@ -21563,7 +22760,8 @@ export const worksSeed = [
     "y": 3.4368,
     "z": -0.2099,
     "phi": -0.0561,
-    "theta": 0.8277
+    "theta": 0.8277,
+    "year": 1989
   },
   {
     "id": "nine-inch-nails-hurt",
@@ -21581,7 +22779,8 @@ export const worksSeed = [
     "y": 2.5468,
     "z": 0.1658,
     "phi": 0.0377,
-    "theta": 1.0456
+    "theta": 1.0456,
+    "year": 1994
   },
   {
     "id": "nine-inch-nails-closer",
@@ -21599,7 +22798,8 @@ export const worksSeed = [
     "y": 3.0134,
     "z": 2.4649,
     "phi": 0.6469,
-    "theta": 0.9358
+    "theta": 0.9358,
+    "year": 1987
   },
   {
     "id": "nine-inch-nails-the-downward-spiral",
@@ -21617,7 +22817,8 @@ export const worksSeed = [
     "y": 2.3064,
     "z": 0.8741,
     "phi": 0.1943,
-    "theta": 1.0995
+    "theta": 1.0995,
+    "year": 1992
   },
   {
     "id": "rage-against-the-machine-killing-in-the-name",
@@ -21635,7 +22836,8 @@ export const worksSeed = [
     "y": 3.5221,
     "z": 1.4433,
     "phi": 0.4053,
-    "theta": 0.8047
+    "theta": 0.8047,
+    "year": 1990
   },
   {
     "id": "rage-against-the-machine-bulls-on-parade",
@@ -21653,7 +22855,8 @@ export const worksSeed = [
     "y": 3.243,
     "z": 1.8712,
     "phi": 0.499,
-    "theta": 0.8784
+    "theta": 0.8784,
+    "year": 1993
   },
   {
     "id": "rage-against-the-machine-rage-against-the-machine-album",
@@ -21671,7 +22874,8 @@ export const worksSeed = [
     "y": 4.3746,
     "z": 2.1239,
     "phi": 0.9657,
-    "theta": 0.5333
+    "theta": 0.5333,
+    "year": 1995
   },
   {
     "id": "tool-schism",
@@ -21689,7 +22893,8 @@ export const worksSeed = [
     "y": 2.0027,
     "z": 2.3527,
     "phi": 0.5282,
-    "theta": 1.1656
+    "theta": 1.1656,
+    "year": 1992
   },
   {
     "id": "tool-lateralus",
@@ -21707,7 +22912,8 @@ export const worksSeed = [
     "y": 3.6135,
     "z": 3.0095,
     "phi": 1.0025,
-    "theta": 0.7794
+    "theta": 0.7794,
+    "year": 1993
   },
   {
     "id": "tool-ænima",
@@ -21725,7 +22931,8 @@ export const worksSeed = [
     "y": 3.6454,
     "z": 1.376,
     "phi": 0.3995,
-    "theta": 0.7704
+    "theta": 0.7704,
+    "year": 1991
   },
   {
     "id": "tool-fear-inoculum",
@@ -21743,7 +22950,8 @@ export const worksSeed = [
     "y": 2.7687,
     "z": 2.3255,
     "phi": 0.5776,
-    "theta": 0.9944
+    "theta": 0.9944,
+    "year": 1992
   },
   {
     "id": "tool-10-000-days",
@@ -21761,7 +22969,8 @@ export const worksSeed = [
     "y": 3.2305,
     "z": 2.4416,
     "phi": 0.6723,
-    "theta": 0.8816
+    "theta": 0.8816,
+    "year": 1991
   },
   {
     "id": "the-cure-lovesong",
@@ -21779,7 +22988,8 @@ export const worksSeed = [
     "y": 2.0338,
     "z": 3.0289,
     "phi": 0.7084,
-    "theta": 1.1589
+    "theta": 1.1589,
+    "year": 1980
   },
   {
     "id": "the-cure-friday-i-m-in-love",
@@ -21797,7 +23007,8 @@ export const worksSeed = [
     "y": 1.35,
     "z": 4.8883,
     "phi": 1.5102,
-    "theta": 1.3018
+    "theta": 1.3018,
+    "year": 1985
   },
   {
     "id": "the-cure-disintegration",
@@ -21815,7 +23026,8 @@ export const worksSeed = [
     "y": 2.7309,
     "z": 2.0696,
     "phi": 0.5043,
-    "theta": 1.0032
+    "theta": 1.0032,
+    "year": 1982
   },
   {
     "id": "the-cure-pornography",
@@ -21833,7 +23045,8 @@ export const worksSeed = [
     "y": 4.0775,
     "z": 1.697,
     "phi": 0.5945,
-    "theta": 0.6391
+    "theta": 0.6391,
+    "year": 1980
   },
   {
     "id": "bauhaus-bela-lugosi-s-dead",
@@ -21851,7 +23064,8 @@ export const worksSeed = [
     "y": 4.3401,
     "z": 0.8819,
     "phi": 0.3406,
-    "theta": 0.5465
+    "theta": 0.5465,
+    "year": 1981
   },
   {
     "id": "bauhaus-in-the-flat-field",
@@ -21869,7 +23083,8 @@ export const worksSeed = [
     "y": 3.6238,
     "z": 3.1114,
     "phi": 1.0633,
-    "theta": 0.7765
+    "theta": 0.7765,
+    "year": 1978
   },
   {
     "id": "siouxsie-and-the-banshees-christine",
@@ -21887,7 +23102,8 @@ export const worksSeed = [
     "y": 3.7584,
     "z": 2.0909,
     "phi": 0.6583,
-    "theta": 0.738
+    "theta": 0.738,
+    "year": 1983
   },
   {
     "id": "siouxsie-and-the-banshees-the-scream",
@@ -21905,7 +23121,8 @@ export const worksSeed = [
     "y": 3.1272,
     "z": 0.7514,
     "phi": 0.1888,
-    "theta": 0.9077
+    "theta": 0.9077,
+    "year": 1977
   },
   {
     "id": "bad-bunny-dakiti",
@@ -21923,7 +23140,8 @@ export const worksSeed = [
     "y": 0.778,
     "z": -2.7988,
     "phi": 5.6918,
-    "theta": 1.417
+    "theta": 1.417,
+    "year": 2018
   },
   {
     "id": "bad-bunny-la-canción",
@@ -21941,7 +23159,8 @@ export const worksSeed = [
     "y": 2.833,
     "z": -4.2167,
     "phi": 4.7152,
-    "theta": 0.9792
+    "theta": 0.9792,
+    "year": 2019
   },
   {
     "id": "bad-bunny-un-verano-sin-ti",
@@ -21959,7 +23178,8 @@ export const worksSeed = [
     "y": 2.3118,
     "z": -3.5224,
     "phi": 5.3906,
-    "theta": 1.0983
+    "theta": 1.0983,
+    "year": 2024
   },
   {
     "id": "bad-bunny-yhlqmdlg",
@@ -21977,7 +23197,8 @@ export const worksSeed = [
     "y": 3.3622,
     "z": -3.4211,
     "phi": 5.1671,
-    "theta": 0.8475
+    "theta": 0.8475,
+    "year": 2023
   },
   {
     "id": "bad-bunny-el-último-tour-del-mundo",
@@ -21995,7 +23216,8 @@ export const worksSeed = [
     "y": 0.9161,
     "z": -4.8234,
     "phi": 4.9765,
-    "theta": 1.3895
+    "theta": 1.3895,
+    "year": 2020
   },
   {
     "id": "j-balvin-mi-gente",
@@ -22013,7 +23235,8 @@ export const worksSeed = [
     "y": -4.0151,
     "z": 2.6555,
     "phi": 2.1194,
-    "theta": 2.4822
+    "theta": 2.4822,
+    "year": 2020
   },
   {
     "id": "j-balvin-con-calma",
@@ -22031,7 +23254,8 @@ export const worksSeed = [
     "y": -4.0752,
     "z": -0.0882,
     "phi": 3.1707,
-    "theta": 2.5018
+    "theta": 2.5018,
+    "year": 2017
   },
   {
     "id": "j-balvin-reggaeton",
@@ -22049,7 +23273,8 @@ export const worksSeed = [
     "y": -1.6503,
     "z": -3.1123,
     "phi": 3.8463,
-    "theta": 1.9017
+    "theta": 1.9017,
+    "year": 2021
   },
   {
     "id": "ozuna-taki-taki",
@@ -22067,7 +23292,8 @@ export const worksSeed = [
     "y": -2.4743,
     "z": -0.6961,
     "phi": 3.2991,
-    "theta": 2.0795
+    "theta": 2.0795,
+    "year": 2014
   },
   {
     "id": "ozuna-te-boté",
@@ -22085,7 +23311,8 @@ export const worksSeed = [
     "y": -3.5724,
     "z": -1.6025,
     "phi": 3.6013,
-    "theta": 2.3507
+    "theta": 2.3507,
+    "year": 2017
   },
   {
     "id": "ozuna-aura",
@@ -22103,7 +23330,8 @@ export const worksSeed = [
     "y": -3.5523,
     "z": 2.0627,
     "phi": 2.5375,
-    "theta": 2.3452
+    "theta": 2.3452,
+    "year": 2015
   },
   {
     "id": "maluma-hawái",
@@ -22121,7 +23349,8 @@ export const worksSeed = [
     "y": -3.6662,
     "z": -0.0145,
     "phi": 3.1457,
-    "theta": 2.377
+    "theta": 2.377,
+    "year": 2013
   },
   {
     "id": "maluma-felices-los-4",
@@ -22139,7 +23368,8 @@ export const worksSeed = [
     "y": -4.5462,
     "z": -0.8126,
     "phi": 3.5082,
-    "theta": 2.679
+    "theta": 2.679,
+    "year": 2013
   },
   {
     "id": "shakira-hips-don-t-lie",
@@ -22157,7 +23387,8 @@ export const worksSeed = [
     "y": -0.2754,
     "z": 1.1358,
     "phi": 2.9158,
-    "theta": 1.625
+    "theta": 1.625,
+    "year": 2001
   },
   {
     "id": "shakira-waka-waka",
@@ -22175,7 +23406,8 @@ export const worksSeed = [
     "y": -4.9146,
     "z": 1.2051,
     "phi": 1.2145,
-    "theta": 2.8857
+    "theta": 2.8857,
+    "year": 1999
   },
   {
     "id": "shakira-she-wolf",
@@ -22193,7 +23425,8 @@ export const worksSeed = [
     "y": -1.7565,
     "z": -2.6938,
     "phi": 3.7422,
-    "theta": 1.9239
+    "theta": 1.9239,
+    "year": 2000
   },
   {
     "id": "shakira-laundry-service",
@@ -22211,7 +23444,8 @@ export const worksSeed = [
     "y": 2.6487,
     "z": -4.1488,
     "phi": 4.4183,
-    "theta": 1.0223
+    "theta": 1.0223,
+    "year": 2000
   },
   {
     "id": "enrique-iglesias-hero",
@@ -22229,7 +23463,8 @@ export const worksSeed = [
     "y": -3.3042,
     "z": 1.7638,
     "phi": 2.6668,
-    "theta": 2.279
+    "theta": 2.279,
+    "year": 1994
   },
   {
     "id": "enrique-iglesias-bailamos",
@@ -22247,7 +23482,8 @@ export const worksSeed = [
     "y": -2.389,
     "z": 4.0817,
     "phi": 1.9972,
-    "theta": 2.0604
+    "theta": 2.0604,
+    "year": 2001
   },
   {
     "id": "enrique-iglesias-tonight",
@@ -22265,7 +23501,8 @@ export const worksSeed = [
     "y": -2.5406,
     "z": -0.3614,
     "phi": 3.2238,
-    "theta": 2.0945
+    "theta": 2.0945,
+    "year": 1997
   },
   {
     "id": "daddy-yankee-gasolina",
@@ -22283,7 +23520,8 @@ export const worksSeed = [
     "y": -4.1419,
     "z": 1.3056,
     "phi": 2.6817,
-    "theta": 2.5241
+    "theta": 2.5241,
+    "year": 2001
   },
   {
     "id": "daddy-yankee-despacito",
@@ -22301,7 +23539,8 @@ export const worksSeed = [
     "y": -0.68,
     "z": 3.0136,
     "phi": 2.4998,
-    "theta": 1.7051
+    "theta": 1.7051,
+    "year": 2005
   },
   {
     "id": "luis-fonsi-despacito",
@@ -22319,7 +23558,8 @@ export const worksSeed = [
     "y": -3.8776,
     "z": -0.1467,
     "phi": 3.1863,
-    "theta": 2.4392
+    "theta": 2.4392,
+    "year": 2014
   },
   {
     "id": "luis-fonsi-échame-la-culpa",
@@ -22337,7 +23577,8 @@ export const worksSeed = [
     "y": -4.4273,
     "z": 1.5391,
     "phi": 2.4756,
-    "theta": 2.6291
+    "theta": 2.6291,
+    "year": 2020
   },
   {
     "id": "rosalía-malamente",
@@ -22355,7 +23596,8 @@ export const worksSeed = [
     "y": 0.1065,
     "z": -4.3253,
     "phi": 5.2641,
-    "theta": 1.5498
+    "theta": 1.5498,
+    "year": 2022
   },
   {
     "id": "rosalía-motomami",
@@ -22373,7 +23615,8 @@ export const worksSeed = [
     "y": 2.4968,
     "z": -4.1559,
     "phi": 5.0623,
-    "theta": 1.057
+    "theta": 1.057,
+    "year": 2020
   },
   {
     "id": "rosalía-el-mal-querer",
@@ -22391,7 +23634,8 @@ export const worksSeed = [
     "y": 1.6514,
     "z": -4.7445,
     "phi": 4.8701,
-    "theta": 1.2397
+    "theta": 1.2397,
+    "year": 2019
   },
   {
     "id": "rosalía-con-altura",
@@ -22409,7 +23653,8 @@ export const worksSeed = [
     "y": 0.1692,
     "z": -4.6793,
     "phi": 5.1109,
-    "theta": 1.5375
+    "theta": 1.5375,
+    "year": 2017
   },
   {
     "id": "c-tangana-tú-me-dejaste-de-querer",
@@ -22427,7 +23672,8 @@ export const worksSeed = [
     "y": 1.9967,
     "z": -4.5553,
     "phi": 4.9356,
-    "theta": 1.1669
+    "theta": 1.1669,
+    "year": 2020
   },
   {
     "id": "c-tangana-el-madrileño",
@@ -22445,7 +23691,8 @@ export const worksSeed = [
     "y": 0.8476,
     "z": -4.8404,
     "phi": 4.9724,
-    "theta": 1.4032
+    "theta": 1.4032,
+    "year": 2023
   },
   {
     "id": "fito-páez-el-amor-después-del-amor",
@@ -22463,7 +23710,8 @@ export const worksSeed = [
     "y": 2.2024,
     "z": -4.3774,
     "phi": 5.0094,
-    "theta": 1.1224
+    "theta": 1.1224,
+    "year": 1993
   },
   {
     "id": "fito-páez-ciudad-de-pobres-corazones",
@@ -22481,7 +23729,8 @@ export const worksSeed = [
     "y": 2.4158,
     "z": -3.9075,
     "phi": 5.219,
-    "theta": 1.0752
+    "theta": 1.0752,
+    "year": 1994
   },
   {
     "id": "caetano-veloso-cucurrucucú-paloma",
@@ -22499,7 +23748,8 @@ export const worksSeed = [
     "y": 2.6281,
     "z": -4.3318,
     "phi": 4.797,
-    "theta": 1.027
+    "theta": 1.027,
+    "year": 1970
   },
   {
     "id": "gilberto-gil-expresso-2222",
@@ -22517,7 +23767,8 @@ export const worksSeed = [
     "y": 0.9248,
     "z": -4.932,
     "phi": 4.8716,
-    "theta": 1.3877
+    "theta": 1.3877,
+    "year": 1975
   },
   {
     "id": "gilberto-gil-realce",
@@ -22535,7 +23786,8 @@ export const worksSeed = [
     "y": 3.2592,
     "z": -3.739,
     "phi": 4.9978,
-    "theta": 0.8743
+    "theta": 0.8743,
+    "year": 1969
   },
   {
     "id": "tom-jobim-the-girl-from-ipanema",
@@ -22553,7 +23805,8 @@ export const worksSeed = [
     "y": 1.3923,
     "z": -4.1717,
     "phi": 5.2597,
-    "theta": 1.2932
+    "theta": 1.2932,
+    "year": 1956
   },
   {
     "id": "tom-jobim-garota-de-ipanema",
@@ -22571,7 +23824,8 @@ export const worksSeed = [
     "y": 2.4862,
     "z": -4.317,
     "phi": 4.9388,
-    "theta": 1.0594
+    "theta": 1.0594,
+    "year": 1964
   },
   {
     "id": "tom-jobim-wave",
@@ -22589,7 +23843,8 @@ export const worksSeed = [
     "y": 2.1857,
     "z": -4.5735,
     "phi": 4.6394,
-    "theta": 1.126
+    "theta": 1.126,
+    "year": 1956
   },
   {
     "id": "tom-jobim-stone-flower",
@@ -22607,6 +23862,7 @@ export const worksSeed = [
     "y": 1.0101,
     "z": -4.9758,
     "phi": 4.7457,
-    "theta": 1.3706
+    "theta": 1.3706,
+    "year": 1962
   }
 ];

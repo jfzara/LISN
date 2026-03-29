@@ -1,17 +1,8 @@
 "use client";
 
-/**
- * GlobeScene v5
- *
- * Corrections Rules of Hooks :
- * - buildGlobeModel() calculé UNE FOIS au module level (pas dans useMemo)
- * - WorkPoint ne fait jamais de return conditionnel entre hooks
- * - Tous les filtres sont des variables JS, pas des changements de structure de hooks
- */
-
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { Suspense, useRef, useState, useMemo } from "react";
+import { Suspense, useRef, useState, useMemo, useEffect } from "react";
 import * as THREE from "three";
 
 import { buildGlobeModel } from "@/lib/lisn/buildGlobeModel";
@@ -21,34 +12,113 @@ import WorkLink            from "./WorkLink";
 import TerritoryField      from "./TerritoryField";
 import ClusterCloud        from "./ClusterCloud";
 
-// ── Modèle calculé une seule fois au chargement du module ────────
-// Jamais dans un useMemo — évite tout re-trigger lié au cycle React
+// ── Modèle géographique — une seule fois ──────────────────────────
 const GLOBE_MODEL = buildGlobeModel(worksSeed);
+const FULL_NODE_INDEX = (() => {
+  const m = {};
+  GLOBE_MODEL.nodes.forEach(n => { m[n.id] = n; });
+  return m;
+})();
 
 const CAM_MIN = 6.5;
 const CAM_MAX = 24;
 
-// ── Globe opaque ──────────────────────────────────────────────────
-function GlobeBody() {
+// Vecteurs réutilisables — pas d'allocation dans useFrame
+const _v1 = new THREE.Vector3();
+const _v2 = new THREE.Vector3();
+const _v3 = new THREE.Vector3();
+
+// ── Utilitaire arc géodésique ─────────────────────────────────────
+function buildArc(ax, ay, az, bx, by, bz, lift = 0.15, segments = 18) {
+  _v1.set(ax, ay, az);
+  _v2.set(bx, by, bz);
+  const r = _v1.length() + lift;
+  const pts = [];
+  for (let i = 0; i <= segments; i++) {
+    _v3.lerpVectors(_v1, _v2, i / segments).setLength(r);
+    pts.push(_v3.clone());
+  }
+  return pts;
+}
+
+// ── Globe opaque — segments réduits ──────────────────────────────
+function GlobeBody({ dark }) {
   return (
     <mesh raycast={() => null}>
-      <sphereGeometry args={[5.0, 128, 128]} />
-      <meshStandardMaterial color="#0c0a08" roughness={0.90} metalness={0.03} />
+      <sphereGeometry args={[5.0, 48, 48]} />
+      <meshStandardMaterial
+        color={dark ? "#0d0b09" : "#e6dfd6"}
+        roughness={0.92} metalness={0.02}
+      />
     </mesh>
   );
 }
 
-// ── Atmosphère ────────────────────────────────────────────────────
-function GlobeAtmosphere() {
+// ── Atmosphère — halo fin aérien visible sur toute la surface ─────
+function GlobeAtmosphere({ dark }) {
   return (
-    <mesh raycast={() => null}>
-      <sphereGeometry args={[5.28, 64, 64]} />
-      <meshBasicMaterial
-        color="#1a3366" transparent opacity={0.022}
-        side={THREE.BackSide} depthWrite={false}
-      />
-    </mesh>
+    <>
+      <mesh raycast={() => null}>
+        <sphereGeometry args={[5.18, 32, 32]} />
+        <meshBasicMaterial
+          color={dark ? "#1a2a44" : "#c8d8ec"}
+          transparent opacity={dark ? 0.06 : 0.11}
+          depthWrite={false}
+        />
+      </mesh>
+      <mesh raycast={() => null}>
+        <sphereGeometry args={[5.09, 32, 32]} />
+        <meshBasicMaterial
+          color={dark ? "#0c1828" : "#dde8f2"}
+          transparent opacity={dark ? 0.04 : 0.07}
+          depthWrite={false}
+        />
+      </mesh>
+    </>
   );
+}
+
+// ── Auto-rotation ─────────────────────────────────────────────────
+function AutoRotate({ enabled }) {
+  const { camera } = useThree();
+  const sph = useRef(new THREE.Spherical());
+  useEffect(() => { sph.current.setFromVector3(camera.position); }, [camera]);
+  useFrame(() => {
+    if (!enabled) return;
+    sph.current.theta += 0.0016;
+    camera.position.setFromSpherical(sph.current);
+    camera.lookAt(0, 0, 0);
+  });
+  return null;
+}
+
+// ── Animation caméra ─────────────────────────────────────────────
+function CameraAnimator({ target }) {
+  const { camera } = useThree();
+  const animating  = useRef(false);
+  const progress   = useRef(0);
+  const startPos   = useRef(new THREE.Vector3());
+  const endPos     = useRef(new THREE.Vector3());
+
+  useEffect(() => {
+    if (!target) return;
+    const dir  = _v1.set(target.x ?? 0, target.y ?? 0, target.z ?? 0).normalize();
+    const dist = Math.max(CAM_MIN + 1.5, camera.position.length());
+    startPos.current.copy(camera.position);
+    endPos.current.copy(dir).multiplyScalar(dist);
+    progress.current = 0;
+    animating.current = true;
+  }, [target?.id]);
+
+  useFrame(() => {
+    if (!animating.current) return;
+    progress.current = Math.min(1, progress.current + 0.028);
+    const t = 1 - Math.pow(1 - progress.current, 3);
+    camera.position.lerpVectors(startPos.current, endPos.current, t);
+    camera.lookAt(0, 0, 0);
+    if (progress.current >= 1) animating.current = false;
+  });
+  return null;
 }
 
 // ── Capteur de zoom ───────────────────────────────────────────────
@@ -64,8 +134,39 @@ function ZoomSensor({ onChange }) {
   return null;
 }
 
-// ── Couche de liens ───────────────────────────────────────────────
-// Composant stable — reçoit la liste filtrée en prop, pas de hook conditionnel
+// ── Long-press mobile → zoom ──────────────────────────────────────
+function MobileLongPress({ onLongPress }) {
+  const { gl, camera } = useThree();
+  const timer   = useRef(null);
+  const startDist = useRef(null);
+
+  useEffect(() => {
+    const el = gl.domElement;
+
+    function onTouchStart(e) {
+      if (e.touches.length !== 1) return;
+      startDist.current = camera.position.length();
+      timer.current = setTimeout(() => {
+        // Zoomer progressivement
+        onLongPress();
+      }, 500);
+    }
+    function onTouchMove() { clearTimeout(timer.current); }
+    function onTouchEnd()  { clearTimeout(timer.current); }
+
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove",  onTouchMove,  { passive: true });
+    el.addEventListener("touchend",   onTouchEnd,   { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove",  onTouchMove);
+      el.removeEventListener("touchend",   onTouchEnd);
+    };
+  }, [gl, camera, onLongPress]);
+  return null;
+}
+
+// ── Liens de base ────────────────────────────────────────────────
 function LinkLayer({ visibleLinks, nodeIndex, distanceFactor, selectedWork, hoveredWork }) {
   return (
     <>
@@ -76,15 +177,13 @@ function LinkLayer({ visibleLinks, nodeIndex, distanceFactor, selectedWork, hove
         return (
           <WorkLink
             key={`${link.source}--${link.target}`}
-            workA={wa}
-            workB={wb}
+            workA={wa} workB={wb}
             distanceFactor={distanceFactor}
             isHighlighted={
               selectedWork?.id === wa.id || selectedWork?.id === wb.id ||
               hoveredWork?.id  === wa.id || hoveredWork?.id  === wb.id
             }
-            strength={link.strength}
-            isBridge={link.bridge}
+            strength={link.strength} isBridge={link.bridge}
           />
         );
       })}
@@ -92,24 +191,130 @@ function LinkLayer({ visibleLinks, nodeIndex, distanceFactor, selectedWork, hove
   );
 }
 
+// ── Liens "Explorer autour" — géométries dans useMemo ─────────────
+function NearbyLinks({ selectedWork, nearbyWorks }) {
+  const linesRef = useRef([]);
+
+  const geos = useMemo(() => {
+    if (!selectedWork || !nearbyWorks?.length) return [];
+    const src = FULL_NODE_INDEX[selectedWork.id] || selectedWork;
+    return nearbyWorks.map((w, i) => {
+      const nd  = FULL_NODE_INDEX[w.id] || w;
+      const pts = buildArc(
+        src.x??0, src.y??0, src.z??0,
+        nd.x??0,  nd.y??0,  nd.z??0,
+        0.18, 16
+      );
+      return new THREE.BufferGeometry().setFromPoints(pts);
+    });
+  }, [selectedWork?.id, nearbyWorks?.length]);
+
+  // Dispose géométries périmées
+  useEffect(() => () => { geos.forEach(g => g.dispose()); }, [geos]);
+
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    linesRef.current.forEach((line, i) => {
+      if (line?.material) {
+        line.material.opacity = 0.12 + Math.sin(t * 1.1 + i * 0.4) * 0.08;
+      }
+    });
+  });
+
+  if (!geos.length) return null;
+
+  return (
+    <>
+      {geos.map((geo, i) => (
+        <line key={i} geometry={geo} ref={el => { linesRef.current[i] = el; }}>
+          <lineBasicMaterial color="#ffffff" transparent opacity={0.14} depthWrite={false} />
+        </line>
+      ))}
+    </>
+  );
+}
+
+// ── Trajectoire artiste ───────────────────────────────────────────
+function ArtistTrajectory({ trajectoryWorks, selectedWork }) {
+  const lineRef = useRef();
+
+  const { geometry, color, dots } = useMemo(() => {
+    if (!trajectoryWorks?.length || trajectoryWorks.length < 2) {
+      return { geometry: null, color: "#ffffff", dots: [] };
+    }
+    const works = trajectoryWorks
+      .map(w => FULL_NODE_INDEX[w.id] || w)
+      .filter(w => w.x != null);
+    if (works.length < 2) return { geometry: null, color: "#ffffff", dots: [] };
+
+    const BIOME_COL = {
+      dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
+      narrative:"#FF9A4D", hybrid:"#C07AE8",
+    };
+    const col = BIOME_COL[works[0]?.biome] || "#e8dfc8";
+
+    const allPts = [];
+    for (let i = 0; i < works.length - 1; i++) {
+      const arc = buildArc(
+        works[i].x, works[i].y, works[i].z,
+        works[i+1].x, works[i+1].y, works[i+1].z,
+        0.22, 14
+      );
+      if (i > 0) arc.shift();
+      allPts.push(...arc);
+    }
+    const geo = new THREE.BufferGeometry().setFromPoints(allPts);
+    return { geometry: geo, color: col, dots: works };
+  }, [trajectoryWorks?.length]);
+
+  useEffect(() => () => { geometry?.dispose(); }, [geometry]);
+
+  useFrame(({ clock }) => {
+    if (lineRef.current?.material) {
+      lineRef.current.material.opacity = 0.25 + Math.sin(clock.elapsedTime * 0.5) * 0.07;
+    }
+  });
+
+  if (!geometry) return null;
+
+  return (
+    <group>
+      <line ref={lineRef} geometry={geometry}>
+        <lineBasicMaterial color={color} transparent opacity={0.28} depthWrite={false} />
+      </line>
+      {dots.map((w, i) => {
+        const r  = 0.018 + ((w.score||5)-5)/5 * 0.016;
+        const sel = selectedWork?.id === w.id;
+        return (
+          <mesh key={w.id} position={[w.x, w.y, w.z]}>
+            <sphereGeometry args={[sel ? r*1.8 : r, 8, 8]} />
+            <meshBasicMaterial color={sel ? "#ffffff" : color} transparent opacity={sel ? 0.9 : 0.55} />
+          </mesh>
+        );
+      })}
+    </group>
+  );
+}
+
 // ── Scène interne ─────────────────────────────────────────────────
-function GlobeInner({ activeFilter, selectedWork, hoveredWork, onSelectWork, onHoverWork }) {
-  // Tous les hooks en premier, sans exception
+function GlobeInner({
+  works, activeFilter,
+  selectedWork, hoveredWork,
+  onSelectWork, onHoverWork,
+  dark, autoRotating, onInteract,
+  nearbyWorks, trajectoryWorks,
+}) {
   const [df, setDf] = useState(0.5);
+  const controlsRef = useRef();
+  const { camera }  = useThree();
 
-  const { nodes, links, clusters, territories } = GLOBE_MODEL;
+  const { links, clusters, territories } = GLOBE_MODEL;
+  const nodeIndex = FULL_NODE_INDEX;
 
-  // Index stable — GLOBE_MODEL ne change jamais
-  const nodeIndex = useMemo(() => {
-    const m = {};
-    nodes.forEach(n => { m[n.id] = n; });
-    return m;
-  }, [nodes]);
-
-  // Filtres — simples dérivations JS, pas de changement de structure de hooks
-  const visibleNodes = useMemo(() =>
-    activeFilter === "all" ? nodes : nodes.filter(n => n.biome === activeFilter),
-  [nodes, activeFilter]);
+  const visibleNodes = useMemo(() => {
+    if (!Array.isArray(works) || !works.length) return GLOBE_MODEL.nodes;
+    return works.map(w => FULL_NODE_INDEX[w.id] || w);
+  }, [works]);
 
   const visibleTerritories = useMemo(() =>
     activeFilter === "all" ? territories : territories.filter(t => t.biome === activeFilter),
@@ -119,31 +324,55 @@ function GlobeInner({ activeFilter, selectedWork, hoveredWork, onSelectWork, onH
     activeFilter === "all" ? clusters : clusters.filter(c => c.biome === activeFilter),
   [clusters, activeFilter]);
 
-  // Liens filtrés selon zoom — calcul JS pur, pas de hook
+  // Liens — limités selon zoom, max 400 rendus à la fois
   const visibleLinks = useMemo(() => {
-    if (df > 0.75) return links.filter(l => l.bridge);
-    if (df > 0.45) return links.filter(l => l.strong || l.bridge);
-    return links;
+    let filtered;
+    if (df > 0.75) filtered = links.filter(l => l.bridge);
+    else if (df > 0.45) filtered = links.filter(l => l.strong || l.bridge);
+    else filtered = links;
+    return filtered.slice(0, 400); // cap dur
   }, [links, df]);
+
+  // Long press mobile → zoom doux
+  const handleLongPress = () => {
+    const dir  = camera.position.clone().normalize();
+    const cur  = camera.position.length();
+    const next = Math.max(CAM_MIN, cur - 2.5);
+    const start = camera.position.clone();
+    const end   = dir.multiplyScalar(next);
+    let p = 0;
+    const animate = () => {
+      p = Math.min(1, p + 0.04);
+      camera.position.lerpVectors(start, end, 1 - Math.pow(1-p, 3));
+      camera.lookAt(0, 0, 0);
+      if (p < 1) requestAnimationFrame(animate);
+    };
+    animate();
+  };
 
   return (
     <>
       <ZoomSensor onChange={setDf} />
-      <color attach="background" args={["#040302"]} />
+      <AutoRotate enabled={autoRotating} />
+      <CameraAnimator target={selectedWork} />
+      <MobileLongPress onLongPress={handleLongPress} />
+      <color attach="background" args={[dark ? "#050403" : "#ece6df"]} />
 
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 8, 6]}   intensity={1.3} color="#fff8f0" />
-      <directionalLight position={[-8, -6, -4]}  intensity={0.25} color="#3355cc" />
-      <pointLight       position={[0, 14, 8]}    intensity={0.4} />
+      <ambientLight intensity={dark ? 0.55 : 1.4} />
+      <directionalLight position={[10, 8, 6]}  intensity={dark ? 1.2 : 1.8} color={dark ? "#fff8f0" : "#ffffff"} />
+      <directionalLight position={[-8, -6, -4]} intensity={dark ? 0.22 : 0.35} color={dark ? "#334466" : "#bbccdd"} />
+      <pointLight position={[0, 12, 8]} intensity={dark ? 0.35 : 0.5} />
 
       <Suspense fallback={null}>
-        <GlobeBody />
+        <GlobeBody dark={dark} />
+        <GlobeAtmosphere dark={dark} />
 
-        {visibleTerritories.map(t => (
-          <TerritoryField key={t.id} territory={t} distanceFactor={df} />
+        {/* Territoires — seulement 15 max pour éviter la surcharge */}
+        {visibleTerritories.slice(0, 15).map(t => (
+          <TerritoryField key={t.id} territory={t} distanceFactor={df} dark={dark} />
         ))}
 
-        {visibleClusters.map(c => (
+        {visibleClusters.slice(0, 15).map(c => (
           <ClusterCloud key={c.id} cluster={c} distanceFactor={df} />
         ))}
 
@@ -155,6 +384,9 @@ function GlobeInner({ activeFilter, selectedWork, hoveredWork, onSelectWork, onH
           hoveredWork={hoveredWork}
         />
 
+        <NearbyLinks selectedWork={selectedWork} nearbyWorks={nearbyWorks} />
+        <ArtistTrajectory trajectoryWorks={trajectoryWorks} selectedWork={selectedWork} />
+
         {visibleNodes.map(node => (
           <WorkPoint
             key={node.id}
@@ -162,22 +394,24 @@ function GlobeInner({ activeFilter, selectedWork, hoveredWork, onSelectWork, onH
             selected={selectedWork?.id === node.id}
             hovered={hoveredWork?.id   === node.id}
             distanceFactor={df}
+            dark={dark}
             onHover={onHoverWork}
             onSelect={onSelectWork}
           />
         ))}
-
-        <GlobeAtmosphere />
       </Suspense>
 
       <OrbitControls
+        ref={controlsRef}
         enablePan={false}
         enableDamping
-        dampingFactor={0.07}
-        rotateSpeed={0.60}
-        zoomSpeed={0.80}
+        dampingFactor={0.08}
+        rotateSpeed={0.55}
+        zoomSpeed={0.75}
         minDistance={CAM_MIN}
         maxDistance={CAM_MAX}
+        onStart={onInteract}
+        touches={{ ONE: 2, TWO: 512 }}
       />
     </>
   );
@@ -185,25 +419,38 @@ function GlobeInner({ activeFilter, selectedWork, hoveredWork, onSelectWork, onH
 
 // ── Export ────────────────────────────────────────────────────────
 export default function GlobeScene({
-  selectedWork,
-  hoveredWork,
-  onSelectWork,
-  onHoverWork,
-  activeFilter = "all",
+  works, selectedWork, hoveredWork,
+  onSelectWork, onHoverWork,
+  activeFilter = "all", dark = true,
+  nearbyWorks = [], trajectoryWorks = [],
 }) {
+  const [autoRotating, setAutoRotating] = useState(true);
+
   return (
     <Canvas
       camera={{ position: [0, 0, 14], fov: 44 }}
       style={{ width: "100%", height: "100%" }}
-      gl={{ antialias: true }}
+      gl={{
+        antialias: true,           // réactivé — lissage des bords WorkPoint
+        powerPreference: "high-performance",
+        alpha: false,
+      }}
+      dpr={[1, 1.5]}               // cap DPR à 1.5 — compromis lissé/performance
+      frameloop="always"
       onPointerMissed={() => onHoverWork?.(null)}
     >
       <GlobeInner
+        works={works}
         activeFilter={activeFilter}
         selectedWork={selectedWork}
         hoveredWork={hoveredWork}
         onSelectWork={onSelectWork}
         onHoverWork={onHoverWork}
+        dark={dark}
+        autoRotating={autoRotating}
+        onInteract={() => setAutoRotating(false)}
+        nearbyWorks={nearbyWorks}
+        trajectoryWorks={trajectoryWorks}
       />
     </Canvas>
   );
