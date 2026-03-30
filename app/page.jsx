@@ -70,6 +70,7 @@ const UI = {
       ],
       helpLink: "Comment ça marche ? →",
       slogan: "Not more music. Better music.",
+      skip: "Passer →",
     },
     hover: { year: "" },
     compare: { instruction1: "Cliquez une première œuvre sur le globe", instruction2: "Cliquez une deuxième œuvre à comparer" },
@@ -479,12 +480,18 @@ function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
 
 // ── Page principale ─────────────────────────────────────────────────
 export default function HomePage() {
-  const [dark,            setDark]            = useState(true);
+  const [dark, setDark] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem("lisn-theme") !== "light";
+  });
   const [mobile,          setMobile]          = useState(false);
   const [showFilters,     setShowFilters]     = useState(false);
   const [showHelp,        setShowHelp]        = useState(false);
   const [showLegend,      setShowLegend]      = useState(true);
-  const [lang,            setLang]            = useState("fr");
+  const [lang, setLang] = useState(() => {
+    if (typeof window === "undefined") return "fr";
+    return localStorage.getItem("lisn-lang") === "en" ? "en" : "fr";
+  });
   const [showOnboarding,  setShowOnboarding]  = useState(false);
   const [selectedWork,    setSelectedWork]    = useState(null);
   const [hoveredWork,     setHoveredWork]     = useState(null);
@@ -516,16 +523,14 @@ export default function HomePage() {
   const [analysisWork, setAnalysisWork] = useState(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("lisn-theme");
-    if (saved === "light") setDark(false);
-    const savedLang = localStorage.getItem("lisn-lang");
-    if (savedLang === "en") setLang("en");
+    // dark + lang chargés via useState lazy init
+    // lang chargé via useState lazy init
     setMobile(window.innerWidth < 768);
     const onResize = () => setMobile(window.innerWidth < 768);
     window.addEventListener("resize", onResize);
     // Onboarding — s'affiche 3s à chaque ouverture, disparaît automatiquement
     setShowOnboarding(true);
-    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 8000);
+    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 3000);
     // Idle hint — après 8s sans interaction
     idleHintTimer.current = setTimeout(() => setShowIdleHint(true), 8000);
     return () => {
