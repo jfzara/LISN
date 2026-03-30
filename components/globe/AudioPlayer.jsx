@@ -31,6 +31,7 @@ export default function AudioPlayer({ work, dark }) {
   const [videoId,       setVideoId]       = useState(null);
   const [thumbnail,     setThumbnail]     = useState(null);
   const [videoTitle,    setVideoTitle]    = useState(null);
+  const [channelTitle,  setChannelTitle]  = useState(null);
   const [signatureTitle,setSignatureTitle]= useState(null);
   const [errorMsg,      setErrorMsg]      = useState(null);
   const [showEmbed,     setShowEmbed]     = useState(false);
@@ -68,6 +69,7 @@ export default function AudioPlayer({ work, dark }) {
       setVideoId(data.videoId);
       setThumbnail(data.thumbnail || null);
       setVideoTitle(data.videoTitle || null);
+      setChannelTitle(data.channelTitle || null);
       // Si artiste — indiquer quelle signature track joue
       if (work.entityType === "artist" && searchTitle !== work.artist) {
         setSignatureTitle(searchTitle);
@@ -155,6 +157,16 @@ export default function AudioPlayer({ work, dark }) {
               ? `▸ ${signatureTitle}`
               : "▸ Écouter sur YouTube"}
           </div>
+          {/* Chaîne source — aide à détecter réaction/cover */}
+          {state === "ready" && channelTitle && (
+            <div style={{
+              fontSize: 8, color: muted, marginTop: 1, opacity: 0.6,
+              fontFamily: "'DM Mono',monospace", letterSpacing: "0.04em",
+              overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+            }}>
+              {channelTitle}
+            </div>
+          )}
         </div>
 
         {/* Indicateur */}

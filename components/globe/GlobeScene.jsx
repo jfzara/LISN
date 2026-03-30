@@ -448,8 +448,8 @@ function GlobeInner({
         maxDistance={CAM_MAX}
         onStart={onInteract}
         touches={{
-          ONE: THREE.TOUCH.ROTATE,  // 1 doigt = rotation uniquement
-          TWO: THREE.TOUCH.DOLLY,   // 2 doigts = zoom uniquement, PAS de rotation
+          ONE: THREE.TOUCH.ROTATE,      // 1 doigt = rotation
+          TWO: THREE.TOUCH.DOLLY_PAN,   // 2 doigts = zoom (pan désactivé par enablePan=false)
         }}
       />
     </>
