@@ -441,15 +441,15 @@ function GlobeInner({
         ref={controlsRef}
         enablePan={false}
         enableDamping
-        dampingFactor={0.08}
-        rotateSpeed={0.55}
-        zoomSpeed={0.75}
+        dampingFactor={0.12}      // plus de résistance = moins de dérive
+        rotateSpeed={0.50}
+        zoomSpeed={0.60}           // zoom plus lent = plus de contrôle
         minDistance={CAM_MIN}
         maxDistance={CAM_MAX}
         onStart={onInteract}
         touches={{
-          ONE: THREE.TOUCH.ROTATE,   // 1 doigt = rotation
-          TWO: THREE.TOUCH.DOLLY_ROTATE, // 2 doigts = pinch zoom
+          ONE: THREE.TOUCH.ROTATE,  // 1 doigt = rotation uniquement
+          TWO: THREE.TOUCH.DOLLY,   // 2 doigts = zoom uniquement, PAS de rotation
         }}
       />
     </>
