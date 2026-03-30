@@ -70,7 +70,7 @@ export default function SearchBar({ dark, onSelect, T }) {
           placeholder="Artiste ou titre…"
           style={{
             background: "none", border: "none", outline: "none",
-            fontSize: 10, color: T.text, width: 140,
+            fontSize: 10, color: T.text, width: 120,
             fontFamily: "'DM Mono', monospace",
             letterSpacing: "0.06em",
           }}

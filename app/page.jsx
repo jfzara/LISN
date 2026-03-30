@@ -154,6 +154,7 @@ export default function HomePage() {
   const [mobile,          setMobile]          = useState(false);
   const [showFilters,     setShowFilters]     = useState(false);
   const [showHelp,        setShowHelp]        = useState(false);
+  const [lang,            setLang]            = useState("fr");
   const [showOnboarding,  setShowOnboarding]  = useState(true);
   const [selectedWork,    setSelectedWork]    = useState(null);
   const [hoveredWork,     setHoveredWork]     = useState(null);
@@ -181,11 +182,21 @@ export default function HomePage() {
     setMobile(window.innerWidth < 768);
     const onResize = () => setMobile(window.innerWidth < 768);
     window.addEventListener("resize", onResize);
+    const savedLang = localStorage.getItem("lisn-lang");
+    if (savedLang === "en") setLang("en");
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
   function toggleDark() {
     setDark(v => { localStorage.setItem("lisn-theme", v ? "light" : "dark"); return !v; });
+  }
+
+  function toggleLang() {
+    setLang(v => {
+      const next = v === "fr" ? "en" : "fr";
+      localStorage.setItem("lisn-lang", next);
+      return next;
+    });
   }
 
   // ── Onboarding ─────────────────────────────────────────────────
@@ -429,6 +440,19 @@ export default function HomePage() {
               </div>
             </div>
 
+            {/* Recherche */}
+            <div style={{ marginBottom:16 }}>
+              <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
+                fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
+                Recherche
+              </div>
+              <SearchBar dark={dark} T={T} onSelect={w => {
+                handleSelect(w);
+                setBiomeFilter("all");
+                setShowFilters(false);
+              }} />
+            </div>
+
             {/* Reset */}
             <button onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); setShowFilters(false); }}
               style={{ marginTop:8, width:"100%", padding:"10px", border:`1px solid ${T.border}`,
@@ -477,9 +501,15 @@ export default function HomePage() {
             <span style={S.mobileBtnIcon}>{dark ? "◐" : "◑"}</span>
             <span style={S.mobileBtnLabel(T)}>{dark ? "Clair" : "Sombre"}</span>
           </button>
+          <button style={S.mobileBtn(T)} onClick={toggleLang}>
+            <span style={{ ...S.mobileBtnIcon, fontSize:11, fontFamily:"'DM Mono',monospace" }}>
+              {lang === "fr" ? "FR" : "EN"}
+            </span>
+            <span style={S.mobileBtnLabel(T)}>{lang === "fr" ? "EN" : "FR"}</span>
+          </button>
           <button style={S.mobileBtn(T)} onClick={() => setShowHelp(true)}>
             <span style={S.mobileBtnIcon}>?</span>
-            <span style={S.mobileBtnLabel(T)}>Guide</span>
+            <span style={S.mobileBtnLabel(T)}>{lang === "fr" ? "Guide" : "Help"}</span>
           </button>
         </nav>
         </>
@@ -655,7 +685,7 @@ export default function HomePage() {
       <GestureHint dark={dark} mobile={mobile} />
 
       {/* Mode d'emploi */}
-      {showHelp && <HelpPanel dark={dark} onClose={() => setShowHelp(false)} />}
+      {showHelp && <HelpPanel dark={dark} lang={lang} onClose={() => setShowHelp(false)} />}
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }`}</style>
     </div>
