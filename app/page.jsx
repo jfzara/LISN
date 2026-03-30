@@ -171,8 +171,9 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
   }[work?.biome || work?.regime] || T.text;
 
   // C. Auto-play YouTube — iframe caché qui joue dès que l'œuvre change
-  const [videoId, setVideoId]   = useState(null);
-  const [loading, setLoading]   = useState(false);
+  const [videoId,       setVideoId]       = useState(null);
+  const [loading,       setLoading]       = useState(false);
+  const [showFullPlayer,setShowFullPlayer] = useState(false);
   const prevWorkId = useRef(null);
 
   useEffect(() => {
@@ -182,6 +183,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
     prevWorkId.current = work.id;
     setVideoId(null);
     setLoading(true);
+    setShowFullPlayer(false); // replier le player à chaque nouvelle œuvre
     // Petit délai pour laisser l'animation de transition se faire
     const t = setTimeout(() => {
       fetch(`/api/youtube-preview?artist=${encodeURIComponent(work.artist)}&title=${encodeURIComponent(work.title)}`)
@@ -319,16 +321,31 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
         </div>
       </div>
 
-      {/* Mini lien "ouvrir YouTube" si vidéo trouvée */}
+      {/* Player YouTube inline — reste dans l'app */}
+      {videoId && showFullPlayer && (
+        <div style={{ margin:"0 14px 10px", borderRadius:1, overflow:"hidden",
+          border:`1px solid ${T.border}`, aspectRatio:"16/9", position:"relative" }}>
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+            width="100%" height="100%"
+            style={{ display:"block", position:"absolute", inset:0, border:"none" }}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media"
+            allowFullScreen loading="lazy"
+          />
+        </div>
+      )}
       {videoId && (
         <div style={{ padding:"0 14px 10px" }}>
-          <a href={`https://www.youtube.com/watch?v=${videoId}`}
-            target="_blank" rel="noopener noreferrer"
-            style={{ fontSize:8, color:T.muted, opacity:0.5,
-              fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
-              textTransform:"uppercase", textDecoration:"none" }}>
-            {lang === "fr" ? "Ouvrir dans YouTube →" : "Open in YouTube →"}
-          </a>
+          <button onClick={() => setShowFullPlayer(v => !v)} style={{
+            background:"none", border:"none", cursor:"pointer",
+            fontSize:8, color:T.muted, opacity:0.6,
+            fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
+            textTransform:"uppercase", padding:0,
+          }}>
+            {showFullPlayer
+              ? (lang === "fr" ? "▾ Masquer la vidéo" : "▾ Hide video")
+              : (lang === "fr" ? "▸ Voir la vidéo" : "▸ Watch video")}
+          </button>
         </div>
       )}
     </div>
@@ -551,7 +568,7 @@ export default function HomePage() {
     window.addEventListener("resize", onResize);
     // Onboarding — s'affiche 3s à chaque ouverture, disparaît automatiquement
     setShowOnboarding(true);
-    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 8000);
+    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 3000);
     // Idle hint — après 8s sans interaction
     // idle hint lancé après intro via introComplete
     return () => {
@@ -941,9 +958,16 @@ export default function HomePage() {
               {lang === "fr" ? "Favoris" : "Saved"}
             </span>
           </button>
-          <button style={S.mobileBtn(T)} onClick={() => setShowHelp(true)}>
-            <span style={S.mobileBtnIcon}>?</span>
-            <span style={S.mobileBtnLabel(T)}>{L.navLabels.guide}</span>
+          <button style={{
+            ...S.mobileBtn(T),
+            background: T.pill,
+            borderRadius: 1,
+            border: `1px solid ${T.border}`,
+          }} onClick={() => setShowHelp(true)}>
+            <span style={{ ...S.mobileBtnIcon, fontSize:18 }}>?</span>
+            <span style={{ ...S.mobileBtnLabel(T), color: T.text, opacity:0.9 }}>
+              {L.navLabels.guide}
+            </span>
           </button>
         </nav>
         </>
