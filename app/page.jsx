@@ -525,7 +525,7 @@ export default function HomePage() {
     window.addEventListener("resize", onResize);
     // Onboarding — s'affiche 3s à chaque ouverture, disparaît automatiquement
     setShowOnboarding(true);
-    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 6000);
+    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 8000);
     // Idle hint — après 8s sans interaction
     idleHintTimer.current = setTimeout(() => setShowIdleHint(true), 8000);
     return () => {
