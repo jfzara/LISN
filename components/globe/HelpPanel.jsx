@@ -41,6 +41,33 @@ const COPY = {
         body: "Une mélodie simple répétée pendant vingt minutes peut être très dense si elle évolue avec précision. La complexité n'est pas le critère. Ce qui compte, c'est l'intention et la cohérence intérieure.",
       },
     ],
+    worldviewTitle: "La musique avant les camps",
+    worldviewBites: [
+      {
+        head: "La musique porte des identités. C'est bien. Mais derrière les identités, il y a des formes. Et les formes ne mentent pas.",
+        body: null,
+      },
+      {
+        head: null,
+        body: "Il y a dans la musique quelque chose qui précède les mots, les drapeaux, les appartenances. Quelque chose qui vibre avant qu'on lui donne un nom — avant qu'on décide si elle nous ressemble, si elle vient de notre camp, si elle mérite notre attention.",
+      },
+      {
+        head: null,
+        body: "LISN cherche ça. Pas ce qu'une musique dit. Ce qu'elle fait. La façon dont elle construit la tension et la laisse ou non se résoudre. La densité de ce qui se passe quand on écoute vraiment.",
+      },
+      {
+        head: null,
+        body: "On n'écoute pas toujours vraiment. On écoute parfois à travers des filtres qu'on ne voit pas — la hype, la mode, l'image de l'artiste, son camp, ce que nos amis en pensent. LISN ne prétend pas effacer tout ça. Mais il propose un autre point de vue — plus honnête, moins social. Un moment où la musique est juste de la musique.",
+      },
+      {
+        head: "Deux œuvres aux mondes opposés peuvent être voisines sur la carte. Ce n'est pas une provocation. C'est une information.",
+        body: "Ce que tu en fais, c'est toi.",
+      },
+      {
+        head: null,
+        body: "Le worldview de chaque œuvre — la vision du monde implicite dans ses choix sonores — sera visible dans les analyses LISN complètes. Pas comme un jugement. Comme une coordonnée de plus.",
+      },
+    ],
     biomesTitle: "Les zones de la carte",
     biomesIntro: "Chaque œuvre appartient à une zone — pas un genre, une façon d'organiser l'énergie musicale.",
     biomes: [
@@ -144,6 +171,33 @@ const COPY = {
       {
         head: "Structural doesn't mean complicated.",
         body: "A simple melody repeated for twenty minutes can be very dense if it evolves with precision. Complexity isn't the criterion. What matters is intention and interior coherence.",
+      },
+    ],
+    worldviewTitle: "Music before the camps",
+    worldviewBites: [
+      {
+        head: "Music carries identities. That's fine. But behind identities, there are forms. And forms don't lie.",
+        body: null,
+      },
+      {
+        head: null,
+        body: "There is something in music that precedes words, flags, and allegiances. Something that vibrates before we give it a name — before we decide whether it looks like us, whether it comes from our side, whether it deserves our attention.",
+      },
+      {
+        head: null,
+        body: "LISN looks for that. Not what music says. What it does. The way it builds tension and chooses — or refuses — to resolve it. The density of what happens when you truly listen.",
+      },
+      {
+        head: null,
+        body: "We don't always truly listen. Sometimes we listen through filters we can't see — hype, fashion, the artist's image, their politics, what our friends think. LISN doesn't pretend to erase all that. But it offers another perspective — more honest, less social. A moment where music is just music.",
+      },
+      {
+        head: "Two works from opposite worlds can be neighbours on the map. That's not a provocation. It's information.",
+        body: "What you do with it — that's up to you.",
+      },
+      {
+        head: null,
+        body: "The worldview of each work — the vision of reality implicit in its sonic choices — will be visible in full LISN analyses. Not as a judgment. As one more coordinate.",
       },
     ],
     biomesTitle: "The zones of the map",
@@ -310,6 +364,11 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
         {/* Structure */}
         <Section title={C.structureTitle}>
           {C.structureBites.map((b, i) => <Bite key={i} head={b.head} body={b.body} />)}
+        </Section>
+
+        {/* Worldview */}
+        <Section title={C.worldviewTitle}>
+          {C.worldviewBites.map((b, i) => <Bite key={i} head={b.head} body={b.body} />)}
         </Section>
 
         {/* Biomes */}

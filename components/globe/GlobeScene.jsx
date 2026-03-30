@@ -81,6 +81,47 @@ function GlobeAtmosphere({ dark }) {
   );
 }
 
+// ── Intro cinématique — zoom depuis loin, variation aléatoire ──────
+function CinematicIntro({ onComplete, mobile }) {
+  const { camera } = useThree();
+  const progress = useRef(0);
+  const done     = useRef(false);
+  const startSph = useRef(new THREE.Spherical());
+  const endSph   = useRef(new THREE.Spherical());
+
+  useEffect(() => {
+    // Angle d'approche aléatoire — différent à chaque visite
+    const randTheta = Math.PI * 0.3 + Math.random() * Math.PI * 0.4;
+    const randPhi   = Math.random() * Math.PI * 2;
+    const startDist = mobile ? 32 : 28;
+    const endDist   = mobile ? 18 : 14;
+
+    startSph.current.set(startDist, randTheta, randPhi);
+    endSph.current.set(endDist, randTheta + 0.15, randPhi + 0.08);
+    camera.position.setFromSpherical(startSph.current);
+    camera.lookAt(0, 0, 0);
+  }, []);
+
+  useFrame(() => {
+    if (done.current) return;
+    // 2.5s à 60fps ≈ 150 frames
+    progress.current = Math.min(1, progress.current + 0.007);
+    // Ease-out quintic — très fluide
+    const t = 1 - Math.pow(1 - progress.current, 5);
+    const sph = new THREE.Spherical().copy(startSph.current);
+    sph.radius = startSph.current.radius + (endSph.current.radius - startSph.current.radius) * t;
+    sph.phi    = startSph.current.phi    + (endSph.current.phi    - startSph.current.phi)    * t;
+    sph.theta  = startSph.current.theta  + (endSph.current.theta  - startSph.current.theta)  * t;
+    camera.position.setFromSpherical(sph);
+    camera.lookAt(0, 0, 0);
+    if (progress.current >= 1) {
+      done.current = true;
+      onComplete?.();
+    }
+  });
+  return null;
+}
+
 // ── Auto-rotation ─────────────────────────────────────────────────
 function AutoRotate({ enabled }) {
   const { camera } = useThree();
@@ -315,6 +356,7 @@ function GlobeInner({
   onSelectWork, onHoverWork,
   dark, autoRotating, onInteract,
   nearbyWorks, trajectoryWorks,
+  introPlaying, onIntroComplete, mobile,
 }) {
   const [df, setDf] = useState(0.5);
   const controlsRef = useRef();
@@ -365,8 +407,11 @@ function GlobeInner({
   return (
     <>
       <ZoomSensor onChange={setDf} />
-      <AutoRotate enabled={autoRotating} />
-      <CameraAnimator target={selectedWork} />
+      {introPlaying
+        ? <CinematicIntro onComplete={onIntroComplete} mobile={mobile} />
+        : <AutoRotate enabled={autoRotating} />
+      }
+      {!introPlaying && <CameraAnimator target={selectedWork} />}
       <MobileLongPress onLongPress={handleLongPress} />
       <color attach="background" args={[dark ? "#050403" : "#ede6dc"]} />
 
@@ -463,12 +508,19 @@ export default function GlobeScene({
   activeFilter = "all", dark = true,
   nearbyWorks = [], trajectoryWorks = [],
   mobile = false,
+  onIntroComplete,
 }) {
-  const [autoRotating, setAutoRotating] = useState(true);
+  const [autoRotating,    setAutoRotating]    = useState(false); // désactivé pendant l'intro
+  const [introPlaying,    setIntroPlaying]    = useState(true);
+
+  function handleIntroComplete() {
+    setIntroPlaying(false);
+    onIntroComplete?.();
+  }
 
   return (
     <Canvas
-      camera={{ position: [0, 0, mobile ? 18 : 14], fov: 44 }}
+      camera={{ position: [0, 0, mobile ? 32 : 28], fov: 44 }}
       style={{ width: "100%", height: mobile ? "calc(100% - 64px)" : "100%", touchAction: "none" }}
       gl={{
         antialias: true,
@@ -488,9 +540,12 @@ export default function GlobeScene({
         onHoverWork={onHoverWork}
         dark={dark}
         autoRotating={autoRotating}
-        onInteract={() => setAutoRotating(false)}
+        onInteract={() => { setAutoRotating(false); }}
         nearbyWorks={nearbyWorks}
         trajectoryWorks={trajectoryWorks}
+        introPlaying={introPlaying}
+        onIntroComplete={handleIntroComplete}
+        mobile={mobile}
       />
     </Canvas>
   );

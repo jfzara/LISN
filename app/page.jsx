@@ -483,6 +483,14 @@ export default function HomePage() {
   const [dark, setDark] = useState(true);
   const [mobile,   setMobile]   = useState(false);
   const [mounted,  setMounted]  = useState(false);
+  const [introComplete, setIntroComplete] = useState(false);
+
+  // Lancer idle hint 8s après la fin de l'intro
+  useEffect(() => {
+    if (!introComplete) return;
+    const t = setTimeout(() => setShowIdleHint(true), 8000);
+    return () => clearTimeout(t);
+  }, [introComplete]);
   const [showFilters,     setShowFilters]     = useState(false);
   const [showHelp,        setShowHelp]        = useState(false);
   const [showLegend,      setShowLegend]      = useState(true);
@@ -529,9 +537,9 @@ export default function HomePage() {
     window.addEventListener("resize", onResize);
     // Onboarding — s'affiche 3s à chaque ouverture, disparaît automatiquement
     setShowOnboarding(true);
-    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 8000);
+    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 3000);
     // Idle hint — après 8s sans interaction
-    idleHintTimer.current = setTimeout(() => setShowIdleHint(true), 8000);
+    // idle hint lancé après intro via introComplete
     return () => {
       window.removeEventListener("resize", onResize);
       clearTimeout(onboardingTimer);
@@ -554,9 +562,35 @@ export default function HomePage() {
   // ── Onboarding ─────────────────────────────────────────────────
   function handleOnboardingChoice(key) {
     setShowOnboarding(false);
-    if (key === "random")    landRandom();
-    else if (key === "mountains") { setScoreMin(8.5); setScoreMax(10); }
-    else if (key === "frontier")  { setScoreMin(2);   setScoreMax(5.5); }
+
+    if (key === "random") {
+      // "Je tourne en rond" → voyage automatique depuis un point aléatoire
+      // Lance le voyage 500ms après la fermeture de l'onboarding
+      setTimeout(() => startVoyage(), 500);
+
+    } else if (key === "mountains") {
+      // "Je veux ce qui compte vraiment" → zoom vers les grandes œuvres
+      setScoreMin(8.5); setScoreMax(10);
+      // Atterrir sur une capitale aléatoire
+      const capitals = worksSeed.filter(w =>
+        (w.role === "capital" || w.score >= 9.0)
+      );
+      if (capitals.length) {
+        const pick = capitals[Math.floor(Math.random() * capitals.length)];
+        setTimeout(() => handleSelect(pick), 600);
+      }
+
+    } else if (key === "frontier") {
+      // "Je veux sortir de ma zone" → atterrir sur une île/hameau puis voyager
+      const isolated = worksSeed.filter(w =>
+        w.role === "island" || w.biome === "atmospheric" || w.score < 5.5
+      );
+      const pool = isolated.length > 10 ? isolated : worksSeed;
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      setTimeout(() => startVoyage(pick), 500);
+
+    }
+    // "free" → rien — navigation libre
   }
 
   // ── Atterrissage aléatoire ──────────────────────────────────────
@@ -718,6 +752,7 @@ export default function HomePage() {
           nearbyWorks={nearbyWorks}
           trajectoryWorks={trajectoryWorks}
           mobile={mobile}
+          onIntroComplete={() => setIntroComplete(true)}
         />
       </div>
 
