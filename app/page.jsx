@@ -89,7 +89,7 @@ const UI = {
     gestureHints: [{ icon:"pinch", label:"Pince pour zoomer" }, { icon:"rotate", label:"Glisse pour tourner" }],
   },
   en: {
-    modeLabels: { compare:"compare", voyage:"voyage", mountains:"peaks", frontier:"frontier", globe:"globe" },
+    modeLabels: { compare:"compare", voyage:"journey", mountains:"peaks", frontier:"frontier", globe:"globe" },
     nav: { random:"◎", voyage:"▷", voyageStop:"◼", compare:"⊕", reset:"↺", filters:"≡", guide:"Guide", lang:"FR" },
     navLabels: { random:"Random", voyage:"Voyage", filters:"Filters", compare:"Comp.", theme:"Theme", guide:"Guide" },
     themeLabel: (dark) => dark ? "Light" : "Dark",
@@ -164,7 +164,7 @@ function Slider({ label, value, min, max, step = 0.5, onChange, T, fmt }) {
 }
 
 // ── VoyagePanel — contrôles voyage enrichis (B+C) ───────────────────
-function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop }) {
+function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, autoPlayEnabled = false }) {
   const biomeColor = {
     dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
     narrative:"#FF9A4D", hybrid:"#C07AE8",
@@ -176,16 +176,22 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop }
   const prevWorkId = useRef(null);
 
   useEffect(() => {
-    if (!work || work.id === prevWorkId.current) return;
+    // Ne pas fetch si autoplay pas encore autorisé (intro pas terminée)
+    if (!work || !autoPlayEnabled) return;
+    if (work.id === prevWorkId.current) return;
     prevWorkId.current = work.id;
     setVideoId(null);
     setLoading(true);
-    fetch(`/api/youtube-preview?artist=${encodeURIComponent(work.artist)}&title=${encodeURIComponent(work.title)}`)
-      .then(r => r.json())
-      .then(d => { if (d.videoId) setVideoId(d.videoId); })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, [work?.id]);
+    // Petit délai pour laisser l'animation de transition se faire
+    const t = setTimeout(() => {
+      fetch(`/api/youtube-preview?artist=${encodeURIComponent(work.artist)}&title=${encodeURIComponent(work.title)}`)
+        .then(r => r.json())
+        .then(d => { if (d.videoId) setVideoId(d.videoId); })
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }, 800);
+    return () => clearTimeout(t);
+  }, [work?.id, autoPlayEnabled]);
 
   const embedUrl = videoId
     ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`
@@ -213,7 +219,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop }
         <div style={{ flex:1, minWidth:0 }}>
           <div style={{ fontSize:9, color:T.muted, letterSpacing:"0.14em",
             textTransform:"uppercase", fontFamily:"'DM Mono',monospace", marginBottom:4 }}>
-            {lang === "fr" ? "En voyage" : "Voyaging"}
+            {lang === "fr" ? "En voyage" : "On a journey"}
             {loading && <span style={{ marginLeft:6, opacity:0.5 }}>·</span>}
           </div>
           <div style={{ fontSize:15, fontStyle:"italic", color:T.text,
@@ -467,7 +473,7 @@ function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
             fontSize:9, color:T.muted, fontFamily:"'DM Mono',monospace",
             letterSpacing:"0.14em", textTransform:"uppercase", textDecoration:"underline",
             textUnderlineOffset:3 }}>
-          Comment ça marche ? →
+          {L.onboarding.helpLink}
         </button>
         <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
           fontFamily:"'DM Mono',monospace", textTransform:"uppercase", opacity:0.6 }}>
@@ -494,7 +500,7 @@ export default function HomePage() {
   const [showFilters,     setShowFilters]     = useState(false);
   const [showHelp,        setShowHelp]        = useState(false);
   const [showLegend,      setShowLegend]      = useState(true);
-  const [lang, setLang] = useState("fr");
+  const [lang, setLang] = useState("fr"); // défaut FR, ajusté au mount
   const [showOnboarding,  setShowOnboarding]  = useState(false);
   const [selectedWork,    setSelectedWork]    = useState(null);
   const [hoveredWork,     setHoveredWork]     = useState(null);
@@ -529,7 +535,15 @@ export default function HomePage() {
     const saved = localStorage.getItem("lisn-theme");
     if (saved === "light") setDark(false);
     const savedLang = localStorage.getItem("lisn-lang");
-    if (savedLang === "en") setLang("en");
+    if (savedLang) {
+      // Préférence explicite sauvegardée
+      setLang(savedLang === "en" ? "en" : "fr");
+    } else {
+      // Première visite — détecter depuis le navigateur
+      const browserLang = navigator.language || navigator.userLanguage || "fr";
+      const detected = browserLang.toLowerCase().startsWith("fr") ? "fr" : "en";
+      setLang(detected);
+    }
     // lang chargé via useState lazy init
     setMounted(true);
     setMobile(window.innerWidth < 768);
@@ -765,6 +779,7 @@ export default function HomePage() {
           onToggleFav={() => toggleFavorite(voyageCurrent)}
           onNext={voyageNext}
           onStop={stopVoyage}
+          autoPlayEnabled={introComplete}
         />
       )}
 
@@ -793,7 +808,7 @@ export default function HomePage() {
             <div style={{ marginBottom:16 }}>
               <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
                 fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
-                Biome
+                {L.filterTitle}
               </div>
               <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
                 {Object.entries(BIOME_META).map(([key, meta]) => {
@@ -831,7 +846,7 @@ export default function HomePage() {
             <div style={{ marginBottom:8 }}>
               <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
                 fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
-                Époque
+                {L.filterEra}
               </div>
               <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
                 {DECADES.map(d => {
@@ -855,7 +870,7 @@ export default function HomePage() {
             <div style={{ marginBottom:16 }}>
               <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
                 fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
-                Recherche
+                {L.filterSearch}
               </div>
               <SearchBar dark={dark} T={T} onSelect={w => {
                 handleSelect(w);
@@ -901,7 +916,7 @@ export default function HomePage() {
               ≡
             </span>
             <span style={{ ...S.mobileBtnLabel(T), color: showFilters ? T.text : T.muted }}>
-              Filtres
+              {L.navLabels.filters}
             </span>
           </button>
           <button style={S.mobileBtn(T)} onClick={toggleCompare}>
