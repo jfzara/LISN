@@ -480,18 +480,13 @@ function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
 
 // ── Page principale ─────────────────────────────────────────────────
 export default function HomePage() {
-  const [dark, setDark] = useState(() => {
-    if (typeof window === "undefined") return true;
-    return localStorage.getItem("lisn-theme") !== "light";
-  });
-  const [mobile,          setMobile]          = useState(false);
+  const [dark, setDark] = useState(true);
+  const [mobile,   setMobile]   = useState(false);
+  const [mounted,  setMounted]  = useState(false);
   const [showFilters,     setShowFilters]     = useState(false);
   const [showHelp,        setShowHelp]        = useState(false);
   const [showLegend,      setShowLegend]      = useState(true);
-  const [lang, setLang] = useState(() => {
-    if (typeof window === "undefined") return "fr";
-    return localStorage.getItem("lisn-lang") === "en" ? "en" : "fr";
-  });
+  const [lang, setLang] = useState("fr");
   const [showOnboarding,  setShowOnboarding]  = useState(false);
   const [selectedWork,    setSelectedWork]    = useState(null);
   const [hoveredWork,     setHoveredWork]     = useState(null);
@@ -523,14 +518,18 @@ export default function HomePage() {
   const [analysisWork, setAnalysisWork] = useState(null);
 
   useEffect(() => {
-    // dark + lang chargés via useState lazy init
+    const saved = localStorage.getItem("lisn-theme");
+    if (saved === "light") setDark(false);
+    const savedLang = localStorage.getItem("lisn-lang");
+    if (savedLang === "en") setLang("en");
     // lang chargé via useState lazy init
+    setMounted(true);
     setMobile(window.innerWidth < 768);
     const onResize = () => setMobile(window.innerWidth < 768);
     window.addEventListener("resize", onResize);
     // Onboarding — s'affiche 3s à chaque ouverture, disparaît automatiquement
     setShowOnboarding(true);
-    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 3000);
+    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 8000);
     // Idle hint — après 8s sans interaction
     idleHintTimer.current = setTimeout(() => setShowIdleHint(true), 8000);
     return () => {
@@ -694,6 +693,13 @@ export default function HomePage() {
     : L.modeLabels.globe;
 
   const sep = <div style={{ width:1, height:14, background: T.border, margin:"0 3px", flexShrink:0 }} />;
+
+  // Éviter l'hydratation mismatch — ne rendre qu'après le mount côté client
+  if (!mounted) {
+    return (
+      <div style={{ ...S.page, background: "#050403" }} />
+    );
+  }
 
   return (
     <div style={{ ...S.page, background: T.bg, color: T.text }}>
