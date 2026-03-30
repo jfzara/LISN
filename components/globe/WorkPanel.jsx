@@ -6,13 +6,70 @@ const BIOME_COLOR = {
   dense: "#FF6B2F", atmospheric: "#4ABFFF", structural: "#E8C97A",
   narrative: "#FF9A4D", hybrid: "#C07AE8",
 };
+
+// Labels bilingues
 const BIOME_LABEL = {
-  dense: "Dense", atmospheric: "Atmosphérique", structural: "Structural",
-  narrative: "Narratif", hybrid: "Hybride",
+  fr: { dense:"Dense", atmospheric:"Atmosphérique", structural:"Structurel", narrative:"Narratif", hybrid:"Hybride" },
+  en: { dense:"Dense", atmospheric:"Atmospheric",   structural:"Structural", narrative:"Narrative", hybrid:"Hybrid"  },
 };
+
+// Rôles — avec explication courte
 const ROLE_LABEL = {
-  capital: "Capitale", city: "Ville", village: "Village",
-  bridge: "Pont", island: "Île", hamlet: "Hameau",
+  fr: {
+    capital: "Capitale",  city: "Ville",   village: "Village",
+    bridge:  "Pont",      island: "Île",   hamlet:  "Hameau",
+  },
+  en: {
+    capital: "Capital",   city: "City",    village: "Village",
+    bridge:  "Bridge",    island: "Island", hamlet: "Hamlet",
+  },
+};
+
+const ROLE_DESC = {
+  fr: {
+    capital: "Œuvre fondatrice — sommet de la carte",
+    city:    "Œuvre majeure — haute densité structurelle",
+    village: "Œuvre solide — bien construite",
+    bridge:  "Œuvre de transition — relie deux zones",
+    island:  "Œuvre isolée — singulière, sans voisins proches",
+    hamlet:  "Œuvre mineure ou de niche",
+  },
+  en: {
+    capital: "Landmark work — peak of the map",
+    city:    "Major work — high structural density",
+    village: "Solid work — well-constructed",
+    bridge:  "Transitional work — bridges two zones",
+    island:  "Isolated work — singular, few close neighbours",
+    hamlet:  "Minor or niche work",
+  },
+};
+
+// Textes UI panel
+const PANEL_UI = {
+  fr: {
+    close: "FERMER", score: "Score OSR", role: "Rôle", zone: "Zone",
+    type: "Type", year: "Année",
+    exploreAround: "Explorer autour", trajectory: "Trajectoire de l'artiste",
+    voyage: "Voyager depuis ici", voyageStop: "Arrêter le voyage",
+    analyse: "Analyser dans LISN →",
+    tabFiche: "Fiche", tabAround: "Autour", tabTrajectory: "Trajectoire",
+    emptyHint: "Survolez une présence lumineuse, cliquez pour ouvrir sa fiche.",
+    autourEmpty: "Cliquez sur l'onglet Autour depuis la fiche pour voir les œuvres proches.",
+    trajectoryEmpty: "Cliquez sur la fiche pour voir l'évolution de l'artiste.",
+    types: { album:"Album", artist:"Artiste", track:"Morceau" },
+  },
+  en: {
+    close: "CLOSE", score: "OSR Score", role: "Role", zone: "Zone",
+    type: "Type", year: "Year",
+    exploreAround: "Explore around", trajectory: "Artist trajectory",
+    voyage: "Voyage from here", voyageStop: "Stop voyage",
+    analyse: "Analyse in LISN →",
+    tabFiche: "Info", tabAround: "Around", tabTrajectory: "Trajectory",
+    emptyHint: "Hover a luminous point, click to open its card.",
+    autourEmpty: "Click the Around tab on the card to see nearby works.",
+    trajectoryEmpty: "Click the card to see the artist's evolution.",
+    types: { album:"Album", artist:"Artist", track:"Track" },
+  },
 };
 
 // ── Score bar ─────────────────────────────────────────────────────
@@ -39,14 +96,15 @@ function ScoreBar({ score, dark }) {
 }
 
 // ── Onglets ───────────────────────────────────────────────────────
-function Tabs({ tab, onChange, dark }) {
+function Tabs({ tab, onChange, dark, lang = "fr" }) {
   const text  = dark ? "#f2ead8" : "#120e0a";
   const muted = dark ? "#8a7c6c" : "#4e4438";
   const bord  = dark ? "rgba(242,234,216,0.12)" : "rgba(18,14,10,0.12)";
+  const P2 = PANEL_UI[lang] || PANEL_UI.fr;
   const tabs  = [
-    { key: "fiche",       label: "Fiche" },
-    { key: "autour",      label: "Autour" },
-    { key: "trajectoire", label: "Trajectoire" },
+    { key: "fiche",       label: P2.tabFiche },
+    { key: "autour",      label: P2.tabAround },
+    { key: "trajectoire", label: P2.tabTrajectory },
   ];
   return (
     <div style={{ display:"flex", borderBottom:`1px solid ${bord}`, marginBottom:14 }}>
@@ -66,7 +124,11 @@ function Tabs({ tab, onChange, dark }) {
 }
 
 // ── Fiche principale ──────────────────────────────────────────────
-function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis }) {
+function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis, isFavorite = false, onToggleFavorite }) {
+  const P  = PANEL_UI[lang] || PANEL_UI.fr;
+  const BL = BIOME_LABEL[lang] || BIOME_LABEL.fr;
+  const RL = ROLE_LABEL[lang]  || ROLE_LABEL.fr;
+  const RD = ROLE_DESC[lang]   || ROLE_DESC.fr;
   const text  = dark ? "#f2ead8" : "#120e0a";
   const muted = dark ? "#9c8e7e" : "#5c5048";
   const bord  = dark ? "rgba(242,234,216,0.09)" : "rgba(18,14,10,0.12)";
@@ -75,8 +137,8 @@ function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage
 
   const metaItems = [
     { label:"Type",  val: work.entityType === "album" ? "Album" : work.entityType === "artist" ? "Artiste" : "Morceau" },
-    { label:"Biome", val: BIOME_LABEL[biome] || biome || "—", color: BIOME_COLOR[biome] },
-    { label:"Rôle",  val: ROLE_LABEL[work.role] || work.role || "—" },
+    { label:"Biome", val: BL[biome] || biome || "—", color: BIOME_COLOR[biome] },
+    { label:"Rôle",  val: RL[work.role] || work.role || "—" },
     { label:"Année", val: work.year || "—" },
   ];
 
@@ -98,8 +160,22 @@ function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage
         ))}
       </div>
 
+      {/* Favoris */}
+      {onToggleFavorite && (
+        <button onClick={onToggleFavorite} style={{
+          ...btnStyle(bord, text), marginTop:16,
+          borderColor: isFavorite ? BIOME_COLOR[biome] || bord : bord,
+          color: isFavorite ? BIOME_COLOR[biome] || text : text,
+        }}>
+          <span style={{ fontSize:14, marginRight:6 }}>{isFavorite ? "♥" : "♡"}</span>
+          {lang === "fr"
+            ? (isFavorite ? "Sauvegardé" : "Sauvegarder")
+            : (isFavorite ? "Saved" : "Save")}
+        </button>
+      )}
+
       {/* Actions */}
-      <div style={{ display:"flex", flexDirection:"column", gap:5, marginTop:16 }}>
+      <div style={{ display:"flex", flexDirection:"column", gap:5, marginTop:10 }}>
         <button onClick={onExploreAround} style={{ ...btnStyle(bord, text) }}>
           <span style={{ opacity:0.55, marginRight:6 }}>◎</span> Explorer autour
         </button>
@@ -123,7 +199,7 @@ function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage
             background: voyageMode ? pill : "none",
           }}>
             <span style={{ opacity:0.55, marginRight:6 }}>{voyageMode ? "◼" : "▷"}</span>
-            {voyageMode ? "Arrêter le voyage" : "Voyager depuis ici"}
+            {voyageMode ? P.voyageStop : P.voyage}
           </button>
         )}
       </div>
@@ -132,7 +208,8 @@ function FicheTab({ work, dark, onExploreAround, onShowTrajectory, onStartVoyage
 }
 
 // ── Onglet Autour ────────────────────────────────────────────────
-function AutourTab({ works, dark, onSelectWork }) {
+function AutourTab({ works, dark, lang = "fr", onSelectWork }) {
+  const P = PANEL_UI[lang] || PANEL_UI.fr;
   const text  = dark ? "#f2ead8" : "#120e0a";
   const muted = dark ? "#9c8e7e" : "#5c5048";
   const bord  = dark ? "rgba(242,234,216,0.09)" : "rgba(18,14,10,0.12)";
@@ -140,7 +217,7 @@ function AutourTab({ works, dark, onSelectWork }) {
 
   if (works.length === 0) {
     return <div style={{ fontSize:12, color: muted, marginTop:8, lineHeight:1.6 }}>
-      Cliquez "Explorer autour" sur la fiche pour voir les œuvres proches.
+      Cliquez P.exploreAround sur la fiche pour voir les œuvres proches.
     </div>;
   }
 
@@ -175,7 +252,8 @@ function AutourTab({ works, dark, onSelectWork }) {
 }
 
 // ── Onglet Trajectoire ───────────────────────────────────────────
-function TrajectoireTab({ works, dark, onSelectWork }) {
+function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
+  const P = PANEL_UI[lang] || PANEL_UI.fr;
   const text  = dark ? "#f2ead8" : "#120e0a";
   const muted = dark ? "#9c8e7e" : "#5c5048";
   const bord  = dark ? "rgba(242,234,216,0.09)" : "rgba(18,14,10,0.12)";
@@ -184,7 +262,7 @@ function TrajectoireTab({ works, dark, onSelectWork }) {
 
   if (works.length === 0) {
     return <div style={{ fontSize:12, color: muted, marginTop:8, lineHeight:1.6 }}>
-      Cliquez "Trajectoire" sur la fiche pour voir l'évolution de l'artiste.
+      {P.trajectoryEmpty}
     </div>;
   }
 
@@ -268,7 +346,14 @@ export default function WorkPanel({
   onStartVoyage, voyageMode = false,
   onRequestAnalysis,
   mobile = false,
+  lang = "fr",
+  isFavorite = false,
+  onToggleFavorite,
 }) {
+  const P  = PANEL_UI[lang] || PANEL_UI.fr;
+  const BL = BIOME_LABEL[lang] || BIOME_LABEL.fr;
+  const RL = ROLE_LABEL[lang]  || ROLE_LABEL.fr;
+  const RD = ROLE_DESC[lang]   || ROLE_DESC.fr;
   const isOpen = Boolean(work);
   const biome  = work?.biome || work?.regime;
 
@@ -339,7 +424,7 @@ export default function WorkPanel({
 
           {/* Onglets */}
           <div style={{ padding:"12px 16px 0", flexShrink:0 }}>
-            <Tabs tab={tab} onChange={t => {
+            <Tabs tab={tab} lang={lang} onChange={t => {
               onTabChange(t);
               if (t === "autour")      onExploreAround?.();
               if (t === "trajectoire") onShowTrajectory?.();
@@ -350,26 +435,28 @@ export default function WorkPanel({
           <div style={{ flex:1, overflowY:"auto", padding:"0 16px 20px" }}>
             {tab === "fiche" && (
               <FicheTab
-                work={work} dark={dark}
+                work={work} dark={dark} lang={lang}
                 onExploreAround={() => { onTabChange("autour"); onExploreAround?.(); }}
                 onShowTrajectory={() => { onTabChange("trajectoire"); onShowTrajectory?.(); }}
                 onStartVoyage={onStartVoyage}
                 voyageMode={voyageMode}
                 onRequestAnalysis={onRequestAnalysis}
+                isFavorite={isFavorite}
+                onToggleFavorite={onToggleFavorite}
               />
             )}
             {tab === "autour" && (
-              <AutourTab works={nearbyWorks} dark={dark} onSelectWork={onSelectWork} />
+              <AutourTab works={nearbyWorks} dark={dark} lang={lang} onSelectWork={onSelectWork} />
             )}
             {tab === "trajectoire" && (
-              <TrajectoireTab works={trajectoryWorks} dark={dark} onSelectWork={onSelectWork} />
+              <TrajectoireTab works={trajectoryWorks} dark={dark} lang={lang} onSelectWork={onSelectWork} />
             )}
           </div>
         </>
       ) : (
         <div style={{ padding:"28px 18px", flex:1, display:"flex", alignItems:"center" }}>
           <div style={{ fontSize:13, color: muted, lineHeight:1.65 }}>
-            Survolez une présence lumineuse,<br />cliquez pour ouvrir sa fiche.
+            {P.emptyHint}
           </div>
         </div>
       )}

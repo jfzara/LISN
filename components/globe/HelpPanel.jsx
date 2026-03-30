@@ -70,6 +70,16 @@ const COPY = {
         body: "Plusieurs logiques en même temps. Les œuvres qui inventent leur propre grammaire. Souvent les plus surprenantes.",
       },
     ],
+    rolesTitle: "Les rôles — comment lire la taille des points",
+    rolesIntro: "Sur la carte, chaque point a une taille. Plus un point est grand et lumineux, plus l'œuvre est dense structurellement. Les rôles indiquent la position de l'œuvre dans la hiérarchie de la carte.",
+    roles: [
+      { key:"capital", name:"Capitale", body:"Le sommet. Une œuvre fondatrice qui a redéfini ce que sa musique pouvait être. Bach, Coltrane, Radiohead à leur meilleur. Rare." },
+      { key:"city",    name:"Ville",    body:"Une œuvre majeure, dense, qui tient à l'écoute répétée. Pas parfaite nécessairement, mais substantielle." },
+      { key:"village", name:"Village",  body:"Une bonne œuvre, solide, qui a sa place sur la carte. Pas révolutionnaire, mais honnête." },
+      { key:"bridge",  name:"Pont",     body:"Une œuvre de transition — elle relie deux zones de la carte. Souvent un artiste qui change de direction." },
+      { key:"island",  name:"Île",      body:"Une œuvre isolée, singulière, sans voisins proches. Elle n'appartient nulle part — ce qui est souvent un signe intéressant." },
+      { key:"hamlet",  name:"Hameau",   body:"Une œuvre mineure ou très niche. Petite sur la carte, mais présente — parce que LISN ne cartographie pas que les sommets." },
+    ],
     actionsTitle: "À quoi servent les actions ?",
     actions: [
       {
@@ -164,6 +174,16 @@ const COPY = {
         name: "Hybrid",
         body: "Multiple logics at once. Works that invent their own grammar. Often the most surprising ones.",
       },
+    ],
+    rolesTitle: "Roles — how to read the size of the points",
+    rolesIntro: "On the map, every point has a size. The bigger and brighter the point, the denser the work structurally. Roles indicate where the work sits in the map's hierarchy.",
+    roles: [
+      { key:"capital", name:"Capital",  body:"The peak. A landmark work that redefined what its music could be. Bach, Coltrane, Radiohead at their best. Rare." },
+      { key:"city",    name:"City",     body:"A major work, dense, that holds up over repeated listening. Not necessarily perfect, but substantial." },
+      { key:"village", name:"Village",  body:"A solid work, well-made, that earns its place on the map. Not revolutionary, but honest." },
+      { key:"bridge",  name:"Bridge",   body:"A transitional work — it connects two zones of the map. Often an artist changing direction." },
+      { key:"island",  name:"Island",   body:"An isolated, singular work with no close neighbours. It belongs nowhere — which is often a good sign." },
+      { key:"hamlet",  name:"Hamlet",   body:"A minor or niche work. Small on the map, but present — because LISN doesn't only map the peaks." },
     ],
     actionsTitle: "What do the actions do?",
     actions: [
@@ -310,6 +330,40 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
               </div>
               <div style={{ fontSize:12, lineHeight:1.75, color:muted }}>
                 {b.body}
+              </div>
+            </div>
+          ))}
+        </Section>
+
+        {/* Rôles */}
+        <Section title={C.rolesTitle}>
+          <div style={{ fontSize:12, lineHeight:1.8, color:muted, marginBottom:14 }}>
+            {C.rolesIntro}
+          </div>
+          {C.roles.map(r => (
+            <div key={r.key} style={{
+              marginBottom:12,
+              display:"flex", gap:12, alignItems:"flex-start",
+            }}>
+              <div style={{
+                width:8, height:8, borderRadius:"50%",
+                background: text, opacity: r.key === "capital" ? 1
+                  : r.key === "city" ? 0.75
+                  : r.key === "village" ? 0.55
+                  : r.key === "bridge" ? 0.45
+                  : r.key === "island" ? 0.40
+                  : 0.28,
+                flexShrink:0, marginTop:5,
+              }} />
+              <div>
+                <div style={{ fontSize:11, fontWeight:500, color:text,
+                  marginBottom:3, fontFamily:"'DM Mono',monospace",
+                  letterSpacing:"0.08em", textTransform:"uppercase" }}>
+                  {r.name}
+                </div>
+                <div style={{ fontSize:12, lineHeight:1.75, color:muted }}>
+                  {r.body}
+                </div>
               </div>
             </div>
           ))}

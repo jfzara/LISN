@@ -39,12 +39,92 @@ const THEME = {
 };
 
 const BIOME_META = {
-  all:         { label: "Tout",    color: null },
-  dense:       { label: "Dense",   color: "#FF6B2F" },
-  atmospheric: { label: "Atmos",   color: "#4ABFFF" },
-  structural:  { label: "Struct",  color: "#E8C97A" },
-  narrative:   { label: "Récit",   color: "#FF9A4D" },
-  hybrid:      { label: "Hybride", color: "#C07AE8" },
+  all:         { fr: "Tout",    en: "All",    color: null },
+  dense:       { fr: "Dense",   en: "Dense",  color: "#FF6B2F" },
+  atmospheric: { fr: "Atmos",   en: "Atmos",  color: "#4ABFFF" },
+  structural:  { fr: "Struct",  en: "Struct", color: "#E8C97A" },
+  narrative:   { fr: "Récit",   en: "Story",  color: "#FF9A4D" },
+  hybrid:      { fr: "Hybride", en: "Hybrid", color: "#C07AE8" },
+};
+
+// Textes UI bilingues — tout ici, rien en dur ailleurs
+const UI = {
+  fr: {
+    modeLabels: { compare:"comparer", voyage:"voyage", mountains:"montagnes", frontier:"frontières", globe:"globe" },
+    nav: { random:"◎", voyage:"▷", voyageStop:"◼", compare:"⊕", reset:"↺", filters:"≡", guide:"Guide", lang:"EN" },
+    navLabels: { random:"Hasard", voyage:"Voyage", filters:"Filtres", compare:"Comp.", theme:"Thème", guide:"Guide" },
+    themeLabel: (dark) => dark ? "Clair" : "Sombre",
+    voyageIndicator: "En voyage",
+    filterTitle: "Biome",
+    filterScore: (min, max) => `Intensité — ${min.toFixed(1)} → ${max.toFixed(1)}`,
+    filterEra: "Époque",
+    filterSearch: "Recherche",
+    filterReset: "↺ Réinitialiser",
+    onboarding: {
+      tagline: "atlas des formes musicales",
+      choices: [
+        { key:"random",    icon:"◉", label:"Je tourne en rond",             desc:"Emmène-moi quelque part que je ne connais pas" },
+        { key:"mountains", icon:"△", label:"Je veux ce qui compte vraiment", desc:"Les œuvres structurellement les plus fortes" },
+        { key:"frontier",  icon:"◇", label:"Je veux sortir de ma zone",      desc:"Explorer des territoires inconnus" },
+        { key:"free",      icon:"○", label:"Je sais déjà ce que je cherche", desc:"Navigation libre sur la carte" },
+      ],
+      helpLink: "Comment ça marche ? →",
+      slogan: "Not more music. Better music.",
+    },
+    hover: { year: "" },
+    compare: { instruction1: "Cliquez une première œuvre sur le globe", instruction2: "Cliquez une deuxième œuvre à comparer" },
+    workPanel: { exploreAround:"Explorer autour", trajectory:"Trajectoire de l'artiste", voyage:"Voyager depuis ici", voyageStop:"Arrêter le voyage", analyse:"Analyser dans LISN →", tabFiche:"Fiche", tabAround:"Autour", tabTrajectory:"Trajectoire", emptyHint:"Survolez une présence lumineuse,\ncliquez pour ouvrir sa fiche.", autourEmpty:"Cliquez l'onglet Autour sur la fiche pour voir les œuvres proches.", trajectoryEmpty:"Cliquez l'onglet Trajectoire pour voir l'évolution de l'artiste." },
+    roles: { capital:"Capitale — œuvre fondatrice", city:"Ville — œuvre majeure", village:"Village — œuvre solide", bridge:"Pont — œuvre de transition", island:"Île — œuvre isolée, singulière", hamlet:"Hameau — œuvre mineure ou niche" },
+    entityTypes: { album:"Album", artist:"Artiste", track:"Morceau" },
+    biomeLabels: { dense:"Dense", atmospheric:"Atmosphérique", structural:"Structurel", narrative:"Narratif", hybrid:"Hybride" },
+    scoreLabel: "Score OSR",
+    roleLabel: "Rôle",
+    biomeLabel: "Zone",
+    typeLabel: "Type",
+    yearLabel: "Année",
+    analysisModal: { badge:"Analyse LISN · Aperçu", scoreLabel:"Score OSR estimé", structureLabel:"Aperçu structurel", noticeHead:"Le verdict LISN complet", noticeBody:"L'analyse complète — verdict éditorial, scores dimensionnels, worldview — sera disponible dès que cette œuvre sera analysée.", noticeNote:"Ces données sont des estimations." },
+    comparePanel: { title:"Comparaison structurale", slotA:"A", slotB:"B", distLabel:"Distance structurale", instruction1:"Cliquez deux œuvres sur le globe pour les comparer.", instruction2:"Cliquez une deuxième œuvre pour comparer.", levels: { veryClose:"Très proches", close:"Proches", far:"Éloignées", veryFar:"Très éloignées", opposite:"Mondes opposés" } },
+    audio: { loading:"Recherche sur YouTube…", notFound:"Non trouvé", reduce:"▾ Réduire", listen:"▸ Écouter", listenYT:"▸ Écouter sur YouTube" },
+    gestureHints: [{ icon:"pinch", label:"Pince pour zoomer" }, { icon:"rotate", label:"Glisse pour tourner" }],
+  },
+  en: {
+    modeLabels: { compare:"compare", voyage:"voyage", mountains:"peaks", frontier:"frontier", globe:"globe" },
+    nav: { random:"◎", voyage:"▷", voyageStop:"◼", compare:"⊕", reset:"↺", filters:"≡", guide:"Guide", lang:"FR" },
+    navLabels: { random:"Random", voyage:"Voyage", filters:"Filters", compare:"Comp.", theme:"Theme", guide:"Guide" },
+    themeLabel: (dark) => dark ? "Light" : "Dark",
+    voyageIndicator: "Voyaging",
+    filterTitle: "Zone",
+    filterScore: (min, max) => `Intensity — ${min.toFixed(1)} → ${max.toFixed(1)}`,
+    filterEra: "Era",
+    filterSearch: "Search",
+    filterReset: "↺ Reset",
+    onboarding: {
+      tagline: "a map of musical forms",
+      choices: [
+        { key:"random",    icon:"◉", label:"I keep hearing the same things",    desc:"Take me somewhere I don't know yet" },
+        { key:"mountains", icon:"△", label:"I want what truly matters",          desc:"The most structurally powerful works" },
+        { key:"frontier",  icon:"◇", label:"I want out of my comfort zone",      desc:"Explore unknown territories" },
+        { key:"free",      icon:"○", label:"I know what I'm looking for",        desc:"Free navigation on the map" },
+      ],
+      helpLink: "How does this work? →",
+      slogan: "Not more music. Better music.",
+    },
+    hover: { year: "" },
+    compare: { instruction1: "Click a first work on the globe", instruction2: "Click a second work to compare" },
+    workPanel: { exploreAround:"Explore around", trajectory:"Artist trajectory", voyage:"Voyage from here", voyageStop:"Stop voyage", analyse:"Analyse in LISN →", tabFiche:"Info", tabAround:"Around", tabTrajectory:"Trajectory", emptyHint:"Hover a luminous point,\nclick to open its card.", autourEmpty:"Click the Around tab on the card to see nearby works.", trajectoryEmpty:"Click the Trajectory tab to see the artist's evolution." },
+    roles: { capital:"Capital — landmark work", city:"City — major work", village:"Village — solid work", bridge:"Bridge — transitional work", island:"Island — singular, isolated work", hamlet:"Hamlet — minor or niche work" },
+    entityTypes: { album:"Album", artist:"Artist", track:"Track" },
+    biomeLabels: { dense:"Dense", atmospheric:"Atmospheric", structural:"Structural", narrative:"Narrative", hybrid:"Hybrid" },
+    scoreLabel: "OSR Score",
+    roleLabel: "Role",
+    biomeLabel: "Zone",
+    typeLabel: "Type",
+    yearLabel: "Year",
+    analysisModal: { badge:"LISN Analysis · Preview", scoreLabel:"Estimated OSR score", structureLabel:"Structural preview", noticeHead:"Full LISN verdict", noticeBody:"The complete analysis — editorial verdict, dimensional scores, worldview — will be available once this work has been fully analysed.", noticeNote:"Current data are estimates." },
+    comparePanel: { title:"Structural comparison", slotA:"A", slotB:"B", distLabel:"Structural distance", instruction1:"Click two works on the globe to compare.", instruction2:"Click a second work to compare.", levels: { veryClose:"Very close", close:"Close", far:"Distant", veryFar:"Very distant", opposite:"Opposite worlds" } },
+    audio: { loading:"Searching YouTube…", notFound:"Not found", reduce:"▾ Collapse", listen:"▸ Listen", listenYT:"▸ Listen on YouTube" },
+    gestureHints: [{ icon:"pinch", label:"Pinch to zoom" }, { icon:"rotate", label:"Swipe to rotate" }],
+  },
 };
 
 // Décennies disponibles dans le seed
@@ -82,19 +162,268 @@ function Slider({ label, value, min, max, step = 0.5, onChange, T, fmt }) {
   );
 }
 
-// ── Onboarding ──────────────────────────────────────────────────────
-function Onboarding({ dark, onChoose, onShowHelp }) {
+// ── VoyagePanel — contrôles voyage enrichis (B+C) ───────────────────
+function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop }) {
+  const biomeColor = {
+    dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
+    narrative:"#FF9A4D", hybrid:"#C07AE8",
+  }[work?.biome || work?.regime] || T.text;
+
+  // C. Auto-play YouTube — iframe caché qui joue dès que l'œuvre change
+  const [videoId, setVideoId]   = useState(null);
+  const [loading, setLoading]   = useState(false);
+  const prevWorkId = useRef(null);
+
+  useEffect(() => {
+    if (!work || work.id === prevWorkId.current) return;
+    prevWorkId.current = work.id;
+    setVideoId(null);
+    setLoading(true);
+    fetch(`/api/youtube-preview?artist=${encodeURIComponent(work.artist)}&title=${encodeURIComponent(work.title)}`)
+      .then(r => r.json())
+      .then(d => { if (d.videoId) setVideoId(d.videoId); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [work?.id]);
+
+  const embedUrl = videoId
+    ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`
+    : null;
+
+  return (
+    <div style={{
+      position:"fixed", top:18, right: 20,
+      zIndex:50,
+      width:"min(320px, calc(100vw - 40px))",
+      background: T.cardBg,
+      border:`1px solid ${biomeColor}`,
+      borderRadius:1,
+      backdropFilter:"blur(18px)",
+      WebkitBackdropFilter:"blur(18px)",
+      overflow:"hidden",
+      fontFamily:"'Libre Baskerville', Georgia, serif",
+    }}>
+      {/* Bande couleur biome */}
+      <div style={{ height:2, background: biomeColor }} />
+
+      {/* Header — titre + artiste */}
+      <div style={{ padding:"12px 14px 10px",
+        display:"flex", alignItems:"flex-start", gap:10 }}>
+        <div style={{ flex:1, minWidth:0 }}>
+          <div style={{ fontSize:9, color:T.muted, letterSpacing:"0.14em",
+            textTransform:"uppercase", fontFamily:"'DM Mono',monospace", marginBottom:4 }}>
+            {lang === "fr" ? "En voyage" : "Voyaging"}
+            {loading && <span style={{ marginLeft:6, opacity:0.5 }}>·</span>}
+          </div>
+          <div style={{ fontSize:15, fontStyle:"italic", color:T.text,
+            overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap",
+            lineHeight:1.2 }}>
+            {work.title}
+          </div>
+          <div style={{ fontSize:11, color:T.muted, marginTop:3 }}>
+            {work.artist}
+            {work.year && <span style={{ marginLeft:6, opacity:0.5 }}>{work.year}</span>}
+          </div>
+        </div>
+        {/* Score */}
+        <div style={{ textAlign:"center", flexShrink:0 }}>
+          <div style={{ fontSize:16, color:biomeColor,
+            fontFamily:"'DM Mono',monospace", fontWeight:500 }}>
+            {Number(work.score||0).toFixed(1)}
+          </div>
+          <div style={{ fontSize:8, color:T.muted,
+            fontFamily:"'DM Mono',monospace" }}>/10</div>
+        </div>
+      </div>
+
+      {/* Player YouTube — iframe caché, audio uniquement visible */}
+      {embedUrl && (
+        <div style={{ position:"relative", height:0, overflow:"hidden" }}>
+          <iframe
+            key={videoId}
+            src={embedUrl}
+            width="1" height="1"
+            style={{ position:"absolute", opacity:0, pointerEvents:"none" }}
+            allow="autoplay; encrypted-media"
+          />
+        </div>
+      )}
+
+      {/* Barre de progression visuelle — pulse pendant le voyage */}
+      <div style={{ height:1, background:T.track, position:"relative", marginBottom:0 }}>
+        <div style={{
+          position:"absolute", left:0, top:0, height:"100%",
+          background: biomeColor, opacity:0.6,
+          animation:"voyageProgress 6s linear",
+          width:"100%",
+        }} key={work.id} />
+      </div>
+
+      {/* Contrôles */}
+      <div style={{ padding:"10px 14px",
+        display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+
+        {/* ♥ Sauvegarder */}
+        <button onClick={onToggleFav} style={{
+          background:"none", border:`1px solid ${isFav ? biomeColor : T.border}`,
+          borderRadius:1, padding:"6px 10px", cursor:"pointer",
+          color: isFav ? biomeColor : T.muted,
+          fontSize:13, display:"flex", alignItems:"center", gap:5,
+          fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em",
+          transition:"all 0.15s",
+        }}>
+          {isFav ? "♥" : "♡"}
+          <span style={{ fontSize:9, textTransform:"uppercase" }}>
+            {lang === "fr" ? (isFav ? "Sauvé" : "Sauver") : (isFav ? "Saved" : "Save")}
+          </span>
+        </button>
+
+        {/* Boutons navigation */}
+        <div style={{ display:"flex", gap:6 }}>
+          {/* → Suivant */}
+          <button onClick={onNext} style={{
+            background:"none", border:`1px solid ${T.border}`,
+            borderRadius:1, padding:"6px 12px", cursor:"pointer",
+            color:T.text, fontSize:12,
+            display:"flex", alignItems:"center", gap:4,
+            fontFamily:"'DM Mono',monospace",
+            transition:"border-color 0.15s",
+          }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = T.text}
+            onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
+          >
+            <span style={{ fontSize:9, textTransform:"uppercase", letterSpacing:"0.12em",
+              color:T.muted }}>
+              {lang === "fr" ? "Suivant" : "Next"}
+            </span>
+            <span>→</span>
+          </button>
+
+          {/* ◼ Stop */}
+          <button onClick={onStop} style={{
+            background:"none", border:`1px solid ${T.border}`,
+            borderRadius:1, padding:"6px 10px", cursor:"pointer",
+            color:T.muted, fontSize:10,
+            fontFamily:"'DM Mono',monospace", letterSpacing:"0.12em",
+            textTransform:"uppercase",
+          }}>
+            ◼
+          </button>
+        </div>
+      </div>
+
+      {/* Mini lien "ouvrir YouTube" si vidéo trouvée */}
+      {videoId && (
+        <div style={{ padding:"0 14px 10px" }}>
+          <a href={`https://www.youtube.com/watch?v=${videoId}`}
+            target="_blank" rel="noopener noreferrer"
+            style={{ fontSize:8, color:T.muted, opacity:0.5,
+              fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
+              textTransform:"uppercase", textDecoration:"none" }}>
+            {lang === "fr" ? "Ouvrir dans YouTube →" : "Open in YouTube →"}
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── FavoritesPanel — liste des œuvres sauvegardées ────────────────
+function FavoritesPanel({ favorites, dark, T, lang, onSelect, onRemove, onClose }) {
+  const fav = Object.values(favorites).sort((a,b) => (b.savedAt||0) - (a.savedAt||0));
+  const BIOME_COLOR = {
+    dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
+    narrative:"#FF9A4D", hybrid:"#C07AE8",
+  };
+
+  return (
+    <div style={{
+      position:"fixed", inset:0, zIndex:100,
+      background: T.cardBg, overflowY:"auto",
+      fontFamily:"'Libre Baskerville', Georgia, serif",
+      color:T.text,
+    }}>
+      {/* Header */}
+      <div style={{
+        position:"sticky", top:0, zIndex:10,
+        padding:"16px 20px",
+        borderBottom:`1px solid ${T.border}`,
+        background: T.cardBg,
+        display:"flex", justifyContent:"space-between", alignItems:"center",
+      }}>
+        <div>
+          <div style={{ fontSize:17, fontStyle:"italic", letterSpacing:"-0.02em" }}>
+            {lang === "fr" ? "Mes favoris" : "My favorites"}
+          </div>
+          <div style={{ fontSize:9, color:T.muted, fontFamily:"'DM Mono',monospace",
+            letterSpacing:"0.16em", textTransform:"uppercase", marginTop:3 }}>
+            {fav.length} {lang === "fr" ? "œuvre" : "work"}{fav.length !== 1 ? "s" : ""}
+          </div>
+        </div>
+        <button onClick={onClose} style={{
+          background:"none", border:`1px solid ${T.border}`, color:T.muted,
+          fontSize:9, padding:"5px 10px", cursor:"pointer", borderRadius:1,
+          fontFamily:"'DM Mono',monospace", letterSpacing:"0.14em",
+        }}>
+          {lang === "fr" ? "FERMER" : "CLOSE"}
+        </button>
+      </div>
+
+      {/* Liste */}
+      <div style={{ padding:"16px 20px", maxWidth:520, margin:"0 auto" }}>
+        {fav.length === 0 ? (
+          <div style={{ fontSize:13, color:T.muted, lineHeight:1.75,
+            fontStyle:"italic", marginTop:20 }}>
+            {lang === "fr"
+              ? "Aucun favori pour l'instant. Appuie sur ♥ pendant un voyage pour sauvegarder une œuvre."
+              : "No favorites yet. Press ♥ during a voyage to save a work."}
+          </div>
+        ) : (
+          fav.map(w => (
+            <div key={w.id} style={{
+              display:"flex", alignItems:"center", gap:10,
+              padding:"10px 0",
+              borderBottom:`1px solid ${T.border}`,
+            }}>
+              <span style={{ width:7, height:7, borderRadius:"50%", flexShrink:0,
+                background: BIOME_COLOR[w.biome] || T.muted }} />
+              <div style={{ flex:1, minWidth:0, cursor:"pointer" }}
+                onClick={() => { onSelect(w); onClose(); }}>
+                <div style={{ fontSize:13, fontStyle:"italic", color:T.text,
+                  overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+                  {w.title}
+                </div>
+                <div style={{ fontSize:10, color:T.muted, marginTop:2,
+                  fontFamily:"'DM Mono',monospace", letterSpacing:"0.06em" }}>
+                  {w.artist}
+                  {w.year && <span style={{ marginLeft:6, opacity:0.6 }}>{w.year}</span>}
+                </div>
+              </div>
+              <span style={{ fontSize:11, color:T.muted,
+                fontFamily:"'DM Mono',monospace", flexShrink:0 }}>
+                {Number(w.score||0).toFixed(1)}
+              </span>
+              <button onClick={() => onRemove(w)} style={{
+                background:"none", border:"none", cursor:"pointer",
+                color:T.muted, fontSize:12, padding:"0 4px", opacity:0.5,
+              }}>×</button>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Onboarding ──────────────────────────────────────────────────────────
+function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
   const T  = dark ? THEME.dark : THEME.light;
+  const L  = UI[lang] || UI.fr;
   const bg = dark
     ? "radial-gradient(ellipse at 50% 60%, rgba(14,10,6,0.94) 0%, rgba(4,3,2,0.99) 100%)"
     : "radial-gradient(ellipse at 50% 60%, rgba(240,233,224,0.94) 0%, rgba(228,221,212,0.99) 100%)";
 
-  const choices = [
-    { key:"random",    icon:"◉", label:"Je tourne en rond",        desc:"Emmène-moi quelque part que je ne connais pas" },
-    { key:"mountains", icon:"△", label:"Je veux ce qui compte vraiment", desc:"Les œuvres structuralement les plus fortes" },
-    { key:"frontier",  icon:"◇", label:"Je veux sortir de ma zone", desc:"Explorer des territoires inconnus" },
-    { key:"free",      icon:"○", label:"Je sais déjà ce que je cherche", desc:"Navigation libre sur la carte" },
-  ];
+  const choices = L.onboarding.choices;
 
   return (
     <div style={{
@@ -107,7 +436,7 @@ function Onboarding({ dark, onChoose, onShowHelp }) {
           color: T.text, lineHeight:1 }}>lisn</div>
         <div style={{ fontSize:9, letterSpacing:"0.28em", color: T.muted,
           fontFamily:"'DM Mono',monospace", marginTop:8, textTransform:"uppercase" }}>
-          atlas des formes musicales
+          {L.onboarding.tagline}
         </div>
       </div>
       <div style={{ display:"flex", flexDirection:"column", gap:8, width:"min(320px,88vw)" }}>
@@ -132,7 +461,7 @@ function Onboarding({ dark, onChoose, onShowHelp }) {
       </div>
       <div style={{ marginTop:32, display:"flex", flexDirection:"column",
         alignItems:"center", gap:10 }}>
-        <button onClick={() => { localStorage.setItem("lisn-onboarding","1"); onChoose("free"); onShowHelp?.(); }}
+        <button onClick={() => { onChoose("free"); onShowHelp?.(); }}
           style={{ background:"none", border:"none", cursor:"pointer",
             fontSize:9, color:T.muted, fontFamily:"'DM Mono',monospace",
             letterSpacing:"0.14em", textTransform:"uppercase", textDecoration:"underline",
@@ -154,8 +483,9 @@ export default function HomePage() {
   const [mobile,          setMobile]          = useState(false);
   const [showFilters,     setShowFilters]     = useState(false);
   const [showHelp,        setShowHelp]        = useState(false);
+  const [showLegend,      setShowLegend]      = useState(true);
   const [lang,            setLang]            = useState("fr");
-  const [showOnboarding,  setShowOnboarding]  = useState(true);
+  const [showOnboarding,  setShowOnboarding]  = useState(false);
   const [selectedWork,    setSelectedWork]    = useState(null);
   const [hoveredWork,     setHoveredWork]     = useState(null);
   const [biomeFilter,     setBiomeFilter]     = useState("all");
@@ -166,25 +496,43 @@ export default function HomePage() {
   const [nearbyWorks,     setNearbyWorks]     = useState([]);
   const [trajectoryWorks, setTrajectoryWorks] = useState([]);
 
+  // Favoris — persistés en localStorage
+  const [favorites,  setFavorites]  = useState(() => {
+    if (typeof window === "undefined") return {};
+    try { return JSON.parse(localStorage.getItem("lisn-favorites") || "{}"); }
+    catch { return {}; }
+  });
+  const [showFavorites, setShowFavorites] = useState(false);
+
   // Modes spéciaux
   const [voyageMode,    setVoyageMode]    = useState(false);
   const [voyageCurrent, setVoyageCurrent] = useState(null);
   const [compareMode,   setCompareMode]   = useState(false);
   const [compareA,      setCompareA]      = useState(null);
   const [compareB,      setCompareB]      = useState(null);
-  const voyageTimer = useRef(null);
+  const voyageTimer  = useRef(null);
+  const idleHintTimer = useRef(null);
+  const [showIdleHint, setShowIdleHint] = useState(false);
   const [analysisWork, setAnalysisWork] = useState(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("lisn-theme");
     if (saved === "light") setDark(false);
-    if (localStorage.getItem("lisn-onboarding")) setShowOnboarding(false);
+    const savedLang = localStorage.getItem("lisn-lang");
+    if (savedLang === "en") setLang("en");
     setMobile(window.innerWidth < 768);
     const onResize = () => setMobile(window.innerWidth < 768);
     window.addEventListener("resize", onResize);
-    const savedLang = localStorage.getItem("lisn-lang");
-    if (savedLang === "en") setLang("en");
-    return () => window.removeEventListener("resize", onResize);
+    // Onboarding — s'affiche 3s à chaque ouverture, disparaît automatiquement
+    setShowOnboarding(true);
+    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 3000);
+    // Idle hint — après 8s sans interaction
+    idleHintTimer.current = setTimeout(() => setShowIdleHint(true), 8000);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      clearTimeout(onboardingTimer);
+      clearTimeout(idleHintTimer.current);
+    };
   }, []);
 
   function toggleDark() {
@@ -201,7 +549,6 @@ export default function HomePage() {
 
   // ── Onboarding ─────────────────────────────────────────────────
   function handleOnboardingChoice(key) {
-    localStorage.setItem("lisn-onboarding", "1");
     setShowOnboarding(false);
     if (key === "random")    landRandom();
     else if (key === "mountains") { setScoreMin(8.5); setScoreMax(10); }
@@ -225,8 +572,9 @@ export default function HomePage() {
     scheduleNext(start);
   }, []);
 
-  function scheduleNext(cur) {
+  function scheduleNext(cur, immediate = false) {
     clearTimeout(voyageTimer.current);
+    const delay = immediate ? 0 : 6000; // 6s — assez long pour entendre l'intro
     voyageTimer.current = setTimeout(() => {
       const nearby = worksSeed
         .filter(w => w.id !== cur.id)
@@ -244,12 +592,35 @@ export default function HomePage() {
       setVoyageCurrent(pick);
       setSelectedWork(pick);
       scheduleNext(pick);
-    }, 4500);
+    }, delay);
   }
 
   function stopVoyage() {
     setVoyageMode(false); setVoyageCurrent(null);
     clearTimeout(voyageTimer.current);
+  }
+
+  function toggleFavorite(work) {
+    if (!work) return;
+    setFavorites(prev => {
+      const next = { ...prev };
+      if (next[work.id]) delete next[work.id];
+      else next[work.id] = { id:work.id, artist:work.artist, title:work.title,
+        score:work.score, biome:work.biome, role:work.role, year:work.year,
+        savedAt: Date.now() };
+      localStorage.setItem("lisn-favorites", JSON.stringify(next));
+      return next;
+    });
+  }
+
+  function isFavorite(work) {
+    return work ? Boolean(favorites[work.id]) : false;
+  }
+
+  // Voyage — next forcé (skip immédiat)
+  function voyageNext() {
+    clearTimeout(voyageTimer.current);
+    if (voyageCurrent) scheduleNext(voyageCurrent, true);
   }
   useEffect(() => () => clearTimeout(voyageTimer.current), []);
 
@@ -261,6 +632,8 @@ export default function HomePage() {
 
   // ── Sélection (gère aussi le mode compare) ────────────────────
   function handleSelect(work) {
+    setShowIdleHint(false);
+    clearTimeout(idleHintTimer.current);
     if (compareMode) {
       if (!compareA) { setCompareA(work); return; }
       if (!compareB && work.id !== compareA?.id) { setCompareB(work); return; }
@@ -305,21 +678,22 @@ export default function HomePage() {
   [biomeFilter, scoreMin, scoreMax, decade]);
 
   const T = dark ? THEME.dark : THEME.light;
+  const L = UI[lang] || UI.fr;
 
-  const modeLabel = compareMode ? "comparer"
-    : voyageMode ? "voyage"
-    : scoreMin > 7.5 ? "montagnes"
-    : scoreMax < 5 ? "frontières"
+  const modeLabel = compareMode ? L.modeLabels.compare
+    : voyageMode ? L.modeLabels.voyage
+    : scoreMin > 7.5 ? L.modeLabels.mountains
+    : scoreMax < 5 ? L.modeLabels.frontier
     : decade ? `${decade}s`
-    : biomeFilter !== "all" ? BIOME_META[biomeFilter]?.label?.toLowerCase()
-    : "globe";
+    : biomeFilter !== "all" ? (BIOME_META[biomeFilter]?.[lang] || BIOME_META[biomeFilter]?.fr || "").toLowerCase()
+    : L.modeLabels.globe;
 
   const sep = <div style={{ width:1, height:14, background: T.border, margin:"0 3px", flexShrink:0 }} />;
 
   return (
     <div style={{ ...S.page, background: T.bg, color: T.text }}>
 
-      {showOnboarding && <Onboarding dark={dark} onChoose={handleOnboardingChoice} onShowHelp={() => setShowHelp(true)} />}
+      {showOnboarding && <Onboarding dark={dark} lang={lang} onChoose={handleOnboardingChoice} onShowHelp={() => setShowHelp(true)} />}
 
       <div style={S.stage}>
         <GlobeScene
@@ -336,25 +710,16 @@ export default function HomePage() {
         />
       </div>
 
-      {/* Indicateur voyage */}
+      {/* ── B+C. Panneau de voyage enrichi ───────────────── */}
       {voyageMode && voyageCurrent && (
-        <div style={{ ...S.voyageIndicator, background: T.cardBg, borderColor: T.border }}>
-          <span style={{ width:6, height:6, borderRadius:"50%", flexShrink:0,
-            background: BIOME_META[voyageCurrent.biome||voyageCurrent.regime]?.color || T.text,
-            animation:"pulse 1.5s infinite" }} />
-          <div>
-            <div style={{ fontSize:9, color: T.muted, letterSpacing:"0.12em",
-              textTransform:"uppercase", fontFamily:"'DM Mono',monospace" }}>En voyage</div>
-            <div style={{ fontSize:11, color: T.text, fontStyle:"italic" }}>
-              {voyageCurrent.title}
-            </div>
-          </div>
-          <button onClick={stopVoyage} style={{
-            background:"none", border:`1px solid ${T.border}`, color: T.muted,
-            fontSize:9, padding:"3px 6px", cursor:"pointer", borderRadius:1,
-            letterSpacing:"0.12em", fontFamily:"'DM Mono',monospace",
-          }}>STOP</button>
-        </div>
+        <VoyagePanel
+          work={voyageCurrent}
+          dark={dark} T={T} lang={lang}
+          isFav={isFavorite(voyageCurrent)}
+          onToggleFav={() => toggleFavorite(voyageCurrent)}
+          onNext={voyageNext}
+          onStop={stopVoyage}
+        />
       )}
 
       {/* Panel compare */}
@@ -363,7 +728,7 @@ export default function HomePage() {
           workA={compareA} workB={compareB}
           onClearA={() => setCompareA(null)}
           onClearB={() => setCompareB(null)}
-          dark={dark} T={T}
+          dark={dark} T={T} lang={lang}
         />
       )}
 
@@ -395,7 +760,7 @@ export default function HomePage() {
                       fontSize:11, cursor:"pointer",
                       fontFamily:"'DM Mono',monospace",
                     }}>
-                      {meta.label}
+                      {meta[lang] || meta.fr}
                     </button>
                   );
                 })}
@@ -406,7 +771,7 @@ export default function HomePage() {
             <div style={{ marginBottom:16 }}>
               <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
                 fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
-                Intensité — {scoreMin.toFixed(1)} → {scoreMax.toFixed(1)}
+                {L.filterScore(scoreMin, scoreMax)}
               </div>
               <div style={{ display:"flex", gap:16 }}>
                 <Slider label="Min" value={scoreMin} min={2} max={9} step={0.5}
@@ -458,7 +823,7 @@ export default function HomePage() {
               style={{ marginTop:8, width:"100%", padding:"10px", border:`1px solid ${T.border}`,
                 background:"none", color:T.muted, fontSize:10, cursor:"pointer",
                 fontFamily:"'DM Mono',monospace", letterSpacing:"0.12em" }}>
-              ↺ Réinitialiser
+              {L.filterReset}
             </button>
           </div>
         )}
@@ -475,14 +840,14 @@ export default function HomePage() {
         }}>
           <button style={S.mobileBtn(T)} onClick={() => landRandom()}>
             <span style={S.mobileBtnIcon}>◎</span>
-            <span style={S.mobileBtnLabel(T)}>Hasard</span>
+            <span style={S.mobileBtnLabel(T)}>{L.navLabels.random}</span>
           </button>
           <button style={S.mobileBtn(T)}
             onClick={() => voyageMode ? stopVoyage() : startVoyage(selectedWork||undefined)}>
             <span style={{ ...S.mobileBtnIcon, color: voyageMode ? T.text : T.muted }}>
               {voyageMode ? "◼" : "▷"}
             </span>
-            <span style={S.mobileBtnLabel(T)}>Voyage</span>
+            <span style={S.mobileBtnLabel(T)}>{L.navLabels.voyage}</span>
           </button>
           <button style={S.mobileBtn(T)}
             onClick={() => setShowFilters(v => !v)}>
@@ -495,21 +860,29 @@ export default function HomePage() {
           </button>
           <button style={S.mobileBtn(T)} onClick={toggleCompare}>
             <span style={{ ...S.mobileBtnIcon, color: compareMode ? T.text : T.muted }}>⊕</span>
-            <span style={S.mobileBtnLabel(T)}>Comp.</span>
+            <span style={S.mobileBtnLabel(T)}>{L.navLabels.compare}</span>
           </button>
           <button style={S.mobileBtn(T)} onClick={toggleDark}>
             <span style={S.mobileBtnIcon}>{dark ? "◐" : "◑"}</span>
-            <span style={S.mobileBtnLabel(T)}>{dark ? "Clair" : "Sombre"}</span>
+            <span style={S.mobileBtnLabel(T)}>{L.themeLabel(dark)}</span>
           </button>
           <button style={S.mobileBtn(T)} onClick={toggleLang}>
             <span style={{ ...S.mobileBtnIcon, fontSize:11, fontFamily:"'DM Mono',monospace" }}>
               {lang === "fr" ? "FR" : "EN"}
             </span>
-            <span style={S.mobileBtnLabel(T)}>{lang === "fr" ? "EN" : "FR"}</span>
+            <span style={S.mobileBtnLabel(T)}>{L.nav.lang}</span>
+          </button>
+          <button style={S.mobileBtn(T)} onClick={() => setShowFavorites(v => !v)}>
+            <span style={{ ...S.mobileBtnIcon, color: showFavorites ? T.text : T.muted }}>
+              {Object.keys(favorites).length > 0 ? "♥" : "♡"}
+            </span>
+            <span style={S.mobileBtnLabel(T)}>
+              {lang === "fr" ? "Favoris" : "Saved"}
+            </span>
           </button>
           <button style={S.mobileBtn(T)} onClick={() => setShowHelp(true)}>
             <span style={S.mobileBtnIcon}>?</span>
-            <span style={S.mobileBtnLabel(T)}>{lang === "fr" ? "Guide" : "Help"}</span>
+            <span style={S.mobileBtnLabel(T)}>{L.navLabels.guide}</span>
           </button>
         </nav>
         </>
@@ -529,7 +902,7 @@ export default function HomePage() {
                   background:  active ? T.pill : "transparent",
                 }} onClick={() => setBiomeFilter(key)}>
                   {meta.color && <span style={{ ...S.dot, background: meta.color, opacity: active ? 1 : 0.4 }} />}
-                  {meta.label}
+                  {meta[lang] || meta.fr}
                 </button>
               );
             })}
@@ -602,7 +975,8 @@ export default function HomePage() {
       {hoveredWork && !selectedWork && !compareMode && (
         <div style={{ ...S.hoverCard, background: T.cardBg, borderColor: T.border }}>
           {BIOME_META[hoveredWork.biome||hoveredWork.regime]?.color && (
-            <span style={{ ...S.hoverDot, background: BIOME_META[hoveredWork.biome||hoveredWork.regime].color }} />
+            <span style={{ ...S.hoverDot,
+              background: BIOME_META[hoveredWork.biome||hoveredWork.regime].color }} />
           )}
           <div style={{ flex:1, minWidth:0 }}>
             <div style={{ fontSize:13, fontStyle:"italic", color: T.text,
@@ -612,13 +986,28 @@ export default function HomePage() {
             <div style={{ fontSize:10, color: T.muted, marginTop:2,
               fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>
               {hoveredWork.artist}
-              {hoveredWork.year && <span style={{ marginLeft:6, opacity:0.6 }}>{hoveredWork.year}</span>}
+              {hoveredWork.year && (
+                <span style={{ marginLeft:6, opacity:0.6 }}>{hoveredWork.year}</span>
+              )}
             </div>
+            {/* Rôle avec description courte */}
+            {hoveredWork.role && (
+              <div style={{ fontSize:9, color: T.muted, marginTop:3, opacity:0.7,
+                fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>
+                {(L.roles[hoveredWork.role] || hoveredWork.role)}
+              </div>
+            )}
           </div>
           {hoveredWork.score && (
-            <span style={{ fontSize:11, color: T.muted, fontFamily:"'DM Mono',monospace", flexShrink:0 }}>
-              {Number(hoveredWork.score).toFixed(1)}
-            </span>
+            <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end",
+              gap:2, flexShrink:0 }}>
+              <span style={{ fontSize:13, color: T.text,
+                fontFamily:"'DM Mono',monospace", fontWeight:500 }}>
+                {Number(hoveredWork.score).toFixed(1)}
+              </span>
+              <span style={{ fontSize:8, color: T.muted, opacity:0.6,
+                fontFamily:"'DM Mono',monospace" }}>/10</span>
+            </div>
           )}
         </div>
       )}
@@ -628,19 +1017,21 @@ export default function HomePage() {
         <div style={{ ...S.hoverCard, background: T.cardBg, borderColor: T.border,
           pointerEvents:"none" }}>
           <span style={{ fontSize:10, color: T.muted, fontFamily:"'DM Mono',monospace",
-            letterSpacing:"0.1em" }}>Cliquez une première œuvre sur le globe</span>
+            letterSpacing:"0.1em" }}>{L.compare.instruction1}</span>
         </div>
       )}
       {compareMode && compareA && !compareB && (
         <div style={{ ...S.hoverCard, background: T.cardBg, borderColor: T.border,
           pointerEvents:"none" }}>
           <span style={{ fontSize:10, color: T.muted, fontFamily:"'DM Mono',monospace",
-            letterSpacing:"0.1em" }}>Cliquez une deuxième œuvre à comparer</span>
+            letterSpacing:"0.1em" }}>{L.compare.instruction2}</span>
         </div>
       )}
 
-      {/* Wordmark */}
-      <div style={S.wordmark}>
+      {/* Wordmark — clic = réouvrir l'onboarding */}
+      <div style={{ ...S.wordmark, cursor:"pointer" }}
+        onClick={() => setShowOnboarding(true)}
+        title={lang === "fr" ? "Changer de mode" : "Change mode"}>
         <span style={{ display:"block", fontSize:20, fontStyle:"italic",
           letterSpacing:"-0.04em", color: T.text, lineHeight:1 }}>lisn</span>
         <span style={{ display:"block", fontSize:8, letterSpacing:"0.20em",
@@ -651,7 +1042,7 @@ export default function HomePage() {
         <span style={{ display:"block", fontSize:7, letterSpacing:"0.14em",
           color: T.muted, fontFamily:"'DM Mono',monospace", marginTop:4,
           opacity:0.55, textTransform:"uppercase" }}>
-          Expand your musical taste
+          {lang === "fr" ? "Expand your musical taste" : "Expand your musical taste"}
         </span>
       </div>
 
@@ -669,6 +1060,9 @@ export default function HomePage() {
           voyageMode={voyageMode}
           onRequestAnalysis={w => setAnalysisWork(w)}
           mobile={mobile}
+          lang={lang}
+          isFavorite={isFavorite(selectedWork)}
+          onToggleFavorite={() => toggleFavorite(selectedWork)}
         />
       )}
 
@@ -677,17 +1071,127 @@ export default function HomePage() {
         <AnalysisModal
           work={analysisWork}
           dark={dark}
+          lang={lang}
           onClose={() => setAnalysisWork(null)}
         />
       )}
 
+      {/* ── A. Légende flottante ─────────────────────────────── */}
+      {showLegend && !showOnboarding && (
+        <div style={{
+          position:"fixed", left:20, bottom: mobile ? 80 : 70,
+          zIndex:25, display:"flex", flexDirection:"column", gap:5,
+          fontFamily:"'DM Mono',monospace",
+          animation:"fadeIn 0.5s ease",
+        }}>
+          {/* Taille = densité */}
+          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:3 }}>
+              {[10,7,4].map((s,i) => (
+                <div key={i} style={{
+                  width:s, height:s, borderRadius:"50%",
+                  background: T.text, opacity:0.5 - i*0.12, flexShrink:0,
+                }} />
+              ))}
+            </div>
+            <span style={{ fontSize:8, color:T.muted, letterSpacing:"0.10em",
+              textTransform:"uppercase" }}>
+              {lang === "fr" ? "taille = densité" : "size = density"}
+            </span>
+          </div>
+          {/* Couleurs biomes */}
+          <div style={{ display:"flex", alignItems:"center", gap:5 }}>
+            {Object.entries(BIOME_META).filter(([k]) => k !== "all").map(([key, meta]) => (
+              <div key={key} title={meta[lang] || meta.fr} style={{
+                width:6, height:6, borderRadius:"50%",
+                background: meta.color, flexShrink:0,
+              }} />
+            ))}
+            <span style={{ fontSize:8, color:T.muted, letterSpacing:"0.10em",
+              textTransform:"uppercase" }}>
+              {lang === "fr" ? "couleur = zone" : "color = zone"}
+            </span>
+          </div>
+          {/* Fermer */}
+          <button onClick={() => setShowLegend(false)} style={{
+            background:"none", border:"none", cursor:"pointer",
+            fontSize:8, color:T.muted, letterSpacing:"0.10em",
+            textAlign:"left", padding:0, opacity:0.6,
+            fontFamily:"'DM Mono',monospace", textTransform:"uppercase",
+          }}>
+            {lang === "fr" ? "masquer" : "hide"}
+          </button>
+        </div>
+      )}
+
+      {/* Bouton pour réafficher la légende */}
+      {!showLegend && !showOnboarding && (
+        <button onClick={() => setShowLegend(true)} style={{
+          position:"fixed", left:20, bottom: mobile ? 80 : 70,
+          zIndex:25, background:"none", border:"none",
+          cursor:"pointer", fontSize:9, color:T.muted,
+          fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
+          padding:0, textTransform:"uppercase", opacity:0.5,
+        }}>
+          {lang === "fr" ? "légende" : "legend"}
+        </button>
+      )}
+
+      {/* ── C. Idle hint ───────────────────────────────────────── */}
+      {showIdleHint && !selectedWork && !showOnboarding && (
+        <div style={{
+          position:"fixed", top:"50%", left:"50%",
+          transform:"translate(-50%, -50%)",
+          zIndex:15, pointerEvents:"none",
+          display:"flex", flexDirection:"column", alignItems:"center", gap:8,
+          animation:"fadeInUp 0.6s ease",
+        }}>
+          <div style={{
+            fontSize:11, color:T.muted, letterSpacing:"0.18em",
+            textTransform:"uppercase", fontFamily:"'DM Mono',monospace",
+            textAlign:"center", lineHeight:1.8,
+            textShadow: dark ? "0 0 20px rgba(0,0,0,0.8)" : "0 0 20px rgba(237,230,220,0.9)",
+          }}>
+            {lang === "fr"
+              ? <>Clique un point<br/>pour l'explorer</>
+              : <>Click a point<br/>to explore it</>
+            }
+          </div>
+          <div style={{
+            fontSize:9, color:T.muted, opacity:0.5,
+            fontFamily:"'DM Mono',monospace", letterSpacing:"0.14em",
+            textTransform:"uppercase",
+            textShadow: dark ? "0 0 20px rgba(0,0,0,0.8)" : "0 0 20px rgba(237,230,220,0.9)",
+          }}>
+            {lang === "fr" ? "ou fais tourner le globe" : "or rotate the globe"}
+          </div>
+        </div>
+      )}
+
       {/* Tutoriel gestuel mobile */}
-      <GestureHint dark={dark} mobile={mobile} />
+      <GestureHint dark={dark} mobile={mobile} lang={lang} />
 
       {/* Mode d'emploi */}
+      {/* Favoris panel */}
+      {showFavorites && (
+        <FavoritesPanel
+          favorites={favorites}
+          dark={dark} T={T} lang={lang}
+          onSelect={handleSelect}
+          onRemove={w => toggleFavorite(w)}
+          onClose={() => setShowFavorites(false)}
+        />
+      )}
+
       {showHelp && <HelpPanel dark={dark} lang={lang} onClose={() => setShowHelp(false)} />}
 
-      <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }`}</style>
+      <style>{`
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  @keyframes fadeInUp { from{opacity:0;transform:translate(-50%,-45%)} to{opacity:1;transform:translate(-50%,-50%)} }
+  @keyframes voyageProgress { from{width:0} to{width:100%} }
+  @keyframes onboardingTimer { from{width:0} to{width:100%} }
+`}</style>
     </div>
   );
 }
