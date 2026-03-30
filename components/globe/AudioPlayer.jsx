@@ -1,5 +1,18 @@
 "use client";
 
+import { worksSeed } from "@/data/worksSeed";
+
+// Index signature track par artiste — l'œuvre au score le plus élevé
+function buildSignatureIndex() {
+  const byArtist = {};
+  worksSeed.forEach(w => {
+    const cur = byArtist[w.artist];
+    if (!cur || w.score > cur.score) byArtist[w.artist] = w;
+  });
+  return byArtist;
+}
+const SIGNATURE = buildSignatureIndex();
+
 /**
  * AudioPlayer v3 — YouTube Embed
  * YouTube Data API v3 — gratuit, sans compte requis
@@ -15,11 +28,12 @@ const BIOME_COLOR = {
 
 export default function AudioPlayer({ work, dark }) {
   const [state,      setState]      = useState("idle");
-  const [videoId,    setVideoId]    = useState(null);
-  const [thumbnail,  setThumbnail]  = useState(null);
-  const [videoTitle, setVideoTitle] = useState(null);
-  const [errorMsg,   setErrorMsg]   = useState(null);
-  const [showEmbed,  setShowEmbed]  = useState(false);
+  const [videoId,       setVideoId]       = useState(null);
+  const [thumbnail,     setThumbnail]     = useState(null);
+  const [videoTitle,    setVideoTitle]    = useState(null);
+  const [signatureTitle,setSignatureTitle]= useState(null);
+  const [errorMsg,      setErrorMsg]      = useState(null);
+  const [showEmbed,     setShowEmbed]     = useState(false);
 
   const text      = dark ? "#f2ead8"                : "#120e0a";
   const muted     = dark ? "#9c8e7e"                : "#5c5048";
@@ -33,8 +47,15 @@ export default function AudioPlayer({ work, dark }) {
     setErrorMsg(null);
 
     try {
+      // Pour un artiste sans titre — trouver sa signature track
+      let searchTitle = work.title;
+      if (!searchTitle || work.entityType === "artist") {
+        const sig = SIGNATURE[work.artist];
+        searchTitle = sig?.title || work.artist; // fallback : juste le nom
+      }
+
       const res  = await fetch(
-        `/api/youtube-preview?artist=${encodeURIComponent(work.artist)}&title=${encodeURIComponent(work.title)}`
+        `/api/youtube-preview?artist=${encodeURIComponent(work.artist)}&title=${encodeURIComponent(searchTitle)}`
       );
       const data = await res.json();
 
@@ -47,6 +68,10 @@ export default function AudioPlayer({ work, dark }) {
       setVideoId(data.videoId);
       setThumbnail(data.thumbnail || null);
       setVideoTitle(data.videoTitle || null);
+      // Si artiste — indiquer quelle signature track joue
+      if (work.entityType === "artist" && searchTitle !== work.artist) {
+        setSignatureTitle(searchTitle);
+      }
       setState("ready");
       setShowEmbed(true);
     } catch (err) {
@@ -116,9 +141,18 @@ export default function AudioPlayer({ work, dark }) {
             fontSize: 9, color: muted, marginTop: 1,
             fontFamily: "'DM Mono',monospace", letterSpacing: "0.06em",
           }}>
-            {state === "loading" ? "Recherche sur YouTube…"
-              : state === "error"   ? (errorMsg || "Non trouvé")
-              : state === "ready"   ? (showEmbed ? "▾ Réduire" : "▸ Écouter")
+            {state === "loading"
+            ? "Recherche sur YouTube…"
+            : state === "error"
+            ? (errorMsg || "Non trouvé")
+            : state === "ready"
+            ? (showEmbed
+                ? "▾ Réduire"
+                : signatureTitle
+                  ? `▸ ${signatureTitle}`
+                  : "▸ Écouter")
+            : signatureTitle
+              ? `▸ ${signatureTitle}`
               : "▸ Écouter sur YouTube"}
           </div>
         </div>
