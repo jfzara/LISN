@@ -8,6 +8,7 @@ import WorkPanel     from "@/components/globe/WorkPanel";
 import SearchBar     from "@/components/globe/SearchBar";
 import ComparePanel  from "@/components/globe/ComparePanel";
 import AnalysisModal from "@/components/globe/AnalysisModal";
+import DiscussModal  from "@/components/globe/DiscussModal";
 import { worksSeed } from "@/data/worksSeed";
 import GestureHint from "@/components/globe/GestureHint";
 import HelpPanel   from "@/components/globe/HelpPanel";
@@ -547,6 +548,7 @@ export default function HomePage() {
   const idleHintTimer = useRef(null);
   const [showIdleHint, setShowIdleHint] = useState(false);
   const [analysisWork, setAnalysisWork] = useState(null);
+  const [discussWork,  setDiscussWork]  = useState(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("lisn-theme");
@@ -568,7 +570,7 @@ export default function HomePage() {
     window.addEventListener("resize", onResize);
     // Onboarding — s'affiche 3s à chaque ouverture, disparaît automatiquement
     setShowOnboarding(true);
-    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 9000);
+    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 3000);
     // Idle hint — après 8s sans interaction
     // idle hint lancé après intro via introComplete
     return () => {
@@ -1144,6 +1146,7 @@ export default function HomePage() {
           onStartVoyage={() => startVoyage(selectedWork)}
           voyageMode={voyageMode}
           onRequestAnalysis={w => setAnalysisWork(w)}
+          onRequestDiscuss={w => setDiscussWork(w)}
           mobile={mobile}
           lang={lang}
           isFavorite={isFavorite(selectedWork)}
@@ -1158,6 +1161,16 @@ export default function HomePage() {
           dark={dark}
           lang={lang}
           onClose={() => setAnalysisWork(null)}
+        />
+      )}
+
+      {discussWork && (
+        <DiscussModal
+          work={discussWork}
+          dark={dark}
+          lang={lang}
+          onClose={() => setDiscussWork(null)}
+          onAnalyse={() => { setAnalysisWork(discussWork); setDiscussWork(null); }}
         />
       )}
 

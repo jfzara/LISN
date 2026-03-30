@@ -23,7 +23,7 @@ const COPY = {
       },
       {
         head: "Des repères concrets :",
-        body: "Bach — 9.5. Coltrane — 9.5. OK Computer — 8.7. Random Access Memories — 6.3. Despacito — 2.9. Un score bas n'est pas une insulte — c'est une information. Certaines musiques sont faites pour être simples et directes. LISN le dit clairement.",
+        body: "Bach — 9.5. Steve Reich — 9.3. OK Computer — 8.7. Random Access Memories — 6.3. Despacito — 2.9. Un score bas n'est pas une insulte — c'est une information. Certaines musiques sont faites pour être simples et directes. LISN le dit clairement.",
       },
     ],
     structureTitle: "C'est quoi exactement la « structure » ?",
@@ -34,7 +34,7 @@ const COPY = {
       },
       {
         head: "Exemple simple :",
-        body: "Un hit radio a souvent une structure prévisible — tout le monde sait ce qui vient après. Un album de Coltrane a une structure dense où chaque note répond à la précédente. Les deux sont de la musique. Ils ne sont pas au même endroit sur la carte.",
+        body: "Un hit radio a souvent une structure prévisible — tout le monde sait ce qui vient après. Steve Reich construit des architectures temporelles où chaque répétition déplace imperceptiblement le sens. Les deux sont de la musique. Ils ne sont pas au même endroit sur la carte.",
       },
       {
         head: "Structurel ne veut pas dire compliqué.",
@@ -155,7 +155,7 @@ const COPY = {
       },
       {
         head: "Concrete reference points:",
-        body: "Bach — 9.5. Coltrane — 9.5. OK Computer — 8.7. Random Access Memories — 6.3. Despacito — 2.9. A low score isn't an insult — it's information. Some music is made to be simple and direct. LISN says so clearly.",
+        body: "Bach — 9.5. Steve Reich — 9.3. OK Computer — 8.7. Random Access Memories — 6.3. Despacito — 2.9. A low score isn't an insult — it's information. Some music is made to be simple and direct. LISN says so clearly.",
       },
     ],
     structureTitle: "What exactly is \"structure\"?",
@@ -166,7 +166,7 @@ const COPY = {
       },
       {
         head: "Simple example:",
-        body: "A radio hit usually has a predictable structure — everyone knows what comes next. A Coltrane album has a dense structure where each note responds to the one before. Both are music. They're just not in the same place on the map.",
+        body: "A radio hit usually has a predictable structure — everyone knows what comes next. Steve Reich builds temporal architectures where each repetition imperceptibly shifts the meaning. Both are music. They're just not in the same place on the map.",
       },
       {
         head: "Structural doesn't mean complicated.",

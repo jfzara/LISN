@@ -52,6 +52,7 @@ const PANEL_UI = {
     exploreAround: "Explorer autour", trajectory: "Trajectoire de l'artiste",
     voyage: "Voyager depuis ici", voyageStop: "Arrêter le voyage",
     analyse: "Analyser dans LISN →",
+    discuss: "Discuter avec LISN",
     tabFiche: "Fiche", tabAround: "Autour", tabTrajectory: "Trajectoire",
     emptyHint: "Survolez une présence lumineuse, cliquez pour ouvrir sa fiche.",
     autourEmpty: "Cliquez sur l'onglet Autour depuis la fiche pour voir les œuvres proches.",
@@ -64,6 +65,7 @@ const PANEL_UI = {
     exploreAround: "Explore around", trajectory: "Artist trajectory",
     voyage: "Voyage from here", voyageStop: "Stop voyage",
     analyse: "Analyse in LISN →",
+    discuss: "Discuss with LISN",
     tabFiche: "Info", tabAround: "Around", tabTrajectory: "Trajectory",
     emptyHint: "Hover a luminous point, click to open its card.",
     autourEmpty: "Click the Around tab on the card to see nearby works.",
@@ -124,7 +126,7 @@ function Tabs({ tab, onChange, dark, lang = "fr" }) {
 }
 
 // ── Fiche principale ──────────────────────────────────────────────
-function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis, isFavorite = false, onToggleFavorite }) {
+function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis, onRequestDiscuss, isFavorite = false, onToggleFavorite }) {
   const P  = PANEL_UI[lang] || PANEL_UI.fr;
   const BL = BIOME_LABEL[lang] || BIOME_LABEL.fr;
   const RL = ROLE_LABEL[lang]  || ROLE_LABEL.fr;
@@ -345,6 +347,7 @@ export default function WorkPanel({
   onSelectWork,
   onStartVoyage, voyageMode = false,
   onRequestAnalysis,
+  onRequestDiscuss,
   mobile = false,
   lang = "fr",
   isFavorite = false,
