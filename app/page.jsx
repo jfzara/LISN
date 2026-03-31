@@ -70,7 +70,6 @@ const UI = {
         { key:"free",      icon:"○", label:"Je sais déjà ce que je cherche", desc:"Navigation libre sur la carte" },
       ],
       helpLink: "Comment ça marche ? →",
-      slogan: "Not more music. Better music.",
       skip: "Passer →",
     },
     hover: { year: "" },
@@ -109,7 +108,6 @@ const UI = {
         { key:"free",      icon:"○", label:"I know what I'm looking for",        desc:"Free navigation on the map" },
       ],
       helpLink: "How does this work? →",
-      slogan: "Not more music. Better music.",
     },
     hover: { year: "" },
     compare: { instruction1: "Click a first work on the globe", instruction2: "Click a second work to compare" },
@@ -506,10 +504,7 @@ function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
             textUnderlineOffset:3 }}>
           {L.onboarding.helpLink}
         </button>
-        <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
-          fontFamily:"'DM Mono',monospace", textTransform:"uppercase", opacity:0.6 }}>
-          Not more music. Better music.
-        </div>
+
       </div>
     </div>
   );
