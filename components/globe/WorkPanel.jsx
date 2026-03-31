@@ -162,10 +162,10 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
         ))}
       </div>
 
-      {/* Favoris */}
+      {/* Favoris + Actions — sticky en bas sur mobile */}
       {onToggleFavorite && (
         <button onClick={onToggleFavorite} style={{
-          ...btnStyle(bord, text), marginTop:16,
+          ...btnStyle(bord, text, mobile), marginTop:16,
           borderColor: isFavorite ? BIOME_COLOR[biome] || bord : bord,
           color: isFavorite ? BIOME_COLOR[biome] || text : text,
         }}>

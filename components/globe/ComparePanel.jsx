@@ -139,7 +139,8 @@ export default function ComparePanel({ workA, workB, onClearA, onClearB, dark, T
   return (
     <div style={{
       position: "fixed", bottom: 68, left: "50%", transform: "translateX(-50%)",
-      width: "min(540px, calc(100vw - 32px))",
+      width: "min(540px, calc(100vw - 16px))",  // plus large sur mobile
+      maxHeight: "50vh", overflowY: "auto",
       background: T.cardBg, border: `1px solid ${bord}`,
       borderRadius: 1, backdropFilter: "blur(18px)",
       WebkitBackdropFilter: "blur(18px)",

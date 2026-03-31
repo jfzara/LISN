@@ -165,7 +165,7 @@ function Slider({ label, value, min, max, step = 0.5, onChange, T, fmt }) {
 }
 
 // ── VoyagePanel — contrôles voyage enrichis (B+C) ───────────────────
-function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, autoPlayEnabled = false }) {
+function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, autoPlayEnabled = false, mobile = false }) {
   const biomeColor = {
     dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
     narrative:"#FF9A4D", hybrid:"#C07AE8",
@@ -201,8 +201,21 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
     : null;
 
   return (
-    <div style={{
-      position:"fixed", top:18, right: 20,
+    <div style={mobile ? {
+      /* Mobile — bottom sheet au-dessus de la nav, zone pouce */
+      position:"fixed", left:0, right:0, bottom:64,
+      zIndex:50,
+      background: T.cardBg,
+      borderTop:`2px solid ${biomeColor}`,
+      backdropFilter:"blur(20px)",
+      WebkitBackdropFilter:"blur(20px)",
+      overflow:"hidden",
+      fontFamily:"'Libre Baskerville', Georgia, serif",
+      maxHeight:"42vh",
+      overflowY:"auto",
+    } : {
+      /* Desktop — coin supérieur droit */
+      position:"fixed", top:18, right:20,
       zIndex:50,
       width:"min(320px, calc(100vw - 40px))",
       background: T.cardBg,
@@ -570,7 +583,7 @@ export default function HomePage() {
     window.addEventListener("resize", onResize);
     // Onboarding — s'affiche 3s à chaque ouverture, disparaît automatiquement
     setShowOnboarding(true);
-    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 3000);
+    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 9000);
     // Idle hint — après 8s sans interaction
     // idle hint lancé après intro via introComplete
     return () => {
@@ -799,6 +812,7 @@ export default function HomePage() {
           onNext={voyageNext}
           onStop={stopVoyage}
           autoPlayEnabled={introComplete}
+          mobile={mobile}
         />
       )}
 
@@ -918,6 +932,16 @@ export default function HomePage() {
           backdropFilter:"blur(18px)", WebkitBackdropFilter:"blur(18px)",
           touchAction:"manipulation",
         }}>
+          {/* Logo lisn dans la nav mobile — clic = onboarding */}
+          <button style={{ ...S.mobileBtn(T), minWidth:36 }}
+            onClick={() => setShowOnboarding(true)}>
+            <span style={{ fontSize:16, fontStyle:"italic", color:T.text,
+              fontFamily:"'Libre Baskerville',Georgia,serif",
+              letterSpacing:"-0.03em", lineHeight:1 }}>l</span>
+            <span style={{ ...S.mobileBtnLabel(T), color:T.muted, letterSpacing:"0.18em" }}>
+              lisn
+            </span>
+          </button>
           <button style={S.mobileBtn(T)} onClick={() => landRandom()}>
             <span style={S.mobileBtnIcon}>◎</span>
             <span style={S.mobileBtnLabel(T)}>{L.navLabels.random}</span>
@@ -1064,7 +1088,7 @@ export default function HomePage() {
 
       {/* Hover card */}
       {hoveredWork && !selectedWork && !compareMode && (
-        <div style={{ ...S.hoverCard, background: T.cardBg, borderColor: T.border }}>
+        <div style={{ ...S.hoverCard, ...(mobile && voyageMode ? S.hoverCardVoyage : {}), background: T.cardBg, borderColor: T.border }}>
           {BIOME_META[hoveredWork.biome||hoveredWork.regime]?.color && (
             <span style={{ ...S.hoverDot,
               background: BIOME_META[hoveredWork.biome||hoveredWork.regime].color }} />
@@ -1119,8 +1143,8 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Wordmark — clic = réouvrir l'onboarding */}
-      <div style={{ ...S.wordmark, cursor:"pointer" }}
+      {/* Wordmark — masqué sur mobile (trop haut pour le pouce) */}
+      {!mobile && <div style={{ ...S.wordmark, cursor:"pointer" }}
         onClick={() => setShowOnboarding(true)}
         title={lang === "fr" ? "Changer de mode" : "Change mode"}>
         <span style={{ display:"block", fontSize:20, fontStyle:"italic",
@@ -1135,7 +1159,7 @@ export default function HomePage() {
           opacity:0.55, textTransform:"uppercase" }}>
           {lang === "fr" ? "Expand your musical taste" : "Expand your musical taste"}
         </span>
-      </div>
+      </div>}
 
       {/* Panel sélection — caché en mode compare */}
       {!compareMode && (
@@ -1181,7 +1205,7 @@ export default function HomePage() {
       {/* ── A. Légende flottante ─────────────────────────────── */}
       {showLegend && !showOnboarding && (
         <div style={{
-          position:"fixed", left:20, bottom: mobile ? 80 : 70,
+          position:"fixed", left:20, bottom: mobile ? (voyageMode ? 190 : 80) : 70,
           zIndex:25, display:"flex", flexDirection:"column", gap:5,
           fontFamily:"'DM Mono',monospace",
           animation:"fadeIn 0.5s ease",
@@ -1229,7 +1253,7 @@ export default function HomePage() {
       {/* Bouton pour réafficher la légende */}
       {!showLegend && !showOnboarding && (
         <button onClick={() => setShowLegend(true)} style={{
-          position:"fixed", left:20, bottom: mobile ? 80 : 70,
+          position:"fixed", left:20, bottom: mobile ? (voyageMode ? 190 : 80) : 70,
           zIndex:25, background:"none", border:"none",
           cursor:"pointer", fontSize:11, color:T.muted,
           fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
@@ -1323,6 +1347,9 @@ const S = {
     border:"1px solid", borderRadius:1, padding:"9px 14px",
     pointerEvents:"none", backdropFilter:"blur(12px)",
     display:"flex", alignItems:"center", gap:10, minWidth:180, maxWidth:300,
+  },
+  hoverCardVoyage: {
+    bottom: 180, // Au-dessus du VoyagePanel bottom sheet
   },
   hoverDot: { width:7, height:7, borderRadius:"50%", flexShrink:0 },
   voyageIndicator: {
