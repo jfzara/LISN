@@ -168,7 +168,7 @@ function Slider({ label, value, min, max, step = 0.5, onChange, T, fmt }) {
 }
 
 // ── VoyagePanel — contrôles voyage enrichis (B+C) ───────────────────
-function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, autoPlayEnabled = false, mobile = false }) {
+function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, hasPrev = false, onStop, autoPlayEnabled = false, mobile = false }) {
   const biomeColor = {
     dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
     narrative:"#FF9A4D", hybrid:"#C07AE8",
@@ -562,6 +562,7 @@ export default function HomePage() {
     catch { return {}; }
   });
   const [showFavorites, setShowFavorites] = useState(false);
+  const [activeMode,    setActiveMode]    = useState("free"); // "random"|"mountains"|"frontier"|"free"
 
   // Modes spéciaux
   const [voyageMode,    setVoyageMode]    = useState(false);
@@ -570,6 +571,7 @@ export default function HomePage() {
   const [compareA,      setCompareA]      = useState(null);
   const [compareB,      setCompareB]      = useState(null);
   const voyageTimer  = useRef(null);
+  const [voyageHistory, setVoyageHistory] = useState([]); // historique pour "précédent"
   const idleHintTimer = useRef(null);
   const [showIdleHint, setShowIdleHint] = useState(false);
   const [analysisWork, setAnalysisWork] = useState(null);
@@ -620,26 +622,20 @@ export default function HomePage() {
   // ── Onboarding ─────────────────────────────────────────────────
   function handleOnboardingChoice(key) {
     setShowOnboarding(false);
+    setActiveMode(key);
 
     if (key === "random") {
-      // "Je tourne en rond" → voyage automatique depuis un point aléatoire
-      // Lance le voyage 500ms après la fermeture de l'onboarding
       setTimeout(() => startVoyage(), 500);
 
     } else if (key === "mountains") {
-      // "Je veux ce qui compte vraiment" → zoom vers les grandes œuvres
       setScoreMin(8.5); setScoreMax(10);
-      // Atterrir sur une capitale aléatoire
-      const capitals = worksSeed.filter(w =>
-        (w.role === "capital" || w.score >= 9.0)
-      );
+      const capitals = worksSeed.filter(w => (w.role === "capital" || w.score >= 9.0));
       if (capitals.length) {
         const pick = capitals[Math.floor(Math.random() * capitals.length)];
         setTimeout(() => handleSelect(pick), 600);
       }
 
     } else if (key === "frontier") {
-      // "Je veux sortir de ma zone" → atterrir sur une île/hameau puis voyager
       const isolated = worksSeed.filter(w =>
         w.role === "island" || w.biome === "atmospheric" || w.score < 5.5
       );
@@ -647,8 +643,10 @@ export default function HomePage() {
       const pick = pool[Math.floor(Math.random() * pool.length)];
       setTimeout(() => startVoyage(pick), 500);
 
+    } else {
+      // free — reset filters
+      setScoreMin(2); setScoreMax(10);
     }
-    // "free" → rien — navigation libre
   }
 
   // ── Atterrissage aléatoire ──────────────────────────────────────
@@ -661,6 +659,7 @@ export default function HomePage() {
   // ── Voyage ─────────────────────────────────────────────────────
   const startVoyage = useCallback((fromWork) => {
     setVoyageMode(true);
+    setVoyageHistory([]);
     const start = fromWork || worksSeed[Math.floor(Math.random() * worksSeed.length)];
     setVoyageCurrent(start);
     setSelectedWork(start); setHoveredWork(null);
@@ -685,6 +684,7 @@ export default function HomePage() {
         .sort((a,b) => a.d-b.d).slice(0,8);
       if (!nearby.length) { stopVoyage(); return; }
       const pick = nearby[Math.floor(Math.random()*Math.min(5,nearby.length))].w;
+      setVoyageHistory(h => [...h.slice(-20), pick]); // garder 20 étapes max
       setVoyageCurrent(pick);
       setSelectedWork(pick);
       scheduleNext(pick);
@@ -717,6 +717,17 @@ export default function HomePage() {
   function voyageNext() {
     clearTimeout(voyageTimer.current);
     if (voyageCurrent) scheduleNext(voyageCurrent, true);
+  }
+
+  // Voyage — précédent (revenir en arrière dans l'historique)
+  function voyagePrev() {
+    if (voyageHistory.length < 2) return;
+    clearTimeout(voyageTimer.current);
+    const prev = voyageHistory[voyageHistory.length - 2];
+    setVoyageHistory(h => h.slice(0, -1));
+    setVoyageCurrent(prev);
+    setSelectedWork(prev);
+    scheduleNext(prev);
   }
   useEffect(() => () => clearTimeout(voyageTimer.current), []);
 
@@ -824,6 +835,8 @@ export default function HomePage() {
           isFav={isFavorite(voyageCurrent)}
           onToggleFav={() => toggleFavorite(voyageCurrent)}
           onNext={voyageNext}
+          onPrev={voyagePrev}
+          hasPrev={voyageHistory.length >= 2}
           onStop={stopVoyage}
           autoPlayEnabled={introComplete}
           mobile={mobile}
@@ -950,6 +963,26 @@ export default function HomePage() {
               }} />
             </div>
 
+            {/* Langue + Thème */}
+            <div style={{ display:"flex", gap:8, marginTop:8 }}>
+              <button onClick={toggleLang} style={{
+                flex:1, padding:"10px", border:`1px solid ${T.border}`,
+                background:T.pill, color:T.text, fontSize:12, cursor:"pointer",
+                fontFamily:"'DM Mono',monospace", letterSpacing:"0.14em",
+                borderRadius:1,
+              }}>
+                {lang === "fr" ? "🌐 EN" : "🌐 FR"}
+              </button>
+              <button onClick={toggleDark} style={{
+                flex:1, padding:"10px", border:`1px solid ${T.border}`,
+                background:T.pill, color:T.text, fontSize:12, cursor:"pointer",
+                fontFamily:"'DM Mono',monospace", letterSpacing:"0.12em",
+                borderRadius:1,
+              }}>
+                {dark ? "☀ " + (lang === "fr" ? "Clair" : "Light") : "☾ " + (lang === "fr" ? "Sombre" : "Dark")}
+              </button>
+            </div>
+
             {/* Reset */}
             <button onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); setRoleFilter("all"); setShowFilters(false); }}
               style={{ marginTop:8, width:"100%", padding:"10px", border:`1px solid ${T.border}`,
@@ -960,7 +993,7 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* ── Nav mobile — barre fixe en bas ── */}
+        {/* ── Nav mobile — barre fixe en bas — 7 boutons ── */}
         <nav style={{
           position:"fixed", bottom:0, left:0, right:0, height:64,
           zIndex:40, display:"flex", alignItems:"center",
@@ -970,69 +1003,91 @@ export default function HomePage() {
           backdropFilter:"blur(18px)", WebkitBackdropFilter:"blur(18px)",
           touchAction:"manipulation",
         }}>
-          {/* Logo lisn dans la nav mobile — clic = onboarding */}
-          <button style={{ ...S.mobileBtn(T), minWidth:36 }}
+
+          {/* 1. Home / lisn — retour aux 4 modes */}
+          <button style={{ ...S.mobileBtn(T), minWidth:40 }}
             onClick={() => setShowOnboarding(true)}>
-            <span style={{ fontSize:16, fontStyle:"italic", color:T.text,
+            <span style={{ fontSize:15, fontStyle:"italic",
+              color: {"random":"#FF6B2F","mountains":"#E8C97A","frontier":"#4ABFFF"}[activeMode] || T.text,
               fontFamily:"'Libre Baskerville',Georgia,serif",
-              letterSpacing:"-0.03em", lineHeight:1 }}>l</span>
-            <span style={{ ...S.mobileBtnLabel(T), color:T.muted, letterSpacing:"0.18em" }}>
-              lisn
+              letterSpacing:"-0.03em", lineHeight:1 }}>lisn</span>
+            <span style={{ ...S.mobileBtnLabel(T),
+              color: {"random":"#FF6B2F","mountains":"#E8C97A","frontier":"#4ABFFF"}[activeMode] || T.muted,
+              fontSize: 8 }}>
+              {activeMode === "random" ? (lang === "fr" ? "♻" : "♻")
+               : activeMode === "mountains" ? "△"
+               : activeMode === "frontier" ? "◇"
+               : "○"}
             </span>
           </button>
-          <button style={S.mobileBtn(T)} onClick={() => landRandom()}>
-            <span style={S.mobileBtnIcon}>◎</span>
-            <span style={S.mobileBtnLabel(T)}>{L.navLabels.random}</span>
-          </button>
+
+          {/* 2. Voyage */}
           <button style={S.mobileBtn(T)}
             onClick={() => voyageMode ? stopVoyage() : startVoyage(selectedWork||undefined)}>
-            <span style={{ ...S.mobileBtnIcon, color: voyageMode ? T.text : T.muted }}>
+            <span style={{ ...S.mobileBtnIcon,
+              color: voyageMode ? T.text : T.muted, fontSize:17 }}>
               {voyageMode ? "◼" : "▷"}
             </span>
-            <span style={S.mobileBtnLabel(T)}>{L.navLabels.voyage}</span>
+            <span style={{ ...S.mobileBtnLabel(T), color: voyageMode ? T.text : T.muted }}>
+              {L.navLabels.voyage}
+            </span>
           </button>
+
+          {/* 3. Filtres */}
           <button style={S.mobileBtn(T)}
             onClick={() => setShowFilters(v => !v)}>
-            <span style={{ ...S.mobileBtnIcon, color: showFilters ? T.text : T.muted }}>
-              ≡
-            </span>
-            <span style={{ ...S.mobileBtnLabel(T), color: showFilters ? T.text : T.muted }}>
+            <span style={{ ...S.mobileBtnIcon,
+              color: showFilters ? T.text : T.muted }}>≡</span>
+            <span style={{ ...S.mobileBtnLabel(T),
+              color: showFilters ? T.text : T.muted }}>
               {L.navLabels.filters}
             </span>
           </button>
+
+          {/* 4. Comparer */}
           <button style={S.mobileBtn(T)} onClick={toggleCompare}>
-            <span style={{ ...S.mobileBtnIcon, color: compareMode ? T.text : T.muted }}>⊕</span>
-            <span style={S.mobileBtnLabel(T)}>{L.navLabels.compare}</span>
-          </button>
-          <button style={S.mobileBtn(T)} onClick={toggleDark}>
-            <span style={S.mobileBtnIcon}>{dark ? "◐" : "◑"}</span>
-            <span style={S.mobileBtnLabel(T)}>{L.themeLabel(dark)}</span>
-          </button>
-          <button style={S.mobileBtn(T)} onClick={toggleLang}>
-            <span style={{ ...S.mobileBtnIcon, fontSize:12, fontFamily:"'DM Mono',monospace" }}>
-              {lang === "fr" ? "FR" : "EN"}
+            <span style={{ ...S.mobileBtnIcon,
+              color: compareMode ? T.text : T.muted }}>⊕</span>
+            <span style={{ ...S.mobileBtnLabel(T),
+              color: compareMode ? T.text : T.muted }}>
+              {L.navLabels.compare}
             </span>
-            <span style={S.mobileBtnLabel(T)}>{L.nav.lang}</span>
           </button>
+
+          {/* 5. Favoris */}
           <button style={S.mobileBtn(T)} onClick={() => setShowFavorites(v => !v)}>
-            <span style={{ ...S.mobileBtnIcon, color: showFavorites ? T.text : T.muted }}>
+            <span style={{ ...S.mobileBtnIcon,
+              color: showFavorites ? T.text : (Object.keys(favorites).length > 0 ? T.text : T.muted),
+              fontSize:16 }}>
               {Object.keys(favorites).length > 0 ? "♥" : "♡"}
             </span>
-            <span style={S.mobileBtnLabel(T)}>
-              {lang === "fr" ? "Favoris" : "Saved"}
+            <span style={{ ...S.mobileBtnLabel(T) }}>
+              {Object.keys(favorites).length > 0
+                ? `♥ ${Object.keys(favorites).length}`
+                : (lang === "fr" ? "Favoris" : "Saved")}
             </span>
           </button>
+
+          {/* 6. Thème — icône seulement, sans label pour gagner de la place */}
+          <button style={{ ...S.mobileBtn(T), minWidth:36 }} onClick={toggleDark}>
+            <span style={{ ...S.mobileBtnIcon, fontSize:16 }}>{dark ? "◐" : "◑"}</span>
+            <span style={{ ...S.mobileBtnLabel(T), fontSize:7 }}>
+              {L.themeLabel(dark)}
+            </span>
+          </button>
+
+          {/* 7. Guide — encadré, visuellement différencié */}
           <button style={{
             ...S.mobileBtn(T),
-            background: T.pill,
-            borderRadius: 1,
-            border: `1px solid ${T.border}`,
+            background: T.pill, borderRadius:1,
+            borderWidth:1, borderStyle:"solid", borderColor:T.border,
           }} onClick={() => setShowHelp(true)}>
-            <span style={{ ...S.mobileBtnIcon, fontSize:18 }}>?</span>
-            <span style={{ ...S.mobileBtnLabel(T), color: T.text, opacity:0.9 }}>
+            <span style={{ ...S.mobileBtnIcon, fontSize:16 }}>?</span>
+            <span style={{ ...S.mobileBtnLabel(T), color:T.text, opacity:0.9 }}>
               {L.navLabels.guide}
             </span>
           </button>
+
         </nav>
         </>
       ) : (
@@ -1247,6 +1302,7 @@ export default function HomePage() {
           lang={lang}
           isFavorite={isFavorite(selectedWork)}
           onToggleFavorite={() => toggleFavorite(selectedWork)}
+          activeMode={activeMode}
         />
       )}
 

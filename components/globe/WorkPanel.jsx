@@ -128,6 +128,16 @@ function Tabs({ tab, onChange, dark, lang = "fr" }) {
 // ── Fiche principale ──────────────────────────────────────────────
 function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis, onRequestDiscuss, isFavorite = false, onToggleFavorite, mobile = false }) {
   const P  = PANEL_UI[lang] || PANEL_UI.fr;
+
+  // Indicateur de mode actif
+  const MODE_META = {
+    random:    { color:"#FF6B2F", icon:"◉", fr:"Je tourne en rond",          en:"Explore mode" },
+    mountains: { color:"#E8C97A", icon:"△", fr:"Ce qui compte vraiment",     en:"Peaks mode" },
+    frontier:  { color:"#4ABFFF", icon:"◇", fr:"Sortir de ma zone",          en:"Frontier mode" },
+    free:      { color:null,      icon:"○", fr:"Navigation libre",           en:"Free navigation" },
+  };
+  const modeMeta = MODE_META[activeMode] || MODE_META.free;
+  const modeLabel = lang === "fr" ? modeMeta.fr : modeMeta.en;
   const BL = BIOME_LABEL[lang] || BIOME_LABEL.fr;
   const RL = ROLE_LABEL[lang]  || ROLE_LABEL.fr;
   const RD = ROLE_DESC[lang]   || ROLE_DESC.fr;
@@ -352,8 +362,19 @@ export default function WorkPanel({
   lang = "fr",
   isFavorite = false,
   onToggleFavorite,
+  activeMode = "free",
 }) {
   const P  = PANEL_UI[lang] || PANEL_UI.fr;
+
+  // Indicateur de mode actif
+  const MODE_META = {
+    random:    { color:"#FF6B2F", icon:"◉", fr:"Je tourne en rond",          en:"Explore mode" },
+    mountains: { color:"#E8C97A", icon:"△", fr:"Ce qui compte vraiment",     en:"Peaks mode" },
+    frontier:  { color:"#4ABFFF", icon:"◇", fr:"Sortir de ma zone",          en:"Frontier mode" },
+    free:      { color:null,      icon:"○", fr:"Navigation libre",           en:"Free navigation" },
+  };
+  const modeMeta = MODE_META[activeMode] || MODE_META.free;
+  const modeLabel = lang === "fr" ? modeMeta.fr : modeMeta.en;
   const BL = BIOME_LABEL[lang] || BIOME_LABEL.fr;
   const RL = ROLE_LABEL[lang]  || ROLE_LABEL.fr;
   const RD = ROLE_DESC[lang]   || ROLE_DESC.fr;

@@ -68,6 +68,25 @@ const COPY = {
         body: "Le worldview de chaque œuvre — la vision du monde implicite dans ses choix sonores — sera visible dans les analyses LISN complètes. Pas comme un jugement. Comme une coordonnée de plus.",
       },
     ],
+    aiTitle: "Et la musique générée par IA ?",
+    aiBites: [
+      {
+        head: "LISN analyse. Il ne refuse pas.",
+        body: "Refuser les œuvres IA serait introduire un critère d'origine dans un système qui mesure la structure. Ce serait incohérent. LISN analyse ce qu'on lui soumet — l'origine n'est pas un filtre.",
+      },
+      {
+        head: "Mais il mesure aussi ce qui est absent.",
+        body: "Une œuvre IA peut avoir une structure réelle — densité, tension, cohérence interne. Ce qu'elle ne peut pas avoir, c'est un sujet qui la porte. Pas de rapport à la mort. Pas de risque. Pas de peau dans le jeu. L'OSR appelle ça le worldview — et son absence est une donnée aussi précise que sa présence.",
+      },
+      {
+        head: "Le silence du worldview est une information.",
+        body: "Un score structurel élevé avec worldview vide est fascinant en soi. Ça dit quelque chose sur ce qu'est la structure quand elle est détachée d'un sujet — une architecture sans habitant. Ce n'est pas un défaut. Ce n'est pas une absolution. C'est une coordonnée.",
+      },
+      {
+        head: "Ce qui vous appartient, c'est l'écoute.",
+        body: "LISN ne tranche pas si une œuvre IA mérite votre attention. Il vous donne les outils pour trancher vous-même — structure, worldview, densité. La question de la connexion humaine, elle, vous revient entièrement.",
+      },
+    ],
     biomesTitle: "Les zones de la carte",
     biomesIntro: "Chaque œuvre appartient à une zone — pas un genre, une façon d'organiser l'énergie musicale.",
     biomes: [
@@ -198,6 +217,25 @@ const COPY = {
       {
         head: null,
         body: "The worldview of each work — the vision of reality implicit in its sonic choices — will be visible in full LISN analyses. Not as a judgment. As one more coordinate.",
+      },
+    ],
+    aiTitle: "What about AI-generated music?",
+    aiBites: [
+      {
+        head: "LISN analyses. It doesn't refuse.",
+        body: "Refusing AI works would mean introducing an origin criterion into a system that measures structure. That would be incoherent. LISN analyses what it's given — origin is not a filter.",
+      },
+      {
+        head: "But it also measures what's absent.",
+        body: "An AI work can have real structure — density, tension, internal coherence. What it cannot have is a subject to carry it. No relationship to death. No risk. No skin in the game. The OSR calls this worldview — and its absence is as precise a data point as its presence.",
+      },
+      {
+        head: "The silence of worldview is information.",
+        body: "A high structural score with an empty worldview is fascinating in itself. It says something about what structure is when detached from a subject — an architecture with no inhabitant. That's not a flaw. It's not an absolution. It's a coordinate.",
+      },
+      {
+        head: "What belongs to you is the listening.",
+        body: "LISN doesn't decide whether an AI work deserves your attention. It gives you the tools to decide for yourself — structure, worldview, density. The question of human connection remains entirely yours.",
       },
     ],
     biomesTitle: "The zones of the map",
@@ -369,6 +407,11 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
         {/* Worldview */}
         <Section title={C.worldviewTitle}>
           {C.worldviewBites.map((b, i) => <Bite key={i} head={b.head} body={b.body} />)}
+        </Section>
+
+        {/* IA */}
+        <Section title={C.aiTitle}>
+          {C.aiBites.map((b, i) => <Bite key={i} head={b.head} body={b.body} />)}
         </Section>
 
         {/* Biomes */}
