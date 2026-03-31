@@ -151,9 +151,9 @@ function Slider({ label, value, min, max, step = 0.5, onChange, T, fmt }) {
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:3, minWidth:100 }}>
       <div style={{ display:"flex", justifyContent:"space-between" }}>
-        <span style={{ fontSize:9, letterSpacing:"0.13em", textTransform:"uppercase",
+        <span style={{ fontSize:11, letterSpacing:"0.13em", textTransform:"uppercase",
           color: T.muted, fontFamily:"'DM Mono',monospace" }}>{label}</span>
-        <span style={{ fontSize:9, color: T.muted, fontFamily:"'DM Mono',monospace" }}>
+        <span style={{ fontSize:11, color: T.muted, fontFamily:"'DM Mono',monospace" }}>
           {fmt ? fmt(value) : value}
         </span>
       </div>
@@ -197,7 +197,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
   }, [work?.id, autoPlayEnabled]);
 
   const embedUrl = videoId
-    ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`
+    ? `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&start=20`
     : null;
 
   return (
@@ -220,7 +220,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
       <div style={{ padding:"12px 14px 10px",
         display:"flex", alignItems:"flex-start", gap:10 }}>
         <div style={{ flex:1, minWidth:0 }}>
-          <div style={{ fontSize:9, color:T.muted, letterSpacing:"0.14em",
+          <div style={{ fontSize:11, color:T.muted, letterSpacing:"0.14em",
             textTransform:"uppercase", fontFamily:"'DM Mono',monospace", marginBottom:4 }}>
             {lang === "fr" ? "En voyage" : "On a journey"}
             {loading && <span style={{ marginLeft:6, opacity:0.5 }}>·</span>}
@@ -230,7 +230,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
             lineHeight:1.2 }}>
             {work.title}
           </div>
-          <div style={{ fontSize:11, color:T.muted, marginTop:3 }}>
+          <div style={{ fontSize:12, color:T.muted, marginTop:3 }}>
             {work.artist}
             {work.year && <span style={{ marginLeft:6, opacity:0.5 }}>{work.year}</span>}
           </div>
@@ -241,7 +241,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
             fontFamily:"'DM Mono',monospace", fontWeight:500 }}>
             {Number(work.score||0).toFixed(1)}
           </div>
-          <div style={{ fontSize:8, color:T.muted,
+          <div style={{ fontSize:10, color:T.muted,
             fontFamily:"'DM Mono',monospace" }}>/10</div>
         </div>
       </div>
@@ -278,12 +278,12 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
           background:"none", border:`1px solid ${isFav ? biomeColor : T.border}`,
           borderRadius:1, padding:"6px 10px", cursor:"pointer",
           color: isFav ? biomeColor : T.muted,
-          fontSize:13, display:"flex", alignItems:"center", gap:5,
+          fontSize:14, display:"flex", alignItems:"center", gap:5,
           fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em",
           transition:"all 0.15s",
         }}>
           {isFav ? "♥" : "♡"}
-          <span style={{ fontSize:9, textTransform:"uppercase" }}>
+          <span style={{ fontSize:11, textTransform:"uppercase" }}>
             {lang === "fr" ? (isFav ? "Sauvé" : "Sauver") : (isFav ? "Saved" : "Save")}
           </span>
         </button>
@@ -294,7 +294,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
           <button onClick={onNext} style={{
             background:"none", border:`1px solid ${T.border}`,
             borderRadius:1, padding:"6px 12px", cursor:"pointer",
-            color:T.text, fontSize:12,
+            color:T.text, fontSize:13,
             display:"flex", alignItems:"center", gap:4,
             fontFamily:"'DM Mono',monospace",
             transition:"border-color 0.15s",
@@ -302,7 +302,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
             onMouseEnter={e => e.currentTarget.style.borderColor = T.text}
             onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
           >
-            <span style={{ fontSize:9, textTransform:"uppercase", letterSpacing:"0.12em",
+            <span style={{ fontSize:11, textTransform:"uppercase", letterSpacing:"0.12em",
               color:T.muted }}>
               {lang === "fr" ? "Suivant" : "Next"}
             </span>
@@ -313,7 +313,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
           <button onClick={onStop} style={{
             background:"none", border:`1px solid ${T.border}`,
             borderRadius:1, padding:"6px 10px", cursor:"pointer",
-            color:T.muted, fontSize:10,
+            color:T.muted, fontSize:12,
             fontFamily:"'DM Mono',monospace", letterSpacing:"0.12em",
             textTransform:"uppercase",
           }}>
@@ -327,7 +327,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
         <div style={{ margin:"0 14px 10px", borderRadius:1, overflow:"hidden",
           border:`1px solid ${T.border}`, aspectRatio:"16/9", position:"relative" }}>
           <iframe
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&start=20`}
             width="100%" height="100%"
             style={{ display:"block", position:"absolute", inset:0, border:"none" }}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media"
@@ -339,7 +339,7 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
         <div style={{ padding:"0 14px 10px" }}>
           <button onClick={() => setShowFullPlayer(v => !v)} style={{
             background:"none", border:"none", cursor:"pointer",
-            fontSize:8, color:T.muted, opacity:0.6,
+            fontSize:10, color:T.muted, opacity:0.6,
             fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
             textTransform:"uppercase", padding:0,
           }}>
@@ -380,14 +380,14 @@ function FavoritesPanel({ favorites, dark, T, lang, onSelect, onRemove, onClose 
           <div style={{ fontSize:17, fontStyle:"italic", letterSpacing:"-0.02em" }}>
             {lang === "fr" ? "Mes favoris" : "My favorites"}
           </div>
-          <div style={{ fontSize:9, color:T.muted, fontFamily:"'DM Mono',monospace",
+          <div style={{ fontSize:11, color:T.muted, fontFamily:"'DM Mono',monospace",
             letterSpacing:"0.16em", textTransform:"uppercase", marginTop:3 }}>
             {fav.length} {lang === "fr" ? "œuvre" : "work"}{fav.length !== 1 ? "s" : ""}
           </div>
         </div>
         <button onClick={onClose} style={{
           background:"none", border:`1px solid ${T.border}`, color:T.muted,
-          fontSize:9, padding:"5px 10px", cursor:"pointer", borderRadius:1,
+          fontSize:11, padding:"5px 10px", cursor:"pointer", borderRadius:1,
           fontFamily:"'DM Mono',monospace", letterSpacing:"0.14em",
         }}>
           {lang === "fr" ? "FERMER" : "CLOSE"}
@@ -397,7 +397,7 @@ function FavoritesPanel({ favorites, dark, T, lang, onSelect, onRemove, onClose 
       {/* Liste */}
       <div style={{ padding:"16px 20px", maxWidth:520, margin:"0 auto" }}>
         {fav.length === 0 ? (
-          <div style={{ fontSize:13, color:T.muted, lineHeight:1.75,
+          <div style={{ fontSize:14, color:T.muted, lineHeight:1.75,
             fontStyle:"italic", marginTop:20 }}>
             {lang === "fr"
               ? "Aucun favori pour l'instant. Appuie sur ♥ pendant un voyage pour sauvegarder une œuvre."
@@ -414,23 +414,23 @@ function FavoritesPanel({ favorites, dark, T, lang, onSelect, onRemove, onClose 
                 background: BIOME_COLOR[w.biome] || T.muted }} />
               <div style={{ flex:1, minWidth:0, cursor:"pointer" }}
                 onClick={() => { onSelect(w); onClose(); }}>
-                <div style={{ fontSize:13, fontStyle:"italic", color:T.text,
+                <div style={{ fontSize:14, fontStyle:"italic", color:T.text,
                   overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
                   {w.title}
                 </div>
-                <div style={{ fontSize:10, color:T.muted, marginTop:2,
+                <div style={{ fontSize:12, color:T.muted, marginTop:2,
                   fontFamily:"'DM Mono',monospace", letterSpacing:"0.06em" }}>
                   {w.artist}
                   {w.year && <span style={{ marginLeft:6, opacity:0.6 }}>{w.year}</span>}
                 </div>
               </div>
-              <span style={{ fontSize:11, color:T.muted,
+              <span style={{ fontSize:12, color:T.muted,
                 fontFamily:"'DM Mono',monospace", flexShrink:0 }}>
                 {Number(w.score||0).toFixed(1)}
               </span>
               <button onClick={() => onRemove(w)} style={{
                 background:"none", border:"none", cursor:"pointer",
-                color:T.muted, fontSize:12, padding:"0 4px", opacity:0.5,
+                color:T.muted, fontSize:13, padding:"0 4px", opacity:0.5,
               }}>×</button>
             </div>
           ))
@@ -459,7 +459,7 @@ function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
       <div style={{ marginBottom:44, textAlign:"center" }}>
         <div style={{ fontSize:52, fontStyle:"italic", letterSpacing:"-0.04em",
           color: T.text, lineHeight:1 }}>lisn</div>
-        <div style={{ fontSize:9, letterSpacing:"0.28em", color: T.muted,
+        <div style={{ fontSize:11, letterSpacing:"0.28em", color: T.muted,
           fontFamily:"'DM Mono',monospace", marginTop:8, textTransform:"uppercase" }}>
           {L.onboarding.tagline}
         </div>
@@ -477,8 +477,8 @@ function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
           >
             <span style={{ fontSize:16, color: T.muted, width:22, textAlign:"center", flexShrink:0 }}>{c.icon}</span>
             <div>
-              <div style={{ fontSize:13 }}>{c.label}</div>
-              <div style={{ fontSize:10, color: T.muted, marginTop:2,
+              <div style={{ fontSize:14 }}>{c.label}</div>
+              <div style={{ fontSize:12, color: T.muted, marginTop:2,
                 fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>{c.desc}</div>
             </div>
           </button>
@@ -488,12 +488,12 @@ function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
         alignItems:"center", gap:10 }}>
         <button onClick={() => { onChoose("free"); onShowHelp?.(); }}
           style={{ background:"none", border:"none", cursor:"pointer",
-            fontSize:9, color:T.muted, fontFamily:"'DM Mono',monospace",
+            fontSize:11, color:T.muted, fontFamily:"'DM Mono',monospace",
             letterSpacing:"0.14em", textTransform:"uppercase", textDecoration:"underline",
             textUnderlineOffset:3 }}>
           {L.onboarding.helpLink}
         </button>
-        <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
+        <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
           fontFamily:"'DM Mono',monospace", textTransform:"uppercase", opacity:0.6 }}>
           Not more music. Better music.
         </div>
@@ -825,7 +825,7 @@ export default function HomePage() {
           }}>
             {/* Biomes */}
             <div style={{ marginBottom:16 }}>
-              <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
+              <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
                 fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
                 {L.filterTitle}
               </div>
@@ -837,7 +837,7 @@ export default function HomePage() {
                       padding:"6px 12px", border:`1px solid ${active ? (meta.color||T.border) : T.border}`,
                       borderRadius:1, background: active ? T.pill : "none",
                       color: active && meta.color ? meta.color : T.text,
-                      fontSize:11, cursor:"pointer",
+                      fontSize:12, cursor:"pointer",
                       fontFamily:"'DM Mono',monospace",
                     }}>
                       {meta[lang] || meta.fr}
@@ -849,7 +849,7 @@ export default function HomePage() {
 
             {/* Score range */}
             <div style={{ marginBottom:16 }}>
-              <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
+              <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
                 fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
                 {L.filterScore(scoreMin, scoreMax)}
               </div>
@@ -863,7 +863,7 @@ export default function HomePage() {
 
             {/* Décennies */}
             <div style={{ marginBottom:8 }}>
-              <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
+              <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
                 fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
                 {L.filterEra}
               </div>
@@ -875,7 +875,7 @@ export default function HomePage() {
                       padding:"6px 10px", border:`1px solid ${active ? T.border : T.border}`,
                       borderRadius:1, background: active ? T.pill : "none",
                       color: active ? T.text : T.muted,
-                      fontSize:11, cursor:"pointer",
+                      fontSize:12, cursor:"pointer",
                       fontFamily:"'DM Mono',monospace",
                     }}>
                       {d ? `${String(d).slice(2)}s` : "∞"}
@@ -887,7 +887,7 @@ export default function HomePage() {
 
             {/* Recherche */}
             <div style={{ marginBottom:16 }}>
-              <div style={{ fontSize:9, letterSpacing:"0.14em", color:T.muted,
+              <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
                 fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
                 {L.filterSearch}
               </div>
@@ -901,7 +901,7 @@ export default function HomePage() {
             {/* Reset */}
             <button onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); setShowFilters(false); }}
               style={{ marginTop:8, width:"100%", padding:"10px", border:`1px solid ${T.border}`,
-                background:"none", color:T.muted, fontSize:10, cursor:"pointer",
+                background:"none", color:T.muted, fontSize:12, cursor:"pointer",
                 fontFamily:"'DM Mono',monospace", letterSpacing:"0.12em" }}>
               {L.filterReset}
             </button>
@@ -947,7 +947,7 @@ export default function HomePage() {
             <span style={S.mobileBtnLabel(T)}>{L.themeLabel(dark)}</span>
           </button>
           <button style={S.mobileBtn(T)} onClick={toggleLang}>
-            <span style={{ ...S.mobileBtnIcon, fontSize:11, fontFamily:"'DM Mono',monospace" }}>
+            <span style={{ ...S.mobileBtnIcon, fontSize:12, fontFamily:"'DM Mono',monospace" }}>
               {lang === "fr" ? "FR" : "EN"}
             </span>
             <span style={S.mobileBtnLabel(T)}>{L.nav.lang}</span>
@@ -1011,7 +1011,7 @@ export default function HomePage() {
               const active = decade === d;
               return (
                 <button key={d ?? "all"} style={{
-                  ...S.navBtn, padding:"5px 6px", fontSize:9,
+                  ...S.navBtn, padding:"5px 6px", fontSize:11,
                   color: active ? T.text : T.muted,
                   borderColor: active ? T.border : "transparent",
                   background:  active ? T.pill : "transparent",
@@ -1070,11 +1070,11 @@ export default function HomePage() {
               background: BIOME_META[hoveredWork.biome||hoveredWork.regime].color }} />
           )}
           <div style={{ flex:1, minWidth:0 }}>
-            <div style={{ fontSize:13, fontStyle:"italic", color: T.text,
+            <div style={{ fontSize:14, fontStyle:"italic", color: T.text,
               overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
               {hoveredWork.title}
             </div>
-            <div style={{ fontSize:10, color: T.muted, marginTop:2,
+            <div style={{ fontSize:12, color: T.muted, marginTop:2,
               fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>
               {hoveredWork.artist}
               {hoveredWork.year && (
@@ -1083,7 +1083,7 @@ export default function HomePage() {
             </div>
             {/* Rôle avec description courte */}
             {hoveredWork.role && (
-              <div style={{ fontSize:9, color: T.muted, marginTop:3, opacity:0.7,
+              <div style={{ fontSize:11, color: T.muted, marginTop:3, opacity:0.7,
                 fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>
                 {(L.roles[hoveredWork.role] || hoveredWork.role)}
               </div>
@@ -1092,11 +1092,11 @@ export default function HomePage() {
           {hoveredWork.score && (
             <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end",
               gap:2, flexShrink:0 }}>
-              <span style={{ fontSize:13, color: T.text,
+              <span style={{ fontSize:14, color: T.text,
                 fontFamily:"'DM Mono',monospace", fontWeight:500 }}>
                 {Number(hoveredWork.score).toFixed(1)}
               </span>
-              <span style={{ fontSize:8, color: T.muted, opacity:0.6,
+              <span style={{ fontSize:10, color: T.muted, opacity:0.6,
                 fontFamily:"'DM Mono',monospace" }}>/10</span>
             </div>
           )}
@@ -1107,14 +1107,14 @@ export default function HomePage() {
       {compareMode && !compareA && (
         <div style={{ ...S.hoverCard, background: T.cardBg, borderColor: T.border,
           pointerEvents:"none" }}>
-          <span style={{ fontSize:10, color: T.muted, fontFamily:"'DM Mono',monospace",
+          <span style={{ fontSize:12, color: T.muted, fontFamily:"'DM Mono',monospace",
             letterSpacing:"0.1em" }}>{L.compare.instruction1}</span>
         </div>
       )}
       {compareMode && compareA && !compareB && (
         <div style={{ ...S.hoverCard, background: T.cardBg, borderColor: T.border,
           pointerEvents:"none" }}>
-          <span style={{ fontSize:10, color: T.muted, fontFamily:"'DM Mono',monospace",
+          <span style={{ fontSize:12, color: T.muted, fontFamily:"'DM Mono',monospace",
             letterSpacing:"0.1em" }}>{L.compare.instruction2}</span>
         </div>
       )}
@@ -1125,12 +1125,12 @@ export default function HomePage() {
         title={lang === "fr" ? "Changer de mode" : "Change mode"}>
         <span style={{ display:"block", fontSize:20, fontStyle:"italic",
           letterSpacing:"-0.04em", color: T.text, lineHeight:1 }}>lisn</span>
-        <span style={{ display:"block", fontSize:8, letterSpacing:"0.20em",
+        <span style={{ display:"block", fontSize:10, letterSpacing:"0.20em",
           color: T.muted, fontFamily:"'DM Mono',monospace", marginTop:3,
           textTransform:"uppercase" }}>
           {modeLabel} · {filteredWorks.length}
         </span>
-        <span style={{ display:"block", fontSize:7, letterSpacing:"0.14em",
+        <span style={{ display:"block", fontSize:9, letterSpacing:"0.14em",
           color: T.muted, fontFamily:"'DM Mono',monospace", marginTop:4,
           opacity:0.55, textTransform:"uppercase" }}>
           {lang === "fr" ? "Expand your musical taste" : "Expand your musical taste"}
@@ -1196,7 +1196,7 @@ export default function HomePage() {
                 }} />
               ))}
             </div>
-            <span style={{ fontSize:8, color:T.muted, letterSpacing:"0.10em",
+            <span style={{ fontSize:10, color:T.muted, letterSpacing:"0.10em",
               textTransform:"uppercase" }}>
               {lang === "fr" ? "taille = densité" : "size = density"}
             </span>
@@ -1209,7 +1209,7 @@ export default function HomePage() {
                 background: meta.color, flexShrink:0,
               }} />
             ))}
-            <span style={{ fontSize:8, color:T.muted, letterSpacing:"0.10em",
+            <span style={{ fontSize:10, color:T.muted, letterSpacing:"0.10em",
               textTransform:"uppercase" }}>
               {lang === "fr" ? "couleur = zone" : "color = zone"}
             </span>
@@ -1217,7 +1217,7 @@ export default function HomePage() {
           {/* Fermer */}
           <button onClick={() => setShowLegend(false)} style={{
             background:"none", border:"none", cursor:"pointer",
-            fontSize:8, color:T.muted, letterSpacing:"0.10em",
+            fontSize:10, color:T.muted, letterSpacing:"0.10em",
             textAlign:"left", padding:0, opacity:0.6,
             fontFamily:"'DM Mono',monospace", textTransform:"uppercase",
           }}>
@@ -1231,7 +1231,7 @@ export default function HomePage() {
         <button onClick={() => setShowLegend(true)} style={{
           position:"fixed", left:20, bottom: mobile ? 80 : 70,
           zIndex:25, background:"none", border:"none",
-          cursor:"pointer", fontSize:9, color:T.muted,
+          cursor:"pointer", fontSize:11, color:T.muted,
           fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
           padding:0, textTransform:"uppercase", opacity:0.5,
         }}>
@@ -1249,7 +1249,7 @@ export default function HomePage() {
           animation:"fadeInUp 0.6s ease",
         }}>
           <div style={{
-            fontSize:11, color:T.muted, letterSpacing:"0.18em",
+            fontSize:12, color:T.muted, letterSpacing:"0.18em",
             textTransform:"uppercase", fontFamily:"'DM Mono',monospace",
             textAlign:"center", lineHeight:1.8,
             textShadow: dark ? "0 0 20px rgba(0,0,0,0.8)" : "0 0 20px rgba(237,230,220,0.9)",
@@ -1260,7 +1260,7 @@ export default function HomePage() {
             }
           </div>
           <div style={{
-            fontSize:9, color:T.muted, opacity:0.5,
+            fontSize:11, color:T.muted, opacity:0.5,
             fontFamily:"'DM Mono',monospace", letterSpacing:"0.14em",
             textTransform:"uppercase",
             textShadow: dark ? "0 0 20px rgba(0,0,0,0.8)" : "0 0 20px rgba(237,230,220,0.9)",
@@ -1312,7 +1312,7 @@ const S = {
   navGroup: { display:"flex", alignItems:"center", gap:2, flexShrink:0 },
   navBtn: {
     background:"none", border:"1px solid", borderRadius:1,
-    fontSize:10, letterSpacing:"0.12em", padding:"5px 7px",
+    fontSize:12, letterSpacing:"0.12em", padding:"5px 7px",
     cursor:"pointer", display:"flex", alignItems:"center", gap:4,
     fontFamily:"'DM Mono','Courier New',monospace", textTransform:"uppercase",
     transition:"all 0.12s", whiteSpace:"nowrap", flexShrink:0,
@@ -1339,7 +1339,7 @@ const S = {
   }),
   mobileBtnIcon: { fontSize:16, color:"inherit", lineHeight:1 },
   mobileBtnLabel: T => ({
-    fontSize:8, color: T.muted, fontFamily:"'DM Mono',monospace",
+    fontSize:10, color: T.muted, fontFamily:"'DM Mono',monospace",
     letterSpacing:"0.10em", textTransform:"uppercase",
   }),
 };

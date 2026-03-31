@@ -156,7 +156,7 @@ export async function GET(req) {
       thumbnail,
       channelTitle,
       confidence: bestScore, // pour debug si besoin
-      embedUrl:  `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`,
+      embedUrl:  `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&start=20`,
       watchUrl:  `https://www.youtube.com/watch?v=${videoId}`,
     }, {
       headers: { "Cache-Control": "public, max-age=86400" },

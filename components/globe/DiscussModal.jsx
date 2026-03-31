@@ -131,7 +131,7 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
         <div style={{ padding:"16px 18px 0",
           display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
           <div>
-            <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase",
+            <div style={{ fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase",
               color: col, fontFamily:"'DM Mono',monospace", marginBottom:6 }}>
               {M.badge}
             </div>
@@ -139,18 +139,18 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
               letterSpacing:"-0.02em", fontStyle:"italic", color: text }}>
               {work.title}
             </h2>
-            <div style={{ marginTop:4, fontSize:12, color: muted }}>{work.artist}</div>
+            <div style={{ marginTop:4, fontSize:13, color: muted }}>{work.artist}</div>
           </div>
           <button onClick={onClose} style={{
             background:"none", border:`1px solid ${bord}`, color: muted,
-            fontSize:9, padding:"4px 8px", cursor:"pointer", borderRadius:1,
+            fontSize:11, padding:"4px 8px", cursor:"pointer", borderRadius:1,
             fontFamily:"'DM Mono',monospace",
           }}>{M.close}</button>
         </div>
 
         {/* Label aperçu */}
         <div style={{ padding:"12px 18px 8px",
-          fontSize:9, color: muted, fontFamily:"'DM Mono',monospace",
+          fontSize:11, color: muted, fontFamily:"'DM Mono',monospace",
           letterSpacing:"0.14em", textTransform:"uppercase" }}>
           {M.preview}
         </div>
@@ -163,12 +163,12 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
               background: msg.role === "lisn" ? lisnBg : userBg,
               borderLeft: msg.role === "lisn" ? `2px solid ${col}` : `2px solid ${bord}`,
             }}>
-              <div style={{ fontSize:8, letterSpacing:"0.14em", textTransform:"uppercase",
+              <div style={{ fontSize:10, letterSpacing:"0.14em", textTransform:"uppercase",
                 color: msg.role === "lisn" ? col : muted,
                 fontFamily:"'DM Mono',monospace", marginBottom:5 }}>
                 {msg.role === "lisn" ? "LISN" : (lang === "fr" ? "Vous" : "You")}
               </div>
-              <div style={{ fontSize:12, color: text, lineHeight:1.7, fontStyle: msg.role === "lisn" ? "italic" : "normal" }}>
+              <div style={{ fontSize:13, color: text, lineHeight:1.7, fontStyle: msg.role === "lisn" ? "italic" : "normal" }}>
                 {msg.text}
               </div>
             </div>
@@ -182,11 +182,11 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
               marginBottom:8, padding:"10px 12px", borderRadius:1,
               background: userBg, borderLeft:`2px solid ${bord}`,
             }}>
-              <div style={{ fontSize:8, letterSpacing:"0.14em", textTransform:"uppercase",
+              <div style={{ fontSize:10, letterSpacing:"0.14em", textTransform:"uppercase",
                 color: muted, fontFamily:"'DM Mono',monospace", marginBottom:5 }}>
                 {lang === "fr" ? "Vous" : "You"}
               </div>
-              <div style={{ fontSize:12, color: text, lineHeight:1.7 }}>
+              <div style={{ fontSize:13, color: text, lineHeight:1.7 }}>
                 {convo[2]?.text}
               </div>
             </div>
@@ -195,9 +195,9 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
               padding:"10px 12px", borderRadius:1,
               background: lisnBg, borderLeft:`2px solid ${col}`,
             }}>
-              <div style={{ fontSize:8, letterSpacing:"0.14em", textTransform:"uppercase",
+              <div style={{ fontSize:10, letterSpacing:"0.14em", textTransform:"uppercase",
                 color: col, fontFamily:"'DM Mono',monospace", marginBottom:5 }}>LISN</div>
-              <div style={{ fontSize:12, color: text, lineHeight:1.7, fontStyle:"italic" }}>
+              <div style={{ fontSize:13, color: text, lineHeight:1.7, fontStyle:"italic" }}>
                 {lang === "fr"
                   ? "Pour répondre précisément à cette question, il faudrait examiner..."
                   : "To answer that precisely, we'd need to examine..."}
@@ -215,14 +215,14 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
         {/* CTA */}
         <div style={{ padding:"16px 18px 20px",
           display:"flex", flexDirection:"column", alignItems:"center", gap:10 }}>
-          <div style={{ fontSize:11, color: muted, textAlign:"center",
+          <div style={{ fontSize:12, color: muted, textAlign:"center",
             fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em", opacity:0.8 }}>
             {M.locked}
           </div>
           <button style={{
             padding:"11px 24px", background: col, border:"none", borderRadius:1,
             color: dark ? "#080604" : "#ffffff",
-            fontSize:11, letterSpacing:"0.16em", textTransform:"uppercase",
+            fontSize:12, letterSpacing:"0.16em", textTransform:"uppercase",
             cursor:"pointer", fontFamily:"'DM Mono',monospace", fontWeight:500,
             boxShadow:`0 0 24px ${col}55`, width:"100%",
           }}
@@ -233,7 +233,7 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
           </button>
           <button onClick={() => { onAnalyse?.(); }} style={{
             background:"none", border:"none", cursor:"pointer",
-            fontSize:9, color: muted, opacity:0.7,
+            fontSize:11, color: muted, opacity:0.7,
             fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
             textTransform:"uppercase",
           }}>

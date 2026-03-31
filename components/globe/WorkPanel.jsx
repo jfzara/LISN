@@ -84,10 +84,10 @@ function ScoreBar({ score, dark }) {
   return (
     <div style={{ marginTop: 16 }}>
       <div style={{ display:"flex", justifyContent:"space-between", marginBottom:5,
-        fontSize:9, letterSpacing:"0.14em", textTransform:"uppercase", color: labelC,
+        fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase", color: labelC,
         fontFamily:"'DM Mono', monospace" }}>
         <span>Score OSR</span>
-        <span style={{ color, fontWeight:500, fontSize:11 }}>{score.toFixed(1)}</span>
+        <span style={{ color, fontWeight:500, fontSize:12 }}>{score.toFixed(1)}</span>
       </div>
       <div style={{ height:1, background: trackBg, position:"relative" }}>
         <div style={{ position:"absolute", left:0, top:0, height:"100%",
@@ -113,7 +113,7 @@ function Tabs({ tab, onChange, dark, lang = "fr" }) {
       {tabs.map(t => (
         <button key={t.key} onClick={() => onChange(t.key)} style={{
           flex:1, padding:"8px 4px", background:"none", border:"none",
-          cursor:"pointer", fontSize:9, letterSpacing:"0.14em", textTransform:"uppercase",
+          cursor:"pointer", fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
           fontFamily:"'DM Mono', monospace",
           color: tab === t.key ? text : muted,
           borderBottom: tab === t.key
@@ -155,9 +155,9 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6, marginTop:14 }}>
         {metaItems.map(({ label, val, color }) => (
           <div key={label} style={{ padding:"8px 10px", border:`1px solid ${bord}`, borderRadius:1 }}>
-            <div style={{ fontSize:9, letterSpacing:"0.12em", textTransform:"uppercase",
+            <div style={{ fontSize:11, letterSpacing:"0.12em", textTransform:"uppercase",
               color: muted, marginBottom:3, fontFamily:"'DM Mono', monospace" }}>{label}</div>
-            <div style={{ fontSize:12, fontWeight:500, color: color || text }}>{val}</div>
+            <div style={{ fontSize:13, fontWeight:500, color: color || text }}>{val}</div>
           </div>
         ))}
       </div>
@@ -218,7 +218,7 @@ function AutourTab({ works, dark, lang = "fr", onSelectWork }) {
   const hover = dark ? "rgba(232,223,200,0.05)" : "rgba(26,20,16,0.04)";
 
   if (works.length === 0) {
-    return <div style={{ fontSize:12, color: muted, marginTop:8, lineHeight:1.6 }}>
+    return <div style={{ fontSize:13, color: muted, marginTop:8, lineHeight:1.6 }}>
       Cliquez P.exploreAround sur la fiche pour voir les œuvres proches.
     </div>;
   }
@@ -238,14 +238,14 @@ function AutourTab({ works, dark, lang = "fr", onSelectWork }) {
           <span style={{ width:6, height:6, borderRadius:"50%", flexShrink:0,
             background: BIOME_COLOR[w.biome] || "#888" }} />
           <div style={{ flex:1, minWidth:0 }}>
-            <div style={{ fontSize:12, color: text, fontStyle:"italic",
+            <div style={{ fontSize:13, color: text, fontStyle:"italic",
               overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
               {w.title}
             </div>
-            <div style={{ fontSize:10, color: muted, fontFamily:"'DM Mono', monospace",
+            <div style={{ fontSize:12, color: muted, fontFamily:"'DM Mono', monospace",
               letterSpacing:"0.06em", marginTop:1 }}>{w.artist}</div>
           </div>
-          <span style={{ fontSize:10, color: muted, fontFamily:"'DM Mono', monospace",
+          <span style={{ fontSize:12, color: muted, fontFamily:"'DM Mono', monospace",
             flexShrink:0 }}>{Number(w.score||0).toFixed(1)}</span>
         </button>
       ))}
@@ -263,7 +263,7 @@ function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
   const line  = dark ? "rgba(242,234,216,0.14)" : "rgba(18,14,10,0.14)";
 
   if (works.length === 0) {
-    return <div style={{ fontSize:12, color: muted, marginTop:8, lineHeight:1.6 }}>
+    return <div style={{ fontSize:13, color: muted, marginTop:8, lineHeight:1.6 }}>
       {P.trajectoryEmpty}
     </div>;
   }
@@ -277,7 +277,7 @@ function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
   return (
     <div>
       {/* Header artiste */}
-      <div style={{ fontSize:11, color: muted, letterSpacing:"0.10em", marginBottom:12,
+      <div style={{ fontSize:12, color: muted, letterSpacing:"0.10em", marginBottom:12,
         fontFamily:"'DM Mono', monospace", textTransform:"uppercase" }}>
         {works[0]?.artist} · {works.length} œuvres
       </div>
@@ -304,7 +304,7 @@ function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
                 width:7, height:7, borderRadius:"50%", background: col, flexShrink:0 }} />
 
               <div style={{ flex:1, minWidth:0 }}>
-                <div style={{ fontSize:12, color: text, fontStyle:"italic",
+                <div style={{ fontSize:13, color: text, fontStyle:"italic",
                   overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
                   {w.title}
                 </div>
@@ -315,7 +315,7 @@ function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
                     opacity: 0.6, transition:"width 0.3s" }} />
                 </div>
               </div>
-              <span style={{ fontSize:10, color: muted, fontFamily:"'DM Mono', monospace",
+              <span style={{ fontSize:12, color: muted, fontFamily:"'DM Mono', monospace",
                 flexShrink:0, marginTop:1 }}>{Number(w.score||0).toFixed(1)}</span>
             </button>
           );
@@ -330,7 +330,7 @@ function btnStyle(bord, text) {
   return {
     width:"100%", padding:"9px 12px",
     background:"none", border:`1px solid ${bord}`,
-    color: text, fontSize:10, letterSpacing:"0.13em",
+    color: text, fontSize:12, letterSpacing:"0.13em",
     textTransform:"uppercase", cursor:"pointer", borderRadius:1,
     fontFamily:"'DM Mono', monospace",
     display:"flex", alignItems:"center",
@@ -408,13 +408,13 @@ export default function WorkPanel({
           {/* Header fixe */}
           <div style={{ padding:"14px 16px 0", flexShrink:0 }}>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
-              <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color: muted,
+              <div style={{ fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color: muted,
                 fontFamily:"'DM Mono', monospace" }}>
                 {BIOME_LABEL[biome] || "Œuvre"}
               </div>
               <button onClick={onClose} style={{
                 background:"none", border:`1px solid ${bord}`, color: muted,
-                fontSize:9, letterSpacing:"0.14em", padding:"3px 7px",
+                fontSize:11, letterSpacing:"0.14em", padding:"3px 7px",
                 cursor:"pointer", borderRadius:1, fontFamily:"'DM Mono', monospace",
               }}>✕</button>
             </div>
@@ -422,7 +422,7 @@ export default function WorkPanel({
               letterSpacing:"-0.02em", fontStyle:"italic", color: text }}>
               {work.title}
             </h2>
-            <div style={{ marginTop:5, fontSize:12, color: muted }}>{work.artist}</div>
+            <div style={{ marginTop:5, fontSize:13, color: muted }}>{work.artist}</div>
           </div>
 
           {/* Onglets */}
@@ -458,7 +458,7 @@ export default function WorkPanel({
         </>
       ) : (
         <div style={{ padding:"28px 18px", flex:1, display:"flex", alignItems:"center" }}>
-          <div style={{ fontSize:13, color: muted, lineHeight:1.65 }}>
+          <div style={{ fontSize:14, color: muted, lineHeight:1.65 }}>
             {P.emptyHint}
           </div>
         </div>

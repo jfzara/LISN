@@ -10,8 +10,20 @@ const BIOME_COLOR = {
   narrative: "#FF9A4D", hybrid: "#C07AE8",
 };
 const BIOME_LABEL = {
-  dense: "Dense", atmospheric: "Atmosphérique", structural: "Structural",
-  narrative: "Narratif", hybrid: "Hybride",
+  fr: { dense:"Dense", atmospheric:"Atmosphérique", structural:"Structurel", narrative:"Narratif", hybrid:"Hybride" },
+  en: { dense:"Dense", atmospheric:"Atmospheric",   structural:"Structural", narrative:"Narrative", hybrid:"Hybrid"  },
+};
+const COMPARE_UI = {
+  fr: { title:C.title, distLabel:C.distLabel,
+        instruction1:C.instruction1,
+        instruction2:C.instruction2,
+        levels:{ veryClose:"Très proches", close:"Proches", far:"Éloignées", veryFar:"Très éloignées", opposite:"Mondes opposés" },
+        biomesDiff: (a,b) => `Zones distinctes — ${a} et ${b}` },
+  en: { title:"Structural comparison", distLabel:"Structural distance",
+        instruction1:"Click two works on the globe to compare.",
+        instruction2:"Click a second work to compare.",
+        levels:{ veryClose:"Very close", close:"Close", far:"Distant", veryFar:"Very distant", opposite:"Opposite worlds" },
+        biomesDiff: (a,b) => `Different zones — ${a} and ${b}` },
 };
 
 // Distance structurale approximative entre deux œuvres du seed
@@ -25,25 +37,32 @@ function computeDistance(a, b) {
   return Math.min(1, 0.5 * ang + 0.3 * dscore + 0.2 * dbiome);
 }
 
-function distanceLabel(d) {
+function distanceLabel(d, lang = "fr") {
+  const L = (COMPARE_UI[lang] || COMPARE_UI.fr).levels;
   if (d === null) return "—";
-  if (d < 0.10) return "Très proches";
-  if (d < 0.22) return "Proches";
-  if (d < 0.40) return "Éloignées";
-  if (d < 0.60) return "Très éloignées";
-  return "Mondes opposés";
+  if (d < 0.10) return L.veryClose;
+  if (d < 0.22) return L.close;
+  if (d < 0.40) return L.far;
+  if (d < 0.60) return L.veryFar;
+  return L.opposite;
 }
 
-function scoreVerdict(a, b) {
+function scoreVerdict(a, b, lang = "fr") {
   if (!a || !b) return null;
   const diff = (a.score || 0) - (b.score || 0);
   const nameA = a.title, nameB = b.title;
-  if (Math.abs(diff) < 0.3) return `${nameA} et ${nameB} sont structuralement équivalentes.`;
   const higher = diff > 0 ? nameA : nameB;
   const lower  = diff > 0 ? nameB : nameA;
   const gap    = Math.abs(diff).toFixed(1);
+  if (lang === "en") {
+    if (Math.abs(diff) < 0.3) return `${nameA} and ${nameB} are structurally equivalent.`;
+    if (Math.abs(diff) < 1.0) return `${higher} slightly outranks ${lower} (+${gap}).`;
+    if (Math.abs(diff) < 2.5) return `${higher} is structurally stronger than ${lower} (+${gap}).`;
+    return `${higher} belongs to a different order of magnitude than ${lower} (+${gap}).`;
+  }
+  if (Math.abs(diff) < 0.3) return `${nameA} et ${nameB} sont structurellement équivalentes.`;
   if (Math.abs(diff) < 1.0) return `${higher} dépasse légèrement ${lower} (+${gap}).`;
-  if (Math.abs(diff) < 2.5) return `${higher} est structuralement supérieure à ${lower} (+${gap}).`;
+  if (Math.abs(diff) < 2.5) return `${higher} est structurellement supérieure à ${lower} (+${gap}).`;
   return `${higher} appartient à un autre ordre de grandeur que ${lower} (+${gap}).`;
 }
 
@@ -60,7 +79,7 @@ function WorkSlot({ work, label, dark, T, onClear }) {
       border: `1px solid ${col || bord}`, borderRadius: 1,
       position: "relative",
     }}>
-      <div style={{ fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase",
+      <div style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase",
         color: muted, fontFamily: "'DM Mono',monospace", marginBottom: 6 }}>
         {label}
       </div>
@@ -70,16 +89,16 @@ function WorkSlot({ work, label, dark, T, onClear }) {
             <button onClick={onClear} style={{
               position: "absolute", top: 8, right: 8,
               background: "none", border: "none", cursor: "pointer",
-              color: muted, fontSize: 11, padding: 0,
+              color: muted, fontSize: 12, padding: 0,
             }}>×</button>
           )}
           {col && <span style={{ display: "inline-block", width: 6, height: 6,
             borderRadius: "50%", background: col, marginBottom: 4 }} />}
-          <div style={{ fontSize: 13, fontStyle: "italic", color: text,
+          <div style={{ fontSize: 14, fontStyle: "italic", color: text,
             overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {work.title}
           </div>
-          <div style={{ fontSize: 10, color: muted, marginTop: 3,
+          <div style={{ fontSize: 12, color: muted, marginTop: 3,
             fontFamily: "'DM Mono',monospace", letterSpacing: "0.06em" }}>
             {work.artist}
           </div>
@@ -87,13 +106,13 @@ function WorkSlot({ work, label, dark, T, onClear }) {
             color: col || text, marginTop: 8, letterSpacing: "-0.02em" }}>
             {Number(work.score || 0).toFixed(1)}
           </div>
-          <div style={{ fontSize: 9, color: muted, textTransform: "uppercase",
+          <div style={{ fontSize: 11, color: muted, textTransform: "uppercase",
             letterSpacing: "0.12em", fontFamily: "'DM Mono',monospace" }}>
-            {BIOME_LABEL[biome] || biome || "—"}
+            {BL[biome] || biome || "—"}
           </div>
         </>
       ) : (
-        <div style={{ fontSize: 11, color: muted, lineHeight: 1.6 }}>
+        <div style={{ fontSize: 12, color: muted, lineHeight: 1.6 }}>
           Sélectionnez une œuvre sur le globe
         </div>
       )}
@@ -101,14 +120,16 @@ function WorkSlot({ work, label, dark, T, onClear }) {
   );
 }
 
-export default function ComparePanel({ workA, workB, onClearA, onClearB, dark, T }) {
+export default function ComparePanel({ workA, workB, onClearA, onClearB, dark, T, lang = "fr" }) {
+  const C  = COMPARE_UI[lang] || COMPARE_UI.fr;
+  const BL = BIOME_LABEL[lang] || BIOME_LABEL.fr;
   const bord  = T.border;
   const muted = T.muted;
   const text  = T.text;
 
   const dist  = computeDistance(workA, workB);
-  const label = distanceLabel(dist);
-  const verdict = scoreVerdict(workA, workB);
+  const label = distanceLabel(dist, lang);
+  const verdict = scoreVerdict(workA, workB, lang);
 
   // Barre de distance
   const distPct = dist !== null ? Math.round(dist * 100) : null;
@@ -127,7 +148,7 @@ export default function ComparePanel({ workA, workB, onClearA, onClearB, dark, T
     }}>
 
       {/* Header */}
-      <div style={{ fontSize: 9, letterSpacing: "0.16em", textTransform: "uppercase",
+      <div style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase",
         color: muted, fontFamily: "'DM Mono',monospace", marginBottom: 12 }}>
         Comparaison structurale
       </div>
@@ -142,7 +163,7 @@ export default function ComparePanel({ workA, workB, onClearA, onClearB, dark, T
       {workA && workB && (
         <div style={{ marginTop: 14 }}>
           <div style={{ display: "flex", justifyContent: "space-between",
-            fontSize: 9, color: muted, fontFamily: "'DM Mono',monospace",
+            fontSize: 11, color: muted, fontFamily: "'DM Mono',monospace",
             letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }}>
             <span>Distance structurale</span>
             <span style={{ color: distColor }}>{label}</span>
@@ -157,7 +178,7 @@ export default function ComparePanel({ workA, workB, onClearA, onClearB, dark, T
 
           {/* Verdict */}
           {verdict && (
-            <div style={{ marginTop: 12, fontSize: 12, color: text,
+            <div style={{ marginTop: 12, fontSize: 13, color: text,
               lineHeight: 1.65, fontStyle: "italic", borderLeft: `2px solid ${bord}`,
               paddingLeft: 10 }}>
               {verdict}
@@ -166,7 +187,7 @@ export default function ComparePanel({ workA, workB, onClearA, onClearB, dark, T
 
           {/* Biomes différents */}
           {workA.biome !== workB.biome && (
-            <div style={{ marginTop: 8, fontSize: 10, color: muted,
+            <div style={{ marginTop: 8, fontSize: 12, color: muted,
               fontFamily: "'DM Mono',monospace", letterSpacing: "0.08em" }}>
               Biomes distincts — {BIOME_LABEL[workA.biome]} vs {BIOME_LABEL[workB.biome]}
             </div>
@@ -176,11 +197,11 @@ export default function ComparePanel({ workA, workB, onClearA, onClearB, dark, T
 
       {/* Instruction si vide */}
       {(!workA || !workB) && (
-        <div style={{ marginTop: 12, fontSize: 10, color: muted,
+        <div style={{ marginTop: 12, fontSize: 12, color: muted,
           fontFamily: "'DM Mono',monospace", letterSpacing: "0.08em", lineHeight: 1.6 }}>
           {!workA && !workB
-            ? "Cliquez deux œuvres sur le globe pour les comparer."
-            : "Cliquez une deuxième œuvre pour comparer."}
+            ? C.instruction1
+            : C.instruction2}
         </div>
       )}
     </div>

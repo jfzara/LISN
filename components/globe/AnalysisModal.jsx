@@ -142,7 +142,7 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
         <div style={{ padding:"16px 18px 0",
           display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
           <div>
-            <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase",
+            <div style={{ fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase",
               color: col, fontFamily:"'DM Mono',monospace", marginBottom:6 }}>
               {M.badge}
             </div>
@@ -150,14 +150,14 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
               letterSpacing:"-0.025em", fontStyle:"italic", color: text }}>
               {work.title}
             </h2>
-            <div style={{ marginTop:5, fontSize:13, color: muted }}>
+            <div style={{ marginTop:5, fontSize:14, color: muted }}>
               {work.artist}
               {work.year && <span style={{ marginLeft:8, opacity:0.5 }}>{work.year}</span>}
             </div>
           </div>
           <button onClick={onClose} style={{
             background:"none", border:`1px solid ${bord}`, color: muted,
-            fontSize:9, padding:"4px 8px", cursor:"pointer", borderRadius:1,
+            fontSize:11, padding:"4px 8px", cursor:"pointer", borderRadius:1,
             fontFamily:"'DM Mono',monospace",
           }}>{M.close}</button>
         </div>
@@ -165,10 +165,10 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
         {/* Score bar */}
         <div style={{ padding:"14px 18px 0" }}>
           <div style={{ display:"flex", justifyContent:"space-between", marginBottom:5,
-            fontSize:9, color: muted, fontFamily:"'DM Mono',monospace",
+            fontSize:11, color: muted, fontFamily:"'DM Mono',monospace",
             letterSpacing:"0.12em", textTransform:"uppercase" }}>
             <span>{M.estimated}</span>
-            <span style={{ color: col, fontWeight:500, fontSize:13 }}>{score.toFixed(1)}</span>
+            <span style={{ color: col, fontWeight:500, fontSize:14 }}>{score.toFixed(1)}</span>
           </div>
           <div style={{ height:1, background: trackBg, position:"relative" }}>
             <div style={{ position:"absolute", left:0, top:0, height:"100%",
@@ -189,7 +189,7 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
           ].map(({ label, value, unit, highlight, color: c }) => (
             <div key={label} style={{ padding:"8px 10px",
               border:`1px solid ${bord}`, borderRadius:1 }}>
-              <div style={{ fontSize:9, letterSpacing:"0.10em", textTransform:"uppercase",
+              <div style={{ fontSize:11, letterSpacing:"0.10em", textTransform:"uppercase",
                 color: muted, marginBottom:3, fontFamily:"'DM Mono',monospace" }}>{label}</div>
               <div style={{
                 fontSize: highlight ? 15 : 12, fontWeight: highlight ? 500 : 400,
@@ -197,7 +197,7 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
                 fontFamily: typeof value === "number" || !isNaN(value) ? "'DM Mono',monospace" : "inherit",
               }}>
                 {value}
-                {unit && <span style={{ fontSize:8, opacity:0.5, marginLeft:1 }}>{unit}</span>}
+                {unit && <span style={{ fontSize:10, opacity:0.5, marginLeft:1 }}>{unit}</span>}
               </div>
             </div>
           ))}
@@ -206,11 +206,11 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
         {/* Verdict — visible, accrocheur */}
         <div style={{ margin:"14px 18px 0", padding:"12px 14px",
           borderLeft:`2px solid ${col}`, background: trackBg }}>
-          <div style={{ fontSize:9, letterSpacing:"0.14em", textTransform:"uppercase",
+          <div style={{ fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
             color: muted, fontFamily:"'DM Mono',monospace", marginBottom:6 }}>
             {M.structPreview}
           </div>
-          <div style={{ fontSize:13, color: text, lineHeight:1.75, fontStyle:"italic" }}>
+          <div style={{ fontSize:14, color: text, lineHeight:1.75, fontStyle:"italic" }}>
             {verdict}
           </div>
         </div>
@@ -227,26 +227,26 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
             {/* Analyse profonde */}
             <div style={{ marginTop:14, padding:"12px 14px",
               borderLeft:`2px solid ${bord}`, background: trackBg }}>
-              <div style={{ fontSize:9, letterSpacing:"0.14em", textTransform:"uppercase",
+              <div style={{ fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
                 color: muted, fontFamily:"'DM Mono',monospace", marginBottom:6 }}>
                 {M.deepTitle}
               </div>
-              <div style={{ fontSize:12, color: text, lineHeight:1.8 }}>
+              <div style={{ fontSize:13, color: text, lineHeight:1.8 }}>
                 {deep}
               </div>
             </div>
             {/* Worldview */}
             <div style={{ marginTop:10, padding:"12px 14px",
               border:`1px solid ${bord}`, borderRadius:1 }}>
-              <div style={{ fontSize:9, letterSpacing:"0.14em", textTransform:"uppercase",
+              <div style={{ fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
                 color: muted, fontFamily:"'DM Mono',monospace", marginBottom:6 }}>
                 {M.worldviewTitle}
               </div>
-              <div style={{ fontSize:12, color: text, lineHeight:1.8,
+              <div style={{ fontSize:13, color: text, lineHeight:1.8,
                 fontFamily:"'DM Mono',monospace", letterSpacing:"0.04em" }}>
                 A·0.72 — V·0.85 — S·0.61
               </div>
-              <div style={{ fontSize:11, color: muted, marginTop:6, lineHeight:1.7 }}>
+              <div style={{ fontSize:12, color: muted, marginTop:6, lineHeight:1.7 }}>
                 {lang === "fr"
                   ? "Vision du monde implicite dans les choix sonores — tension non résolue, affirmation, résistance."
                   : "Worldview implicit in sonic choices — unresolved tension, affirmation, resistance."}
@@ -258,7 +258,7 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
               {["Densité","Tension","Résolution","Singularité","Profondeur","Grain"].map(d => (
                 <div key={d} style={{ padding:"7px 10px",
                   border:`1px solid ${bord}`, borderRadius:1 }}>
-                  <div style={{ fontSize:9, color: muted, marginBottom:2,
+                  <div style={{ fontSize:11, color: muted, marginBottom:2,
                     fontFamily:"'DM Mono',monospace" }}>{d}</div>
                   <div style={{ height:1, background: trackBg, position:"relative" }}>
                     <div style={{ position:"absolute", left:0, top:0, height:"100%",
@@ -292,7 +292,7 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
             display:"flex", flexDirection:"column", alignItems:"center", gap:10,
             zIndex:2,
           }}>
-            <div style={{ fontSize:10, color: muted, fontFamily:"'DM Mono',monospace",
+            <div style={{ fontSize:12, color: muted, fontFamily:"'DM Mono',monospace",
               letterSpacing:"0.12em", textTransform:"uppercase", opacity:0.8 }}>
               {M.teaser}
             </div>
@@ -302,7 +302,7 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
               border:"none",
               borderRadius:1,
               color: dark ? "#080604" : "#ffffff",
-              fontSize:11, letterSpacing:"0.16em", textTransform:"uppercase",
+              fontSize:12, letterSpacing:"0.16em", textTransform:"uppercase",
               cursor:"pointer",
               fontFamily:"'DM Mono',monospace",
               fontWeight:500,
@@ -314,7 +314,7 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
             >
               {M.unlockBtn}
             </button>
-            <div style={{ fontSize:9, color: muted, opacity:0.6,
+            <div style={{ fontSize:11, color: muted, opacity:0.6,
               fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>
               {M.unlockDesc}
             </div>

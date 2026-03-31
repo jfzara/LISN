@@ -284,7 +284,7 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
       <div style={{ marginTop:28 }}>
         {title && (
           <div style={{
-            fontSize:10, letterSpacing:"0.14em", textTransform:"uppercase",
+            fontSize:12, letterSpacing:"0.14em", textTransform:"uppercase",
             color:muted, fontFamily:"'DM Mono',monospace",
             paddingBottom:10, borderBottom:`1px solid ${sep}`, marginBottom:14,
           }}>
@@ -301,13 +301,13 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
       <div style={{ marginBottom:14 }}>
         {head && (
           <div style={{
-            fontSize:13, fontWeight:500, color: color || text,
+            fontSize:14, fontWeight:500, color: color || text,
             marginBottom:5, lineHeight:1.4, letterSpacing:"-0.01em",
           }}>
             {head}
           </div>
         )}
-        <div style={{ fontSize:12, lineHeight:1.8, color:muted }}>
+        <div style={{ fontSize:13, lineHeight:1.8, color:muted }}>
           {body}
         </div>
       </div>
@@ -334,14 +334,14 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
           <div style={{ fontSize:17, fontStyle:"italic", letterSpacing:"-0.02em" }}>
             {C.title}
           </div>
-          <div style={{ fontSize:9, color:muted, fontFamily:"'DM Mono',monospace",
+          <div style={{ fontSize:11, color:muted, fontFamily:"'DM Mono',monospace",
             letterSpacing:"0.16em", textTransform:"uppercase", marginTop:3 }}>
             {C.subtitle}
           </div>
         </div>
         <button onClick={onClose} style={{
           background:"none", border:`1px solid ${bord}`, color:muted,
-          fontSize:9, padding:"5px 10px", cursor:"pointer", borderRadius:1,
+          fontSize:11, padding:"5px 10px", cursor:"pointer", borderRadius:1,
           fontFamily:"'DM Mono',monospace", letterSpacing:"0.14em",
         }}>
           {C.close}
@@ -373,7 +373,7 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
 
         {/* Biomes */}
         <Section title={C.biomesTitle}>
-          <div style={{ fontSize:12, lineHeight:1.8, color:muted, marginBottom:14 }}>
+          <div style={{ fontSize:13, lineHeight:1.8, color:muted, marginBottom:14 }}>
             {C.biomesIntro}
           </div>
           {C.biomes.map(b => (
@@ -382,12 +382,12 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
               borderLeft:`2px solid ${BIOME_COLOR[b.key]}`,
               paddingLeft:12,
             }}>
-              <div style={{ fontSize:11, fontWeight:500, color:BIOME_COLOR[b.key],
+              <div style={{ fontSize:12, fontWeight:500, color:BIOME_COLOR[b.key],
                 marginBottom:4, fontFamily:"'DM Mono',monospace",
                 letterSpacing:"0.10em", textTransform:"uppercase" }}>
                 {b.name}
               </div>
-              <div style={{ fontSize:12, lineHeight:1.75, color:muted }}>
+              <div style={{ fontSize:13, lineHeight:1.75, color:muted }}>
                 {b.body}
               </div>
             </div>
@@ -396,7 +396,7 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
 
         {/* Rôles */}
         <Section title={C.rolesTitle}>
-          <div style={{ fontSize:12, lineHeight:1.8, color:muted, marginBottom:14 }}>
+          <div style={{ fontSize:13, lineHeight:1.8, color:muted, marginBottom:14 }}>
             {C.rolesIntro}
           </div>
           {C.roles.map(r => (
@@ -415,12 +415,12 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
                 flexShrink:0, marginTop:5,
               }} />
               <div>
-                <div style={{ fontSize:11, fontWeight:500, color:text,
+                <div style={{ fontSize:12, fontWeight:500, color:text,
                   marginBottom:3, fontFamily:"'DM Mono',monospace",
                   letterSpacing:"0.08em", textTransform:"uppercase" }}>
                   {r.name}
                 </div>
-                <div style={{ fontSize:12, lineHeight:1.75, color:muted }}>
+                <div style={{ fontSize:13, lineHeight:1.75, color:muted }}>
                   {r.body}
                 </div>
               </div>
@@ -437,7 +437,7 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
         <div style={{
           marginTop:40, paddingTop:20,
           borderTop:`1px solid ${sep}`,
-          fontSize:10, color:muted,
+          fontSize:12, color:muted,
           fontFamily:"'DM Mono',monospace",
           letterSpacing:"0.10em", lineHeight:1.8,
         }}>
