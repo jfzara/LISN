@@ -61,6 +61,8 @@ const UI = {
     filterEra: "Époque",
     filterSearch: "Recherche",
     filterReset: "↺ Réinitialiser",
+    filterRole: "Rôle",
+    roles: { all:"Tous", capital:"Capitales", city:"Villes", village:"Villages", bridge:"Ponts", island:"Îles", hamlet:"Hameaux" },
     onboarding: {
       tagline: "atlas des formes musicales",
       choices: [
@@ -99,6 +101,8 @@ const UI = {
     filterEra: "Era",
     filterSearch: "Search",
     filterReset: "↺ Reset",
+    filterRole: "Role",
+    roles: { all:"All", capital:"Capitals", city:"Cities", village:"Villages", bridge:"Bridges", island:"Islands", hamlet:"Hamlets" },
     onboarding: {
       tagline: "a map of musical forms",
       choices: [
@@ -543,6 +547,7 @@ export default function HomePage() {
   const [scoreMin,        setScoreMin]        = useState(2);
   const [scoreMax,        setScoreMax]        = useState(10);
   const [decade,          setDecade]          = useState(null); // null = toutes
+  const [roleFilter,      setRoleFilter]      = useState("all");
   const [panelTab,        setPanelTab]        = useState("fiche");
   const [nearbyWorks,     setNearbyWorks]     = useState([]);
   const [trajectoryWorks, setTrajectoryWorks] = useState([]);
@@ -587,7 +592,7 @@ export default function HomePage() {
     window.addEventListener("resize", onResize);
     // Onboarding — s'affiche 3s à chaque ouverture, disparaît automatiquement
     setShowOnboarding(true);
-    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 9000);
+    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 3000);
     // Idle hint — après 8s sans interaction
     // idle hint lancé après intro via introComplete
     return () => {
@@ -762,8 +767,8 @@ export default function HomePage() {
   }
 
   const filteredWorks = useMemo(() =>
-    applyFilters(worksSeed, { biome: biomeFilter, scoreMin, scoreMax, decade }),
-  [biomeFilter, scoreMin, scoreMax, decade]);
+    applyFilters(worksSeed, { biome: biomeFilter, scoreMin, scoreMax, decade, role: roleFilter }),
+  [biomeFilter, scoreMin, scoreMax, decade, roleFilter]);
 
   const T = dark ? THEME.dark : THEME.light;
   const L = UI[lang] || UI.fr;
@@ -773,6 +778,7 @@ export default function HomePage() {
     : scoreMin > 7.5 ? L.modeLabels.mountains
     : scoreMax < 5 ? L.modeLabels.frontier
     : decade ? `${decade}s`
+    : roleFilter !== "all" ? (L.roles[roleFilter] || roleFilter).toLowerCase()
     : biomeFilter !== "all" ? (BIOME_META[biomeFilter]?.[lang] || BIOME_META[biomeFilter]?.fr || "").toLowerCase()
     : L.modeLabels.globe;
 
@@ -903,6 +909,30 @@ export default function HomePage() {
               </div>
             </div>
 
+            {/* Rôle */}
+            <div style={{ marginBottom:16 }}>
+              <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
+                fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
+                {L.filterRole}
+              </div>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                {Object.entries(L.roles).map(([key, label]) => {
+                  const active = roleFilter === key;
+                  return (
+                    <button key={key} onClick={() => setRoleFilter(key)} style={{
+                      padding:"6px 12px", border:`1px solid ${active ? T.border : T.border}`,
+                      borderRadius:1, background: active ? T.pill : "none",
+                      color: active ? T.text : T.muted,
+                      fontSize:11, cursor:"pointer",
+                      fontFamily:"'DM Mono',monospace",
+                    }}>
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Recherche */}
             <div style={{ marginBottom:16 }}>
               <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
@@ -917,7 +947,7 @@ export default function HomePage() {
             </div>
 
             {/* Reset */}
-            <button onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); setShowFilters(false); }}
+            <button onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); setRoleFilter("all"); setShowFilters(false); }}
               style={{ marginTop:8, width:"100%", padding:"10px", border:`1px solid ${T.border}`,
                 background:"none", color:T.muted, fontSize:12, cursor:"pointer",
                 fontFamily:"'DM Mono',monospace", letterSpacing:"0.12em" }}>
@@ -1052,6 +1082,36 @@ export default function HomePage() {
 
           {sep}
 
+          {/* Rôle */}
+          <div style={{ display:"flex", gap:2, alignItems:"center", flexShrink:0 }}>
+            {Object.entries(L.roles).map(([key, label]) => {
+              const active = roleFilter === key;
+              if (key === "all") return (
+                <button key={key} style={{
+                  ...S.navBtn, padding:"5px 7px", fontSize:10,
+                  color: active ? T.text : T.muted,
+                  borderColor: active ? T.border : "transparent",
+                  background: active ? T.pill : "transparent",
+                }} onClick={() => setRoleFilter(key)}>
+                  {label}
+                </button>
+              );
+              const ROLE_ICONS = { capital:"◉", city:"●", village:"•", bridge:"—", island:"◎", hamlet:"·" };
+              return (
+                <button key={key} title={label} style={{
+                  ...S.navBtn, padding:"5px 7px", fontSize:10,
+                  color: active ? T.text : T.muted,
+                  borderColor: active ? T.border : "transparent",
+                  background: active ? T.pill : "transparent",
+                }} onClick={() => setRoleFilter(key)}>
+                  {ROLE_ICONS[key] || key}
+                </button>
+              );
+            })}
+          </div>
+
+          {sep}
+
           <SearchBar dark={dark} T={T} onSelect={w => {
             handleSelect(w); if (compareMode) return;
             setBiomeFilter("all");
@@ -1077,7 +1137,7 @@ export default function HomePage() {
               background:  compareMode ? T.pill : "transparent",
             }} onClick={toggleCompare}>⊕</button>
             <button title="Réinitialiser" style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
-              onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); stopVoyage(); setCompareMode(false); }}>
+              onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); setRoleFilter("all"); stopVoyage(); setCompareMode(false); }}>
               ↺
             </button>
             <button style={{
