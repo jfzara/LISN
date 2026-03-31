@@ -134,9 +134,9 @@ const UI = {
 // Décennies disponibles dans le seed
 const DECADES = [null, 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020];
 
-function applyFilters(works, { biome, scoreMin, scoreMax, decade }) {
+function applyFilters(works, { biome, scoreMin, scoreMax, decade, role = "all" }) {
   return works.filter(w => {
-    if (biome !== "all" && w.biome !== biome) return false;
+    if (biome !== "all" && (w.biome || w.regime) !== biome) return false;
     const s = w.score || 0;
     if (s < scoreMin || s > scoreMax) return false;
     if (decade) {
@@ -144,6 +144,7 @@ function applyFilters(works, { biome, scoreMin, scoreMax, decade }) {
       if (!y) return false;
       if (y < decade || y >= decade + 10) return false;
     }
+    if (role !== "all" && w.role !== role) return false;
     return true;
   });
 }
@@ -307,7 +308,8 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onStop, 
         <div style={{ display:"flex", gap:6 }}>
           {/* → Suivant */}
           <button onClick={onNext} style={{
-            background:"none", border:`1px solid ${T.border}`,
+            background:"none",
+            borderWidth:1, borderStyle:"solid", borderColor: T.border,
             borderRadius:1, padding:"6px 12px", cursor:"pointer",
             color:T.text, fontSize:13,
             display:"flex", alignItems:"center", gap:4,
@@ -529,6 +531,7 @@ export default function HomePage() {
   const [mobile,   setMobile]   = useState(false);
   const [mounted,  setMounted]  = useState(false);
   const [introComplete, setIntroComplete] = useState(false);
+  const [globeZoom,    setGlobeZoom]    = useState(0.5); // 0=serré 1=lointain
 
   // Lancer idle hint 8s après la fin de l'intro
   useEffect(() => {
@@ -809,6 +812,7 @@ export default function HomePage() {
           trajectoryWorks={trajectoryWorks}
           mobile={mobile}
           onIntroComplete={() => setIntroComplete(true)}
+          onZoomChange={setGlobeZoom}
         />
       </div>
 
@@ -1311,6 +1315,35 @@ export default function HomePage() {
           }}>
             {lang === "fr" ? "masquer" : "hide"}
           </button>
+        </div>
+      )}
+
+      {/* Indicateur temporel selon zoom */}
+      {!showOnboarding && !selectedWork && (
+        <div style={{
+          position:"fixed",
+          right: mobile ? 12 : 20,
+          bottom: mobile ? (voyageMode ? 190 : 80) : 70,
+          zIndex:25, textAlign:"right",
+          fontFamily:"'DM Mono',monospace",
+          pointerEvents:"none",
+          opacity: Math.abs(globeZoom - 0.5) > 0.15 ? 0.7 : 0,
+          transition:"opacity 0.6s ease",
+        }}>
+          <div style={{ fontSize:10, color:T.muted, letterSpacing:"0.12em",
+            textTransform:"uppercase" }}>
+            {globeZoom > 0.75
+              ? (lang === "fr" ? "vue d'ensemble" : "overview")
+              : globeZoom < 0.35
+              ? (lang === "fr" ? "couches profondes" : "deep layers")
+              : null}
+          </div>
+          {globeZoom < 0.35 && (
+            <div style={{ fontSize:9, color:T.muted, opacity:0.6, marginTop:2,
+              letterSpacing:"0.08em" }}>
+              {lang === "fr" ? "zoom → révèle les racines" : "zoom → reveals roots"}
+            </div>
+          )}
         </div>
       )}
 

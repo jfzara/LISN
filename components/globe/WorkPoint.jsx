@@ -44,12 +44,40 @@ const BIOME_HALO_LIGHT = {
   hybrid:      new THREE.Color("#C8A0E0"),
 };
 
-function lodThreshold(score) {
+// lodThreshold — quand un point devient visible selon le zoom
+// distanceFactor: 0 = zoom max (serré), 1 = zoom min (lointain)
+// Dimension temporelle : les œuvres anciennes émergent au zoom serré
+// sauf les capitales (score ≥ 9) qui sont toujours visibles
+// lodThreshold — quand un point devient visible selon le zoom
+// distanceFactor: 0 = zoom serré (proche), 1 = zoom lointain
+//
+// Logique temporelle : zoomer = remonter dans le temps
+//   Zoom lointain → seules les capitales de toutes les époques
+//   Zoom moyen   → + les grandes œuvres récentes et classiques majeurs
+//   Zoom serré   → tout émerge, couches anciennes incluses
+//
+// Exception : les capitales absolues (≥ 9.3) sont toujours visibles —
+// ce sont les étoiles fixes de la carte, indépendantes du temps.
+function lodThreshold(score, year) {
+  const age = year ? 2025 - year : 0;
+
+  // Capitales absolues — permanentes, toujours visibles
   if (score >= 9.3) return 1.00;
-  if (score >= 8.8) return 0.90;
-  if (score >= 8.0) return 0.72;
-  if (score >= 7.2) return 0.55;
-  return 0.38;
+
+  // Score de base
+  let base;
+  if (score >= 8.8) return 0.90;      // grandes villes — pas de malus, ère classique incluse
+  if (score >= 8.0) base = 0.80;
+  else if (score >= 7.2) base = 0.58;
+  else base = 0.40;
+
+  // Malus temporel — les œuvres > 20 ans exigent un zoom plus serré
+  // Plus on zoome, plus les couches anciennes émergent
+  if (age > 60)       base *= 0.50;   // pre-1965 : couche profonde, racines
+  else if (age > 40)  base *= 0.65;   // pre-1985 : couche intermédiaire
+  else if (age > 20)  base *= 0.80;   // pre-2005 : léger recul
+
+  return Math.max(0.25, base);
 }
 
 function coreRadius(score) {
@@ -89,19 +117,54 @@ export default function WorkPoint({
   const isActive = selected || hovered;
   useCursor(hovered);
 
-  const { pos, color, haloColor, score, cr, hr, lod } = useMemo(() => {
+  const { pos, color, haloColor, score, cr, hr, lod, ageFactor } = useMemo(() => {
     const biome    = work.biome || work.regime || "structural";
     const sc       = Number(work.score) || 7.0;
     const palette  = dark ? BIOME_COLOR_DARK  : BIOME_COLOR_LIGHT;
     const haloPal  = dark ? BIOME_HALO_DARK   : BIOME_HALO_LIGHT;
+
+    const baseColor  = palette[biome] ?? new THREE.Color("#aaaaaa");
+    const baseHalo   = haloPal[biome] ?? new THREE.Color("#cccccc");
+
+    // ── Teinte temporelle ─────────────────────────────────────────
+    // pre-1965 : fossile brun-ambre chaud  #c8962a
+    // pre-1985 : ambré léger               #c8a96e
+    // pre-2005 : légère patine              interpolation faible
+    // post-2005 : couleur biome pure
+    const year = work.year || 2000;
+    const age  = 2025 - year;
+
+    let finalColor = baseColor.clone();
+    let finalHalo  = baseHalo.clone();
+    let af = 1.0; // ageFactor : 1 = récent pur, 0 = fossile pur
+
+    if (age > 60) {
+      // pre-1965 — fossile : brun-doré profond
+      af = 0.20;
+      finalColor.lerp(new THREE.Color("#b8861a"), 0.72);
+      finalHalo.lerp(new THREE.Color("#c8962a"), 0.60);
+    } else if (age > 40) {
+      // pre-1985 — ambré
+      af = 0.45;
+      finalColor.lerp(new THREE.Color("#c8a96e"), 0.50);
+      finalHalo.lerp(new THREE.Color("#d4b87a"), 0.40);
+    } else if (age > 20) {
+      // pre-2005 — légère patine
+      af = 0.72;
+      finalColor.lerp(new THREE.Color("#c8a96e"), 0.18);
+      finalHalo.lerp(new THREE.Color("#d4b87a"), 0.12);
+    }
+    // post-2005 : couleur biome pure, af = 1.0
+
     return {
       pos:       new THREE.Vector3(work.x ?? 0, work.y ?? 0, work.z ?? 0),
-      color:     palette[biome]  ?? new THREE.Color("#aaaaaa"),
-      haloColor: haloPal[biome]  ?? new THREE.Color("#cccccc"),
+      color:     finalColor,
+      haloColor: finalHalo,
       score:     sc,
       cr:        coreRadius(sc),
       hr:        haloRadii(sc),
-      lod:       lodThreshold(sc),
+      lod:       lodThreshold(sc, work.year),
+      ageFactor: af,
     };
   }, [work, dark]);
 

@@ -357,6 +357,7 @@ function GlobeInner({
   dark, autoRotating, onInteract,
   nearbyWorks, trajectoryWorks,
   introPlaying, onIntroComplete, mobile,
+  onZoomChange,
 }) {
   const [df, setDf] = useState(0.5);
   const controlsRef = useRef();
@@ -406,7 +407,7 @@ function GlobeInner({
 
   return (
     <>
-      <ZoomSensor onChange={setDf} />
+      <ZoomSensor onChange={df => { setDf(df); onZoomChange?.(df); }} />
       {introPlaying
         ? <CinematicIntro onComplete={onIntroComplete} mobile={mobile} />
         : <AutoRotate enabled={autoRotating} />
@@ -509,6 +510,7 @@ export default function GlobeScene({
   nearbyWorks = [], trajectoryWorks = [],
   mobile = false,
   onIntroComplete,
+  onZoomChange,
 }) {
   const [autoRotating,    setAutoRotating]    = useState(false); // désactivé pendant l'intro
   const [introPlaying,    setIntroPlaying]    = useState(true);
@@ -546,6 +548,7 @@ export default function GlobeScene({
         introPlaying={introPlaying}
         onIntroComplete={handleIntroComplete}
         mobile={mobile}
+        onZoomChange={onZoomChange}
       />
     </Canvas>
   );
