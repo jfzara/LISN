@@ -126,7 +126,7 @@ function Tabs({ tab, onChange, dark, lang = "fr" }) {
 }
 
 // ── Fiche principale ──────────────────────────────────────────────
-function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis, onRequestDiscuss, isFavorite = false, onToggleFavorite }) {
+function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis, onRequestDiscuss, isFavorite = false, onToggleFavorite, mobile = false }) {
   const P  = PANEL_UI[lang] || PANEL_UI.fr;
   const BL = BIOME_LABEL[lang] || BIOME_LABEL.fr;
   const RL = ROLE_LABEL[lang]  || ROLE_LABEL.fr;
@@ -138,10 +138,10 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
   const biome = work.biome || work.regime;
 
   const metaItems = [
-    { label:"Type",  val: work.entityType === "album" ? "Album" : work.entityType === "artist" ? "Artiste" : "Morceau" },
-    { label:"Biome", val: BL[biome] || biome || "—", color: BIOME_COLOR[biome] },
-    { label:"Rôle",  val: RL[work.role] || work.role || "—" },
-    { label:"Année", val: work.year || "—" },
+    { label: P.type, val: P.types[work.entityType] || work.entityType || "—" },
+    { label: P.zone, val: BL[biome] || biome || "—", color: BIOME_COLOR[biome] },
+    { label: P.role, val: RL[work.role] || work.role || "—" },
+    { label: P.year, val: work.year || "—" },
   ];
 
   return (

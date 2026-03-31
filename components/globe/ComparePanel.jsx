@@ -14,9 +14,9 @@ const BIOME_LABEL = {
   en: { dense:"Dense", atmospheric:"Atmospheric",   structural:"Structural", narrative:"Narrative", hybrid:"Hybrid"  },
 };
 const COMPARE_UI = {
-  fr: { title:C.title, distLabel:C.distLabel,
-        instruction1:C.instruction1,
-        instruction2:C.instruction2,
+  fr: { title:"Comparaison structurale", distLabel:"Distance structurale",
+        instruction1:"Cliquez deux œuvres sur le globe pour les comparer.",
+        instruction2:"Cliquez une deuxième œuvre pour comparer.",
         levels:{ veryClose:"Très proches", close:"Proches", far:"Éloignées", veryFar:"Très éloignées", opposite:"Mondes opposés" },
         biomesDiff: (a,b) => `Zones distinctes — ${a} et ${b}` },
   en: { title:"Structural comparison", distLabel:"Structural distance",

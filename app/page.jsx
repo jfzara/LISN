@@ -516,6 +516,15 @@ function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
 }
 
 // ── Page principale ─────────────────────────────────────────────────
+// Lire la langue initiale de façon synchrone pour éviter le flash FR→EN à l'onboarding
+function getInitialLang() {
+  if (typeof window === "undefined") return "fr";
+  const saved = localStorage.getItem("lisn-lang");
+  if (saved) return saved === "en" ? "en" : "fr";
+  const browser = (navigator.language || "fr").toLowerCase();
+  return browser.startsWith("fr") ? "fr" : "en";
+}
+
 export default function HomePage() {
   const [dark, setDark] = useState(true);
   const [mobile,   setMobile]   = useState(false);
@@ -531,7 +540,7 @@ export default function HomePage() {
   const [showFilters,     setShowFilters]     = useState(false);
   const [showHelp,        setShowHelp]        = useState(false);
   const [showLegend,      setShowLegend]      = useState(true);
-  const [lang, setLang] = useState("fr"); // défaut FR, ajusté au mount
+  const [lang, setLang] = useState(getInitialLang);  // lazy init — lit localStorage synchro
   const [showOnboarding,  setShowOnboarding]  = useState(false);
   const [selectedWork,    setSelectedWork]    = useState(null);
   const [hoveredWork,     setHoveredWork]     = useState(null);
@@ -583,7 +592,7 @@ export default function HomePage() {
     window.addEventListener("resize", onResize);
     // Onboarding — s'affiche 3s à chaque ouverture, disparaît automatiquement
     setShowOnboarding(true);
-    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 9000);
+    const onboardingTimer = setTimeout(() => setShowOnboarding(false), 3000);
     // Idle hint — après 8s sans interaction
     // idle hint lancé après intro via introComplete
     return () => {
