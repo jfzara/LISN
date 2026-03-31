@@ -1052,6 +1052,10 @@ export default function HomePage() {
               onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); stopVoyage(); setCompareMode(false); }}>
               ↺
             </button>
+            <button style={{
+              ...S.navBtn, color: T.muted, borderColor: T.border,
+              background: T.pill, fontFamily:"'DM Mono',monospace",
+            }} onClick={toggleLang}>{L.nav.lang}</button>
             <button style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
               onClick={toggleDark}>{dark ? "◐" : "◑"}</button>
           </div>
