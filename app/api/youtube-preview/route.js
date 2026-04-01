@@ -67,18 +67,60 @@ function scoreVideo(item, artist, title) {
   return score;
 }
 
-export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-  const artist = (searchParams.get("artist") || "").trim();
-  const title  = (searchParams.get("title")  || "").trim();
+// ── Rate limiting simple en mémoire ──────────────────────────────
+// Pas de Redis requis — suffisant pour un MVP
+const RATE_STORE = new Map();
+const RATE_LIMIT  = 30;   // requêtes max par fenêtre
+const RATE_WINDOW = 60_000; // 60 secondes
 
+function isRateLimited(ip) {
+  const now   = Date.now();
+  const entry = RATE_STORE.get(ip) || { count: 0, reset: now + RATE_WINDOW };
+  if (now > entry.reset) {
+    RATE_STORE.set(ip, { count: 1, reset: now + RATE_WINDOW });
+    return false;
+  }
+  entry.count++;
+  RATE_STORE.set(ip, entry);
+  return entry.count > RATE_LIMIT;
+}
+
+// Nettoyer le store périodiquement pour éviter les fuites mémoire
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, val] of RATE_STORE) {
+    if (now > val.reset) RATE_STORE.delete(key);
+  }
+}, 120_000);
+
+export async function GET(req) {
+  // ── Rate limiting ──────────────────────────────────────────────
+  const forwarded = req.headers.get("x-forwarded-for");
+  const ip        = forwarded ? forwarded.split(",")[0].trim() : "unknown";
+  if (isRateLimited(ip)) {
+    return Response.json({ error: "Trop de requêtes" }, { status: 429 });
+  }
+
+  const { searchParams } = new URL(req.url);
+
+  // ── Validation et sanitisation des inputs ─────────────────────
+  const artist = (searchParams.get("artist") || "").trim().slice(0, 120);
+  const title  = (searchParams.get("title")  || "").trim().slice(0, 120);
+
+  // Rejeter les inputs vides ou suspicieux
   if (!artist || !title) {
-    return Response.json({ error: "artist et title requis" }, { status: 400 });
+    return Response.json({ error: "Paramètres manquants" }, { status: 400 });
+  }
+
+  // Caractères autorisés — lettres, chiffres, espaces, ponctuation courante
+  const SAFE_PATTERN = /^[\p{L}\p{N}\s\-_.,!?'"&()[\]éèêëàâùûüôîïçœæÉÈÊËÀÂÙÛÜÔÎÏÇŒÆ]+$/u;
+  if (!SAFE_PATTERN.test(artist) || !SAFE_PATTERN.test(title)) {
+    return Response.json({ error: "Caractères non autorisés" }, { status: 400 });
   }
 
   const apiKey = process.env.YOUTUBE_API_KEY;
   if (!apiKey) {
-    return Response.json({ error: "YOUTUBE_API_KEY manquant dans .env.local" }, { status: 500 });
+    return Response.json({ error: "Service indisponible" }, { status: 503 });
   }
 
   try {
@@ -136,7 +178,6 @@ export async function GET(req) {
     if (!bestItem) {
       return Response.json({
         videoId: null,
-        debug: `Aucune vidéo pour "${title}" / "${artist}"`,
       }, { status: 404 });
     }
 
@@ -155,15 +196,18 @@ export async function GET(req) {
       videoTitle,
       thumbnail,
       channelTitle,
-      confidence: bestScore, // pour debug si besoin
       embedUrl:  `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&start=20`,
       watchUrl:  `https://www.youtube.com/watch?v=${videoId}`,
     }, {
-      headers: { "Cache-Control": "public, max-age=86400" },
+      headers: {
+        "Cache-Control": "public, max-age=86400",
+        "Content-Type":  "application/json",
+        "X-Content-Type-Options": "nosniff",
+      },
     });
 
   } catch (err) {
-    console.error("[youtube-preview]", err.message);
-    return Response.json({ error: err.message, videoId: null }, { status: 500 });
+    console.error("[youtube-preview]", err.message); // log serveur seulement
+    return Response.json({ error: "Erreur de recherche", videoId: null }, { status: 500 });
   }
 }

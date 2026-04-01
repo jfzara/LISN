@@ -26,7 +26,7 @@ const BIOME_COLOR = {
   narrative:"#FF9A4D", hybrid:"#C07AE8",
 };
 
-export default function AudioPlayer({ work, dark }) {
+export default function AudioPlayer({ work, dark, lang = "fr" }) {
   const [state,      setState]      = useState("idle");
   const [videoId,       setVideoId]       = useState(null);
   const [thumbnail,     setThumbnail]     = useState(null);
@@ -144,18 +144,18 @@ export default function AudioPlayer({ work, dark }) {
             fontFamily: "'DM Mono',monospace", letterSpacing: "0.06em",
           }}>
             {state === "loading"
-            ? "Recherche sur YouTube…"
+            ? lang === "fr" ? "Recherche sur YouTube…" : "Searching YouTube…"
             : state === "error"
-            ? (errorMsg || "Non trouvé")
+            ? (errorMsg || lang === "fr" ? "Non trouvé" : "Not found")
             : state === "ready"
             ? (showEmbed
-                ? "▾ Réduire"
+                ? lang === "fr" ? "▾ Réduire" : "▾ Collapse"
                 : signatureTitle
                   ? `▸ ${signatureTitle}`
-                  : "▸ Écouter")
+                  : lang === "fr" ? "▸ Écouter" : "▸ Listen")
             : signatureTitle
               ? `▸ ${signatureTitle}`
-              : "▸ Écouter sur YouTube"}
+              : lang === "fr" ? "▸ Écouter sur YouTube" : "▸ Listen on YouTube"}
           </div>
           {/* Chaîne source — aide à détecter réaction/cover */}
           {state === "ready" && channelTitle && (

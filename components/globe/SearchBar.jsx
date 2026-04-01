@@ -13,7 +13,7 @@ function normalize(s) {
   return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-export default function SearchBar({ dark, onSelect, T }) {
+export default function SearchBar({ dark, onSelect, T, lang = "fr" }) {
   const [query,   setQuery]   = useState("");
   const [open,    setOpen]    = useState(false);
   const [focused, setFocused] = useState(false);
@@ -67,7 +67,7 @@ export default function SearchBar({ dark, onSelect, T }) {
           onChange={e => setQuery(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setTimeout(() => setFocused(false), 150)}
-          placeholder="Artiste ou titre…"
+          placeholder={lang === "fr" ? "Artiste ou titre…" : "Artist or title…"}
           style={{
             background: "none", border: "none", outline: "none",
             fontSize: 10, color: T.text, width: 120,

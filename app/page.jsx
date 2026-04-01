@@ -956,7 +956,7 @@ export default function HomePage() {
                 fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
                 {L.filterSearch}
               </div>
-              <SearchBar dark={dark} T={T} onSelect={w => {
+              <SearchBar dark={dark} T={T} lang={lang} onSelect={w => {
                 handleSelect(w);
                 setBiomeFilter("all");
                 setShowFilters(false);
@@ -1171,7 +1171,7 @@ export default function HomePage() {
 
           {sep}
 
-          <SearchBar dark={dark} T={T} onSelect={w => {
+          <SearchBar dark={dark} T={T} lang={lang} onSelect={w => {
             handleSelect(w); if (compareMode) return;
             setBiomeFilter("all");
           }} />

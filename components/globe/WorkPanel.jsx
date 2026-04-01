@@ -126,7 +126,7 @@ function Tabs({ tab, onChange, dark, lang = "fr" }) {
 }
 
 // ── Fiche principale ──────────────────────────────────────────────
-function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis, onRequestDiscuss, isFavorite = false, onToggleFavorite, mobile = false }) {
+function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, onStartVoyage, voyageMode, onRequestAnalysis, onRequestDiscuss, isFavorite = false, onToggleFavorite, mobile = false, activeMode = "free" }) {
   const P  = PANEL_UI[lang] || PANEL_UI.fr;
 
   // Indicateur de mode actif
@@ -159,7 +159,7 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
       {typeof work.score === "number" && <ScoreBar score={work.score} dark={dark} />}
 
       {/* Player Spotify */}
-      <AudioPlayer work={work} dark={dark} />
+      <AudioPlayer work={work} dark={dark} lang={lang} />
 
       {/* Méta 2×2 */}
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6, marginTop:14 }}>
@@ -189,10 +189,10 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
       {/* Actions */}
       <div style={{ display:"flex", flexDirection:"column", gap:5, marginTop:10 }}>
         <button onClick={onExploreAround} style={{ ...btnStyle(bord, text) }}>
-          <span style={{ opacity:0.55, marginRight:6 }}>◎</span> Explorer autour
+          <span style={{ opacity:0.55, marginRight:6 }}>◎</span> {P.exploreAround}
         </button>
         <button onClick={onShowTrajectory} style={{ ...btnStyle(bord, text) }}>
-          <span style={{ opacity:0.55, marginRight:6 }}>—</span> Trajectoire de l'artiste
+          <span style={{ opacity:0.55, marginRight:6 }}>—</span> {P.trajectory}
         </button>
         <button onClick={() => onRequestAnalysis?.(work)} style={{
           ...btnStyle(bord, text),
@@ -202,7 +202,7 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
           fontWeight: 500,
           opacity: 1,
         }}>
-          <span style={{ marginRight:6 }}>→</span> Analyser dans LISN
+          <span style={{ marginRight:6 }}>→</span> {P.analyse}
         </button>
         {onStartVoyage && (
           <button onClick={onStartVoyage} style={{
@@ -212,6 +212,23 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
           }}>
             <span style={{ opacity:0.55, marginRight:6 }}>{voyageMode ? "◼" : "▷"}</span>
             {voyageMode ? P.voyageStop : P.voyage}
+          </button>
+        )}
+        {onRequestDiscuss && (
+          <button onClick={() => onRequestDiscuss?.(work)} style={{
+            ...btnStyle(bord, text),
+            borderColor: BIOME_COLOR[biome] ? `${BIOME_COLOR[biome]}55` : bord,
+            background: BIOME_COLOR[biome] ? `${BIOME_COLOR[biome]}10` : "none",
+          }}>
+            <span style={{ marginRight:6, fontSize:12 }}>◈</span>
+            {P.discuss}
+            <span style={{
+              marginLeft:"auto", fontSize:9, letterSpacing:"0.14em",
+              padding:"2px 5px", borderRadius:1,
+              background: BIOME_COLOR[biome] ? `${BIOME_COLOR[biome]}30` : bord,
+              color: BIOME_COLOR[biome] || text,
+              fontFamily:"'DM Mono',monospace", textTransform:"uppercase",
+            }}>PRO</span>
           </button>
         )}
       </div>
@@ -365,6 +382,7 @@ export default function WorkPanel({
   activeMode = "free",
 }) {
   const P  = PANEL_UI[lang] || PANEL_UI.fr;
+  const BL_wp = BIOME_LABEL[lang] || BIOME_LABEL.fr;
 
   // Indicateur de mode actif
   const MODE_META = {
@@ -431,7 +449,7 @@ export default function WorkPanel({
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
               <div style={{ fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color: muted,
                 fontFamily:"'DM Mono', monospace" }}>
-                {BIOME_LABEL[biome] || "Œuvre"}
+                {BL_wp[biome] || ""}
               </div>
               <button onClick={onClose} style={{
                 background:"none", border:`1px solid ${bord}`, color: muted,
@@ -459,12 +477,13 @@ export default function WorkPanel({
           <div style={{ flex:1, overflowY:"auto", padding:"0 16px 20px" }}>
             {tab === "fiche" && (
               <FicheTab
-                work={work} dark={dark} lang={lang}
+                work={work} dark={dark} lang={lang} mobile={mobile} activeMode={activeMode}
                 onExploreAround={() => { onTabChange("autour"); onExploreAround?.(); }}
                 onShowTrajectory={() => { onTabChange("trajectoire"); onShowTrajectory?.(); }}
                 onStartVoyage={onStartVoyage}
                 voyageMode={voyageMode}
                 onRequestAnalysis={onRequestAnalysis}
+                onRequestDiscuss={onRequestDiscuss}
                 isFavorite={isFavorite}
                 onToggleFavorite={onToggleFavorite}
               />
