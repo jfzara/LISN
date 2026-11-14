@@ -7,8 +7,8 @@
  */
 
 const BIOME_COLOR = {
-  dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
-  narrative:"#FF9A4D", hybrid:"#C07AE8",
+  dense:"#8c8c8c", atmospheric:"#8c8c8c", structural:"#8c8c8c",
+  narrative:"#8c8c8c", hybrid:"#8c8c8c",
 };
 
 // Aperçu de conversation mock — par biome
@@ -16,18 +16,18 @@ const MOCK_CONVO = {
   fr:{
     dense: [
       { role:"user", text:"Pourquoi est-ce que j'aime autant cette musique alors que je ne sais pas vraiment l'expliquer ?" },
-      { role:"lisn", text:"Ce que vous ressentez correspond à quelque chose de structuralement précis. Cette œuvre opère à haute densité — plusieurs strates simultanées en tension, aucune qui ne prend le dessus sur les autres. Ce n'est pas une sensation vague : c'est une architecture qui sollicite une écoute totale." },
+      { role:"lisn", text:"Ce que tu ressens correspond à quelque chose de structuralement précis. Cette œuvre opère à haute densité — plusieurs strates simultanées en tension, aucune qui ne prend le dessus sur les autres. Ce n'est pas une sensation vague : c'est une architecture qui sollicite une écoute totale." },
       { role:"user", text:"Et pourquoi est-ce que certaines personnes n'arrivent pas à l'apprécier ?" },
     ],
     atmospheric: [
       { role:"user", text:"Cette musique me met dans un état particulier. C'est difficile à décrire." },
-      { role:"lisn", text:"Ce que vous décrivez est une réponse juste à ce que fait structuralement cette œuvre. Elle opère au niveau du timbre comme forme — pas la mélodie, pas le rythme, mais la texture sonore elle-même comme vecteur de sens. C'est rare, et ça demande une écoute différente." },
+      { role:"lisn", text:"Ce que tu décris est une réponse juste à ce que fait structuralement cette œuvre. Elle opère au niveau du timbre comme forme — pas la mélodie, pas le rythme, mais la texture sonore elle-même comme vecteur de sens. C'est rare, et ça demande une écoute différente." },
       { role:"user", text:"Comment savoir si j'apprécierais d'autres œuvres dans ce registre ?" },
     ],
     structural: [
       { role:"user", text:"Je comprends que c'est techniquement rigoureux, mais je ne sais pas si j'y entends autre chose que de la rigueur." },
-      { role:"lisn", text:"C'est une tension réelle dans ce type d'œuvres — la forme peut sembler froide vue de l'extérieur. Ce que LISN peut vous montrer, c'est l'endroit précis où la contrainte cesse d'être une démonstration et devient une nécessité expressive. Ça se joue souvent en quelques mesures." },
-      { role:"user", text:"Vous pouvez me montrer où exactement ?" },
+      { role:"lisn", text:"C'est une tension réelle dans ce type d'œuvres — la forme peut sembler froide vue de l'extérieur. Ce que LISN peut te montrer, c'est l'endroit précis où la contrainte cesse d'être une démonstration et devient une nécessité expressive. Ça se joue souvent en quelques mesures." },
+      { role:"user", text:"Tu peux me montrer où exactement ?" },
     ],
     narrative: [
       { role:"user", text:"Les paroles me touchent mais j'ai du mal à savoir si c'est la musique ou juste le texte." },
@@ -76,7 +76,7 @@ const UI = {
     preview: "Aperçu de conversation",
     locked: "La suite est réservée à LISN Pro.",
     unlockTitle: "Continuer cette conversation",
-    unlockDesc: "Posez toutes vos questions à LISN sur cette œuvre. Obtenez des analyses sur mesure, des comparaisons, des recommandations personnalisées.",
+    unlockDesc: "Pose toutes tes questions à LISN sur cette œuvre. Obtiens des analyses sur mesure, des comparaisons, des recommandations personnalisées.",
     unlockBtn: "Accéder à LISN Pro →",
     orAnalyse: "Voir d'abord l'analyse structurelle →",
   },
@@ -97,14 +97,14 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
 
   const M    = UI[lang] || UI.fr;
   const biome = work.biome || work.regime;
-  const col   = BIOME_COLOR[biome] || "#e8dfc8";
   const convo = (MOCK_CONVO[lang] || MOCK_CONVO.fr)[biome] || (MOCK_CONVO[lang] || MOCK_CONVO.fr).hybrid;
 
-  const bg    = dark ? "rgba(5,4,3,0.98)"       : "rgba(237,230,220,0.98)";
-  const text  = dark ? "#f2ead8"                 : "#120e0a";
-  const muted = dark ? "#9c8e7e"                 : "#5c5048";
-  const bord  = dark ? "rgba(242,234,216,0.12)"  : "rgba(18,14,10,0.14)";
-  const userBg = dark ? "rgba(242,234,216,0.06)" : "rgba(18,14,10,0.05)";
+  const bg    = dark ? "#000000"       : "#ffffff";
+  const text  = dark ? "#ffffff"                 : "#000000";
+  const col   = text;   // une seule encre : celle du texte
+  const muted = dark ? "rgba(255,255,255,0.62)"                 : "rgba(0,0,0,0.58)";
+  const bord  = dark ? "rgba(255,255,255,0.12)"  : "rgba(0,0,0,0.14)";
+  const userBg = dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)";
   const lisnBg = dark ? `${col}12`               : `${col}18`;
 
   return (
@@ -112,46 +112,42 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
       position:"fixed", inset:0, zIndex:200,
       display:"flex", alignItems:"center", justifyContent:"center",
       background: dark ? "rgba(0,0,0,0.78)" : "rgba(100,90,80,0.50)",
-      backdropFilter:"blur(6px)",
-      fontFamily:"'Libre Baskerville', Georgia, serif",
+      backdropFilter:"none",
+      fontFamily:"var(--font-ui)",
     }} onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
 
       <div style={{
         width:"min(460px, calc(100vw - 24px))",
         maxHeight:"90vh", overflowY:"auto",
-        background: bg, borderRadius:1,
-        boxShadow: dark
-          ? `0 0 60px rgba(0,0,0,0.8), 0 0 0 1px ${col}44`
-          : `0 0 40px rgba(0,0,0,0.15), 0 0 0 1px ${col}66`,
+        background: bg, borderRadius:0,
+        boxShadow: `0 0 0 1px ${bord}`,
       }}>
-        {/* Bande biome */}
-        <div style={{ height:3, background: col }} />
 
         {/* Header */}
         <div style={{ padding:"16px 18px 0",
           display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
           <div>
-            <div style={{ fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase",
-              color: col, fontFamily:"'DM Mono',monospace", marginBottom:6 }}>
+            <div style={{ fontSize:11, letterSpacing:"0.005em", textTransform:"none",
+              color: col, fontFamily:"var(--font-ui)", marginBottom:6 }}>
               {M.badge}
             </div>
             <h2 style={{ margin:0, fontSize:18, lineHeight:1.1,
-              letterSpacing:"-0.02em", fontStyle:"italic", color: text }}>
+              letterSpacing:"-0.02em", fontStyle:"normal", color: text }}>
               {work.title}
             </h2>
             <div style={{ marginTop:4, fontSize:13, color: muted }}>{work.artist}</div>
           </div>
           <button onClick={onClose} style={{
             background:"none", border:`1px solid ${bord}`, color: muted,
-            fontSize:11, padding:"4px 8px", cursor:"pointer", borderRadius:1,
-            fontFamily:"'DM Mono',monospace",
+            fontSize:11, padding:"4px 8px", cursor:"pointer", borderRadius:0,
+            fontFamily:"var(--font-ui)",
           }}>{M.close}</button>
         </div>
 
         {/* Label aperçu */}
         <div style={{ padding:"12px 18px 8px",
-          fontSize:11, color: muted, fontFamily:"'DM Mono',monospace",
-          letterSpacing:"0.14em", textTransform:"uppercase" }}>
+          fontSize:11, color: muted, fontFamily:"var(--font-ui)",
+          letterSpacing:"0.005em", textTransform:"none" }}>
           {M.preview}
         </div>
 
@@ -159,16 +155,16 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
         <div style={{ padding:"0 18px" }}>
           {convo.slice(0, 2).map((msg, i) => (
             <div key={i} style={{
-              marginBottom:8, padding:"10px 12px", borderRadius:1,
+              marginBottom:8, padding:"10px 12px", borderRadius:0,
               background: msg.role === "lisn" ? lisnBg : userBg,
               borderLeft: msg.role === "lisn" ? `2px solid ${col}` : `2px solid ${bord}`,
             }}>
-              <div style={{ fontSize:10, letterSpacing:"0.14em", textTransform:"uppercase",
+              <div style={{ fontSize:11, letterSpacing:"0.005em", textTransform:"none",
                 color: msg.role === "lisn" ? col : muted,
-                fontFamily:"'DM Mono',monospace", marginBottom:5 }}>
-                {msg.role === "lisn" ? "LISN" : (lang === "fr" ? "Vous" : "You")}
+                fontFamily:"var(--font-ui)", marginBottom:5 }}>
+                {msg.role === "lisn" ? "LISN" : (lang === "fr" ? "Toi" : "You")}
               </div>
-              <div style={{ fontSize:13, color: text, lineHeight:1.7, fontStyle: msg.role === "lisn" ? "italic" : "normal" }}>
+              <div style={{ fontSize:13, color: text, lineHeight:1.7, fontStyle:"normal" }}>
                 {msg.text}
               </div>
             </div>
@@ -177,14 +173,14 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
 
         {/* 3ème message — flouté */}
         <div style={{ padding:"0 18px", position:"relative", overflow:"hidden" }}>
-          <div style={{ filter:"blur(3px)", opacity:0.35, userSelect:"none", pointerEvents:"none" }}>
+          <div style={{ opacity:0.14, userSelect:"none", pointerEvents:"none" }}>
             <div style={{
-              marginBottom:8, padding:"10px 12px", borderRadius:1,
+              marginBottom:8, padding:"10px 12px", borderRadius:0,
               background: userBg, borderLeft:`2px solid ${bord}`,
             }}>
-              <div style={{ fontSize:10, letterSpacing:"0.14em", textTransform:"uppercase",
-                color: muted, fontFamily:"'DM Mono',monospace", marginBottom:5 }}>
-                {lang === "fr" ? "Vous" : "You"}
+              <div style={{ fontSize:11, letterSpacing:"0.005em", textTransform:"none",
+                color: muted, fontFamily:"var(--font-ui)", marginBottom:5 }}>
+                {lang === "fr" ? "Toi" : "You"}
               </div>
               <div style={{ fontSize:13, color: text, lineHeight:1.7 }}>
                 {convo[2]?.text}
@@ -192,12 +188,12 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
             </div>
             {/* Réponse LISN imaginaire */}
             <div style={{
-              padding:"10px 12px", borderRadius:1,
+              padding:"10px 12px", borderRadius:0,
               background: lisnBg, borderLeft:`2px solid ${col}`,
             }}>
-              <div style={{ fontSize:10, letterSpacing:"0.14em", textTransform:"uppercase",
-                color: col, fontFamily:"'DM Mono',monospace", marginBottom:5 }}>LISN</div>
-              <div style={{ fontSize:13, color: text, lineHeight:1.7, fontStyle:"italic" }}>
+              <div style={{ fontSize:11, letterSpacing:"0.005em", textTransform:"none",
+                color: col, fontFamily:"var(--font-ui)", marginBottom:5 }}>LISN</div>
+              <div style={{ fontSize:13, color: text, lineHeight:1.7, fontStyle:"normal" }}>
                 {lang === "fr"
                   ? "Pour répondre précisément à cette question, il faudrait examiner..."
                   : "To answer that precisely, we'd need to examine..."}
@@ -216,15 +212,15 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
         <div style={{ padding:"16px 18px 20px",
           display:"flex", flexDirection:"column", alignItems:"center", gap:10 }}>
           <div style={{ fontSize:12, color: muted, textAlign:"center",
-            fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em", opacity:0.8 }}>
+            fontFamily:"var(--font-ui)", letterSpacing:"0.005em", opacity:0.8 }}>
             {M.locked}
           </div>
           <button style={{
-            padding:"11px 24px", background: col, border:"none", borderRadius:1,
-            color: dark ? "#080604" : "#ffffff",
-            fontSize:12, letterSpacing:"0.16em", textTransform:"uppercase",
-            cursor:"pointer", fontFamily:"'DM Mono',monospace", fontWeight:500,
-            boxShadow:`0 0 24px ${col}55`, width:"100%",
+            padding:"11px 24px", background: col, border:"none", borderRadius:0,
+            color: dark ? "#000000" : "#ffffff",
+            fontSize:14,
+            cursor:"pointer", fontFamily:"var(--font-ui)", fontWeight:700,
+            boxShadow:"none", width:"100%",
           }}
             onMouseEnter={e => e.currentTarget.style.opacity="0.85"}
             onMouseLeave={e => e.currentTarget.style.opacity="1"}
@@ -234,8 +230,8 @@ export default function DiscussModal({ work, dark, lang = "fr", onClose, onAnaly
           <button onClick={() => { onAnalyse?.(); }} style={{
             background:"none", border:"none", cursor:"pointer",
             fontSize:11, color: muted, opacity:0.7,
-            fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
-            textTransform:"uppercase",
+            fontFamily:"var(--font-ui)", letterSpacing:"0.005em",
+            textTransform:"none",
           }}>
             {M.orAnalyse}
           </button>

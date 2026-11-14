@@ -93,9 +93,9 @@ export default function LisnWordmark({ lang = "fr" }) {
 
         {/* LISN */}
         <span ref={lisnRef} style={{
-          fontFamily:"'Libre Baskerville', Georgia, serif",
+          fontFamily:"var(--font-ui)",
           fontSize:"clamp(44px, 6vw, 62px)",
-          fontWeight:400, fontStyle:"italic",
+          fontWeight:400, fontStyle:"normal",
           letterSpacing:"-0.05em", lineHeight:1,
           color:"var(--ink)", opacity:0,
           display:"block",
@@ -109,8 +109,8 @@ export default function LisnWordmark({ lang = "fr" }) {
           }} />
           <div ref={outerRef} style={{ overflow:"visible", display:"flex", alignItems:"center", opacity:0 }}>
             <span ref={listenRef} style={{
-              fontFamily:"'DM Mono', monospace",
-              fontSize:"8px", fontWeight:400, letterSpacing:"0.28em",
+              fontFamily:"var(--font-ui)",
+              fontSize:"8px", fontWeight:400, letterSpacing:"0.005em",
               color:"var(--ink-3)", display:"inline-block",
               transformOrigin:"left center", paddingLeft:"9px", whiteSpace:"nowrap",
             }}>listen</span>
@@ -119,8 +119,8 @@ export default function LisnWordmark({ lang = "fr" }) {
 
         {/* SLOGAN — appears after, slides right */}
         <span ref={sloganRef} style={{
-          fontFamily:"'DM Mono', monospace",
-          fontSize:"7px", fontWeight:400, letterSpacing:"0.12em",
+          fontFamily:"var(--font-ui)",
+          fontSize:"7px", fontWeight:400, letterSpacing:"0.005em",
           color:"var(--ink-3)", marginTop:8,
           opacity:0, whiteSpace:"nowrap",
           display:"block",

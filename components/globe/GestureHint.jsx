@@ -63,7 +63,7 @@ export default function GestureHint({ dark, mobile }) {
   const hideTimer  = useRef(null);
   const shownOnce  = useRef(false);
 
-  const color = dark ? "#f2ead8" : "#120e0a";
+  const color = dark ? "#ffffff" : "#000000";
 
   function show(fromStep = 0) {
     setStep(fromStep);
@@ -139,15 +139,15 @@ export default function GestureHint({ dark, mobile }) {
       pointerEvents: "none",
     }}>
       <div style={{
-        background: dark ? "rgba(5,4,3,0.75)" : "rgba(237,230,220,0.82)",
-        backdropFilter: "blur(12px)",
-        borderRadius: 2,
+        background: dark ? "rgba(0,0,0,0.75)" : "rgba(255,255,255,0.82)",
+        backdropFilter:"none",
+        borderRadius:0,
         padding: "12px 18px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: 8,
-        border: `1px solid ${dark ? "rgba(242,234,216,0.12)" : "rgba(18,14,10,0.12)"}`,
+        border: `1px solid ${dark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)"}`,
       }}>
         {hint.icon === "pinch"
           ? <PinchIcon color={color} />
@@ -156,9 +156,9 @@ export default function GestureHint({ dark, mobile }) {
         <span style={{
           fontSize: 11,
           color,
-          fontFamily: "'DM Mono', monospace",
-          letterSpacing: "0.12em",
-          textTransform: "uppercase",
+          fontFamily: "var(--font-ui)",
+          letterSpacing:"0.005em",
+          textTransform:"none",
           opacity: 0.8,
         }}>
           {hint.label}
@@ -171,7 +171,7 @@ export default function GestureHint({ dark, mobile }) {
           <div key={i} style={{
             width: i === step ? 14 : 6,
             height: 3,
-            borderRadius: 2,
+            borderRadius:0,
             background: color,
             opacity: i === step ? 0.8 : 0.25,
             transition: "all 0.3s",

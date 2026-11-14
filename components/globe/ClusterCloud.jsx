@@ -56,8 +56,8 @@ export default function ClusterCloud({ cluster, distanceFactor = 0.5 }) {
 
   return (
     <group position={[center.x, center.y, center.z]}>
-      <CloudBlob radius={r}        opacity={Math.max(0, cloudOp)}       color={color} phase={phase}     pulse={0.22} />
-      <CloudBlob radius={r * 0.4}  opacity={Math.max(0, cloudOp * 1.6)} color={color} phase={phase+1.2} pulse={0.30} />
+      <CloudBlob radius={r}        opacity={Math.max(0, cloudOp * 0.3)}       color={color} phase={phase}     pulse={0.22} />
+      <CloudBlob radius={r * 0.4}  opacity={Math.max(0, cloudOp * 0.45)} color={color} phase={phase+1.2} pulse={0.30} />
       {hasCapital && (
         <CapitalRing radius={r} opacity={Math.max(0, ringOp)} color={color} phase={phase} />
       )}

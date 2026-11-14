@@ -70,6 +70,7 @@ function scoreVideo(item, artist, title) {
 // ── Rate limiting simple en mémoire ──────────────────────────────
 // Pas de Redis requis — suffisant pour un MVP
 const RATE_STORE = new Map();
+const RESULT_CACHE = new Map();   // artiste|titre -> résultat, pour épargner le quota YouTube
 const RATE_LIMIT  = 30;   // requêtes max par fenêtre
 const RATE_WINDOW = 60_000; // 60 secondes
 
@@ -120,7 +121,15 @@ export async function GET(req) {
 
   const apiKey = process.env.YOUTUBE_API_KEY;
   if (!apiKey) {
-    return Response.json({ error: "Service indisponible" }, { status: 503 });
+    // Clé absente : le client propose alors un lien direct vers YouTube
+    return Response.json({ error: "no_key", videoId: null }, { status: 503 });
+  }
+
+  // Déjà cherché récemment : on ne redépense pas de quota
+  const cacheKey = `${artist}|${title}`.toLowerCase();
+  const cached = RESULT_CACHE.get(cacheKey);
+  if (cached && Date.now() - cached.at < 24 * 3600_000) {
+    return Response.json(cached.body, { headers: { "Cache-Control": "public, max-age=86400" } });
   }
 
   try {
@@ -148,6 +157,14 @@ export async function GET(req) {
       const res = await fetch(url.toString());
       if (!res.ok) {
         const txt = await res.text();
+        if (res.status === 403 && /quota/i.test(txt)) {
+          console.error("[youtube-preview] quota épuisé");
+          return Response.json({ error: "quota", videoId: null }, { status: 429 });
+        }
+        if (res.status === 400 || res.status === 403) {
+          console.error("[youtube-preview] clé refusée:", txt.slice(0, 200));
+          return Response.json({ error: "bad_key", videoId: null }, { status: 503 });
+        }
         throw new Error(`YouTube API error ${res.status}: ${txt}`);
       }
 
@@ -191,14 +208,17 @@ export async function GET(req) {
       return Response.json({ videoId: null }, { status: 404 });
     }
 
-    return Response.json({
+    const body = {
       videoId,
       videoTitle,
       thumbnail,
       channelTitle,
       embedUrl:  `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&start=20`,
       watchUrl:  `https://www.youtube.com/watch?v=${videoId}`,
-    }, {
+    };
+    if (RESULT_CACHE.size > 2000) RESULT_CACHE.clear();
+    RESULT_CACHE.set(cacheKey, { at: Date.now(), body });
+    return Response.json(body, {
       headers: {
         "Cache-Control": "public, max-age=86400",
         "Content-Type":  "application/json",
@@ -208,6 +228,6 @@ export async function GET(req) {
 
   } catch (err) {
     console.error("[youtube-preview]", err.message); // log serveur seulement
-    return Response.json({ error: "Erreur de recherche", videoId: null }, { status: 500 });
+    return Response.json({ error: "search_failed", videoId: null }, { status: 500 });
   }
 }

@@ -1,17 +1,17 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, forwardRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useCursor } from "@react-three/drei";
 import * as THREE from "three";
 
 // ── Couleurs dark mode — lumineuses, émissives ────────────────────
 const BIOME_COLOR_DARK = {
-  dense:       new THREE.Color("#FF6B2F"),
-  atmospheric: new THREE.Color("#4ABFFF"),
-  structural:  new THREE.Color("#E8C97A"),
-  narrative:   new THREE.Color("#FF9A4D"),
-  hybrid:      new THREE.Color("#C07AE8"),
+  dense:       new THREE.Color("#8c8c8c"),
+  atmospheric: new THREE.Color("#8c8c8c"),
+  structural:  new THREE.Color("#8c8c8c"),
+  narrative:   new THREE.Color("#8c8c8c"),
+  hybrid:      new THREE.Color("#8c8c8c"),
 };
 
 // ── Couleurs light mode — pastel clair, légères sur fond ivoire ───
@@ -20,20 +20,20 @@ const BIOME_COLOR_DARK = {
 // Solution : couleurs claires désaturées, presque pastel, avec
 // une légère émission pour garder l'aspect "bille de lumière".
 const BIOME_COLOR_LIGHT = {
-  dense:       new THREE.Color("#E8724A"),  // saumon chaud — pas trop sombre
-  atmospheric: new THREE.Color("#5BB8E8"),  // bleu ciel clair
-  structural:  new THREE.Color("#D4B86A"),  // or doux
-  narrative:   new THREE.Color("#E89858"),  // ambre clair
-  hybrid:      new THREE.Color("#B87ED4"),  // lilas doux
+  dense:       new THREE.Color("#B85A40"),
+  atmospheric: new THREE.Color("#5F86A0"),
+  structural:  new THREE.Color("#8A9160"),
+  narrative:   new THREE.Color("#C48A45"),
+  hybrid:      new THREE.Color("#8C709E"),
 };
 
 // Couleur de halo — plus claire que le core pour le soft edge
 const BIOME_HALO_DARK = {
-  dense:       new THREE.Color("#FF9060"),
-  atmospheric: new THREE.Color("#80D8FF"),
-  structural:  new THREE.Color("#F0DFA0"),
-  narrative:   new THREE.Color("#FFBB70"),
-  hybrid:      new THREE.Color("#D4A0F0"),
+  dense:       new THREE.Color("#E08A6C"),
+  atmospheric: new THREE.Color("#A8C2D2"),
+  structural:  new THREE.Color("#C2C79A"),
+  narrative:   new THREE.Color("#E9BC82"),
+  hybrid:      new THREE.Color("#C2AACF"),
 };
 
 const BIOME_HALO_LIGHT = {
@@ -80,9 +80,21 @@ function lodThreshold(score, year) {
   return Math.max(0.25, base);
 }
 
+// Encre unique — la couleur de biome n'apparaît qu'au survol / à la sélection
+const INK_DARK  = new THREE.Color("#ffffff");
+const INK_LIGHT = new THREE.Color("#000000");
+
+// Hiérarchie : peu d'œuvres au premier plan, le reste en texture
+function tier(score) {
+  if (score >= 9.0) return { scale: 1.0,  opacity: 1.0  };  // repères
+  if (score >= 8.3) return { scale: 0.72, opacity: 0.62 };  // villes
+  if (score >= 7.5) return { scale: 0.5,  opacity: 0.3  };  // villages
+  return               { scale: 0.4,  opacity: 0.16 };      // grain
+}
+
 function coreRadius(score) {
   const t = Math.max(0, Math.min(1, (score - 5.0) / 5.0));
-  return 0.018 + t * 0.052;
+  return (0.018 + t * 0.052) * tier(score).scale;
 }
 
 function haloRadii(score) {
@@ -100,24 +112,67 @@ function haloRadii(score) {
 function baseEmissive(score, dark) {
   // Light mode : émission légère pour garder l'aspect lumineux
   // sans les couleurs sombres qui donnaient l'effet "viral"
-  if (!dark) return 0.35 + (score - 5.0) * 0.08;
-  return 0.65 + (score - 5.0) * 0.18;
+  return 1.0; // aplat : le point est un signe, pas une bille éclairée
 }
 
+// ── Disque analytique ────────────────────────────────────────────
+// Un carré toujours tourné vers la caméra, dont le bord est calculé au pixel près :
+// le point est un cercle parfait à toute taille et sur tout écran, sans facettes.
+// inner > 0 en fait un anneau ; feather > 0 le fond en halo.
+const DISC_VERT = `varying vec2 vUv; uniform float uSize;
+  void main(){ vUv = position.xy;
+    vec4 mv = modelViewMatrix * vec4(0.0, 0.0, 0.0, 1.0);
+    mv.xy += position.xy * uSize;
+    gl_Position = projectionMatrix * mv; }`;
+const DISC_FRAG = `uniform vec3 uColor; uniform float uAlpha; uniform float uInner; uniform float uFeather;
+  varying vec2 vUv;
+  void main(){
+    float d = length(vUv);
+    float aa = max(fwidth(d), 0.0005);
+    float outer = 1.0 - smoothstep(1.0 - aa - uFeather, 1.0, d);
+    float ring = uInner > 0.0 ? smoothstep(uInner - aa, uInner, d) : 1.0;
+    float a = outer * ring * uAlpha;
+    if (a < 0.003) discard;
+    gl_FragColor = vec4(uColor, a);
+    #include <colorspace_fragment>
+  }`;
+
+const Disc = forwardRef(function Disc({ color, size = 1, alpha = 1, inner = 0, feather = 0, ...rest }, ref) {
+  const uniforms = useMemo(() => ({
+    uColor: { value: new THREE.Color() }, uSize: { value: size }, uAlpha: { value: alpha },
+    uInner: { value: inner }, uFeather: { value: feather },
+  }), []); // eslint-disable-line react-hooks/exhaustive-deps
+  uniforms.uColor.value.set(color);
+  uniforms.uInner.value = inner;
+  uniforms.uFeather.value = feather;
+  return (
+    <mesh ref={ref} raycast={() => null} {...rest}>
+      <planeGeometry args={[2, 2]} />
+      <shaderMaterial uniforms={uniforms} vertexShader={DISC_VERT} fragmentShader={DISC_FRAG}
+        transparent depthWrite={false} toneMapped={false} />
+    </mesh>
+  );
+});
+
 export default function WorkPoint({
-  work, selected, hovered, distanceFactor = 0.5,
-  dark = true, onHover, onSelect,
+  work, selected, hovered, dim = false, distanceFactor = 0.5,
+  dark = true, accent = null, onHover, onSelect,
 }) {
   const groupRef = useRef();
   const coreRef  = useRef();
   const halo1Ref = useRef();
-  const halo2Ref = useRef();
-  const halo3Ref = useRef();
+  const ringRef  = useRef();
+  const fade     = useRef(1);      // apparition en fondu, jamais d'un coup
+  const focus    = useRef(1);      // mise au point : les autres reculent quand on regarde un point
+  const grow     = useRef(1);      // échelle au survol, amortie
 
   const isActive = selected || hovered;
+  const ink = dark ? INK_DARK : INK_LIGHT;
+  // L'œuvre choisie prend la couleur du fond : un trou dans le globe
+  const ACCENT = useMemo(() => (selected && accent ? new THREE.Color(accent) : ink), [selected, accent, ink]);
   useCursor(hovered);
 
-  const { pos, color, haloColor, score, cr, hr, lod, ageFactor } = useMemo(() => {
+  const { pos, color, haloColor, score, cr, hr, lod, ageFactor, tr } = useMemo(() => {
     const biome    = work.biome || work.regime || "structural";
     const sc       = Number(work.score) || 7.0;
     const palette  = dark ? BIOME_COLOR_DARK  : BIOME_COLOR_LIGHT;
@@ -164,120 +219,61 @@ export default function WorkPoint({
       cr:        coreRadius(sc),
       hr:        haloRadii(sc),
       lod:       lodThreshold(sc, work.year),
+      tr:        tier(sc),
       ageFactor: af,
     };
   }, [work, dark]);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
     if (!groupRef.current) return;
-    const shouldShow = distanceFactor <= lod;
-    if (groupRef.current.visible !== shouldShow) groupRef.current.visible = shouldShow;
-    if (!shouldShow) return;
+    const shown = selected || distanceFactor <= lod;        // une œuvre choisie reste toujours visible
+    fade.current = THREE.MathUtils.damp(fade.current, shown ? 1 : 0, 9, delta);
+    const vis = fade.current > 0.01;
+    if (groupRef.current.visible !== vis) groupRef.current.visible = vis;
+    if (!vis) return;
 
     const t  = clock.elapsedTime;
     const ph = work.phi ?? 0;
-    const em = baseEmissive(score, dark);
+    const f  = fade.current;
 
+    focus.current = THREE.MathUtils.damp(focus.current, dim && !selected ? 0.22 : 1, 10, delta);
+    grow.current = THREE.MathUtils.damp(grow.current, isActive ? Math.max(1.5, 0.045 / cr) : 1, 14, delta);
     if (coreRef.current) {
-      const amp   = 0.016 + (score - 5) * 0.003;
-      const pulse = 1 + Math.sin(t * 0.85 + ph * 2.5) * amp;
-      coreRef.current.scale.setScalar(isActive ? pulse * 1.18 : pulse);
-      coreRef.current.material.emissiveIntensity =
-        isActive ? em * 1.8 : em + Math.sin(t * 0.55 + ph) * 0.3;
+      const u = coreRef.current.material.uniforms;
+      u.uSize.value  = cr * grow.current;
+      u.uAlpha.value = f * focus.current * (isActive ? 1 : tr.opacity);
     }
-
-    // Halo 1 — soft edge, opacité faible = bords fondus
     if (halo1Ref.current) {
-      const p  = 1 + Math.sin(t * 0.38 + ph) * 0.10;
-      // Opacité intentionnellement faible pour l'effet "soft"
-      const op = dark
-        ? 0.04 + (score - 5) * 0.008
-        : 0.06 + (score - 5) * 0.010;
-      halo1Ref.current.scale.setScalar(isActive ? p * 1.5 : p);
-      halo1Ref.current.material.opacity = isActive ? op * 2.8 : op;
+      const u = halo1Ref.current.material.uniforms;
+      u.uSize.value  = hr.h1 * 1.5 * (1 + Math.sin(t * 0.38 + ph) * 0.08);
+      u.uAlpha.value = f * 0.2;
     }
-
-    if (halo2Ref.current) {
-      const p  = 1 + Math.sin(t * 0.24 + ph + 1.2) * 0.14;
-      const op = dark ? 0.022 : 0.032;
-      halo2Ref.current.scale.setScalar(isActive ? p * 1.6 : p);
-      halo2Ref.current.material.opacity = Math.max(0, isActive ? op * 2.2 : op);
-    }
-
-    if (halo3Ref.current) {
-      const p = 1 + Math.sin(t * 0.16 + ph + 2.4) * 0.18;
-      halo3Ref.current.scale.setScalar(isActive ? p * 1.8 : p);
-      halo3Ref.current.material.opacity = isActive ? 0.055 : 0.012;
+    if (ringRef.current) {
+      const u = ringRef.current.material.uniforms;
+      u.uSize.value  = hr.h1 * 1.4;
+      u.uAlpha.value = f * 0.65;
     }
   });
 
+  const HIT = Math.max(cr * 1.8, 0.05);     // zone de survol généreuse, indépendante du dessin
   return (
     <group ref={groupRef} position={pos}>
+      {isActive && <Disc ref={halo1Ref} color={ACCENT} feather={1} alpha={0} />}
 
-      {/* Halo 3 — aura très large, très transparente (capitales) */}
-      {hr.h3 > 0 && (
-        <mesh ref={halo3Ref} raycast={() => null}>
-          <sphereGeometry args={[hr.h3, 8, 8]} />
-          <meshBasicMaterial
-            color={haloColor} transparent opacity={0.012} depthWrite={false}
-          />
-        </mesh>
-      )}
+      {/* Le point : un disque net, au bord calculé au pixel */}
+      <Disc ref={coreRef} color={isActive ? ACCENT : ink} size={cr} alpha={0} />
 
-      {/* Halo 2 — zone d'influence */}
-      {hr.h2 > 0 && (
-        <mesh ref={halo2Ref} raycast={() => null}>
-          <sphereGeometry args={[hr.h2, 10, 10]} />
-          <meshBasicMaterial
-            color={haloColor} transparent opacity={0.022} depthWrite={false}
-          />
-        </mesh>
-      )}
-
-      {/* Halo 1 — soft edge immédiat
-          Clé : couleur PLUS CLAIRE que le core (haloColor),
-          opacité faible, légèrement plus grand que le core.
-          Effet : le bord du point paraît flou / fondu. */}
-      <mesh ref={halo1Ref} raycast={() => null}>
-        <sphereGeometry args={[hr.h1, 12, 12]} />
-        <meshBasicMaterial
-          color={haloColor}
-          transparent
-          opacity={dark ? 0.04 + (score-5)*0.008 : 0.06 + (score-5)*0.010}
-          depthWrite={false}
-        />
-      </mesh>
-
-      {/* Core — l'œuvre elle-même
-          Light mode : roughness bas + émission légère = bille lumineuse
-          (pas de roughness élevé qui donnait l'effet "pustule") */}
+      {/* Surface de survol invisible */}
       <mesh
-        ref={coreRef}
         onPointerOver={e => { e.stopPropagation(); onHover?.(work); }}
         onPointerOut={e  => { e.stopPropagation(); onHover?.(null); }}
         onClick={e       => { e.stopPropagation(); onSelect?.(work); }}
       >
-        <sphereGeometry args={[cr, 18, 18]} />
-        <meshStandardMaterial
-          color={color}
-          emissive={color}
-          emissiveIntensity={baseEmissive(score, dark)}
-          roughness={0.15}
-          metalness={0.05}
-          toneMapped={false}
-        />
+        <sphereGeometry args={[HIT, 8, 8]} />
+        <meshBasicMaterial visible={false} />
       </mesh>
 
-      {/* Anneau de sélection */}
-      {selected && (
-        <mesh rotation={[Math.PI / 2, 0, 0]} raycast={() => null}>
-          <ringGeometry args={[hr.h1 * 1.1, hr.h1 * 1.4, 32]} />
-          <meshBasicMaterial
-            color={haloColor} transparent opacity={0.65}
-            side={THREE.DoubleSide} depthWrite={false}
-          />
-        </mesh>
-      )}
+      {selected && <Disc ref={ringRef} color={ACCENT} inner={0.74} alpha={0} />}
     </group>
   );
 }

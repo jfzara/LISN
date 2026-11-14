@@ -4,7 +4,7 @@ const COPY = {
   fr: {
     title:       "Comment lire la carte",
     subtitle:    "Guide LISN",
-    close:       "FERMER",
+    close:       "Fermer",
     intro: [
       {
         head: "L'insaisissable dans la musique — LISN en trace la carte.",
@@ -83,8 +83,8 @@ const COPY = {
         body: "Un score structurel élevé avec worldview vide est fascinant en soi. Ça dit quelque chose sur ce qu'est la structure quand elle est détachée d'un sujet — une architecture sans habitant. Ce n'est pas un défaut. Ce n'est pas une absolution. C'est une coordonnée.",
       },
       {
-        head: "Ce qui vous appartient, c'est l'écoute.",
-        body: "LISN ne tranche pas si une œuvre IA mérite votre attention. Il vous donne les outils pour trancher vous-même — structure, worldview, densité. La question de la connexion humaine, elle, vous revient entièrement.",
+        head: "Ce qui t'appartient, c'est l'écoute.",
+        body: "LISN ne tranche pas si une œuvre IA mérite ton attention. Il te donne les outils pour trancher toi-même — structure, worldview, densité. La question de la connexion humaine, elle, vous revient entièrement.",
       },
     ],
     biomesTitle: "Les zones de la carte",
@@ -155,7 +155,7 @@ const COPY = {
   en: {
     title:    "How to read the map",
     subtitle: "LISN Guide",
-    close:    "CLOSE",
+    close:    "Close",
     intro: [
       {
         head: "LISN. Mapping the ungraspable in music.",
@@ -305,25 +305,25 @@ const COPY = {
 };
 
 const BIOME_COLOR = {
-  dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
-  narrative:"#FF9A4D", hybrid:"#C07AE8",
+  dense:"#8c8c8c", atmospheric:"#8c8c8c", structural:"#8c8c8c",
+  narrative:"#8c8c8c", hybrid:"#8c8c8c",
 };
 
 export default function HelpPanel({ dark, onClose, lang = "fr" }) {
   const C  = COPY[lang] || COPY.fr;
-  const bg    = dark ? "rgba(5,4,3,0.98)"      : "rgba(237,230,220,0.98)";
-  const text  = dark ? "#f2ead8"               : "#120e0a";
-  const muted = dark ? "#9c8e7e"               : "#5c5048";
-  const bord  = dark ? "rgba(242,234,216,0.12)": "rgba(18,14,10,0.14)";
-  const sep   = dark ? "rgba(242,234,216,0.07)": "rgba(18,14,10,0.07)";
+  const bg    = dark ? "#000000"      : "#ffffff";
+  const text  = dark ? "#ffffff"               : "#000000";
+  const muted = dark ? "rgba(255,255,255,0.62)"               : "rgba(0,0,0,0.58)";
+  const bord  = dark ? "rgba(255,255,255,0.12)": "rgba(0,0,0,0.14)";
+  const sep   = dark ? "rgba(255,255,255,0.07)": "rgba(0,0,0,0.07)";
 
   function Section({ title, children }) {
     return (
       <div style={{ marginTop:28 }}>
         {title && (
           <div style={{
-            fontSize:12, letterSpacing:"0.14em", textTransform:"uppercase",
-            color:muted, fontFamily:"'DM Mono',monospace",
+            fontSize:12, letterSpacing:"0.005em", textTransform:"none",
+            color:muted, fontFamily:"var(--font-ui)",
             paddingBottom:10, borderBottom:`1px solid ${sep}`, marginBottom:14,
           }}>
             {title}
@@ -356,7 +356,7 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
     <div style={{
       position:"fixed", inset:0, zIndex:100,
       background:bg, overflowY:"auto",
-      fontFamily:"'Libre Baskerville', Georgia, serif",
+      fontFamily:"var(--font-ui)",
       color:text,
     }}>
 
@@ -369,18 +369,18 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
         display:"flex", justifyContent:"space-between", alignItems:"center",
       }}>
         <div>
-          <div style={{ fontSize:17, fontStyle:"italic", letterSpacing:"-0.02em" }}>
+          <div style={{ fontSize:17, fontStyle:"normal", letterSpacing:"-0.02em" }}>
             {C.title}
           </div>
-          <div style={{ fontSize:11, color:muted, fontFamily:"'DM Mono',monospace",
-            letterSpacing:"0.16em", textTransform:"uppercase", marginTop:3 }}>
+          <div style={{ fontSize:11, color:muted, fontFamily:"var(--font-ui)",
+            letterSpacing:"0.005em", textTransform:"none", marginTop:3 }}>
             {C.subtitle}
           </div>
         </div>
         <button onClick={onClose} style={{
           background:"none", border:`1px solid ${bord}`, color:muted,
-          fontSize:11, padding:"5px 10px", cursor:"pointer", borderRadius:1,
-          fontFamily:"'DM Mono',monospace", letterSpacing:"0.14em",
+          fontSize:11, padding:"5px 10px", cursor:"pointer", borderRadius:0,
+          fontFamily:"var(--font-ui)", letterSpacing:"0.005em",
         }}>
           {C.close}
         </button>
@@ -426,8 +426,8 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
               paddingLeft:12,
             }}>
               <div style={{ fontSize:12, fontWeight:500, color:BIOME_COLOR[b.key],
-                marginBottom:4, fontFamily:"'DM Mono',monospace",
-                letterSpacing:"0.10em", textTransform:"uppercase" }}>
+                marginBottom:4, fontFamily:"var(--font-ui)",
+                letterSpacing:"0.005em", textTransform:"none" }}>
                 {b.name}
               </div>
               <div style={{ fontSize:13, lineHeight:1.75, color:muted }}>
@@ -459,8 +459,8 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
               }} />
               <div>
                 <div style={{ fontSize:12, fontWeight:500, color:text,
-                  marginBottom:3, fontFamily:"'DM Mono',monospace",
-                  letterSpacing:"0.08em", textTransform:"uppercase" }}>
+                  marginBottom:3, fontFamily:"var(--font-ui)",
+                  letterSpacing:"0.005em", textTransform:"none" }}>
                   {r.name}
                 </div>
                 <div style={{ fontSize:13, lineHeight:1.75, color:muted }}>
@@ -481,8 +481,8 @@ export default function HelpPanel({ dark, onClose, lang = "fr" }) {
           marginTop:40, paddingTop:20,
           borderTop:`1px solid ${sep}`,
           fontSize:12, color:muted,
-          fontFamily:"'DM Mono',monospace",
-          letterSpacing:"0.10em", lineHeight:1.8,
+          fontFamily:"var(--font-ui)",
+          letterSpacing:"0.005em", lineHeight:1.8,
         }}>
           {C.footer}
         </div>

@@ -10,26 +10,26 @@ import { worksSeed } from "@/data/worksSeed";
 // ── Thème ──────────────────────────────────────────────────────────
 const THEME = {
   dark: {
-    bg: "#040302", text: "#e8dfc8", muted: "rgba(232,223,200,0.45)",
-    border: "rgba(232,223,200,0.12)", navBg: "rgba(4,3,2,0.75)",
-    cardBg: "rgba(4,3,2,0.93)", pill: "rgba(232,223,200,0.07)",
-    track: "rgba(232,223,200,0.08)",
+    bg: "#040302", text: "#ffffff", muted: "rgba(255,255,255,0.45)",
+    border: "rgba(255,255,255,0.12)", navBg: "rgba(4,3,2,0.75)",
+    cardBg: "rgba(4,3,2,0.93)", pill: "rgba(255,255,255,0.07)",
+    track: "rgba(255,255,255,0.08)",
   },
   light: {
-    bg: "#e4ddd4", text: "#1a1410", muted: "rgba(26,20,16,0.45)",
-    border: "rgba(26,20,16,0.14)", navBg: "rgba(228,221,212,0.82)",
-    cardBg: "rgba(228,221,212,0.95)", pill: "rgba(26,20,16,0.06)",
-    track: "rgba(26,20,16,0.08)",
+    bg: "#e4ddd4", text: "#000000", muted: "rgba(0,0,0,0.45)",
+    border: "rgba(0,0,0,0.14)", navBg: "rgba(228,221,212,0.82)",
+    cardBg: "rgba(228,221,212,0.95)", pill: "rgba(0,0,0,0.06)",
+    track: "rgba(0,0,0,0.08)",
   },
 };
 
 const BIOME_META = {
   all:         { label: "Tout",    color: null },
-  dense:       { label: "Dense",   color: "#FF6B2F" },
-  atmospheric: { label: "Atmos",   color: "#4ABFFF" },
-  structural:  { label: "Struct",  color: "#E8C97A" },
-  narrative:   { label: "Récit",   color: "#FF9A4D" },
-  hybrid:      { label: "Hybride", color: "#C07AE8" },
+  dense:       { label: "Dense",   color: "#8c8c8c" },
+  atmospheric: { label: "Atmos",   color: "#ffffff" },
+  structural:  { label: "Struct",  color: "#ffffff" },
+  narrative:   { label: "Récit",   color: "#ffffff" },
+  hybrid:      { label: "Hybride", color: "#ffffff" },
 };
 
 // Décennies disponibles dans le seed
@@ -54,9 +54,9 @@ function Slider({ label, value, min, max, step = 0.5, onChange, T, fmt }) {
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:3, minWidth:100 }}>
       <div style={{ display:"flex", justifyContent:"space-between" }}>
-        <span style={{ fontSize:9, letterSpacing:"0.13em", textTransform:"uppercase",
-          color: T.muted, fontFamily:"'DM Mono',monospace" }}>{label}</span>
-        <span style={{ fontSize:9, color: T.muted, fontFamily:"'DM Mono',monospace" }}>
+        <span style={{ fontSize:9, letterSpacing:"0.005em", textTransform:"none",
+          color: T.muted, fontFamily:"var(--font-ui)" }}>{label}</span>
+        <span style={{ fontSize:9, color: T.muted, fontFamily:"var(--font-ui)" }}>
           {fmt ? fmt(value) : value}
         </span>
       </div>
@@ -85,20 +85,20 @@ function Onboarding({ dark, onChoose }) {
     <div style={{
       position:"fixed", inset:0, zIndex:100,
       display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
-      background: bg, fontFamily:"'Libre Baskerville', Georgia, serif",
+      background: bg, fontFamily:"var(--font-ui)",
     }}>
       <div style={{ marginBottom:44, textAlign:"center" }}>
-        <div style={{ fontSize:52, fontStyle:"italic", letterSpacing:"-0.04em",
+        <div style={{ fontSize:52, fontStyle:"normal", letterSpacing:"-0.04em",
           color: T.text, lineHeight:1 }}>lisn</div>
-        <div style={{ fontSize:9, letterSpacing:"0.28em", color: T.muted,
-          fontFamily:"'DM Mono',monospace", marginTop:8, textTransform:"uppercase" }}>
+        <div style={{ fontSize:9, letterSpacing:"0.005em", color: T.muted,
+          fontFamily:"var(--font-ui)", marginTop:8, textTransform:"none" }}>
           atlas des formes musicales
         </div>
       </div>
       <div style={{ display:"flex", flexDirection:"column", gap:8, width:"min(320px,88vw)" }}>
         {choices.map(c => (
           <button key={c.key} onClick={() => onChoose(c.key)} style={{
-            background:"none", border:`1px solid ${T.border}`, borderRadius:1,
+            background:"none", border:`1px solid ${T.border}`, borderRadius:0,
             padding:"13px 16px", cursor:"pointer", textAlign:"left",
             display:"flex", alignItems:"center", gap:14, color: T.text,
             transition:"border-color 0.15s, background 0.15s",
@@ -110,13 +110,13 @@ function Onboarding({ dark, onChoose }) {
             <div>
               <div style={{ fontSize:13 }}>{c.label}</div>
               <div style={{ fontSize:10, color: T.muted, marginTop:2,
-                fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>{c.desc}</div>
+                fontFamily:"var(--font-ui)", letterSpacing:"0.005em" }}>{c.desc}</div>
             </div>
           </button>
         ))}
       </div>
-      <div style={{ marginTop:44, fontSize:9, letterSpacing:"0.14em", color: T.muted,
-        fontFamily:"'DM Mono',monospace", textTransform:"uppercase" }}>
+      <div style={{ marginTop:44, fontSize:9, letterSpacing:"0.005em", color: T.muted,
+        fontFamily:"var(--font-ui)", textTransform:"none" }}>
         But you can still like what you like.
       </div>
     </div>
@@ -298,16 +298,16 @@ export default function HomePage() {
             background: BIOME_META[voyageCurrent.biome||voyageCurrent.regime]?.color || T.text,
             animation:"pulse 1.5s infinite" }} />
           <div>
-            <div style={{ fontSize:9, color: T.muted, letterSpacing:"0.12em",
-              textTransform:"uppercase", fontFamily:"'DM Mono',monospace" }}>En voyage</div>
-            <div style={{ fontSize:11, color: T.text, fontStyle:"italic" }}>
+            <div style={{ fontSize:9, color: T.muted, letterSpacing:"0.005em",
+              textTransform:"none", fontFamily:"var(--font-ui)" }}>En voyage</div>
+            <div style={{ fontSize:11, color: T.text, fontStyle:"normal" }}>
               {voyageCurrent.title}
             </div>
           </div>
           <button onClick={stopVoyage} style={{
             background:"none", border:`1px solid ${T.border}`, color: T.muted,
-            fontSize:9, padding:"3px 6px", cursor:"pointer", borderRadius:1,
-            letterSpacing:"0.12em", fontFamily:"'DM Mono',monospace",
+            fontSize:9, padding:"3px 6px", cursor:"pointer", borderRadius:0,
+            letterSpacing:"0.005em", fontFamily:"var(--font-ui)",
           }}>STOP</button>
         </div>
       )}
@@ -418,18 +418,18 @@ export default function HomePage() {
             <span style={{ ...S.hoverDot, background: BIOME_META[hoveredWork.biome||hoveredWork.regime].color }} />
           )}
           <div style={{ flex:1, minWidth:0 }}>
-            <div style={{ fontSize:13, fontStyle:"italic", color: T.text,
+            <div style={{ fontSize:13, fontStyle:"normal", color: T.text,
               overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
               {hoveredWork.title}
             </div>
             <div style={{ fontSize:10, color: T.muted, marginTop:2,
-              fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>
+              fontFamily:"var(--font-ui)", letterSpacing:"0.005em" }}>
               {hoveredWork.artist}
               {hoveredWork.year && <span style={{ marginLeft:6, opacity:0.6 }}>{hoveredWork.year}</span>}
             </div>
           </div>
           {hoveredWork.score && (
-            <span style={{ fontSize:11, color: T.muted, fontFamily:"'DM Mono',monospace", flexShrink:0 }}>
+            <span style={{ fontSize:11, color: T.muted, fontFamily:"var(--font-ui)", flexShrink:0 }}>
               {Number(hoveredWork.score).toFixed(1)}
             </span>
           )}
@@ -440,24 +440,24 @@ export default function HomePage() {
       {compareMode && !compareA && (
         <div style={{ ...S.hoverCard, background: T.cardBg, borderColor: T.border,
           pointerEvents:"none" }}>
-          <span style={{ fontSize:10, color: T.muted, fontFamily:"'DM Mono',monospace",
+          <span style={{ fontSize:10, color: T.muted, fontFamily:"var(--font-ui)",
             letterSpacing:"0.1em" }}>Cliquez une première œuvre sur le globe</span>
         </div>
       )}
       {compareMode && compareA && !compareB && (
         <div style={{ ...S.hoverCard, background: T.cardBg, borderColor: T.border,
           pointerEvents:"none" }}>
-          <span style={{ fontSize:10, color: T.muted, fontFamily:"'DM Mono',monospace",
+          <span style={{ fontSize:10, color: T.muted, fontFamily:"var(--font-ui)",
             letterSpacing:"0.1em" }}>Cliquez une deuxième œuvre à comparer</span>
         </div>
       )}
 
       {/* Wordmark */}
       <div style={S.wordmark}>
-        <span style={{ display:"block", fontSize:20, fontStyle:"italic",
+        <span style={{ display:"block", fontSize:20, fontStyle:"normal",
           letterSpacing:"-0.04em", color: T.text, lineHeight:1 }}>lisn</span>
-        <span style={{ display:"block", fontSize:8, letterSpacing:"0.22em",
-          color: T.muted, fontFamily:"'DM Mono',monospace", marginTop:3 }}>
+        <span style={{ display:"block", fontSize:8, letterSpacing:"0.005em",
+          color: T.muted, fontFamily:"var(--font-ui)", marginTop:3 }}>
           {modeLabel} · {filteredWorks.length}
         </span>
       </div>
@@ -484,36 +484,36 @@ export default function HomePage() {
 
 const S = {
   page:    { width:"100vw", height:"100vh", position:"relative", overflow:"hidden",
-             fontFamily:"'Libre Baskerville', Georgia, serif" },
+             fontFamily:"var(--font-ui)" },
   stage:   { position:"absolute", inset:0 },
   nav: {
     position:"absolute", bottom:18, left:"50%", transform:"translateX(-50%)",
     zIndex:20, display:"flex", alignItems:"center", gap:3,
-    padding:"6px 10px", borderRadius:2, border:"1px solid",
-    backdropFilter:"blur(18px)", WebkitBackdropFilter:"blur(18px)",
+    padding:"6px 10px", borderRadius:0, border:"1px solid",
+    backdropFilter:"none", WebkitBackdropFilter:"none",
     maxWidth:"calc(100vw - 24px)", overflowX:"auto",
   },
   navGroup: { display:"flex", alignItems:"center", gap:2, flexShrink:0 },
   navBtn: {
-    background:"none", border:"1px solid", borderRadius:1,
-    fontSize:10, letterSpacing:"0.12em", padding:"5px 7px",
+    background:"none", border:"1px solid", borderRadius:0,
+    fontSize:10, letterSpacing:"0.005em", padding:"5px 7px",
     cursor:"pointer", display:"flex", alignItems:"center", gap:4,
-    fontFamily:"'DM Mono','Courier New',monospace", textTransform:"uppercase",
+    fontFamily:"var(--font-ui)", textTransform:"none",
     transition:"all 0.12s", whiteSpace:"nowrap", flexShrink:0,
   },
   dot:  { width:5, height:5, borderRadius:"50%", flexShrink:0 },
   hoverCard: {
     position:"absolute", bottom:72, left:"50%", transform:"translateX(-50%)",
-    border:"1px solid", borderRadius:1, padding:"9px 14px",
-    pointerEvents:"none", backdropFilter:"blur(12px)",
+    border:"1px solid", borderRadius:0, padding:"9px 14px",
+    pointerEvents:"none", backdropFilter:"none",
     display:"flex", alignItems:"center", gap:10, minWidth:180, maxWidth:300,
   },
   hoverDot: { width:7, height:7, borderRadius:"50%", flexShrink:0 },
   voyageIndicator: {
     position:"absolute", top:18, right:20, zIndex:30,
     display:"flex", alignItems:"center", gap:8,
-    padding:"8px 12px", borderRadius:1, border:"1px solid",
-    backdropFilter:"blur(12px)", fontFamily:"'DM Mono',monospace",
+    padding:"8px 12px", borderRadius:0, border:"1px solid",
+    backdropFilter:"none", fontFamily:"var(--font-ui)",
   },
   wordmark: { position:"absolute", top:18, left:20, zIndex:10 },
 };

@@ -6,9 +6,9 @@ export default function GlobeAtmosphere({ dark = true }) {
       <mesh position={[0, 0, 0]}>
         <sphereGeometry args={[0.98, 128, 128]} />
         <meshStandardMaterial
-          color={dark ? "#8aa0ff" : "#ffffff"}
+          color="#ffffff"
           transparent
-          opacity={dark ? 0.05 : 0.12}
+          opacity={0}
           roughness={1}
           metalness={0}
         />
@@ -17,9 +17,9 @@ export default function GlobeAtmosphere({ dark = true }) {
       <mesh position={[0, 0, 0]}>
         <sphereGeometry args={[1.04, 128, 128]} />
         <meshStandardMaterial
-          color={dark ? "#5c6cff" : "#f8f0e6"}
+          color="#ffffff"
           transparent
-          opacity={dark ? 0.03 : 0.08}
+          opacity={0}
           roughness={1}
           metalness={0}
         />

@@ -1,4 +1,6 @@
 "use client";
+import { contrastOn } from "../lib/lisn/tint";
+import { useCover } from "../lib/lisn/useCover";
 
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 
@@ -6,7 +8,7 @@ const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 import GlobeScene    from "@/components/globe/GlobeScene";
 import WorkPanel     from "@/components/globe/WorkPanel";
 import SearchBar     from "@/components/globe/SearchBar";
-import ComparePanel  from "@/components/globe/ComparePanel";
+import ComparePanel, { computeDistance, distanceLabel } from "@/components/globe/ComparePanel";
 import AnalysisModal from "@/components/globe/AnalysisModal";
 import DiscussModal  from "@/components/globe/DiscussModal";
 import { worksSeed } from "@/data/worksSeed";
@@ -14,70 +16,61 @@ import GestureHint from "@/components/globe/GestureHint";
 import HelpPanel   from "@/components/globe/HelpPanel";
 
 // ── Thème ──────────────────────────────────────────────────────────
+const ACCENT = "#8c8c8c";   // rouge signal — réservé à l'œuvre choisie et à l'action principale
 const THEME = {
+  // Au repos : fond blanc, globe noir, points blancs. Le fond prend ensuite la couleur de l'œuvre.
   dark: {
-    // Fond quasi-noir, texte crème lumineux, muted lisible
-    bg:      "#050403",
-    text:    "#f2ead8",           // crème plus clair — contraste 17:1
-    muted:   "#9c8e7e",           // warm grey — contraste 6.4:1 (était 3.7)
-    border:  "rgba(242,234,216,0.14)",
-    navBg:   "rgba(5,4,3,0.82)",  // plus opaque = meilleure lisibilité
-    cardBg:  "rgba(5,4,3,0.96)",
-    pill:    "rgba(242,234,216,0.08)",
-    track:   "rgba(242,234,216,0.09)",
+    bg:"#ffffff", text:"#ffffff", muted:"rgba(255,255,255,0.68)",
+    border:"rgba(255,255,255,0.3)", navBg:"#000000", cardBg:"#000000",
+    pill:"rgba(255,255,255,0.16)", track:"rgba(255,255,255,0.14)",
   },
+  // Inversé : fond noir, globe blanc, points noirs
   light: {
-    // Fond ivoire chaud, texte encre sombre, muted lisible
-    bg:      "#ede6dc",           // légèrement plus chaud
-    text:    "#120e0a",           // quasi-noir chaud — contraste 15.5:1
-    muted:   "#5c5048",           // brun moyen — contraste 6.3:1 (était 3.5)
-    border:  "rgba(18,14,10,0.16)",
-    navBg:   "rgba(237,230,220,0.86)",
-    cardBg:  "rgba(237,230,220,0.97)",
-    pill:    "rgba(18,14,10,0.07)",
-    track:   "rgba(18,14,10,0.09)",
+    bg:"#000000", text:"#000000", muted:"rgba(0,0,0,0.58)",
+    border:"rgba(0,0,0,0.22)", navBg:"#ffffff", cardBg:"#ffffff",
+    pill:"rgba(0,0,0,0.08)", track:"rgba(0,0,0,0.1)",
   },
 };
 
 const BIOME_META = {
   all:         { fr: "Tout",    en: "All",    color: null },
-  dense:       { fr: "Dense",   en: "Dense",  color: "#FF6B2F" },
-  atmospheric: { fr: "Atmos",   en: "Atmos",  color: "#4ABFFF" },
-  structural:  { fr: "Struct",  en: "Struct", color: "#E8C97A" },
-  narrative:   { fr: "Récit",   en: "Story",  color: "#FF9A4D" },
-  hybrid:      { fr: "Hybride", en: "Hybrid", color: "#C07AE8" },
+  dense:       { fr: "Dense",   en: "Dense",  color: "#8c8c8c" },
+  atmospheric: { fr: "Atmosphérique", en: "Atmospheric",  color: "#ffffff" },
+  structural:  { fr: "Structurel", en: "Structural", color: "#ffffff" },
+  narrative:   { fr: "Récit",   en: "Story",  color: "#ffffff" },
+  hybrid:      { fr: "Hybride", en: "Hybrid", color: "#ffffff" },
 };
 
 // Textes UI bilingues — tout ici, rien en dur ailleurs
 const UI = {
   fr: {
-    modeLabels: { compare:"comparer", voyage:"voyage", mountains:"montagnes", frontier:"frontières", globe:"globe" },
+    modeLabels: { compare:"en comparaison", voyage:"en voyage", mountains:"les sommets", frontier:"ailleurs", globe:"tout" },
     nav: { random:"◎", voyage:"▷", voyageStop:"◼", compare:"⊕", reset:"↺", filters:"≡", guide:"Guide", lang:"EN" },
-    navLabels: { random:"Hasard", voyage:"Voyage", filters:"Filtres", compare:"Comp.", theme:"Thème", guide:"Guide" },
-    themeLabel: (dark) => dark ? "Clair" : "Sombre",
+    navLabels: { random:"Surprise", voyage:"Voyage", filters:"Filtres", compare:"Comparer", theme:"Thème", guide:"Guide" },
+    themeLabel: () => "Inverser",
     voyageIndicator: "En voyage",
-    filterTitle: "Biome",
+    filterTitle: "Zone",
     filterScore: (min, max) => `Intensité — ${min.toFixed(1)} → ${max.toFixed(1)}`,
     filterEra: "Époque",
     filterSearch: "Recherche",
-    filterReset: "↺ Réinitialiser",
+    filterReset: "Réinitialiser",
     filterRole: "Rôle",
-    roles: { all:"Tous", capital:"Capitales", city:"Villes", village:"Villages", bridge:"Ponts", island:"Îles", hamlet:"Hameaux" },
+    roles: { all:"Tous", capital:"Capitales", city:"Villes", village:"Villages", hamlet:"Hameaux", bridge:"Ponts", satellite:"Satellites" },
     onboarding: {
-      tagline: "atlas des formes musicales",
+      tagline: "Une carte des formes musicales. Je te fais visiter ?",
       choices: [
-        { key:"random",    icon:"◉", label:"Je tourne en rond",             desc:"Emmène-moi quelque part que je ne connais pas" },
-        { key:"mountains", icon:"△", label:"Je veux ce qui compte vraiment", desc:"Les œuvres structurellement les plus fortes" },
-        { key:"frontier",  icon:"◇", label:"Je veux sortir de ma zone",      desc:"Explorer des territoires inconnus" },
-        { key:"free",      icon:"○", label:"Je sais déjà ce que je cherche", desc:"Navigation libre sur la carte" },
+        { key:"random",    icon:"◉", label:"Surprends-moi",                 desc:"Je choisis. Fais-moi confiance." },
+        { key:"mountains", icon:"△", label:"Les sommets",                   desc:"Ce qui tient debout. Structurellement." },
+        { key:"frontier",  icon:"◇", label:"Ailleurs",                      desc:"Loin de tes habitudes. C'est un peu le but." },
+        { key:"free",      icon:"○", label:"Je sais ce que je cherche",     desc:"Parfait. La carte est à toi." },
       ],
       helpLink: "Comment ça marche ? →",
       skip: "Passer →",
     },
     hover: { year: "" },
-    compare: { instruction1: "Cliquez une première œuvre sur le globe", instruction2: "Cliquez une deuxième œuvre à comparer" },
-    workPanel: { exploreAround:"Explorer autour", trajectory:"Trajectoire de l'artiste", voyage:"Voyager depuis ici", voyageStop:"Arrêter le voyage", analyse:"Analyser dans LISN →", tabFiche:"Fiche", tabAround:"Autour", tabTrajectory:"Trajectoire", emptyHint:"Survolez une présence lumineuse,\ncliquez pour ouvrir sa fiche.", autourEmpty:"Cliquez l'onglet Autour sur la fiche pour voir les œuvres proches.", trajectoryEmpty:"Cliquez l'onglet Trajectoire pour voir l'évolution de l'artiste." },
-    roles: { capital:"Capitale — œuvre fondatrice", city:"Ville — œuvre majeure", village:"Village — œuvre solide", bridge:"Pont — œuvre de transition", island:"Île — œuvre isolée, singulière", hamlet:"Hameau — œuvre mineure ou niche" },
+    compare: { instruction1: "Choisis une première œuvre", instruction2: "Et maintenant, son adversaire" },
+    workPanel: { exploreAround:"Explorer autour", trajectory:"Trajectoire de l'artiste", voyage:"Voyager depuis ici", voyageStop:"Arrêter le voyage", analyse:"Analyser dans LISN →", tabFiche:"Fiche", tabAround:"Autour", tabTrajectory:"Trajectoire", emptyHint:"Survole un point.\nClique si ça t'intrigue.", autourEmpty:"Clique l'onglet Autour sur la fiche pour voir les œuvres proches.", trajectoryEmpty:"Clique l'onglet Trajectoire pour voir l'évolution de l'artiste." },
+    roles: { capital:"Capitales", city:"Villes", village:"Villages", bridge:"Ponts", island:"Îles", hamlet:"Hameaux" },
     entityTypes: { album:"Album", artist:"Artiste", track:"Morceau" },
     biomeLabels: { dense:"Dense", atmospheric:"Atmosphérique", structural:"Structurel", narrative:"Narratif", hybrid:"Hybride" },
     scoreLabel: "Score OSR",
@@ -86,30 +79,30 @@ const UI = {
     typeLabel: "Type",
     yearLabel: "Année",
     analysisModal: { badge:"Analyse LISN · Aperçu", scoreLabel:"Score OSR estimé", structureLabel:"Aperçu structurel", noticeHead:"Le verdict LISN complet", noticeBody:"L'analyse complète — verdict éditorial, scores dimensionnels, worldview — sera disponible dès que cette œuvre sera analysée.", noticeNote:"Ces données sont des estimations." },
-    comparePanel: { title:"Comparaison structurale", slotA:"A", slotB:"B", distLabel:"Distance structurale", instruction1:"Cliquez deux œuvres sur le globe pour les comparer.", instruction2:"Cliquez une deuxième œuvre pour comparer.", levels: { veryClose:"Très proches", close:"Proches", far:"Éloignées", veryFar:"Très éloignées", opposite:"Mondes opposés" } },
+    comparePanel: { title:"Comparaison structurale", slotA:"A", slotB:"B", distLabel:"Distance structurale", instruction1:"Clique deux œuvres sur le globe pour les comparer.", instruction2:"Clique une deuxième œuvre pour comparer.", levels: { veryClose:"Très proches", close:"Proches", far:"Éloignées", veryFar:"Très éloignées", opposite:"Mondes opposés" } },
     audio: { loading:"Recherche sur YouTube…", notFound:"Non trouvé", reduce:"▾ Réduire", listen:"▸ Écouter", listenYT:"▸ Écouter sur YouTube" },
     gestureHints: [{ icon:"pinch", label:"Pince pour zoomer" }, { icon:"rotate", label:"Glisse pour tourner" }],
   },
   en: {
-    modeLabels: { compare:"compare", voyage:"journey", mountains:"peaks", frontier:"frontier", globe:"globe" },
+    modeLabels: { compare:"comparing", voyage:"on a journey", mountains:"the peaks", frontier:"elsewhere", globe:"everything" },
     nav: { random:"◎", voyage:"▷", voyageStop:"◼", compare:"⊕", reset:"↺", filters:"≡", guide:"Guide", lang:"FR" },
-    navLabels: { random:"Random", voyage:"Voyage", filters:"Filters", compare:"Comp.", theme:"Theme", guide:"Guide" },
-    themeLabel: (dark) => dark ? "Light" : "Dark",
+    navLabels: { random:"Surprise", voyage:"Journey", filters:"Filters", compare:"Compare", theme:"Theme", guide:"Guide" },
+    themeLabel: () => "Invert",
     voyageIndicator: "Voyaging",
     filterTitle: "Zone",
     filterScore: (min, max) => `Intensity — ${min.toFixed(1)} → ${max.toFixed(1)}`,
     filterEra: "Era",
     filterSearch: "Search",
-    filterReset: "↺ Reset",
+    filterReset: "Reset",
     filterRole: "Role",
-    roles: { all:"All", capital:"Capitals", city:"Cities", village:"Villages", bridge:"Bridges", island:"Islands", hamlet:"Hamlets" },
+    roles: { all:"All", capital:"Capitals", city:"Cities", village:"Villages", hamlet:"Hamlets", bridge:"Bridges", satellite:"Satellites" },
     onboarding: {
-      tagline: "a map of musical forms",
+      tagline: "A map of musical forms. Shall I show you around?",
       choices: [
-        { key:"random",    icon:"◉", label:"I keep hearing the same things",    desc:"Take me somewhere I don't know yet" },
-        { key:"mountains", icon:"△", label:"I want what truly matters",          desc:"The most structurally powerful works" },
-        { key:"frontier",  icon:"◇", label:"I want out of my comfort zone",      desc:"Explore unknown territories" },
-        { key:"free",      icon:"○", label:"I know what I'm looking for",        desc:"Free navigation on the map" },
+        { key:"random",    icon:"◉", label:"Surprise me",                       desc:"I pick. Trust me." },
+        { key:"mountains", icon:"△", label:"The peaks",                         desc:"What holds up. Structurally." },
+        { key:"frontier",  icon:"◇", label:"Elsewhere",                         desc:"Far from your habits. That's rather the point." },
+        { key:"free",      icon:"○", label:"I know what I'm after",             desc:"Good. The map is yours." },
       ],
       helpLink: "How does this work? →",
     },
@@ -134,6 +127,28 @@ const UI = {
 // Décennies disponibles dans le seed
 const DECADES = [null, 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020];
 
+// Niveaux en mots — remplacent les sliders min/max
+const LEVELS = [
+  { key:"all",   min:2,   max:10, fr:"Tout",          en:"Everything" },
+  { key:"best",  min:8,   max:10, fr:"Le meilleur",   en:"The best" },
+  { key:"peaks", min:9,   max:10, fr:"Les sommets",   en:"The peaks" },
+];
+const decadeLabel = (d, lang) => !d
+  ? (lang === "fr" ? "Toutes" : "Any time")
+  : (lang === "fr" ? `Années ${d >= 2000 ? d : String(d).slice(2)}` : `${d}s`);
+
+function LevelChips({ scoreMin, scoreMax, setScoreMin, setScoreMax, T, lang, chip }) {
+  return LEVELS.map(lv => {
+    const active = scoreMin === lv.min && scoreMax === lv.max;
+    return (
+      <button key={lv.key} style={chip(active)}
+        onClick={() => { setScoreMin(lv.min); setScoreMax(lv.max); }}>
+        {lv[lang] || lv.fr}
+      </button>
+    );
+  });
+}
+
 function applyFilters(works, { biome, scoreMin, scoreMax, decade, role = "all" }) {
   return works.filter(w => {
     if (biome !== "all" && (w.biome || w.regime) !== biome) return false;
@@ -154,9 +169,9 @@ function Slider({ label, value, min, max, step = 0.5, onChange, T, fmt }) {
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:3, minWidth:100 }}>
       <div style={{ display:"flex", justifyContent:"space-between" }}>
-        <span style={{ fontSize:11, letterSpacing:"0.13em", textTransform:"uppercase",
-          color: T.muted, fontFamily:"'DM Mono',monospace" }}>{label}</span>
-        <span style={{ fontSize:11, color: T.muted, fontFamily:"'DM Mono',monospace" }}>
+        <span style={{ fontSize:11, letterSpacing:"0.005em", textTransform:"none",
+          color: T.muted, fontFamily:"var(--font-ui)" }}>{label}</span>
+        <span style={{ fontSize:11, color: T.muted, fontFamily:"var(--font-ui)" }}>
           {fmt ? fmt(value) : value}
         </span>
       </div>
@@ -170,8 +185,8 @@ function Slider({ label, value, min, max, step = 0.5, onChange, T, fmt }) {
 // ── VoyagePanel — contrôles voyage enrichis (B+C) ───────────────────
 function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, hasPrev = false, onStop, autoPlayEnabled = false, mobile = false }) {
   const biomeColor = {
-    dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
-    narrative:"#FF9A4D", hybrid:"#C07AE8",
+    dense:"#8c8c8c", atmospheric:"#8c8c8c", structural:"#8c8c8c",
+    narrative:"#8c8c8c", hybrid:"#8c8c8c",
   }[work?.biome || work?.regime] || T.text;
 
   // C. Auto-play YouTube — iframe caché qui joue dès que l'œuvre change
@@ -210,24 +225,24 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, 
       zIndex:50,
       background: T.cardBg,
       borderTop:`2px solid ${biomeColor}`,
-      backdropFilter:"blur(20px)",
-      WebkitBackdropFilter:"blur(20px)",
+      backdropFilter:"none",
+      WebkitBackdropFilter:"none",
       overflow:"hidden",
-      fontFamily:"'Libre Baskerville', Georgia, serif",
+      fontFamily:"var(--font-ui)",
       maxHeight:"42vh",
       overflowY:"auto",
     } : {
-      /* Desktop — coin supérieur droit */
+      /* Desktop — coin supérieur droit ; la fiche est masquée pendant le voyage */
       position:"fixed", top:18, right:20,
       zIndex:50,
       width:"min(320px, calc(100vw - 40px))",
       background: T.cardBg,
       border:`1px solid ${biomeColor}`,
-      borderRadius:1,
-      backdropFilter:"blur(18px)",
-      WebkitBackdropFilter:"blur(18px)",
+      borderRadius:0,
+      backdropFilter:"none",
+      WebkitBackdropFilter:"none",
       overflow:"hidden",
-      fontFamily:"'Libre Baskerville', Georgia, serif",
+      fontFamily:"var(--font-ui)",
     }}>
       {/* Bande couleur biome */}
       <div style={{ height:2, background: biomeColor }} />
@@ -236,12 +251,12 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, 
       <div style={{ padding:"12px 14px 10px",
         display:"flex", alignItems:"flex-start", gap:10 }}>
         <div style={{ flex:1, minWidth:0 }}>
-          <div style={{ fontSize:11, color:T.muted, letterSpacing:"0.14em",
-            textTransform:"uppercase", fontFamily:"'DM Mono',monospace", marginBottom:4 }}>
+          <div style={{ fontSize:11, color:T.muted, letterSpacing:"0.005em",
+            textTransform:"none", fontFamily:"var(--font-ui)", marginBottom:4 }}>
             {lang === "fr" ? "En voyage" : "On a journey"}
             {loading && <span style={{ marginLeft:6, opacity:0.5 }}>·</span>}
           </div>
-          <div style={{ fontSize:15, fontStyle:"italic", color:T.text,
+          <div style={{ fontSize:15, fontStyle:"normal", color:T.text,
             overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap",
             lineHeight:1.2 }}>
             {work.title}
@@ -254,11 +269,11 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, 
         {/* Score */}
         <div style={{ textAlign:"center", flexShrink:0 }}>
           <div style={{ fontSize:16, color:biomeColor,
-            fontFamily:"'DM Mono',monospace", fontWeight:500 }}>
+            fontFamily:"var(--font-ui)", fontWeight:500 }}>
             {Number(work.score||0).toFixed(1)}
           </div>
-          <div style={{ fontSize:10, color:T.muted,
-            fontFamily:"'DM Mono',monospace" }}>/10</div>
+          <div style={{ fontSize:11, color:T.muted,
+            fontFamily:"var(--font-ui)" }}>/10</div>
         </div>
       </div>
 
@@ -292,14 +307,14 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, 
         {/* ♥ Sauvegarder */}
         <button onClick={onToggleFav} style={{
           background:"none", border:`1px solid ${isFav ? biomeColor : T.border}`,
-          borderRadius:1, padding:"6px 10px", cursor:"pointer",
+          borderRadius:0, padding:"6px 10px", cursor:"pointer",
           color: isFav ? biomeColor : T.muted,
           fontSize:14, display:"flex", alignItems:"center", gap:5,
-          fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em",
+          fontFamily:"var(--font-ui)", letterSpacing:"0.005em",
           transition:"all 0.15s",
         }}>
           {isFav ? "♥" : "♡"}
-          <span style={{ fontSize:11, textTransform:"uppercase" }}>
+          <span style={{ fontSize:11, textTransform:"none" }}>
             {lang === "fr" ? (isFav ? "Sauvé" : "Sauver") : (isFav ? "Saved" : "Save")}
           </span>
         </button>
@@ -310,16 +325,16 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, 
           <button onClick={onNext} style={{
             background:"none",
             borderWidth:1, borderStyle:"solid", borderColor: T.border,
-            borderRadius:1, padding:"6px 12px", cursor:"pointer",
+            borderRadius:0, padding:"6px 12px", cursor:"pointer",
             color:T.text, fontSize:13,
             display:"flex", alignItems:"center", gap:4,
-            fontFamily:"'DM Mono',monospace",
+            fontFamily:"var(--font-ui)",
             transition:"border-color 0.15s",
           }}
             onMouseEnter={e => e.currentTarget.style.borderColor = T.text}
             onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
           >
-            <span style={{ fontSize:11, textTransform:"uppercase", letterSpacing:"0.12em",
+            <span style={{ fontSize:11, textTransform:"none", letterSpacing:"0.005em",
               color:T.muted }}>
               {lang === "fr" ? "Suivant" : "Next"}
             </span>
@@ -328,11 +343,11 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, 
 
           {/* ◼ Stop */}
           <button onClick={onStop} style={{
-            background:"none", border:`1px solid ${T.border}`,
-            borderRadius:1, padding:"6px 10px", cursor:"pointer",
+            background:T.pill, border:"none",
+            borderRadius:0, padding:"6px 10px", cursor:"pointer",
             color:T.muted, fontSize:12,
-            fontFamily:"'DM Mono',monospace", letterSpacing:"0.12em",
-            textTransform:"uppercase",
+            fontFamily:"var(--font-ui)", letterSpacing:"0.005em",
+            textTransform:"none",
           }}>
             ◼
           </button>
@@ -341,8 +356,8 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, 
 
       {/* Player YouTube inline — reste dans l'app */}
       {videoId && showFullPlayer && (
-        <div style={{ margin:"0 14px 10px", borderRadius:1, overflow:"hidden",
-          border:`1px solid ${T.border}`, aspectRatio:"16/9", position:"relative" }}>
+        <div style={{ margin:"0 14px 10px", borderRadius:0, overflow:"hidden",
+          border:"none", background:T.pill, aspectRatio:"16/9", position:"relative" }}>
           <iframe
             src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&start=20`}
             width="100%" height="100%"
@@ -356,9 +371,9 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, 
         <div style={{ padding:"0 14px 10px" }}>
           <button onClick={() => setShowFullPlayer(v => !v)} style={{
             background:"none", border:"none", cursor:"pointer",
-            fontSize:10, color:T.muted, opacity:0.6,
-            fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
-            textTransform:"uppercase", padding:0,
+            fontSize:11, color:T.muted, opacity:0.6,
+            fontFamily:"var(--font-ui)", letterSpacing:"0.005em",
+            textTransform:"none", padding:0,
           }}>
             {showFullPlayer
               ? (lang === "fr" ? "▾ Masquer la vidéo" : "▾ Hide video")
@@ -374,40 +389,40 @@ function VoyagePanel({ work, dark, T, lang, isFav, onToggleFav, onNext, onPrev, 
 function FavoritesPanel({ favorites, dark, T, lang, onSelect, onRemove, onClose }) {
   const fav = Object.values(favorites).sort((a,b) => (b.savedAt||0) - (a.savedAt||0));
   const BIOME_COLOR = {
-    dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
-    narrative:"#FF9A4D", hybrid:"#C07AE8",
+    dense:"#8c8c8c", atmospheric:"#8c8c8c", structural:"#8c8c8c",
+    narrative:"#8c8c8c", hybrid:"#8c8c8c",
   };
 
   return (
     <div style={{
       position:"fixed", inset:0, zIndex:100,
       background: T.cardBg, overflowY:"auto",
-      fontFamily:"'Libre Baskerville', Georgia, serif",
+      fontFamily:"var(--font-ui)",
       color:T.text,
     }}>
       {/* Header */}
       <div style={{
         position:"sticky", top:0, zIndex:10,
         padding:"16px 20px",
-        borderBottom:`1px solid ${T.border}`,
+        borderBottom:`2px dotted ${T.border}`,
         background: T.cardBg,
         display:"flex", justifyContent:"space-between", alignItems:"center",
       }}>
         <div>
-          <div style={{ fontSize:17, fontStyle:"italic", letterSpacing:"-0.02em" }}>
+          <div style={{ fontSize:17, fontStyle:"normal", letterSpacing:"-0.02em" }}>
             {lang === "fr" ? "Mes favoris" : "My favorites"}
           </div>
-          <div style={{ fontSize:11, color:T.muted, fontFamily:"'DM Mono',monospace",
-            letterSpacing:"0.16em", textTransform:"uppercase", marginTop:3 }}>
+          <div style={{ fontSize:11, color:T.muted, fontFamily:"var(--font-ui)",
+            letterSpacing:"0.005em", textTransform:"none", marginTop:3 }}>
             {fav.length} {lang === "fr" ? "œuvre" : "work"}{fav.length !== 1 ? "s" : ""}
           </div>
         </div>
         <button onClick={onClose} style={{
-          background:"none", border:`1px solid ${T.border}`, color:T.muted,
-          fontSize:11, padding:"5px 10px", cursor:"pointer", borderRadius:1,
-          fontFamily:"'DM Mono',monospace", letterSpacing:"0.14em",
+          background:T.pill, border:"none", color:T.muted,
+          fontSize:11, padding:"5px 10px", cursor:"pointer", borderRadius:0,
+          fontFamily:"var(--font-ui)", letterSpacing:"0.005em",
         }}>
-          {lang === "fr" ? "FERMER" : "CLOSE"}
+          {lang === "fr" ? "Fermer" : "Close"}
         </button>
       </div>
 
@@ -415,9 +430,9 @@ function FavoritesPanel({ favorites, dark, T, lang, onSelect, onRemove, onClose 
       <div style={{ padding:"16px 20px", maxWidth:520, margin:"0 auto" }}>
         {fav.length === 0 ? (
           <div style={{ fontSize:14, color:T.muted, lineHeight:1.75,
-            fontStyle:"italic", marginTop:20 }}>
+            fontStyle:"normal", marginTop:20 }}>
             {lang === "fr"
-              ? "Aucun favori pour l'instant. Appuie sur ♥ pendant un voyage pour sauvegarder une œuvre."
+              ? "Aucun favori pour l'instant. Appuie sur « Sauvegarder » pendant un voyage pour garder une œuvre."
               : "No favorites yet. Press ♥ during a voyage to save a work."}
           </div>
         ) : (
@@ -425,24 +440,24 @@ function FavoritesPanel({ favorites, dark, T, lang, onSelect, onRemove, onClose 
             <div key={w.id} style={{
               display:"flex", alignItems:"center", gap:10,
               padding:"10px 0",
-              borderBottom:`1px solid ${T.border}`,
+              borderBottom:`2px dotted ${T.border}`,
             }}>
               <span style={{ width:7, height:7, borderRadius:"50%", flexShrink:0,
                 background: BIOME_COLOR[w.biome] || T.muted }} />
               <div style={{ flex:1, minWidth:0, cursor:"pointer" }}
                 onClick={() => { onSelect(w); onClose(); }}>
-                <div style={{ fontSize:14, fontStyle:"italic", color:T.text,
+                <div style={{ fontSize:14, fontStyle:"normal", color:T.text,
                   overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
                   {w.title}
                 </div>
                 <div style={{ fontSize:12, color:T.muted, marginTop:2,
-                  fontFamily:"'DM Mono',monospace", letterSpacing:"0.06em" }}>
+                  fontFamily:"var(--font-ui)", letterSpacing:"0.005em" }}>
                   {w.artist}
                   {w.year && <span style={{ marginLeft:6, opacity:0.6 }}>{w.year}</span>}
                 </div>
               </div>
               <span style={{ fontSize:12, color:T.muted,
-                fontFamily:"'DM Mono',monospace", flexShrink:0 }}>
+                fontFamily:"var(--font-ui)", flexShrink:0 }}>
                 {Number(w.score||0).toFixed(1)}
               </span>
               <button onClick={() => onRemove(w)} style={{
@@ -461,9 +476,7 @@ function FavoritesPanel({ favorites, dark, T, lang, onSelect, onRemove, onClose 
 function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
   const T  = dark ? THEME.dark : THEME.light;
   const L  = UI[lang] || UI.fr;
-  const bg = dark
-    ? "radial-gradient(ellipse at 50% 60%, rgba(14,10,6,0.94) 0%, rgba(4,3,2,0.99) 100%)"
-    : "radial-gradient(ellipse at 50% 60%, rgba(240,233,224,0.94) 0%, rgba(228,221,212,0.99) 100%)";
+  const bg = dark ? "#000000" : "#ffffff";
 
   const choices = L.onboarding.choices;
 
@@ -471,32 +484,30 @@ function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
     <div style={{
       position:"fixed", inset:0, zIndex:100,
       display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
-      background: bg, fontFamily:"'Libre Baskerville', Georgia, serif",
+      background: bg, fontFamily:"var(--font-ui)",
     }}>
       <div style={{ marginBottom:44, textAlign:"center" }}>
-        <div style={{ fontSize:52, fontStyle:"italic", letterSpacing:"-0.04em",
-          color: T.text, lineHeight:1 }}>lisn</div>
-        <div style={{ fontSize:11, letterSpacing:"0.28em", color: T.muted,
-          fontFamily:"'DM Mono',monospace", marginTop:8, textTransform:"uppercase" }}>
+        <div style={{ fontSize:88, fontWeight:800, letterSpacing:"-0.045em",
+          color: T.text, lineHeight:0.9 }}>lisn</div>
+        <div style={{ fontSize:15, color: T.muted, marginTop:14 }}>
           {L.onboarding.tagline}
         </div>
       </div>
-      <div style={{ display:"flex", flexDirection:"column", gap:8, width:"min(320px,88vw)" }}>
+      <div style={{ display:"flex", flexDirection:"column", gap:8, width:"min(380px,88vw)" }}>
         {choices.map(c => (
           <button key={c.key} onClick={() => onChoose(c.key)} style={{
-            background:"none", border:`1px solid ${T.border}`, borderRadius:1,
-            padding:"13px 16px", cursor:"pointer", textAlign:"left",
+            background:T.pill, border:"none", borderRadius:0,
+            padding:"15px 18px", cursor:"pointer", textAlign:"left",
             display:"flex", alignItems:"center", gap:14, color: T.text,
             transition:"border-color 0.15s, background 0.15s",
           }}
             onMouseEnter={e => { e.currentTarget.style.borderColor=T.text; e.currentTarget.style.background=T.pill; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor=T.border; e.currentTarget.style.background="none"; }}
           >
-            <span style={{ fontSize:16, color: T.muted, width:22, textAlign:"center", flexShrink:0 }}>{c.icon}</span>
             <div>
-              <div style={{ fontSize:14 }}>{c.label}</div>
-              <div style={{ fontSize:12, color: T.muted, marginTop:2,
-                fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>{c.desc}</div>
+              <div style={{ fontSize:16, fontWeight:600, letterSpacing:"-0.01em" }}>{c.label}</div>
+              <div style={{ fontSize:13, color: T.muted, marginTop:3,
+                fontFamily:"var(--font-ui)", letterSpacing:"0.005em" }}>{c.desc}</div>
             </div>
           </button>
         ))}
@@ -505,9 +516,7 @@ function Onboarding({ dark, onChoose, onShowHelp, lang = "fr" }) {
         alignItems:"center", gap:10 }}>
         <button onClick={() => { onChoose("free"); onShowHelp?.(); }}
           style={{ background:"none", border:"none", cursor:"pointer",
-            fontSize:11, color:T.muted, fontFamily:"'DM Mono',monospace",
-            letterSpacing:"0.14em", textTransform:"uppercase", textDecoration:"underline",
-            textUnderlineOffset:3 }}>
+            fontSize:13, color:T.muted, fontFamily:"var(--font-ui)" }}>
           {L.onboarding.helpLink}
         </button>
 
@@ -546,6 +555,13 @@ export default function HomePage() {
   const [showOnboarding,  setShowOnboarding]  = useState(false);
   const [selectedWork,    setSelectedWork]    = useState(null);
   const [hoveredWork,     setHoveredWork]     = useState(null);
+  const [trail,           setTrail]           = useState(null);
+  const [draw,            setDraw]            = useState(null);   // tirage en cours : { title, artist, k, last }
+  const drawTimers = useRef([]);
+  const cancelDraw = () => { drawTimers.current.forEach(clearTimeout); drawTimers.current = []; setDraw(null); setTrail(null); };
+  const lastWorkRef = useRef(null);
+  const poolRef = useRef(worksSeed);   // œuvres qui passent les filtres, lisible depuis les minuteries
+  useEffect(() => { if (selectedWork) lastWorkRef.current = selectedWork; }, [selectedWork]);
   const [biomeFilter,     setBiomeFilter]     = useState("all");
   const [scoreMin,        setScoreMin]        = useState(2);
   const [scoreMax,        setScoreMax]        = useState(10);
@@ -622,17 +638,18 @@ export default function HomePage() {
   // ── Onboarding ─────────────────────────────────────────────────
   function handleOnboardingChoice(key) {
     setShowOnboarding(false);
+    exitCompare(); stopVoyage(); closeTransient();
     setActiveMode(key);
 
     if (key === "random") {
       setTimeout(() => startVoyage(), 500);
 
     } else if (key === "mountains") {
-      setScoreMin(8.5); setScoreMax(10);
+      setScoreMin(9); setScoreMax(10);
       const capitals = worksSeed.filter(w => (w.role === "capital" || w.score >= 9.0));
       if (capitals.length) {
         const pick = capitals[Math.floor(Math.random() * capitals.length)];
-        setTimeout(() => handleSelect(pick), 600);
+        setTimeout(() => { setSelectedWork(pick); setPanelTab("fiche"); }, 600);
       }
 
     } else if (key === "frontier") {
@@ -649,6 +666,40 @@ export default function HomePage() {
     }
   }
 
+  // ── Une seule chose à la fois ────────────────────────────────────
+  // Chaque fonction referme ce que les autres ont ouvert : l'utilisateur
+  // n'a jamais à fermer un panneau pour passer à autre chose.
+  function closeTransient() { setShowFilters(false); setShowFavorites(false); setShowHelp(false); }
+  function exitCompare()    { setCompareMode(false); setCompareA(null); setCompareB(null); }
+
+  function surprise() {
+    exitCompare(); stopVoyage(); closeTransient();
+    const from = lastWorkRef.current;
+    const pool = filteredWorks.filter(w => w.id !== selectedWork?.id);
+    const work = pool[Math.floor(Math.random() * pool.length)];
+    if (!work) return;
+    drawTimers.current.forEach(clearTimeout); drawTimers.current = [];
+    const later = (fn, ms) => drawTimers.current.push(setTimeout(fn, ms));
+    setHoveredWork(null); setNearbyWorks([]); setTrajectoryWorks([]); setPanelTab("fiche");
+    const reveal = () => {
+      setDraw(null); setSelectedWork(work);
+      setTrail({ from: from && from.id !== work.id ? from : null, to: work, key: Date.now() });
+      later(() => setTrail(null), 4600);
+    };
+    if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) { reveal(); return; }
+    // Le tirage : la fiche se referme, des titres défilent en ralentissant, le dernier reste.
+    setSelectedWork(null); setTrail(null);
+    const others = Array.from({ length: 7 }, () => pool[Math.floor(Math.random() * pool.length)]);
+    let t = 0;
+    others.forEach((w, i) => { later(() => setDraw({ title: w.title || w.artist, k: i }), t); t += 62 + i * 22; });
+    later(() => setDraw({ title: work.title || work.artist, artist: work.title ? work.artist : "", k: 99, last: true }), t);
+    later(reveal, t + 620);
+  }
+
+  function toggleFilters() {
+    setShowFilters(v => !v); setShowFavorites(false); setShowHelp(false);
+  }
+
   // ── Atterrissage aléatoire ──────────────────────────────────────
   function landRandom(pool) {
     const src  = pool || filteredWorks;
@@ -658,9 +709,13 @@ export default function HomePage() {
 
   // ── Voyage ─────────────────────────────────────────────────────
   const startVoyage = useCallback((fromWork) => {
+    cancelDraw();
+    setCompareMode(false); setCompareA(null); setCompareB(null);
+    setShowFilters(false); setShowFavorites(false); setShowHelp(false);
     setVoyageMode(true);
     setVoyageHistory([]);
-    const start = fromWork || worksSeed[Math.floor(Math.random() * worksSeed.length)];
+    const src = poolRef.current.length ? poolRef.current : worksSeed;
+    const start = fromWork || src[Math.floor(Math.random() * src.length)];
     setVoyageCurrent(start);
     setSelectedWork(start); setHoveredWork(null);
     setPanelTab("fiche"); setNearbyWorks([]); setTrajectoryWorks([]);
@@ -671,7 +726,7 @@ export default function HomePage() {
     clearTimeout(voyageTimer.current);
     const delay = immediate ? 0 : 6000; // 6s — assez long pour entendre l'intro
     voyageTimer.current = setTimeout(() => {
-      const nearby = worksSeed
+      const nearby = poolRef.current
         .filter(w => w.id !== cur.id)
         .map(w => {
           const dphi = Math.abs((w.phi||0)-(cur.phi||0));
@@ -733,19 +788,28 @@ export default function HomePage() {
 
   // ── Compare ────────────────────────────────────────────────────
   function toggleCompare() {
-    if (compareMode) { setCompareMode(false); setCompareA(null); setCompareB(null); }
-    else             { setCompareMode(true); stopVoyage(); }
+    cancelDraw();
+    if (compareMode) { exitCompare(); return; }
+    // L'œuvre ouverte devient le premier terme de la comparaison
+    stopVoyage(); closeTransient();
+    setCompareA(selectedWork || null); setCompareB(null);
+    setSelectedWork(null); setPanelTab("fiche");
+    setCompareMode(true);
   }
 
   // ── Sélection (gère aussi le mode compare) ────────────────────
   function handleSelect(work) {
+    cancelDraw();
     setShowIdleHint(false);
     clearTimeout(idleHintTimer.current);
     if (compareMode) {
       if (!compareA) { setCompareA(work); return; }
-      if (!compareB && work.id !== compareA?.id) { setCompareB(work); return; }
-      // Remplacer A si on reclique
-      setCompareA(work); setCompareB(null); return;
+      if (!compareB) { if (work.id !== compareA?.id) setCompareB(work); return; }
+      // Comparaison terminée : cliquer une autre œuvre en sort et ouvre sa fiche
+      exitCompare();
+      setSelectedWork(work); setNearbyWorks([]); setTrajectoryWorks([]); setPanelTab("fiche");
+      setHoveredWork(null); closeTransient();
+      return;
     }
     if (!voyageMode && selectedWork?.id === work?.id) {
       setSelectedWork(null); setPanelTab("fiche");
@@ -755,12 +819,13 @@ export default function HomePage() {
       setPanelTab("fiche");
     }
     setHoveredWork(null);
+    closeTransient();
   }
 
   // ── Explorer autour ────────────────────────────────────────────
   function exploreAround(work) {
     if (!work) return;
-    const nearby = worksSeed
+    const nearby = poolRef.current
       .filter(w => w.id !== work.id)
       .map(w => {
         const dphi = Math.abs((w.phi||0)-(work.phi||0));
@@ -783,9 +848,69 @@ export default function HomePage() {
   const filteredWorks = useMemo(() =>
     applyFilters(worksSeed, { biome: biomeFilter, scoreMin, scoreMax, decade, role: roleFilter }),
   [biomeFilter, scoreMin, scoreMax, decade, roleFilter]);
+  poolRef.current = filteredWorks;
+  // Le globe montre ce qui passe les filtres, plus les œuvres explicitement en jeu
+  // (duel proposé hors filtres, étape de voyage).
+  const globeWorks = useMemo(() => {
+    const extra = [selectedWork, compareMode && compareA, compareMode && compareB]
+      .filter(w => w && !filteredWorks.some(f => f.id === w.id));
+    return extra.length ? [...filteredWorks, ...extra] : filteredWorks;
+  }, [filteredWorks, selectedWork, compareMode, compareA, compareB]);
+  const filtersOn = biomeFilter !== "all" || decade || roleFilter !== "all" || scoreMin > 2 || scoreMax < 10;
+  function resetFilters() { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); setRoleFilter("all"); }
 
-  const T = dark ? THEME.dark : THEME.light;
+  // Un filtre qui change écarte la fiche ouverte si son œuvre ne passe plus :
+  // rien de ce qui est à l'écran ne contredit les filtres.
+  useEffect(() => {
+    if (selectedWork && !voyageMode && !filteredWorks.some(w => w.id === selectedWork.id)) {
+      setSelectedWork(null); setNearbyWorks([]); setTrajectoryWorks([]); setPanelTab("fiche");
+    }
+    setNearbyWorks(n => n.filter(w => filteredWorks.some(f => f.id === w.id)));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredWorks]);
+
+  // La couleur vient de l'œuvre choisie ; au repos, noir et blanc
+  const [tint, setTint] = useState(null);
+  const coverUrl = useCover(selectedWork, setTint);
+  const T = useMemo(() => {
+    const base = dark ? THEME.dark : THEME.light;
+    const bg   = (selectedWork && tint) || base.bg;
+    const onBg = contrastOn(bg);
+    return { ...base, bg, onBg, onBgMuted: onBg === "#000000" ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.72)" };
+  }, [dark, tint, selectedWork]);
   const L = UI[lang] || UI.fr;
+
+  // La page annonce sa vraie langue (lecteurs d'écran, traduction automatique)
+  useEffect(() => { document.documentElement.lang = lang; }, [lang]);
+
+  // Échap referme ce qui est au premier plan, une couche à la fois
+  useEffect(() => {
+    const onKey = e => {
+      if (e.key !== "Escape") return;
+      if (analysisWork)      setAnalysisWork(null);
+      else if (discussWork)  setDiscussWork(null);
+      else if (showHelp)     setShowHelp(false);
+      else if (showOnboarding) setShowOnboarding(false);
+      else if (showFavorites) setShowFavorites(false);
+      else if (showFilters)  setShowFilters(false);
+      else if (compareMode)  exitCompare();
+      else if (voyageMode)   stopVoyage();
+      else if (selectedWork) { setSelectedWork(null); setPanelTab("fiche"); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
+  // Recommandation du jour — stable sur la journée, choisie parmi les sommets
+  const [tonightDismissed, setTonightDismissed] = useState(false);
+  const tonight = useMemo(() => {
+    if (!mounted) return null;
+    const pool = worksSeed.filter(w => (w.score || 0) >= 9);
+    if (!pool.length) return null;
+    const d = new Date();
+    const day = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+    return pool[(day * 7 + d.getFullYear()) % pool.length];
+  }, [mounted]);
 
   const modeLabel = compareMode ? L.modeLabels.compare
     : voyageMode ? L.modeLabels.voyage
@@ -796,35 +921,44 @@ export default function HomePage() {
     : biomeFilter !== "all" ? (BIOME_META[biomeFilter]?.[lang] || BIOME_META[biomeFilter]?.fr || "").toLowerCase()
     : L.modeLabels.globe;
 
-  const sep = <div style={{ width:1, height:14, background: T.border, margin:"0 3px", flexShrink:0 }} />;
+  const sep = <div style={{ width:8, flexShrink:0 }} />;
 
   // Éviter l'hydratation mismatch — ne rendre qu'après le mount côté client
   if (!mounted) {
     return (
-      <div style={{ ...S.page, background: "#050403" }} />
+      <div style={{ ...S.page, background: "#ffffff" }} />
     );
   }
 
   return (
-    <div style={{ ...S.page, background: T.bg, color: T.text }}>
+    <div style={{ ...S.page, background: T.bg, color: T.text, transition:"background 600ms ease" }}>
 
       {showOnboarding && <Onboarding dark={dark} lang={lang} onChoose={handleOnboardingChoice} onShowHelp={() => setShowHelp(true)} />}
 
-      <div style={S.stage}>
+      {/* Le globe recule et monte quand la balance sort : deux plans, deux mouvements opposés */}
+      <div style={{ ...S.stage,
+        transform: mobile ? "none"
+          : compareMode ? "translateY(-9%) scale(0.86)"
+          : selectedWork && !voyageMode ? "translateX(-179px)" : "none",
+        transition:"transform 700ms cubic-bezier(.16,1,.3,1)" }}>
         <GlobeScene
-          works={filteredWorks}
+          works={globeWorks}
           selectedWork={compareMode ? (compareA || null) : selectedWork}
           hoveredWork={hoveredWork}
           onSelectWork={handleSelect}
           onHoverWork={setHoveredWork}
           activeFilter={biomeFilter}
           dark={dark}
+          bg={T.bg}
+          compareA={compareMode ? compareA : null} compareB={compareMode ? compareB : null}
+          trail={trail} drawing={!!draw}
           nearbyWorks={nearbyWorks}
           trajectoryWorks={trajectoryWorks}
           mobile={mobile}
           onIntroComplete={() => setIntroComplete(true)}
           onZoomChange={setGlobeZoom}
         />
+        <div className="lisn-grain" aria-hidden="true" />
       </div>
 
       {/* ── B+C. Panneau de voyage enrichi ───────────────── */}
@@ -844,11 +978,13 @@ export default function HomePage() {
       )}
 
       {/* Panel compare */}
-      {compareMode && (
+      {compareMode && !showFilters && !showFavorites && (
         <ComparePanel
           workA={compareA} workB={compareB}
           onClearA={() => setCompareA(null)}
           onClearB={() => setCompareB(null)}
+          onClose={exitCompare}
+          onSetA={setCompareA} onSetB={setCompareB} allWorks={worksSeed}
           dark={dark} T={T} lang={lang}
         />
       )}
@@ -859,15 +995,16 @@ export default function HomePage() {
         {/* ── Drawer filtres mobile ── */}
         {showFilters && (
           <div style={{
-            position:"fixed", left:0, right:0, bottom:64, zIndex:35,
-            background: T.navBg, borderTop:`1px solid ${T.border}`,
-            backdropFilter:"blur(18px)", padding:"16px",
-            maxHeight:"60vh", overflowY:"auto",
+            position:"fixed", left:0, right:0, top:0, zIndex:35,
+            background: T.navBg, borderTop:"none",
+            backdropFilter:"none", padding:"28px 24px 24px",
+            maxHeight:"72vh", overflowY:"auto",
+            borderRadius:"0 0 30px 30px", boxShadow:"0 24px 70px rgba(0,0,0,0.4)",
           }}>
             {/* Biomes */}
             <div style={{ marginBottom:16 }}>
-              <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
-                fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
+              <div style={{ fontSize:11, letterSpacing:"0.005em", color:T.muted,
+                fontFamily:"var(--font-ui)", textTransform:"none", marginBottom:8 }}>
                 {L.filterTitle}
               </div>
               <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
@@ -875,11 +1012,11 @@ export default function HomePage() {
                   const active = biomeFilter === key;
                   return (
                     <button key={key} onClick={() => setBiomeFilter(key)} style={{
-                      padding:"6px 12px", border:`1px solid ${active ? (meta.color||T.border) : T.border}`,
-                      borderRadius:1, background: active ? T.pill : "none",
-                      color: active && meta.color ? meta.color : T.text,
+                      padding:"6px 12px", border:"none",
+                      borderRadius:0, background: active ? T.text : "none",
+                      color: active ? T.navBg : T.text,
                       fontSize:12, cursor:"pointer",
-                      fontFamily:"'DM Mono',monospace",
+                      fontFamily:"var(--font-ui)",
                     }}>
                       {meta[lang] || meta.fr}
                     </button>
@@ -888,24 +1025,24 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Score range */}
+            {/* Niveau */}
             <div style={{ marginBottom:16 }}>
-              <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
-                fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
-                {L.filterScore(scoreMin, scoreMax)}
+              <div style={{ fontSize:11, color:T.muted, marginBottom:8 }}>
+                {lang === "fr" ? "Niveau" : "Level"}
               </div>
-              <div style={{ display:"flex", gap:16 }}>
-                <Slider label="Min" value={scoreMin} min={2} max={9} step={0.5}
-                  onChange={setScoreMin} T={T} fmt={v => v.toFixed(1)} />
-                <Slider label="Max" value={scoreMax} min={3} max={10} step={0.5}
-                  onChange={setScoreMax} T={T} fmt={v => v.toFixed(1)} />
+              <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                <LevelChips scoreMin={scoreMin} scoreMax={scoreMax} setScoreMin={setScoreMin} setScoreMax={setScoreMax}
+                  T={T} lang={lang} chip={active => ({
+                    padding:"6px 10px", border:"none", borderRadius:0,
+                    background: active ? T.text : "none", color: active ? T.navBg : T.muted,
+                    fontSize:12, cursor:"pointer", fontFamily:"var(--font-ui)" })} />
               </div>
             </div>
 
             {/* Décennies */}
             <div style={{ marginBottom:8 }}>
-              <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
-                fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
+              <div style={{ fontSize:11, letterSpacing:"0.005em", color:T.muted,
+                fontFamily:"var(--font-ui)", textTransform:"none", marginBottom:8 }}>
                 {L.filterEra}
               </div>
               <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
@@ -913,13 +1050,13 @@ export default function HomePage() {
                   const active = decade === d;
                   return (
                     <button key={d??'all'} onClick={() => setDecade(active ? null : d)} style={{
-                      padding:"6px 10px", border:`1px solid ${active ? T.border : T.border}`,
-                      borderRadius:1, background: active ? T.pill : "none",
-                      color: active ? T.text : T.muted,
+                      padding:"6px 10px", border:"none",
+                      borderRadius:0, background: active ? T.text : "none",
+                      color: active ? T.navBg : T.muted,
                       fontSize:12, cursor:"pointer",
-                      fontFamily:"'DM Mono',monospace",
+                      fontFamily:"var(--font-ui)",
                     }}>
-                      {d ? `${String(d).slice(2)}s` : "∞"}
+                      {decadeLabel(d, lang)}
                     </button>
                   );
                 })}
@@ -928,8 +1065,8 @@ export default function HomePage() {
 
             {/* Rôle */}
             <div style={{ marginBottom:16 }}>
-              <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
-                fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
+              <div style={{ fontSize:11, letterSpacing:"0.005em", color:T.muted,
+                fontFamily:"var(--font-ui)", textTransform:"none", marginBottom:8 }}>
                 {L.filterRole}
               </div>
               <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
@@ -937,11 +1074,11 @@ export default function HomePage() {
                   const active = roleFilter === key;
                   return (
                     <button key={key} onClick={() => setRoleFilter(key)} style={{
-                      padding:"6px 12px", border:`1px solid ${active ? T.border : T.border}`,
-                      borderRadius:1, background: active ? T.pill : "none",
-                      color: active ? T.text : T.muted,
+                      padding:"6px 12px", border:"none",
+                      borderRadius:0, background: active ? T.text : "none",
+                      color: active ? T.navBg : T.muted,
                       fontSize:11, cursor:"pointer",
-                      fontFamily:"'DM Mono',monospace",
+                      fontFamily:"var(--font-ui)",
                     }}>
                       {label}
                     </button>
@@ -952,13 +1089,13 @@ export default function HomePage() {
 
             {/* Recherche */}
             <div style={{ marginBottom:16 }}>
-              <div style={{ fontSize:11, letterSpacing:"0.14em", color:T.muted,
-                fontFamily:"'DM Mono',monospace", textTransform:"uppercase", marginBottom:8 }}>
+              <div style={{ fontSize:11, letterSpacing:"0.005em", color:T.muted,
+                fontFamily:"var(--font-ui)", textTransform:"none", marginBottom:8 }}>
                 {L.filterSearch}
               </div>
               <SearchBar dark={dark} T={T} lang={lang} onSelect={w => {
+                if (!filteredWorks.some(f => f.id === w.id)) resetFilters();
                 handleSelect(w);
-                setBiomeFilter("all");
                 setShowFilters(false);
               }} />
             </div>
@@ -966,28 +1103,28 @@ export default function HomePage() {
             {/* Langue + Thème */}
             <div style={{ display:"flex", gap:8, marginTop:8 }}>
               <button onClick={toggleLang} style={{
-                flex:1, padding:"10px", border:`1px solid ${T.border}`,
+                flex:1, padding:"10px", border:"none",
                 background:T.pill, color:T.text, fontSize:12, cursor:"pointer",
-                fontFamily:"'DM Mono',monospace", letterSpacing:"0.14em",
-                borderRadius:1,
+                fontFamily:"var(--font-ui)", letterSpacing:"0.005em",
+                borderRadius:0,
               }}>
-                {lang === "fr" ? "🌐 EN" : "🌐 FR"}
+                {lang === "fr" ? "English" : "Français"}
               </button>
               <button onClick={toggleDark} style={{
-                flex:1, padding:"10px", border:`1px solid ${T.border}`,
+                flex:1, padding:"10px", border:"none",
                 background:T.pill, color:T.text, fontSize:12, cursor:"pointer",
-                fontFamily:"'DM Mono',monospace", letterSpacing:"0.12em",
-                borderRadius:1,
+                fontFamily:"var(--font-ui)", letterSpacing:"0.005em",
+                borderRadius:0,
               }}>
-                {dark ? "☀ " + (lang === "fr" ? "Clair" : "Light") : "☾ " + (lang === "fr" ? "Sombre" : "Dark")}
+                {L.themeLabel(dark)}
               </button>
             </div>
 
             {/* Reset */}
             <button onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); setRoleFilter("all"); setShowFilters(false); }}
-              style={{ marginTop:8, width:"100%", padding:"10px", border:`1px solid ${T.border}`,
-                background:"none", color:T.muted, fontSize:12, cursor:"pointer",
-                fontFamily:"'DM Mono',monospace", letterSpacing:"0.12em" }}>
+              style={{ marginTop:8, width:"100%", padding:"10px", border:"none",
+                background:T.pill, color:T.muted, fontSize:12, cursor:"pointer",
+                fontFamily:"var(--font-ui)", letterSpacing:"0.005em" }}>
               {L.filterReset}
             </button>
           </div>
@@ -999,26 +1136,16 @@ export default function HomePage() {
           zIndex:40, display:"flex", alignItems:"center",
           justifyContent:"space-around",
           paddingBottom:"env(safe-area-inset-bottom)",
-          background: T.navBg, borderTop:`1px solid ${T.border}`,
-          backdropFilter:"blur(18px)", WebkitBackdropFilter:"blur(18px)",
+          background: T.navBg, borderTop:"none",
+          backdropFilter:"none", WebkitBackdropFilter:"none",
           touchAction:"manipulation",
         }}>
 
           {/* 1. Home / lisn — retour aux 4 modes */}
           <button style={{ ...S.mobileBtn(T), minWidth:40 }}
             onClick={() => setShowOnboarding(true)}>
-            <span style={{ fontSize:15, fontStyle:"italic",
-              color: {"random":"#FF6B2F","mountains":"#E8C97A","frontier":"#4ABFFF"}[activeMode] || T.text,
-              fontFamily:"'Libre Baskerville',Georgia,serif",
-              letterSpacing:"-0.03em", lineHeight:1 }}>lisn</span>
-            <span style={{ ...S.mobileBtnLabel(T),
-              color: {"random":"#FF6B2F","mountains":"#E8C97A","frontier":"#4ABFFF"}[activeMode] || T.muted,
-              fontSize: 8 }}>
-              {activeMode === "random" ? (lang === "fr" ? "♻" : "♻")
-               : activeMode === "mountains" ? "△"
-               : activeMode === "frontier" ? "◇"
-               : "○"}
-            </span>
+            <span style={{ fontSize:19, fontWeight:800, color: T.text,
+              fontFamily:"var(--font-ui)", letterSpacing:"-0.04em", lineHeight:1 }}>lisn</span>
           </button>
 
           {/* 2. Voyage */}
@@ -1035,7 +1162,7 @@ export default function HomePage() {
 
           {/* 3. Filtres */}
           <button style={S.mobileBtn(T)}
-            onClick={() => setShowFilters(v => !v)}>
+            onClick={toggleFilters}>
             <span style={{ ...S.mobileBtnIcon,
               color: showFilters ? T.text : T.muted }}>≡</span>
             <span style={{ ...S.mobileBtnLabel(T),
@@ -1055,7 +1182,7 @@ export default function HomePage() {
           </button>
 
           {/* 5. Favoris */}
-          <button style={S.mobileBtn(T)} onClick={() => setShowFavorites(v => !v)}>
+          <button style={S.mobileBtn(T)} onClick={() => { setShowFavorites(v => !v); setShowFilters(false); setShowHelp(false); }}>
             <span style={{ ...S.mobileBtnIcon,
               color: showFavorites ? T.text : (Object.keys(favorites).length > 0 ? T.text : T.muted),
               fontSize:16 }}>
@@ -1063,7 +1190,7 @@ export default function HomePage() {
             </span>
             <span style={{ ...S.mobileBtnLabel(T) }}>
               {Object.keys(favorites).length > 0
-                ? `♥ ${Object.keys(favorites).length}`
+                ? `${lang === "fr" ? "Favoris" : "Saved"} ${Object.keys(favorites).length}`
                 : (lang === "fr" ? "Favoris" : "Saved")}
             </span>
           </button>
@@ -1071,7 +1198,7 @@ export default function HomePage() {
           {/* 6. Thème — icône seulement, sans label pour gagner de la place */}
           <button style={{ ...S.mobileBtn(T), minWidth:36 }} onClick={toggleDark}>
             <span style={{ ...S.mobileBtnIcon, fontSize:16 }}>{dark ? "◐" : "◑"}</span>
-            <span style={{ ...S.mobileBtnLabel(T), fontSize:7 }}>
+            <span style={{ ...S.mobileBtnLabel(T) }}>
               {L.themeLabel(dark)}
             </span>
           </button>
@@ -1079,11 +1206,9 @@ export default function HomePage() {
           {/* 7. Guide — encadré, visuellement différencié */}
           <button style={{
             ...S.mobileBtn(T),
-            background: T.pill, borderRadius:1,
-            borderWidth:1, borderStyle:"solid", borderColor:T.border,
-          }} onClick={() => setShowHelp(true)}>
+          }} onClick={() => { setShowHelp(true); setShowFilters(false); setShowFavorites(false); }}>
             <span style={{ ...S.mobileBtnIcon, fontSize:16 }}>?</span>
-            <span style={{ ...S.mobileBtnLabel(T), color:T.text, opacity:0.9 }}>
+            <span style={{ ...S.mobileBtnLabel(T) }}>
               {L.navLabels.guide}
             </span>
           </button>
@@ -1094,120 +1219,171 @@ export default function HomePage() {
         /* ── Nav desktop — barre complète ── */
         <nav style={{ ...S.nav, background: T.navBg, borderColor: T.border }}>
 
-          {/* Biomes */}
-          <div style={S.navGroup}>
-            {Object.entries(BIOME_META).map(([key, meta]) => {
-              const active = biomeFilter === key;
-              return (
-                <button key={key} style={{
-                  ...S.navBtn,
-                  color: active && meta.color ? meta.color : active ? T.text : T.muted,
-                  borderColor: active ? (meta.color || T.border) : "transparent",
-                  background:  active ? T.pill : "transparent",
-                }} onClick={() => setBiomeFilter(key)}>
-                  {meta.color && <span style={{ ...S.dot, background: meta.color, opacity: active ? 1 : 0.4 }} />}
-                  {meta[lang] || meta.fr}
-                </button>
+          <button style={{ ...S.navBtn, color: showFilters ? T.text : T.muted,
+            background: showFilters ? T.pill : "transparent" }}
+            onClick={toggleFilters}>
+            {L.navLabels.filters}{(biomeFilter !== "all" || decade || roleFilter !== "all" || scoreMin > 2 || scoreMax < 10) ? " ·" : ""}
+          </button>
+
+          {showFilters && (
+          <div style={{ ...S.filterDrawer, background: T.navBg, borderColor: T.border }}>
+            {(() => {
+              const chip = active => ({ ...S.navBtn, fontSize:13,
+                color: active ? T.navBg : T.muted,
+                background: active ? T.text : "transparent" });
+              const row = (label, children) => (
+                <div style={{ display:"flex", alignItems:"baseline", gap:14 }}>
+                  <span style={{ width:64, flexShrink:0, fontSize:12, color:T.muted, opacity:0.7 }}>{label}</span>
+                  <div style={{ display:"flex", flexWrap:"wrap", gap:2 }}>{children}</div>
+                </div>
               );
-            })}
+              const ROLE_WORDS = { fr:{all:"Tous",capital:"Capitales",city:"Villes",village:"Villages",hamlet:"Hameaux",bridge:"Ponts",satellite:"Satellites"}, en:{all:"All",capital:"Capitals",city:"Cities",village:"Villages",hamlet:"Hamlets",bridge:"Bridges",satellite:"Satellites"} };
+              return (<>
+                {row(lang === "fr" ? "Zone" : "Zone",
+                  Object.entries(BIOME_META).map(([key, meta]) => (
+                    <button key={key} style={chip(biomeFilter === key)} onClick={() => setBiomeFilter(key)}>
+                      {meta[lang] || meta.fr}
+                    </button>
+                  )))}
+                {row(lang === "fr" ? "Niveau" : "Level",
+                  <LevelChips scoreMin={scoreMin} scoreMax={scoreMax} setScoreMin={setScoreMin} setScoreMax={setScoreMax}
+                    T={T} lang={lang} chip={chip} />)}
+                {row(lang === "fr" ? "Époque" : "Era",
+                  DECADES.map(d => (
+                    <button key={d ?? "all"} style={chip(decade === d)} onClick={() => setDecade(d)}>
+                      {decadeLabel(d, lang)}
+                    </button>
+                  )))}
+                {row(lang === "fr" ? "Rôle" : "Role",
+                  Object.keys(ROLE_WORDS.fr).map(key => (
+                    <button key={key} style={chip(roleFilter === key)} onClick={() => setRoleFilter(key)}>
+                      {ROLE_WORDS[lang]?.[key] || key}
+                    </button>
+                  )))}
+                <div style={{ alignSelf:"stretch", borderTop:`2px dotted ${T.border}`, paddingTop:12,
+                  display:"flex", justifyContent:"space-between", alignItems:"baseline", gap:24,
+                  fontSize:13, color:T.text }}>
+                  <span><b style={{ fontWeight:700 }}>{filteredWorks.length.toLocaleString(lang === "fr" ? "fr-CA" : "en-CA")}</b>{" "}
+                    {lang === "fr" ? (filteredWorks.length > 1 ? "œuvres sur le globe" : "œuvre sur le globe") : (filteredWorks.length === 1 ? "work on the globe" : "works on the globe")}
+                    {filteredWorks.length === 0 && (lang === "fr" ? " — élargis un filtre" : " — widen a filter")}</span>
+                  {filtersOn && <button style={{ ...S.navBtn, padding:0, color:T.muted, textDecoration:"underline", textUnderlineOffset:3 }}
+                    onClick={resetFilters}>{lang === "fr" ? "Tout remettre" : "Clear all"}</button>}
+                </div>
+              </>);
+            })()}
           </div>
-
-          {sep}
-
-          <div style={{ display:"flex", gap:10, alignItems:"center", minWidth:220 }}>
-            <Slider label="Min" value={scoreMin} min={2} max={9} step={0.5}
-              onChange={setScoreMin} T={T} fmt={v => v.toFixed(1)} />
-            <Slider label="Max" value={scoreMax} min={3} max={10} step={0.5}
-              onChange={setScoreMax} T={T} fmt={v => v.toFixed(1)} />
-          </div>
-
-          {sep}
-
-          <div style={{ display:"flex", gap:2, alignItems:"center", flexShrink:0 }}>
-            {DECADES.map(d => {
-              const active = decade === d;
-              return (
-                <button key={d ?? "all"} style={{
-                  ...S.navBtn, padding:"5px 6px", fontSize:11,
-                  color: active ? T.text : T.muted,
-                  borderColor: active ? T.border : "transparent",
-                  background:  active ? T.pill : "transparent",
-                }} onClick={() => setDecade(active ? null : d)}>
-                  {d ? `${String(d).slice(2)}s` : "∞"}
-                </button>
-              );
-            })}
-          </div>
-
-          {sep}
-
-          {/* Rôle */}
-          <div style={{ display:"flex", gap:2, alignItems:"center", flexShrink:0 }}>
-            {Object.entries(L.roles).map(([key, label]) => {
-              const active = roleFilter === key;
-              if (key === "all") return (
-                <button key={key} style={{
-                  ...S.navBtn, padding:"5px 7px", fontSize:10,
-                  color: active ? T.text : T.muted,
-                  borderColor: active ? T.border : "transparent",
-                  background: active ? T.pill : "transparent",
-                }} onClick={() => setRoleFilter(key)}>
-                  {label}
-                </button>
-              );
-              const ROLE_ICONS = { capital:"◉", city:"●", village:"•", bridge:"—", island:"◎", hamlet:"·" };
-              return (
-                <button key={key} title={label} style={{
-                  ...S.navBtn, padding:"5px 7px", fontSize:10,
-                  color: active ? T.text : T.muted,
-                  borderColor: active ? T.border : "transparent",
-                  background: active ? T.pill : "transparent",
-                }} onClick={() => setRoleFilter(key)}>
-                  {ROLE_ICONS[key] || key}
-                </button>
-              );
-            })}
-          </div>
+          )}
 
           {sep}
 
           <SearchBar dark={dark} T={T} lang={lang} onSelect={w => {
-            handleSelect(w); if (compareMode) return;
-            setBiomeFilter("all");
+            if (!filteredWorks.some(f => f.id === w.id)) resetFilters();
+            handleSelect(w);
           }} />
 
           {sep}
 
           <div style={{ display:"flex", gap:3, flexShrink:0 }}>
             <button title="Atterrir au hasard" style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
-              onClick={() => landRandom()}>◎</button>
+              onClick={surprise}>{L.navLabels.random}</button>
             <button title={voyageMode ? "Arrêter" : "Voyager"} style={{
               ...S.navBtn,
               color: voyageMode ? T.text : T.muted,
-              borderColor: voyageMode ? T.border : "transparent",
-              background:  voyageMode ? T.pill : "transparent",
+              background: voyageMode ? T.pill : "transparent",
             }} onClick={() => voyageMode ? stopVoyage() : startVoyage(selectedWork||undefined)}>
-              {voyageMode ? "◼" : "▷"}
+              {voyageMode ? (lang === "fr" ? "Arrêter" : "Stop") : L.navLabels.voyage}
             </button>
             <button title="Comparer" style={{
               ...S.navBtn,
               color: compareMode ? T.text : T.muted,
-              borderColor: compareMode ? T.border : "transparent",
-              background:  compareMode ? T.pill : "transparent",
-            }} onClick={toggleCompare}>⊕</button>
-            <button title="Réinitialiser" style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
+              background: compareMode ? T.pill : "transparent",
+            }} onClick={toggleCompare}>{L.navLabels.compare}</button>
+            {(biomeFilter !== "all" || decade || roleFilter !== "all" || scoreMin > 2 || scoreMax < 10 || voyageMode || compareMode) && (
+            <button style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
               onClick={() => { setBiomeFilter("all"); setScoreMin(2); setScoreMax(10); setDecade(null); setRoleFilter("all"); stopVoyage(); setCompareMode(false); }}>
-              ↺
+              {L.filterReset}
             </button>
+            )}
             <button style={{
-              ...S.navBtn, color: T.muted, borderColor: T.border,
-              background: T.pill, fontFamily:"'DM Mono',monospace",
+              ...S.navBtn, color: T.muted,
+              background: T.pill, fontFamily:"var(--font-ui)",
             }} onClick={toggleLang}>{L.nav.lang}</button>
             <button style={{ ...S.navBtn, color: T.muted, borderColor:"transparent" }}
-              onClick={toggleDark}>{dark ? "◐" : "◑"}</button>
+              onClick={toggleDark}>{L.themeLabel(dark)}</button>
           </div>
         </nav>
       )}
+
+      {/* Accueil — une seule recommandation, pas une légende */}
+      {tonight && introComplete && !selectedWork && !showOnboarding && !voyageMode
+        && !compareMode && !showFilters && !tonightDismissed
+        && (!filtersOn || filteredWorks.some(w => w.id === tonight.id)) && (
+        <div style={{ position:"fixed", left:20, bottom: mobile ? 80 : 26, zIndex:25,
+          width: mobile ? "calc(100vw - 40px)" : 300, padding:"14px 16px",
+          background: T.cardBg, border:"none", borderRadius:0,
+          boxShadow:"none", animation:"fadeIn 0.6s ease" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", fontSize:12, color:T.muted }}>
+            <span>{lang === "fr" ? "Ce soir" : "Tonight"}</span>
+            <button onClick={() => setTonightDismissed(true)} aria-label={lang === "fr" ? "Fermer" : "Dismiss"}
+              style={{ background:"none", border:"none", color:T.muted, cursor:"pointer", padding:0, fontSize:12 }}>✕</button>
+          </div>
+          <div style={{ marginTop:6, fontSize:19, fontWeight:700, letterSpacing:"-0.025em", lineHeight:1.1, color:T.text }}>
+            {tonight.title}
+          </div>
+          <div style={{ marginTop:4, fontSize:13, color:T.muted }}>
+            {tonight.artist}{tonight.year ? ` · ${tonight.year}` : ""}
+          </div>
+          <button onClick={() => handleSelect(tonight)} style={{ marginTop:12, padding:"7px 14px",
+            background:T.text, color:T.cardBg, border:"none", borderRadius:0, cursor:"pointer",
+            fontSize:13, fontWeight:700, fontFamily:"var(--font-ui)" }}>
+            {lang === "fr" ? "Écoute." : "Listen."}
+          </button>
+        </div>
+      )}
+
+      {/* Légende de surprise : l'écart réel avec l'œuvre quittée */}
+      {/* Tirage : un titre après l'autre, de plus en plus lentement, puis celui qui reste.
+          Blanc en mode différence : il s'inverse sur le globe comme sur le fond. */}
+      {draw && (
+        <div style={{ position:"fixed", inset:0, zIndex:36, pointerEvents:"none", mixBlendMode:"difference",
+          color:"#ffffff", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+          textAlign:"center", fontFamily:"var(--font-ui)", padding:"0 6vw" }}>
+          <div style={{ fontSize:13, fontWeight:600, marginBottom:14, display:"flex", alignItems:"center", gap:12 }}>
+            <span style={{ width:44, borderTop:"3px dotted #ffffff" }} />
+            {lang === "fr" ? "Surprise" : "Surprise"}
+            <span style={{ width:44, borderTop:"3px dotted #ffffff" }} />
+          </div>
+          <div key={draw.k} style={{ fontWeight:800, letterSpacing:"-0.05em",
+            // Le titre tient dans le disque du globe : il rétrécit quand il s'allonge
+            fontSize: draw.title.length > 40 ? "clamp(24px, 3vw, 40px)" : draw.title.length > 20 ? "clamp(28px, 4.2vw, 58px)" : "clamp(34px, 6.4vw, 92px)",
+            lineHeight:1.0, maxWidth:"min(640px, 78vw)", textWrap:"balance", opacity: draw.last ? 1 : 0.9,
+            animation: draw.last ? "drawLand 260ms cubic-bezier(.16,1,.3,1) both" : "drawTick 70ms linear both" }}>
+            {draw.title}
+          </div>
+          <div style={{ fontSize:16, marginTop:14, minHeight:22, opacity: draw.last ? 1 : 0 }}>{draw.artist || ""}</div>
+        </div>
+      )}
+
+      {/* Légende de surprise : l'écart réel avec l'œuvre quittée */}
+      {trail && !draw && (() => {
+        // Hors du globe, sous le logo : toujours sur le fond uni, dans la couleur du logo.
+        const d = trail.from ? computeDistance(trail.from, trail.to) : null;
+        const fromName = trail.from ? (trail.from.title || trail.from.artist || "") : "";
+        const from = fromName ? (fromName.length > 30 ? fromName.slice(0, 29) + "…" : fromName) : null;
+        return (
+          <div key={trail.key} style={{ position:"fixed", top: mobile ? 14 : 78, left: mobile ? 16 : 20,
+            zIndex:35, pointerEvents:"none", fontFamily:"var(--font-ui)", color:T.onBg,
+            maxWidth: mobile ? "70vw" : 300, animation:"drawLand 520ms 380ms cubic-bezier(.16,1,.3,1) both" }}>
+            <div style={{ width:56, borderTop:`3px dotted ${T.onBg}`, marginBottom:10 }} />
+            <div style={{ fontSize:13, fontWeight:600 }}>
+              {from ? <>{lang === "en" ? "Surprise · from" : "Surprise · depuis"} « {from} »</> : "Surprise"}
+            </div>
+            <div style={{ fontSize: mobile ? 28 : 40, fontWeight:800, letterSpacing:"-0.045em", lineHeight:1.02, marginTop:4 }}>
+              {d !== null ? distanceLabel(d, lang) : (lang === "en" ? "First draw" : "Premier tirage")}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Hover card */}
       {hoveredWork && !selectedWork && !compareMode && (
@@ -1217,12 +1393,12 @@ export default function HomePage() {
               background: BIOME_META[hoveredWork.biome||hoveredWork.regime].color }} />
           )}
           <div style={{ flex:1, minWidth:0 }}>
-            <div style={{ fontSize:14, fontStyle:"italic", color: T.text,
+            <div style={{ fontSize:14, fontStyle:"normal", color: T.text,
               overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
               {hoveredWork.title}
             </div>
             <div style={{ fontSize:12, color: T.muted, marginTop:2,
-              fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>
+              fontFamily:"var(--font-ui)", letterSpacing:"0.005em" }}>
               {hoveredWork.artist}
               {hoveredWork.year && (
                 <span style={{ marginLeft:6, opacity:0.6 }}>{hoveredWork.year}</span>
@@ -1231,65 +1407,39 @@ export default function HomePage() {
             {/* Rôle avec description courte */}
             {hoveredWork.role && (
               <div style={{ fontSize:11, color: T.muted, marginTop:3, opacity:0.7,
-                fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>
+                fontFamily:"var(--font-ui)", letterSpacing:"0.005em" }}>
                 {(L.roles[hoveredWork.role] || hoveredWork.role)}
               </div>
             )}
           </div>
-          {hoveredWork.score && (
-            <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end",
-              gap:2, flexShrink:0 }}>
-              <span style={{ fontSize:14, color: T.text,
-                fontFamily:"'DM Mono',monospace", fontWeight:500 }}>
-                {Number(hoveredWork.score).toFixed(1)}
-              </span>
-              <span style={{ fontSize:10, color: T.muted, opacity:0.6,
-                fontFamily:"'DM Mono',monospace" }}>/10</span>
-            </div>
-          )}
         </div>
       )}
 
-      {/* Mode compare — instruction */}
-      {compareMode && !compareA && (
-        <div style={{ ...S.hoverCard, background: T.cardBg, borderColor: T.border,
-          pointerEvents:"none" }}>
-          <span style={{ fontSize:12, color: T.muted, fontFamily:"'DM Mono',monospace",
-            letterSpacing:"0.1em" }}>{L.compare.instruction1}</span>
-        </div>
-      )}
-      {compareMode && compareA && !compareB && (
-        <div style={{ ...S.hoverCard, background: T.cardBg, borderColor: T.border,
-          pointerEvents:"none" }}>
-          <span style={{ fontSize:12, color: T.muted, fontFamily:"'DM Mono',monospace",
-            letterSpacing:"0.1em" }}>{L.compare.instruction2}</span>
-        </div>
-      )}
 
       {/* Wordmark — masqué sur mobile (trop haut pour le pouce) */}
       {!mobile && <div style={{ ...S.wordmark, cursor:"pointer" }}
         onClick={() => setShowOnboarding(true)}
         title={lang === "fr" ? "Changer de mode" : "Change mode"}>
-        <span style={{ display:"block", fontSize:20, fontStyle:"italic",
-          letterSpacing:"-0.04em", color: T.text, lineHeight:1 }}>lisn</span>
-        <span style={{ display:"block", fontSize:10, letterSpacing:"0.20em",
-          color: T.muted, fontFamily:"'DM Mono',monospace", marginTop:3,
-          textTransform:"uppercase" }}>
-          {modeLabel} · {filteredWorks.length}
+        <span style={{ display:"block", fontSize:30, fontWeight:800,
+          letterSpacing:"-0.035em", color: T.onBg, lineHeight:1 }}>lisn</span>
+        <span style={{ display:"block", fontSize:13, letterSpacing:"0.005em",
+          color: T.onBgMuted, fontFamily:"var(--font-ui)", marginTop:3,
+          textTransform:"none" }}>
+          {selectedWork ? "" : (lang === "fr" ? "Mais tu peux toujours aimer ce que tu aimes." : "But you can still like what you like.")}
         </span>
-        <span style={{ display:"block", fontSize:9, letterSpacing:"0.14em",
-          color: T.muted, fontFamily:"'DM Mono',monospace", marginTop:4,
-          opacity:0.55, textTransform:"uppercase" }}>
-          {lang === "fr" ? "Expand your musical taste" : "Expand your musical taste"}
+        <span style={{ display:"block", fontSize:11, letterSpacing:"0.005em",
+          color: T.onBgMuted, fontFamily:"var(--font-ui)", marginTop:4,
+          opacity:0.55, textTransform:"none" }}>
+          {modeLabel !== L.modeLabels.globe ? modeLabel : ""}
         </span>
       </div>}
 
       {/* Panel sélection — caché en mode compare */}
-      {!compareMode && (
+      {!compareMode && !voyageMode && (
         <WorkPanel
           work={selectedWork}
           onClose={() => { setSelectedWork(null); setPanelTab("fiche"); if (voyageMode) stopVoyage(); }}
-          dark={dark} tab={panelTab} onTabChange={setPanelTab}
+          dark={!dark} tab={panelTab} onTabChange={setPanelTab}
           nearbyWorks={nearbyWorks} trajectoryWorks={trajectoryWorks}
           onExploreAround={() => exploreAround(selectedWork)}
           onShowTrajectory={() => showTrajectory(selectedWork)}
@@ -1300,6 +1450,7 @@ export default function HomePage() {
           onRequestDiscuss={w => setDiscussWork(w)}
           mobile={mobile}
           lang={lang}
+          coverUrl={coverUrl} tint={tint}
           isFavorite={isFavorite(selectedWork)}
           onToggleFavorite={() => toggleFavorite(selectedWork)}
           activeMode={activeMode}
@@ -1327,11 +1478,11 @@ export default function HomePage() {
       )}
 
       {/* ── A. Légende flottante ─────────────────────────────── */}
-      {showLegend && !showOnboarding && (
+      {false && showLegend && (
         <div style={{
           position:"fixed", left:20, bottom: mobile ? (voyageMode ? 190 : 80) : 70,
           zIndex:25, display:"flex", flexDirection:"column", gap:5,
-          fontFamily:"'DM Mono',monospace",
+          fontFamily:"var(--font-ui)",
           animation:"fadeIn 0.5s ease",
         }}>
           {/* Taille = densité */}
@@ -1344,9 +1495,9 @@ export default function HomePage() {
                 }} />
               ))}
             </div>
-            <span style={{ fontSize:10, color:T.muted, letterSpacing:"0.10em",
-              textTransform:"uppercase" }}>
-              {lang === "fr" ? "taille = densité" : "size = density"}
+            <span style={{ fontSize:11, color:T.muted, letterSpacing:"0.005em",
+              textTransform:"none" }}>
+              {lang === "fr" ? "taille : densité" : "size: density"}
             </span>
           </div>
           {/* Couleurs biomes */}
@@ -1357,17 +1508,17 @@ export default function HomePage() {
                 background: meta.color, flexShrink:0,
               }} />
             ))}
-            <span style={{ fontSize:10, color:T.muted, letterSpacing:"0.10em",
-              textTransform:"uppercase" }}>
-              {lang === "fr" ? "couleur = zone" : "color = zone"}
+            <span style={{ fontSize:11, color:T.muted, letterSpacing:"0.005em",
+              textTransform:"none" }}>
+              {lang === "fr" ? "couleur : zone" : "color: zone"}
             </span>
           </div>
           {/* Fermer */}
           <button onClick={() => setShowLegend(false)} style={{
             background:"none", border:"none", cursor:"pointer",
-            fontSize:10, color:T.muted, letterSpacing:"0.10em",
+            fontSize:11, color:T.muted, letterSpacing:"0.005em",
             textAlign:"left", padding:0, opacity:0.6,
-            fontFamily:"'DM Mono',monospace", textTransform:"uppercase",
+            fontFamily:"var(--font-ui)", textTransform:"none",
           }}>
             {lang === "fr" ? "masquer" : "hide"}
           </button>
@@ -1375,19 +1526,19 @@ export default function HomePage() {
       )}
 
       {/* Indicateur temporel selon zoom */}
-      {!showOnboarding && !selectedWork && (
+      {false && (
         <div style={{
           position:"fixed",
           right: mobile ? 12 : 20,
           bottom: mobile ? (voyageMode ? 190 : 80) : 70,
           zIndex:25, textAlign:"right",
-          fontFamily:"'DM Mono',monospace",
+          fontFamily:"var(--font-ui)",
           pointerEvents:"none",
           opacity: Math.abs(globeZoom - 0.5) > 0.15 ? 0.7 : 0,
           transition:"opacity 0.6s ease",
         }}>
-          <div style={{ fontSize:10, color:T.muted, letterSpacing:"0.12em",
-            textTransform:"uppercase" }}>
+          <div style={{ fontSize:11, color:T.muted, letterSpacing:"0.005em",
+            textTransform:"none" }}>
             {globeZoom > 0.75
               ? (lang === "fr" ? "vue d'ensemble" : "overview")
               : globeZoom < 0.35
@@ -1395,8 +1546,8 @@ export default function HomePage() {
               : null}
           </div>
           {globeZoom < 0.35 && (
-            <div style={{ fontSize:9, color:T.muted, opacity:0.6, marginTop:2,
-              letterSpacing:"0.08em" }}>
+            <div style={{ fontSize:11, color:T.muted, opacity:0.6, marginTop:2,
+              letterSpacing:"0.005em" }}>
               {lang === "fr" ? "zoom → révèle les racines" : "zoom → reveals roots"}
             </div>
           )}
@@ -1404,20 +1555,20 @@ export default function HomePage() {
       )}
 
       {/* Bouton pour réafficher la légende */}
-      {!showLegend && !showOnboarding && (
+      {false && !showLegend && (
         <button onClick={() => setShowLegend(true)} style={{
           position:"fixed", left:20, bottom: mobile ? (voyageMode ? 190 : 80) : 70,
           zIndex:25, background:"none", border:"none",
           cursor:"pointer", fontSize:11, color:T.muted,
-          fontFamily:"'DM Mono',monospace", letterSpacing:"0.10em",
-          padding:0, textTransform:"uppercase", opacity:0.5,
+          fontFamily:"var(--font-ui)", letterSpacing:"0.005em",
+          padding:0, textTransform:"none", opacity:0.5,
         }}>
           {lang === "fr" ? "légende" : "legend"}
         </button>
       )}
 
       {/* ── C. Idle hint ───────────────────────────────────────── */}
-      {showIdleHint && !selectedWork && !showOnboarding && (
+      {showIdleHint && tonightDismissed && !selectedWork && !showOnboarding && !showFilters && (
         <div style={{
           position:"fixed", top:"50%", left:"50%",
           transform:"translate(-50%, -50%)",
@@ -1426,10 +1577,9 @@ export default function HomePage() {
           animation:"fadeInUp 0.6s ease",
         }}>
           <div style={{
-            fontSize:12, color:T.muted, letterSpacing:"0.18em",
-            textTransform:"uppercase", fontFamily:"'DM Mono',monospace",
+            fontSize:12, color:"#8c8c8c", letterSpacing:"0.005em",
+            textTransform:"none", fontFamily:"var(--font-ui)",
             textAlign:"center", lineHeight:1.8,
-            textShadow: dark ? "0 0 20px rgba(0,0,0,0.8)" : "0 0 20px rgba(237,230,220,0.9)",
           }}>
             {lang === "fr"
               ? <>Clique un point<br/>pour l'explorer</>
@@ -1438,9 +1588,8 @@ export default function HomePage() {
           </div>
           <div style={{
             fontSize:11, color:T.muted, opacity:0.5,
-            fontFamily:"'DM Mono',monospace", letterSpacing:"0.14em",
-            textTransform:"uppercase",
-            textShadow: dark ? "0 0 20px rgba(0,0,0,0.8)" : "0 0 20px rgba(237,230,220,0.9)",
+            fontFamily:"var(--font-ui)", letterSpacing:"0.005em",
+            textTransform:"none",
           }}>
             {lang === "fr" ? "ou fais tourner le globe" : "or rotate the globe"}
           </div>
@@ -1477,28 +1626,36 @@ export default function HomePage() {
 
 const S = {
   page:    { width:"100vw", height:"100vh", position:"relative", overflow:"hidden",
-             fontFamily:"'Libre Baskerville', Georgia, serif" },
+             fontFamily:"var(--font-ui)" },
   stage:   { position:"absolute", inset:0 },
   nav: {
     position:"absolute", bottom:18, left:"50%", transform:"translateX(-50%)",
-    zIndex:20, display:"flex", alignItems:"center", gap:3,
-    padding:"6px 10px", borderRadius:2, border:"1px solid",
-    backdropFilter:"blur(18px)", WebkitBackdropFilter:"blur(18px)",
-    maxWidth:"calc(100vw - 24px)", overflowX:"auto",
+    zIndex:40, display:"flex", alignItems:"center", gap:3,
+    padding:"6px 10px", borderRadius:0, border:"none",
+    backdropFilter:"none", WebkitBackdropFilter:"none",
+    maxWidth:"calc(100vw - 24px)",
+    boxShadow:"none",
+  },
+  filterDrawer: {
+    position:"absolute", bottom:"calc(100% + 10px)", left:"50%", transform:"translateX(-50%)",
+    display:"flex", flexDirection:"column", alignItems:"flex-start",
+    gap:12, padding:"18px 20px", border:"none", borderRadius:0,
+    width:"max-content", maxWidth:"calc(100vw - 48px)",
+    boxShadow:"none",
   },
   navGroup: { display:"flex", alignItems:"center", gap:2, flexShrink:0 },
   navBtn: {
-    background:"none", border:"1px solid", borderRadius:1,
-    fontSize:12, letterSpacing:"0.12em", padding:"5px 7px",
+    background:"none", border:"none", borderRadius:0,
+    fontSize:13, letterSpacing:"0.005em", padding:"6px 10px",
     cursor:"pointer", display:"flex", alignItems:"center", gap:4,
-    fontFamily:"'DM Mono','Courier New',monospace", textTransform:"uppercase",
+    fontFamily:"var(--font-ui)", textTransform:"none",
     transition:"all 0.12s", whiteSpace:"nowrap", flexShrink:0,
   },
   dot:  { width:5, height:5, borderRadius:"50%", flexShrink:0 },
   hoverCard: {
     position:"absolute", bottom:72, left:"50%", transform:"translateX(-50%)",
-    border:"1px solid", borderRadius:1, padding:"9px 14px",
-    pointerEvents:"none", backdropFilter:"blur(12px)",
+    border:"none", borderRadius:0, padding:"9px 14px",
+    pointerEvents:"none", backdropFilter:"none",
     display:"flex", alignItems:"center", gap:10, minWidth:180, maxWidth:300,
   },
   hoverCardVoyage: {
@@ -1508,18 +1665,17 @@ const S = {
   voyageIndicator: {
     position:"absolute", top:18, right:20, zIndex:30,
     display:"flex", alignItems:"center", gap:8,
-    padding:"8px 12px", borderRadius:1, border:"1px solid",
-    backdropFilter:"blur(12px)", fontFamily:"'DM Mono',monospace",
+    padding:"8px 12px", borderRadius:0, border:"none",
+    backdropFilter:"none", fontFamily:"var(--font-ui)",
   },
   wordmark: { position:"absolute", top:18, left:20, zIndex:10 },
   mobileBtn: T => ({
     background:"none", border:"none", cursor:"pointer",
     display:"flex", flexDirection:"column", alignItems:"center", gap:3,
-    padding:"4px 6px", minWidth:44,
+    padding:"10px 4px", minWidth:40,
   }),
-  mobileBtnIcon: { fontSize:16, color:"inherit", lineHeight:1 },
+  mobileBtnIcon: { display:"none" },   // la barre mobile parle en mots
   mobileBtnLabel: T => ({
-    fontSize:10, color: T.muted, fontFamily:"'DM Mono',monospace",
-    letterSpacing:"0.10em", textTransform:"uppercase",
+    fontSize:12, color: T.muted, fontFamily:"var(--font-ui)",
   }),
 };

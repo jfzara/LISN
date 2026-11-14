@@ -1,10 +1,12 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import AudioPlayer from "./AudioPlayer";
+import { contrastOn } from "@/lib/lisn/tint";
 
 const BIOME_COLOR = {
-  dense: "#FF6B2F", atmospheric: "#4ABFFF", structural: "#E8C97A",
-  narrative: "#FF9A4D", hybrid: "#C07AE8",
+  dense: "#8c8c8c", atmospheric: "#8c8c8c", structural: "#8c8c8c",
+  narrative: "#8c8c8c", hybrid: "#8c8c8c",
 };
 
 // Labels bilingues
@@ -44,23 +46,26 @@ const ROLE_DESC = {
   },
 };
 
+// Le seed mélange clés françaises et anglaises pour les rôles
+const ROLE_ALIAS = { capitale:"capital", ville:"city", pont:"bridge" };
+
 // Textes UI panel
 const PANEL_UI = {
   fr: {
-    close: "FERMER", score: "Score OSR", role: "Rôle", zone: "Zone",
+    close: "Fermer", score: "Score OSR", role: "Rôle", zone: "Zone",
     type: "Type", year: "Année",
     exploreAround: "Explorer autour", trajectory: "Trajectoire de l'artiste",
     voyage: "Voyager depuis ici", voyageStop: "Arrêter le voyage",
     analyse: "Analyser dans LISN →",
     discuss: "Discuter avec LISN",
     tabFiche: "Fiche", tabAround: "Autour", tabTrajectory: "Trajectoire",
-    emptyHint: "Survolez une présence lumineuse, cliquez pour ouvrir sa fiche.",
-    autourEmpty: "Cliquez sur l'onglet Autour depuis la fiche pour voir les œuvres proches.",
-    trajectoryEmpty: "Cliquez sur la fiche pour voir l'évolution de l'artiste.",
+    emptyHint: "Survole un point, clique pour ouvrir sa fiche.",
+    autourEmpty: "Clique sur l'onglet Autour depuis la fiche pour voir les œuvres proches.",
+    trajectoryEmpty: "Clique sur la fiche pour voir l'évolution de l'artiste.",
     types: { album:"Album", artist:"Artiste", track:"Morceau" },
   },
   en: {
-    close: "CLOSE", score: "OSR Score", role: "Role", zone: "Zone",
+    close: "Close", score: "OSR Score", role: "Role", zone: "Zone",
     type: "Type", year: "Year",
     exploreAround: "Explore around", trajectory: "Artist trajectory",
     voyage: "Voyage from here", voyageStop: "Stop voyage",
@@ -74,18 +79,44 @@ const PANEL_UI = {
   },
 };
 
+// ── Pochette — l'œuvre en héros ───────────────────────────────────
+// Va chercher la pochette via /api/cover ; sinon, une pochette
+// typographique sobre aux couleurs de la zone.
+function Cover({ work, url, tint, size = "100%", radius = 0 }) {
+  const [loaded, setLoaded] = useState(null);
+  const ok = !!url && loaded === url;
+  const bg = tint || "#8c8c8c";
+  return (
+    <div style={{ width:size, aspectRatio:"1 / 1", position:"relative", overflow:"hidden",
+      borderRadius:radius, flexShrink:0, background:bg, transition:"background 500ms ease" }}>
+      {size === "100%" && (
+        <div style={{ position:"absolute", left:"8%", right:"8%", bottom:"8%",
+          color: contrastOn(bg), fontWeight:800, letterSpacing:"-0.05em", lineHeight:1.0,
+          fontSize:40, paddingBottom:6, overflow:"hidden",
+          display:"-webkit-box", WebkitLineClamp:4, WebkitBoxOrient:"vertical" }}>
+          {work?.title}
+        </div>
+      )}
+      {url && (
+        <img key={url} src={url} alt="" onLoad={() => setLoaded(url)}
+          style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover",
+            opacity: ok ? 1 : 0, transition:"opacity 400ms ease" }} />
+      )}
+    </div>
+  );
+}
+
 // ── Score bar ─────────────────────────────────────────────────────
 function ScoreBar({ score, dark }) {
   const pct   = Math.round((score / 10) * 100);
-  const color = score >= 9.0 ? "#FF6B2F" : score >= 8.0 ? "#E8C97A" : score >= 7.0 ? "#4ABFFF"
-              : dark ? "rgba(232,223,200,0.30)" : "rgba(26,20,16,0.22)";
-  const trackBg = dark ? "rgba(242,234,216,0.08)" : "rgba(18,14,10,0.09)";
-  const labelC  = dark ? "#8a7c6c" : "#4e4438";
+  const color = dark ? "#ffffff" : "#000000";
+  const trackBg = dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.09)";
+  const labelC  = dark ? "rgba(255,255,255,0.62)" : "rgba(0,0,0,0.58)";
   return (
     <div style={{ marginTop: 16 }}>
       <div style={{ display:"flex", justifyContent:"space-between", marginBottom:5,
-        fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase", color: labelC,
-        fontFamily:"'DM Mono', monospace" }}>
+        fontSize:11, letterSpacing:"0.005em", textTransform:"none", color: labelC,
+        fontFamily:"var(--font-ui)" }}>
         <span>Score OSR</span>
         <span style={{ color, fontWeight:500, fontSize:12 }}>{score.toFixed(1)}</span>
       </div>
@@ -99,9 +130,9 @@ function ScoreBar({ score, dark }) {
 
 // ── Onglets ───────────────────────────────────────────────────────
 function Tabs({ tab, onChange, dark, lang = "fr" }) {
-  const text  = dark ? "#f2ead8" : "#120e0a";
-  const muted = dark ? "#8a7c6c" : "#4e4438";
-  const bord  = dark ? "rgba(242,234,216,0.12)" : "rgba(18,14,10,0.12)";
+  const text  = dark ? "#ffffff" : "#000000";
+  const muted = dark ? "rgba(255,255,255,0.62)" : "rgba(0,0,0,0.58)";
+  const bord  = dark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)";
   const P2 = PANEL_UI[lang] || PANEL_UI.fr;
   const tabs  = [
     { key: "fiche",       label: P2.tabFiche },
@@ -109,16 +140,16 @@ function Tabs({ tab, onChange, dark, lang = "fr" }) {
     { key: "trajectoire", label: P2.tabTrajectory },
   ];
   return (
-    <div style={{ display:"flex", borderBottom:`1px solid ${bord}`, marginBottom:14 }}>
+    <div style={{ display:"flex", marginBottom:14 }}>
       {tabs.map(t => (
         <button key={t.key} onClick={() => onChange(t.key)} style={{
           flex:1, padding:"8px 4px", background:"none", border:"none",
-          cursor:"pointer", fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
-          fontFamily:"'DM Mono', monospace",
+          cursor:"pointer", fontSize:11, letterSpacing:"0.005em", textTransform:"none",
+          fontFamily:"var(--font-ui)",
           color: tab === t.key ? text : muted,
           borderBottom: tab === t.key
-            ? `1px solid ${text}` : "1px solid transparent",
-          marginBottom: -1, transition:"all 0.12s",
+            ? `2px solid ${text}` : "2px solid transparent",
+          fontWeight: tab === t.key ? 700 : 400, transition:"all 0.12s",
         }}>{t.label}</button>
       ))}
     </div>
@@ -131,9 +162,9 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
 
   // Indicateur de mode actif
   const MODE_META = {
-    random:    { color:"#FF6B2F", icon:"◉", fr:"Je tourne en rond",          en:"Explore mode" },
-    mountains: { color:"#E8C97A", icon:"△", fr:"Ce qui compte vraiment",     en:"Peaks mode" },
-    frontier:  { color:"#4ABFFF", icon:"◇", fr:"Sortir de ma zone",          en:"Frontier mode" },
+    random:    { color:"#8c8c8c", icon:"◉", fr:"Je tourne en rond",          en:"Explore mode" },
+    mountains: { color:"#ffffff", icon:"△", fr:"Ce qui compte vraiment",     en:"Peaks mode" },
+    frontier:  { color:"#ffffff", icon:"◇", fr:"Sortir de ma zone",          en:"Frontier mode" },
     free:      { color:null,      icon:"○", fr:"Navigation libre",           en:"Free navigation" },
   };
   const modeMeta = MODE_META[activeMode] || MODE_META.free;
@@ -141,10 +172,10 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
   const BL = BIOME_LABEL[lang] || BIOME_LABEL.fr;
   const RL = ROLE_LABEL[lang]  || ROLE_LABEL.fr;
   const RD = ROLE_DESC[lang]   || ROLE_DESC.fr;
-  const text  = dark ? "#f2ead8" : "#120e0a";
-  const muted = dark ? "#9c8e7e" : "#5c5048";
-  const bord  = dark ? "rgba(242,234,216,0.09)" : "rgba(18,14,10,0.12)";
-  const pill  = dark ? "rgba(242,234,216,0.08)" : "rgba(26,20,16,0.06)";
+  const text  = dark ? "#ffffff" : "#000000";
+  const muted = dark ? "rgba(255,255,255,0.62)" : "rgba(0,0,0,0.58)";
+  const bord  = dark ? "rgba(255,255,255,0.34)" : "rgba(0,0,0,0.34)";
+  const pill  = dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
   const biome = work.biome || work.regime;
 
   const metaItems = [
@@ -156,28 +187,21 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
 
   return (
     <>
-      {typeof work.score === "number" && <ScoreBar score={work.score} dark={dark} />}
+      {/* Écouter d'abord */}
+      <AudioPlayer key={work.id} work={work} dark={dark} lang={lang} />
 
-      {/* Player Spotify */}
-      <AudioPlayer work={work} dark={dark} lang={lang} />
-
-      {/* Méta 2×2 */}
-      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6, marginTop:14 }}>
-        {metaItems.map(({ label, val, color }) => (
-          <div key={label} style={{ padding:"8px 10px", border:`1px solid ${bord}`, borderRadius:1 }}>
-            <div style={{ fontSize:11, letterSpacing:"0.12em", textTransform:"uppercase",
-              color: muted, marginBottom:3, fontFamily:"'DM Mono', monospace" }}>{label}</div>
-            <div style={{ fontSize:13, fontWeight:500, color: color || text }}>{val}</div>
-          </div>
-        ))}
+      <div style={{ marginTop:14, fontSize:13, color: muted, lineHeight:1.5 }}>
+        {[BL[biome], RD[ROLE_ALIAS[work.role] || work.role]].filter(Boolean).join(". ")}
       </div>
+
+      {typeof work.score === "number" && <ScoreBar score={work.score} dark={dark} />}
 
       {/* Favoris + Actions — sticky en bas sur mobile */}
       {onToggleFavorite && (
         <button onClick={onToggleFavorite} style={{
           ...btnStyle(bord, text, mobile), marginTop:16,
-          borderColor: isFavorite ? BIOME_COLOR[biome] || bord : bord,
-          color: isFavorite ? BIOME_COLOR[biome] || text : text,
+          fontWeight: isFavorite ? 700 : 400,
+          color: text,
         }}>
           <span style={{ fontSize:14, marginRight:6 }}>{isFavorite ? "♥" : "♡"}</span>
           {lang === "fr"
@@ -187,47 +211,43 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
       )}
 
       {/* Actions */}
-      <div style={{ display:"flex", flexDirection:"column", gap:5, marginTop:10 }}>
+      <div style={{ display:"flex", flexDirection:"column", gap:0 }}>
         <button onClick={onExploreAround} style={{ ...btnStyle(bord, text) }}>
-          <span style={{ opacity:0.55, marginRight:6 }}>◎</span> {P.exploreAround}
+          {P.exploreAround}
         </button>
         <button onClick={onShowTrajectory} style={{ ...btnStyle(bord, text) }}>
-          <span style={{ opacity:0.55, marginRight:6 }}>—</span> {P.trajectory}
+          {P.trajectory}
         </button>
         <button onClick={() => onRequestAnalysis?.(work)} style={{
           ...btnStyle(bord, text),
-          background: BIOME_COLOR[biome] || bord,
-          borderColor: "transparent",
-          color: dark ? "#080604" : "#ffffff",
-          fontWeight: 500,
+          background: text,
+          borderStyle: "none", padding:"13px 12px", margin:"6px 0",
+          color: dark ? "#000000" : "#ffffff",
+          fontWeight: 600,
           opacity: 1,
         }}>
-          <span style={{ marginRight:6 }}>→</span> {P.analyse}
+          {P.analyse}
         </button>
         {onStartVoyage && (
           <button onClick={onStartVoyage} style={{
             ...btnStyle(bord, text),
-            borderColor: voyageMode ? text : bord,
-            background: voyageMode ? pill : "none",
+            fontWeight: voyageMode ? 700 : 400,
           }}>
-            <span style={{ opacity:0.55, marginRight:6 }}>{voyageMode ? "◼" : "▷"}</span>
             {voyageMode ? P.voyageStop : P.voyage}
           </button>
         )}
         {onRequestDiscuss && (
           <button onClick={() => onRequestDiscuss?.(work)} style={{
             ...btnStyle(bord, text),
-            borderColor: BIOME_COLOR[biome] ? `${BIOME_COLOR[biome]}55` : bord,
-            background: BIOME_COLOR[biome] ? `${BIOME_COLOR[biome]}10` : "none",
           }}>
-            <span style={{ marginRight:6, fontSize:12 }}>◈</span>
+            
             {P.discuss}
             <span style={{
-              marginLeft:"auto", fontSize:9, letterSpacing:"0.14em",
-              padding:"2px 5px", borderRadius:1,
+              marginLeft:"auto", fontSize:11, letterSpacing:"0.005em",
+              padding:"2px 5px", borderRadius:0,
               background: BIOME_COLOR[biome] ? `${BIOME_COLOR[biome]}30` : bord,
               color: BIOME_COLOR[biome] || text,
-              fontFamily:"'DM Mono',monospace", textTransform:"uppercase",
+              fontFamily:"var(--font-ui)", textTransform:"none",
             }}>PRO</span>
           </button>
         )}
@@ -239,14 +259,14 @@ function FicheTab({ work, dark, lang = "fr", onExploreAround, onShowTrajectory, 
 // ── Onglet Autour ────────────────────────────────────────────────
 function AutourTab({ works, dark, lang = "fr", onSelectWork }) {
   const P = PANEL_UI[lang] || PANEL_UI.fr;
-  const text  = dark ? "#f2ead8" : "#120e0a";
-  const muted = dark ? "#9c8e7e" : "#5c5048";
-  const bord  = dark ? "rgba(242,234,216,0.09)" : "rgba(18,14,10,0.12)";
-  const hover = dark ? "rgba(232,223,200,0.05)" : "rgba(26,20,16,0.04)";
+  const text  = dark ? "#ffffff" : "#000000";
+  const muted = dark ? "rgba(255,255,255,0.62)" : "rgba(0,0,0,0.58)";
+  const bord  = dark ? "rgba(255,255,255,0.34)" : "rgba(0,0,0,0.34)";
+  const hover = dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)";
 
   if (works.length === 0) {
     return <div style={{ fontSize:13, color: muted, marginTop:8, lineHeight:1.6 }}>
-      Cliquez P.exploreAround sur la fiche pour voir les œuvres proches.
+      Clique P.exploreAround sur la fiche pour voir les œuvres proches.
     </div>;
   }
 
@@ -255,24 +275,22 @@ function AutourTab({ works, dark, lang = "fr", onSelectWork }) {
       {works.map(w => (
         <button key={w.id} onClick={() => onSelectWork(w)} style={{
           display:"flex", alignItems:"center", gap:8,
-          background:"none", border:`1px solid ${bord}`, borderRadius:1,
-          padding:"8px 10px", cursor:"pointer", textAlign:"left",
+          background:"none", border:"none", borderTop:`2px dotted ${bord}`, borderRadius:0,
+          padding:"10px 2px", cursor:"pointer", textAlign:"left",
           transition:"background 0.1s",
         }}
           onMouseEnter={e => e.currentTarget.style.background = hover}
           onMouseLeave={e => e.currentTarget.style.background = "none"}
         >
-          <span style={{ width:6, height:6, borderRadius:"50%", flexShrink:0,
-            background: BIOME_COLOR[w.biome] || "#888" }} />
           <div style={{ flex:1, minWidth:0 }}>
-            <div style={{ fontSize:13, color: text, fontStyle:"italic",
+            <div style={{ fontSize:13, color: text, fontStyle:"normal",
               overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
               {w.title}
             </div>
-            <div style={{ fontSize:12, color: muted, fontFamily:"'DM Mono', monospace",
-              letterSpacing:"0.06em", marginTop:1 }}>{w.artist}</div>
+            <div style={{ fontSize:12, color: muted, fontFamily:"var(--font-ui)",
+              letterSpacing:"0.005em", marginTop:1 }}>{w.artist}</div>
           </div>
-          <span style={{ fontSize:12, color: muted, fontFamily:"'DM Mono', monospace",
+          <span style={{ fontSize:12, color: muted, fontFamily:"var(--font-ui)",
             flexShrink:0 }}>{Number(w.score||0).toFixed(1)}</span>
         </button>
       ))}
@@ -283,11 +301,11 @@ function AutourTab({ works, dark, lang = "fr", onSelectWork }) {
 // ── Onglet Trajectoire ───────────────────────────────────────────
 function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
   const P = PANEL_UI[lang] || PANEL_UI.fr;
-  const text  = dark ? "#f2ead8" : "#120e0a";
-  const muted = dark ? "#9c8e7e" : "#5c5048";
-  const bord  = dark ? "rgba(242,234,216,0.09)" : "rgba(18,14,10,0.12)";
-  const hover = dark ? "rgba(232,223,200,0.05)" : "rgba(26,20,16,0.04)";
-  const line  = dark ? "rgba(242,234,216,0.14)" : "rgba(18,14,10,0.14)";
+  const text  = dark ? "#ffffff" : "#000000";
+  const muted = dark ? "rgba(255,255,255,0.62)" : "rgba(0,0,0,0.58)";
+  const bord  = dark ? "rgba(255,255,255,0.34)" : "rgba(0,0,0,0.34)";
+  const hover = dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)";
+  const line  = dark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.14)";
 
   if (works.length === 0) {
     return <div style={{ fontSize:13, color: muted, marginTop:8, lineHeight:1.6 }}>
@@ -304,8 +322,8 @@ function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
   return (
     <div>
       {/* Header artiste */}
-      <div style={{ fontSize:12, color: muted, letterSpacing:"0.10em", marginBottom:12,
-        fontFamily:"'DM Mono', monospace", textTransform:"uppercase" }}>
+      <div style={{ fontSize:12, color: muted, letterSpacing:"0.005em", marginBottom:12,
+        fontFamily:"var(--font-ui)", textTransform:"none" }}>
         {works[0]?.artist} · {works.length} œuvres
       </div>
 
@@ -320,7 +338,7 @@ function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
             <button key={w.id} onClick={() => onSelectWork(w)} style={{
               display:"flex", alignItems:"flex-start", gap:10, marginBottom:8,
               background:"none", border:"none", cursor:"pointer", textAlign:"left",
-              padding:"6px 8px", borderRadius:1, width:"100%",
+              padding:"6px 8px", borderRadius:0, width:"100%",
               transition:"background 0.1s",
             }}
               onMouseEnter={e => e.currentTarget.style.background = hover}
@@ -331,7 +349,7 @@ function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
                 width:7, height:7, borderRadius:"50%", background: col, flexShrink:0 }} />
 
               <div style={{ flex:1, minWidth:0 }}>
-                <div style={{ fontSize:13, color: text, fontStyle:"italic",
+                <div style={{ fontSize:13, color: text, fontStyle:"normal",
                   overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
                   {w.title}
                 </div>
@@ -342,7 +360,7 @@ function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
                     opacity: 0.6, transition:"width 0.3s" }} />
                 </div>
               </div>
-              <span style={{ fontSize:12, color: muted, fontFamily:"'DM Mono', monospace",
+              <span style={{ fontSize:12, color: muted, fontFamily:"var(--font-ui)",
                 flexShrink:0, marginTop:1 }}>{Number(w.score||0).toFixed(1)}</span>
             </button>
           );
@@ -355,13 +373,13 @@ function TrajectoireTab({ works, dark, lang = "fr", onSelectWork }) {
 // ── Helpers ───────────────────────────────────────────────────────
 function btnStyle(bord, text) {
   return {
-    width:"100%", padding:"9px 12px",
-    background:"none", border:`1px solid ${bord}`,
-    color: text, fontSize:12, letterSpacing:"0.13em",
-    textTransform:"uppercase", cursor:"pointer", borderRadius:1,
-    fontFamily:"'DM Mono', monospace",
+    // Une ligne, pas une boîte : les actions se suivent, séparées par un pointillé
+    width:"100%", padding:"12px 2px",
+    background:"none", borderWidth:"2px 0 0", borderStyle:"dotted", borderColor:bord,
+    color: text, fontSize:14, cursor:"pointer", borderRadius:0,
+    fontFamily:"var(--font-ui)", textAlign:"left",
     display:"flex", alignItems:"center",
-    transition:"opacity 0.12s", opacity: 0.72,
+    transition:"opacity 0.12s", opacity: 1,
   };
 }
 
@@ -379,6 +397,7 @@ export default function WorkPanel({
   lang = "fr",
   isFavorite = false,
   onToggleFavorite,
+  coverUrl, tint,
   activeMode = "free",
 }) {
   const P  = PANEL_UI[lang] || PANEL_UI.fr;
@@ -386,9 +405,9 @@ export default function WorkPanel({
 
   // Indicateur de mode actif
   const MODE_META = {
-    random:    { color:"#FF6B2F", icon:"◉", fr:"Je tourne en rond",          en:"Explore mode" },
-    mountains: { color:"#E8C97A", icon:"△", fr:"Ce qui compte vraiment",     en:"Peaks mode" },
-    frontier:  { color:"#4ABFFF", icon:"◇", fr:"Sortir de ma zone",          en:"Frontier mode" },
+    random:    { color:"#8c8c8c", icon:"◉", fr:"Je tourne en rond",          en:"Explore mode" },
+    mountains: { color:"#ffffff", icon:"△", fr:"Ce qui compte vraiment",     en:"Peaks mode" },
+    frontier:  { color:"#ffffff", icon:"◇", fr:"Sortir de ma zone",          en:"Frontier mode" },
     free:      { color:null,      icon:"○", fr:"Navigation libre",           en:"Free navigation" },
   };
   const modeMeta = MODE_META[activeMode] || MODE_META.free;
@@ -399,73 +418,81 @@ export default function WorkPanel({
   const isOpen = Boolean(work);
   const biome  = work?.biome || work?.regime;
 
-  const bg   = dark ? "rgba(5,4,3,0.97)"       : "rgba(237,230,220,0.97)";
-  const bord = dark ? "rgba(242,234,216,0.13)"  : "rgba(18,14,10,0.16)";
-  const text = dark ? "#f2ead8"                 : "#120e0a";
-  const muted= dark ? "#9c8e7e"  : "#5c5048";
+  const bg   = dark ? "#000000" : "#ffffff";
+  const bord = dark ? "rgba(255,255,255,0.13)"  : "rgba(0,0,0,0.16)";
+  const text = dark ? "#ffffff"                 : "#000000";
+  const muted= dark ? "rgba(255,255,255,0.62)"  : "rgba(0,0,0,0.58)";
 
   return (
     <aside style={mobile ? {
       /* ── Mobile : bottom sheet ── */
       position:"fixed", left:0, right:0, bottom:0,
-      height: isOpen ? "60vh" : "0px",
+      height: isOpen ? "62vh" : "0px",
       width:"100%",
       zIndex:40,
       background: bg,
-      borderTop:`1px solid ${bord}`,
-      borderRadius:"8px 8px 0 0",
-      backdropFilter:"blur(20px)",
-      WebkitBackdropFilter:"blur(20px)",
+      boxShadow: isOpen ? "0 -24px 70px -10px rgba(0,0,0,0.5)" : "none",
+      borderRadius:"30px 30px 0 0",
+      backdropFilter:"none",
+      WebkitBackdropFilter:"none",
       transition:"height 280ms cubic-bezier(0.22,1,0.36,1)",
       color: text,
-      overflow:"hidden",
-      fontFamily:"'Libre Baskerville', Georgia, serif",
+      overflow:"visible",
+      fontFamily:"var(--font-ui)",
       display:"flex", flexDirection:"column",
       paddingBottom:"env(safe-area-inset-bottom)",
     } : {
       /* ── Desktop : sidebar droite ── */
       position:"fixed", top:18, right:18, bottom:18,
-      width:"min(300px, calc(100vw - 36px))",
+      width:"min(340px, calc(100vw - 36px))",
       zIndex:40,
       background: bg,
-      border:`1px solid ${bord}`,
-      backdropFilter:"blur(20px)",
-      WebkitBackdropFilter:"blur(20px)",
-      transform: isOpen ? "translateX(0)" : "translateX(calc(100% + 28px))",
-      transition:"transform 260ms cubic-bezier(0.22,1,0.36,1)",
+      boxShadow: isOpen ? "0 40px 80px -12px rgba(0,0,0,0.55), 0 10px 22px rgba(0,0,0,0.28)" : "none",
+      transformOrigin:"100% 50%",
+      transform: isOpen ? "perspective(1600px) rotateY(0deg)" : "perspective(1600px) translateX(40px) rotateY(-78deg)",
+      opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? "auto" : "none",
+      transition:"transform 520ms cubic-bezier(0.22,1,0.36,1), opacity 260ms ease, box-shadow 300ms ease",
       color: text,
       overflow:"hidden",
-      borderRadius:1,
-      fontFamily:"'Libre Baskerville', Georgia, serif",
+      borderRadius:0,
+      fontFamily:"var(--font-ui)",
       display:"flex", flexDirection:"column",
     }}>
       {work ? (
-        <>
-          {/* Bande biome */}
-          <div style={{ height:2, background: BIOME_COLOR[biome] || bord, flexShrink:0 }} />
-
-          {/* Header fixe */}
-          <div style={{ padding:"14px 16px 0", flexShrink:0 }}>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
-              <div style={{ fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase", color: muted,
-                fontFamily:"'DM Mono', monospace" }}>
-                {BL_wp[biome] || ""}
-              </div>
-              <button onClick={onClose} style={{
-                background:"none", border:`1px solid ${bord}`, color: muted,
-                fontSize:11, letterSpacing:"0.14em", padding:"3px 7px",
-                cursor:"pointer", borderRadius:1, fontFamily:"'DM Mono', monospace",
-              }}>✕</button>
+        <div key={mobile ? "sheet" : work.id} style={{ display:"flex", flexDirection:"column", flex:1, minHeight:0,
+          position:"relative", transformOrigin:"100% 50%",
+          animation: mobile ? "none" : "cardTurn 460ms cubic-bezier(0.22,1,0.36,1) both" }}>
+          {/* Héros : la pochette, puis le titre */}
+          <button onClick={onClose} aria-label={lang === "fr" ? "Fermer" : "Close"} style={{
+            position:"absolute", top: mobile ? 16 : 10, right: mobile ? 18 : 10, zIndex:2, width:30, height:30,
+            background:"rgba(0,0,0,0.55)", border:"none", color:"#ffffff",
+            fontSize:13, cursor:"pointer", borderRadius: mobile ? "50%" : 0, fontFamily:"var(--font-ui)",
+          }}>✕</button>
+          {!mobile && tab === "fiche" && <Cover work={work} url={coverUrl} tint={tint} />}
+          {mobile && (
+            <div aria-hidden="true" style={{ position:"absolute", left:"50%", bottom:"calc(100% + 22px)",
+              width:"min(210px, 27vh)", marginLeft:"calc(min(210px, 27vh) / -2)",
+              transform:"perspective(900px) rotateY(-14deg) rotateX(4deg)",
+              boxShadow:"28px -4px 44px -10px rgba(0,0,0,0.5)", pointerEvents:"none" }}>
+              <Cover work={work} url={coverUrl} tint={tint} />
             </div>
-            <h2 style={{ margin:"8px 0 0", fontSize:20, lineHeight:1.1,
-              letterSpacing:"-0.02em", fontStyle:"italic", color: text }}>
-              {work.title}
-            </h2>
-            <div style={{ marginTop:5, fontSize:13, color: muted }}>{work.artist}</div>
+          )}
+          <div style={{ padding: mobile ? "26px 24px 0" : "18px 18px 0", flexShrink:0,
+            display:"flex", gap:12, alignItems:"center" }}>
+            {!mobile && tab !== "fiche" && <Cover work={work} url={coverUrl} tint={tint} size={64} />}
+            <div style={{ minWidth:0, paddingRight: (mobile || tab !== "fiche") ? 34 : 0 }}>
+              <h2 style={{ margin:0, fontSize: mobile ? 30 : 26, lineHeight:1.02, fontWeight:700,
+                letterSpacing:"-0.03em", color: text }}>
+                {work.title}
+              </h2>
+              <div style={{ marginTop:6, fontSize:14, color: muted }}>
+                {work.artist}{work.year ? ` · ${work.year}` : ""}
+              </div>
+            </div>
           </div>
 
           {/* Onglets */}
-          <div style={{ padding:"12px 16px 0", flexShrink:0 }}>
+          <div style={{ padding: mobile ? "12px 24px 0" : "12px 16px 0", flexShrink:0 }}>
             <Tabs tab={tab} lang={lang} onChange={t => {
               onTabChange(t);
               if (t === "autour")      onExploreAround?.();
@@ -474,7 +501,7 @@ export default function WorkPanel({
           </div>
 
           {/* Contenu scrollable */}
-          <div style={{ flex:1, overflowY:"auto", padding:"0 16px 20px" }}>
+          <div style={{ flex:1, overflowY:"auto", padding: mobile ? "0 24px 20px" : "0 16px 20px" }}>
             {tab === "fiche" && (
               <FicheTab
                 work={work} dark={dark} lang={lang} mobile={mobile} activeMode={activeMode}
@@ -495,7 +522,7 @@ export default function WorkPanel({
               <TrajectoireTab works={trajectoryWorks} dark={dark} lang={lang} onSelectWork={onSelectWork} />
             )}
           </div>
-        </>
+        </div>
       ) : (
         <div style={{ padding:"28px 18px", flex:1, display:"flex", alignItems:"center" }}>
           <div style={{ fontSize:14, color: muted, lineHeight:1.65 }}>

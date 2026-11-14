@@ -92,14 +92,29 @@ function Particles({ radius, color, count, size, speed, spread, phase }) {
 
   return (
     <points ref={ref} geometry={geo} raycast={() => null}>
-      <pointsMaterial color={color} size={size} transparent opacity={0.22} sizeAttenuation depthWrite={false} />
+      <pointsMaterial color={color} size={size} transparent opacity={0.08} sizeAttenuation depthWrite={false} />
     </points>
   );
 }
 
 import { useEffect } from "react";
 
-export default function TerritoryField({ territory, distanceFactor = 0.5 }) {
+// Lavis : dégradé radial doux, partagé par tous les territoires
+let _wash = null;
+function washTexture() {
+  if (_wash || typeof document === "undefined") return _wash;
+  const c = document.createElement("canvas"); c.width = c.height = 128;
+  const g = c.getContext("2d");
+  const grd = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grd.addColorStop(0, "rgba(255,255,255,1)");
+  grd.addColorStop(0.5, "rgba(255,255,255,0.22)");
+  grd.addColorStop(1, "rgba(255,255,255,0)");
+  g.fillStyle = grd; g.fillRect(0, 0, 128, 128);
+  _wash = new THREE.CanvasTexture(c);
+  return _wash;
+}
+
+export default function TerritoryField({ territory, distanceFactor = 0.5, dark = true }) {
   if (!territory) return null;
   const { center, radius, strength, biome, density } = territory;
   const vis   = BIOME_VISUAL[biome] || BIOME_VISUAL.structural;
@@ -111,14 +126,17 @@ export default function TerritoryField({ territory, distanceFactor = 0.5 }) {
   const boost  = 1 + (1 - distanceFactor) * 0.25;
   const fogOp  = Math.min(0.045, vis.fogOp  * boost * (0.3 + strength * 0.9));
   const glowOp = Math.min(0.065, vis.glowOp * boost * (0.3 + strength * 0.9));
+  const quat = new THREE.Quaternion().setFromUnitVectors(
+    new THREE.Vector3(0, 0, 1), new THREE.Vector3(center.x, center.y, center.z).normalize());
   const pCount = Math.max(2, Math.min(8, Math.floor(vis.particles * (density / 18))));
 
   return (
-    <group position={[center.x, center.y, center.z]}>
-      <FogBlob  radius={r}      opacity={fogOp}  color={color} pulse={vis.pulse} phase={phase} />
-      <GlowCore radius={r}      opacity={glowOp} color={color} pulse={vis.pulse} phase={phase} />
-      <Particles radius={r*0.7} color={color} count={pCount}
-                 size={vis.psize} speed={vis.speed} spread={vis.spread} phase={phase} />
+    <group position={[center.x * 1.012, center.y * 1.012, center.z * 1.012]} quaternion={quat}>
+      <mesh raycast={() => null}>
+        <circleGeometry args={[r * 2.1, 48]} />
+        <meshBasicMaterial map={washTexture()} color={dark ? "#1226f0" : "#000000"} transparent opacity={dark ? 0.7 : 0.28}
+          depthWrite={false} toneMapped={false} />
+      </mesh>
     </group>
   );
 }

@@ -10,8 +10,8 @@
  */
 
 const BIOME_COLOR = {
-  dense:"#FF6B2F", atmospheric:"#4ABFFF", structural:"#E8C97A",
-  narrative:"#FF9A4D", hybrid:"#C07AE8",
+  dense:"#8c8c8c", atmospheric:"#8c8c8c", structural:"#8c8c8c",
+  narrative:"#8c8c8c", hybrid:"#8c8c8c",
 };
 const BIOME_LABEL = {
   fr:{ dense:"Dense", atmospheric:"Atmosphérique", structural:"Structurel", narrative:"Narratif", hybrid:"Hybride" },
@@ -71,7 +71,7 @@ const UI = {
     unlockBtn: "Accéder à LISN Pro →",
     unlockNote: "Ou analyser cette œuvre en",
     analyseLink: "mode analyse →",
-    teaser: "Ce que vous voyez n'est qu'un aperçu.",
+    teaser: "Ce que tu vois n'est qu'un aperçu.",
     dimLabels:{ score:"Score global", intensity:"Intensité", exploration:"Exploration",
                 zone:"Zone", role:"Rôle", type:"Type" },
     types:{ album:"Album", artist:"Artiste", track:"Morceau" },
@@ -102,15 +102,15 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
   const BL  = BIOME_LABEL[lang] || BIOME_LABEL.fr;
   const RL  = ROLE_LABEL[lang]  || ROLE_LABEL.fr;
   const biome   = work.biome || work.regime;
-  const col     = BIOME_COLOR[biome] || "#e8dfc8";
   const verdict = (MOCK_VERDICTS[lang] || MOCK_VERDICTS.fr)[biome] || "";
   const deep    = (MOCK_DEEP[lang]    || MOCK_DEEP.fr)[biome]    || "";
 
-  const bg    = dark ? "rgba(5,4,3,0.98)"      : "rgba(237,230,220,0.98)";
-  const text  = dark ? "#f2ead8"               : "#120e0a";
-  const muted = dark ? "#9c8e7e"               : "#5c5048";
-  const bord  = dark ? "rgba(242,234,216,0.12)": "rgba(18,14,10,0.14)";
-  const trackBg = dark ? "rgba(242,234,216,0.07)" : "rgba(18,14,10,0.07)";
+  const bg    = dark ? "#000000"      : "#ffffff";
+  const text  = dark ? "#ffffff"               : "#000000";
+  const col   = text;   // une seule encre : celle du texte
+  const muted = dark ? "rgba(255,255,255,0.62)"               : "rgba(0,0,0,0.58)";
+  const bord  = dark ? "rgba(255,255,255,0.12)": "rgba(0,0,0,0.14)";
+  const trackBg = dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
 
   const score   = Number(work.score || 0);
   const scorePct = Math.round((score / 10) * 100);
@@ -122,32 +122,28 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
       position:"fixed", inset:0, zIndex:200,
       display:"flex", alignItems:"center", justifyContent:"center",
       background: dark ? "rgba(0,0,0,0.78)" : "rgba(100,90,80,0.50)",
-      backdropFilter:"blur(6px)",
-      fontFamily:"'Libre Baskerville', Georgia, serif",
+      backdropFilter:"none",
+      fontFamily:"var(--font-ui)",
     }} onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
 
       <div style={{
         width:"min(480px, calc(100vw - 24px))",
         maxHeight:"90vh", overflowY:"auto",
-        background: bg, borderRadius:1,
+        background: bg, borderRadius:0,
         position:"relative",
-        boxShadow: dark
-          ? `0 0 60px rgba(0,0,0,0.8), 0 0 0 1px ${col}44`
-          : `0 0 40px rgba(0,0,0,0.15), 0 0 0 1px ${col}66`,
+        boxShadow: `0 0 0 1px ${bord}`,
       }}>
-        {/* Bande biome */}
-        <div style={{ height:3, background: col }} />
 
         {/* Header */}
         <div style={{ padding:"16px 18px 0",
           display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
           <div>
-            <div style={{ fontSize:11, letterSpacing:"0.18em", textTransform:"uppercase",
-              color: col, fontFamily:"'DM Mono',monospace", marginBottom:6 }}>
+            <div style={{ fontSize:11, letterSpacing:"0.005em", textTransform:"none",
+              color: col, fontFamily:"var(--font-ui)", marginBottom:6 }}>
               {M.badge}
             </div>
             <h2 style={{ margin:0, fontSize:22, lineHeight:1.1,
-              letterSpacing:"-0.025em", fontStyle:"italic", color: text }}>
+              letterSpacing:"-0.025em", fontStyle:"normal", color: text }}>
               {work.title}
             </h2>
             <div style={{ marginTop:5, fontSize:14, color: muted }}>
@@ -157,16 +153,16 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
           </div>
           <button onClick={onClose} style={{
             background:"none", border:`1px solid ${bord}`, color: muted,
-            fontSize:11, padding:"4px 8px", cursor:"pointer", borderRadius:1,
-            fontFamily:"'DM Mono',monospace",
+            fontSize:11, padding:"4px 8px", cursor:"pointer", borderRadius:0,
+            fontFamily:"var(--font-ui)",
           }}>{M.close}</button>
         </div>
 
         {/* Score bar */}
         <div style={{ padding:"14px 18px 0" }}>
           <div style={{ display:"flex", justifyContent:"space-between", marginBottom:5,
-            fontSize:11, color: muted, fontFamily:"'DM Mono',monospace",
-            letterSpacing:"0.12em", textTransform:"uppercase" }}>
+            fontSize:11, color: muted, fontFamily:"var(--font-ui)",
+            letterSpacing:"0.005em", textTransform:"none" }}>
             <span>{M.estimated}</span>
             <span style={{ color: col, fontWeight:500, fontSize:14 }}>{score.toFixed(1)}</span>
           </div>
@@ -184,20 +180,20 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
             { label: M.dimLabels.intensity,  value: intensity,         unit:"/100" },
             { label: M.dimLabels.exploration,value: exploration,       unit:"/100" },
             { label: M.dimLabels.zone,       value: BL[biome] || biome || "—", color: col },
-            { label: M.dimLabels.role,       value: RL[work.role] || work.role || "—" },
+            { label: M.dimLabels.role,       value: RL[({capitale:"capital",ville:"city",pont:"bridge"})[work.role] || work.role] || "—" },
             { label: M.dimLabels.type,       value: M.types[work.entityType] || "—" },
           ].map(({ label, value, unit, highlight, color: c }) => (
             <div key={label} style={{ padding:"8px 10px",
-              border:`1px solid ${bord}`, borderRadius:1 }}>
-              <div style={{ fontSize:11, letterSpacing:"0.10em", textTransform:"uppercase",
-                color: muted, marginBottom:3, fontFamily:"'DM Mono',monospace" }}>{label}</div>
+              border:`1px solid ${bord}`, borderRadius:0 }}>
+              <div style={{ fontSize:11, letterSpacing:"0.005em", textTransform:"none",
+                color: muted, marginBottom:3, fontFamily:"var(--font-ui)" }}>{label}</div>
               <div style={{
                 fontSize: highlight ? 15 : 12, fontWeight: highlight ? 500 : 400,
                 color: c || (highlight ? col : text),
-                fontFamily: typeof value === "number" || !isNaN(value) ? "'DM Mono',monospace" : "inherit",
+                fontFamily: typeof value === "number" || !isNaN(value) ? "var(--font-ui)" : "inherit",
               }}>
                 {value}
-                {unit && <span style={{ fontSize:10, opacity:0.5, marginLeft:1 }}>{unit}</span>}
+                {unit && <span style={{ fontSize:11, opacity:0.5, marginLeft:1 }}>{unit}</span>}
               </div>
             </div>
           ))}
@@ -206,11 +202,11 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
         {/* Verdict — visible, accrocheur */}
         <div style={{ margin:"14px 18px 0", padding:"12px 14px",
           borderLeft:`2px solid ${col}`, background: trackBg }}>
-          <div style={{ fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
-            color: muted, fontFamily:"'DM Mono',monospace", marginBottom:6 }}>
+          <div style={{ fontSize:11, letterSpacing:"0.005em", textTransform:"none",
+            color: muted, fontFamily:"var(--font-ui)", marginBottom:6 }}>
             {M.structPreview}
           </div>
-          <div style={{ fontSize:14, color: text, lineHeight:1.75, fontStyle:"italic" }}>
+          <div style={{ fontSize:14, color: text, lineHeight:1.75, fontStyle:"normal" }}>
             {verdict}
           </div>
         </div>
@@ -219,16 +215,15 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
         <div style={{ position:"relative", margin:"0 18px", overflow:"hidden" }}>
           {/* Contenu flouté */}
           <div style={{
-            filter:"blur(3.5px)",
-            opacity:0.45,
+            opacity:0.14,
             userSelect:"none",
             pointerEvents:"none",
           }}>
             {/* Analyse profonde */}
             <div style={{ marginTop:14, padding:"12px 14px",
               borderLeft:`2px solid ${bord}`, background: trackBg }}>
-              <div style={{ fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
-                color: muted, fontFamily:"'DM Mono',monospace", marginBottom:6 }}>
+              <div style={{ fontSize:11, letterSpacing:"0.005em", textTransform:"none",
+                color: muted, fontFamily:"var(--font-ui)", marginBottom:6 }}>
                 {M.deepTitle}
               </div>
               <div style={{ fontSize:13, color: text, lineHeight:1.8 }}>
@@ -237,13 +232,13 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
             </div>
             {/* Worldview */}
             <div style={{ marginTop:10, padding:"12px 14px",
-              border:`1px solid ${bord}`, borderRadius:1 }}>
-              <div style={{ fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase",
-                color: muted, fontFamily:"'DM Mono',monospace", marginBottom:6 }}>
+              border:`1px solid ${bord}`, borderRadius:0 }}>
+              <div style={{ fontSize:11, letterSpacing:"0.005em", textTransform:"none",
+                color: muted, fontFamily:"var(--font-ui)", marginBottom:6 }}>
                 {M.worldviewTitle}
               </div>
               <div style={{ fontSize:13, color: text, lineHeight:1.8,
-                fontFamily:"'DM Mono',monospace", letterSpacing:"0.04em" }}>
+                fontFamily:"var(--font-ui)", letterSpacing:"0.04em" }}>
                 A·0.72 — V·0.85 — S·0.61
               </div>
               <div style={{ fontSize:12, color: muted, marginTop:6, lineHeight:1.7 }}>
@@ -257,9 +252,9 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
               gridTemplateColumns:"1fr 1fr", gap:7 }}>
               {["Densité","Tension","Résolution","Singularité","Profondeur","Grain"].map(d => (
                 <div key={d} style={{ padding:"7px 10px",
-                  border:`1px solid ${bord}`, borderRadius:1 }}>
+                  border:`1px solid ${bord}`, borderRadius:0 }}>
                   <div style={{ fontSize:11, color: muted, marginBottom:2,
-                    fontFamily:"'DM Mono',monospace" }}>{d}</div>
+                    fontFamily:"var(--font-ui)" }}>{d}</div>
                   <div style={{ height:1, background: trackBg, position:"relative" }}>
                     <div style={{ position:"absolute", left:0, top:0, height:"100%",
                       width:`${Math.round(50 + Math.random()*40)}%`,
@@ -274,8 +269,8 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
           <div style={{
             position:"absolute", top:0, left:0, right:0, height:"40%",
             background: dark
-              ? "linear-gradient(to bottom, transparent, rgba(5,4,3,0))"
-              : "linear-gradient(to bottom, transparent, rgba(237,230,220,0))",
+              ? "linear-gradient(to bottom, transparent, rgba(0,0,0,0))"
+              : "linear-gradient(to bottom, transparent, rgba(255,255,255,0))",
             pointerEvents:"none",
           }} />
           <div style={{
@@ -292,21 +287,20 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
             display:"flex", flexDirection:"column", alignItems:"center", gap:10,
             zIndex:2,
           }}>
-            <div style={{ fontSize:12, color: muted, fontFamily:"'DM Mono',monospace",
-              letterSpacing:"0.12em", textTransform:"uppercase", opacity:0.8 }}>
+            <div style={{ fontSize:12, color: muted, fontFamily:"var(--font-ui)",
+              letterSpacing:"0.005em", textTransform:"none", opacity:0.8 }}>
               {M.teaser}
             </div>
             <button style={{
               padding:"11px 22px",
               background: col,
               border:"none",
-              borderRadius:1,
-              color: dark ? "#080604" : "#ffffff",
-              fontSize:12, letterSpacing:"0.16em", textTransform:"uppercase",
-              cursor:"pointer",
-              fontFamily:"'DM Mono',monospace",
-              fontWeight:500,
-              boxShadow: `0 0 24px ${col}66`,
+              borderRadius:0,
+              color: dark ? "#000000" : "#ffffff",
+              fontSize:14, cursor:"pointer",
+              fontFamily:"var(--font-ui)",
+              fontWeight:700,
+              boxShadow:"none",
               transition:"all 0.2s",
             }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
@@ -315,7 +309,7 @@ export default function AnalysisModal({ work, dark, lang = "fr", onClose }) {
               {M.unlockBtn}
             </button>
             <div style={{ fontSize:11, color: muted, opacity:0.6,
-              fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em" }}>
+              fontFamily:"var(--font-ui)", letterSpacing:"0.005em" }}>
               {M.unlockDesc}
             </div>
           </div>

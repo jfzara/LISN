@@ -36,8 +36,8 @@ export default function SearchBar({ dark, onSelect, T, lang = "fr" }) {
   }, [results, focused]);
 
   const BIOME_COLOR = {
-    dense: "#FF6B2F", atmospheric: "#4ABFFF", structural: "#E8C97A",
-    narrative: "#FF9A4D", hybrid: "#C07AE8",
+    dense: "#8c8c8c", atmospheric: "#8c8c8c", structural: "#8c8c8c",
+    narrative: "#8c8c8c", hybrid: "#8c8c8c",
   };
 
   const bord  = T.border;
@@ -55,12 +55,11 @@ export default function SearchBar({ dark, onSelect, T, lang = "fr" }) {
       {/* Input */}
       <div style={{
         display: "flex", alignItems: "center", gap: 6,
-        border: `1px solid ${focused ? T.text : bord}`,
-        borderRadius: 1, padding: "5px 8px",
-        background: focused ? T.pill : "transparent",
+        border: "none", boxShadow: focused ? `inset 0 -2px 0 ${T.text}` : "none",
+        borderRadius:0, padding: "5px 8px",
+        background: T.pill,
         transition: "border-color 0.15s, background 0.15s",
       }}>
-        <span style={{ fontSize: 10, color: T.muted, flexShrink: 0 }}>◎</span>
         <input
           ref={inputRef}
           value={query}
@@ -70,9 +69,9 @@ export default function SearchBar({ dark, onSelect, T, lang = "fr" }) {
           placeholder={lang === "fr" ? "Artiste ou titre…" : "Artist or title…"}
           style={{
             background: "none", border: "none", outline: "none",
-            fontSize: 10, color: T.text, width: 120,
-            fontFamily: "'DM Mono', monospace",
-            letterSpacing: "0.06em",
+            fontSize:11, color: T.text, width: 120,
+            fontFamily: "var(--font-ui)",
+            letterSpacing:"0.005em",
           }}
         />
         {query && (
@@ -87,15 +86,15 @@ export default function SearchBar({ dark, onSelect, T, lang = "fr" }) {
       {open && (
         <div style={{
           position: "absolute", bottom: "calc(100% + 6px)", left: 0,
-          width: 260, background: cardBg, border: `1px solid ${bord}`,
-          borderRadius: 1, backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
+          width: 260, background: cardBg, border: "none", boxShadow: "0 24px 50px -10px rgba(0,0,0,0.5)",
+          borderRadius:0, backdropFilter:"none",
+          WebkitBackdropFilter:"none",
           zIndex: 50, overflow: "hidden",
         }}>
           {results.map(w => (
             <button key={w.id} onMouseDown={() => pick(w)} style={{
               width: "100%", padding: "9px 12px",
-              background: "none", border: "none", borderBottom: `1px solid ${bord}`,
+              background: "none", border: "none", borderBottom: `2px dotted ${bord}`,
               cursor: "pointer", textAlign: "left",
               display: "flex", alignItems: "center", gap: 8,
               transition: "background 0.1s",
@@ -109,19 +108,16 @@ export default function SearchBar({ dark, onSelect, T, lang = "fr" }) {
               }} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{
-                  fontSize: 12, color: T.text, fontStyle: "italic",
+                  fontSize: 12, color: T.text, fontStyle:"normal",
                   overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                 }}>{w.title}</div>
                 <div style={{
-                  fontSize: 10, color: T.muted,
-                  fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em",
+                  fontSize:11, color: T.muted,
+                  fontFamily: "var(--font-ui)", letterSpacing:"0.005em",
                   marginTop: 1,
                 }}>{w.artist}</div>
               </div>
-              <span style={{
-                fontSize: 10, color: T.muted,
-                fontFamily: "'DM Mono', monospace", flexShrink: 0,
-              }}>{Number(w.score || 0).toFixed(1)}</span>
+              
             </button>
           ))}
         </div>

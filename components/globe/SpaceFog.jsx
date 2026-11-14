@@ -8,7 +8,7 @@ export default function SpaceFog({ dark = true }) {
   const { scene } = useThree();
 
   useEffect(() => {
-    scene.fog = new THREE.FogExp2(dark ? "#0a0a0f" : "#efe7db", dark ? 0.32 : 0.16);
+    scene.fog = new THREE.FogExp2(dark ? "#ffffff" : "#000000", 0);
     return () => {
       scene.fog = null;
     };
