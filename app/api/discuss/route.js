@@ -13,20 +13,14 @@ export async function POST(req) {
 
     // Suggestion mode: just return "Artist — Title"
     if (isSuggestion) {
-      const suggRes = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "content-type":"application/json", "x-api-key":process.env.ANTHROPIC_API_KEY, "anthropic-version":"2023-06-01" },
-        body: JSON.stringify({
-          model,
-          max_tokens: 60,
-          temperature: 0,
-          system: "You are a music expert. Reply ONLY with: Artist Name — Track Title. Nothing else. No explanation. No quotes. Just the name.",
-          messages: [{ role: "user", content: message }]
-        })
+      // Was a raw fetch with an undefined `model` variable (always 500).
+      // callLLM picks the model from env and falls back across providers.
+      const { text } = await callLLM({
+        system: "You are a music expert. Reply ONLY with: Artist Name — Track Title. Nothing else. No explanation. No quotes. Just the name.",
+        userPrompt: message.trim(),
+        maxTokens: 60,
       });
-      const sd = await suggRes.json();
-      const reply = sd.content?.[0]?.text?.trim() || "";
-      return Response.json({ reply });
+      return Response.json({ reply: text.trim() });
     }
 
     const lisnScores = analysisContext?.score || {};
