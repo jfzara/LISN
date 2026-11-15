@@ -1,13 +1,8 @@
 // app/api/compare/route.js
 export const maxDuration = 60;
 
-import { makeCacheKey, getFromCache, setInCache } from "../../../lib/lisn/analysisCache";
-
-const UA_HEADERS = {
-  "content-type": "application/json",
-  "x-api-key": process.env.ANTHROPIC_API_KEY,
-  "anthropic-version": "2023-06-01",
-};
+import { makeCacheKey, getFromCache } from "../../../lib/lisn/analysisCache";
+import { callLLM } from "../../../lib/lisn/llmClient";
 
 // ── Analyse a single query using the main analyse route ──────────
 async function analyseQuery(query, entityType, lang) {
@@ -26,12 +21,24 @@ async function analyseQuery(query, entityType, lang) {
     body: JSON.stringify({ query, lang, entityType }),
   });
   if (!res.ok) throw new Error(`Analysis failed for "${query}"`);
-  return res.json();
+
+  // Cache hit: analyse-fast answers with plain JSON.
+  // Cache miss: it streams NDJSON ({type:"chunk"} ... {type:"result"|"error"}).
+  const contentType = res.headers.get("content-type") || "";
+  if (!contentType.includes("ndjson")) return res.json();
+
+  const lines = (await res.text()).split("\n").filter(Boolean);
+  for (let i = lines.length - 1; i >= 0; i--) {
+    let msg;
+    try { msg = JSON.parse(lines[i]); } catch { continue; }
+    if (msg.type === "result") return msg.data;
+    if (msg.type === "error") throw new Error(msg.error || `Analysis failed for "${query}"`);
+  }
+  throw new Error(`Analysis returned no result for "${query}"`);
 }
 
 // ── Generate comparative verdict ─────────────────────────────────
 async function generateVerdict(a, b, lang) {
-  const model = process.env.ANTHROPIC_MODEL_FULL || "claude-sonnet-4-5-20250929";
   const isFr = lang === "fr";
 
   const nameA = a?.entity?.artist
@@ -91,22 +98,13 @@ Respond with:
   "winner": "a" | "b" | "draw"
 }`;
 
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: UA_HEADERS,
-    body: JSON.stringify({
-      model,
-      max_tokens: 500,
-      temperature: 0.2,
-      system: systemPrompt,
-      messages: [{ role: "user", content: userPrompt }],
-    }),
-  });
+  let text;
+  try {
+    ({ text } = await callLLM({ system: systemPrompt, userPrompt, maxTokens: 500 }));
+  } catch {
+    return null;
+  }
 
-  const data = await res.json();
-  if (!res.ok) return null;
-
-  const text = data.content?.find(b => b.type === "text")?.text?.trim() || "";
   try {
     return JSON.parse(text.replace(/```json|```/g, "").trim());
   } catch {
